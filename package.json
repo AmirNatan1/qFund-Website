@@ -8,12 +8,13 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "next build && node scripts/mirror-pages-output.mjs",
+    "release:pages-root": "npm run build && node scripts/publish-root-pages.mjs",
     "build:worker": "node scripts/build-worker.mjs",
     "start": "vinext start",
     "deploy": "npm run build:worker && wrangler deploy",
     "preview": "npm run build:worker && wrangler dev",
     "test": "npm run test:pages && npm run test:worker",
-    "test:pages": "npm run build && node --test tests/pages-output.test.mjs",
+    "test:pages": "npm run release:pages-root && node --test tests/pages-output.test.mjs tests/root-pages-output.test.mjs",
     "test:worker": "npm run build:worker && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"

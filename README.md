@@ -35,9 +35,19 @@ Pages project. It writes `index.html`, the 404 page, application bundles, and
 media to `out`, then mirrors the same complete artifact to `dist` and
 `dist/client` for compatibility with existing Pages output-directory settings.
 
-- Framework preset: `None`
+The current Cloudflare projects are configured to publish the repository root
+without running a build. To keep those existing projects operational, a
+generated copy of the same static export is committed at the repository root.
+Refresh that compatibility copy before publishing source changes with:
+
+```bash
+npm run release:pages-root
+```
+
+- Framework preset: `Next.js (Static HTML Export)`
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Build output directory: `out`
+- Root directory: `/` (repository root)
 - Production branch: `main`
 
 The repository also retains an optional server-rendered Worker build. Use
