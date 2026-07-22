@@ -27,3 +27,14 @@ npm test
 ```
 
 The research and competitive benchmarking behind the redesign are documented in `RESEARCH.md`.
+
+## Cloudflare deployment
+
+This is a server-rendered vinext application and must be deployed as a Cloudflare
+Worker, not as a static Pages output. The repository includes `wrangler.jsonc`
+so Git-connected Workers Builds can deploy the compiled server and client assets
+without framework auto-detection.
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy`
+- Production branch: `main`
