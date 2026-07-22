@@ -1,6 +1,6 @@
 # qFund website research and design rationale
 
-Research date: 22 July 2026
+Research date: 22–23 July 2026
 
 ## Executive conclusion
 
@@ -143,16 +143,48 @@ qFund recreations use the same underlying principles without copying catalogue c
 - State-driven focus transitions and portfolio layout filtering.
 - Motion disabled or simplified under prefers-reduced-motion.
 
+## 23 July expansion pass
+
+The second benchmark pass focused on what makes a VC website useful after its first visual impression. The clearest pattern is that mature firms create a small number of owned intellectual or operational surfaces rather than adding generic marketing sections.
+
+- **DCVC:** its 2026 Deep Tech Opportunities report is treated as a flagship expression of the firm’s worldview. Company spotlights also expose first-investment context and outcomes. This makes research and portfolio evidence reinforce one another. qFund response: turn the existing “signals” teaser into a real field-notes route and make the underwriting logic legible.
+- **Lux:** Riskgaming functions as a distinct intellectual product spanning scenarios, a newsletter, and a podcast. This is more memorable than a conventional insights feed. qFund response: use the more ownable “Field Notes” frame and describe unfinished questions honestly as working theses.
+- **Eclipse:** “Operators with Capital” remains the central reason for founders to choose the firm, while its reports quantify a specific physical-economy worldview. qFund response: make the partnership method concrete and tie it directly to technical milestones and system economics.
+- **Grove Ventures:** the site combines stage and sector clarity with reports, playbooks, events, careers, perks, and Founder OS tools. The strongest lesson is usefulness: founder resources demonstrate how the firm behaves. qFund response: add clear founder-fit language now, leaving space for genuine tools or programs once qFund approves them.
+- **Glilot Capital:** lifecycle programs such as G-Seed, G+, Mach5, and G-Club explain when and how the firm helps. qFund response: explain the proof path without inventing branded programs that do not yet exist.
+- **Aleph:** “Founder Journey,” founder voices, podcasts, insights, and a richly filterable company directory create depth well beyond a one-page brochure. qFund response: add dedicated thesis, companies, and field-notes routes, but keep the home page as the primary cinematic narrative.
+
+### Content decisions from the expansion pass
+
+- Add “What we underwrite” to the home page: technical truth, milestone velocity, economic leverage, and founder range.
+- Link only at three high-intent moments in the long scroll: thesis to `/thesis/`, portfolio to `/companies/`, and research to `/field-notes/`.
+- Expand `/thesis/` around premise, underwriting tests, proof path, and founder fit.
+- Expand `/companies/` into a filterable directory plus the shared architecture qFund seeks across fields.
+- Expand `/field-notes/` into six clearly labelled working theses with “signals to watch.” They are research prompts, not fabricated published articles.
+- Avoid unsupported claims about fund size, check size, returns, team biographies, customer introductions, or proprietary programs until qFund supplies approved facts.
+
+### Motion decisions from the expansion pass
+
+- The underwriting section uses a stateful diagnostic console: selecting a test changes the instrument readout while a radar sweep continues in the background.
+- The thesis route uses nested orbital systems and a pulsing horizontal proof path to show risk being retired sequentially.
+- The companies route uses a constellation hero and per-company scan fields to depict a portfolio as a connected technical system.
+- The field-notes route uses a phase-shifted signal waveform, active-signal indicators, and pointer-responsive illumination.
+- All new motion is transform/opacity based, degrades under reduced-motion preferences, and preserves the existing grid/node/scan/orbit visual language.
+
 ## Final information architecture
 
 1. Hero: positioning, location, and direct founder promise.
 2. Thesis: the unifying belief behind a broad deep-tech mandate.
-3. Focus: six interactive investment fields with clear explanations.
-4. Companies: the four current public portfolio companies, framed as proof.
-5. Partnership method: the practical role qFund plays from technical truth to scale.
-6. Team: real public names and roles with restrained placeholder focus descriptions.
-7. Signals: a future-ready thought-leadership surface, clearly written as working theses.
-8. Contact: direct, founder-oriented conversation prompt and Herzliya identity.
+3. Underwriting: four explicit tests for building early conviction.
+4. Focus: six interactive investment fields with clear explanations.
+5. Companies: the four current public portfolio companies, framed as proof and linked to a dedicated directory.
+6. Partnership method: the practical role qFund plays from technical truth to scale.
+7. Team: real public names and roles with restrained placeholder focus descriptions.
+8. Signals: three working theses linked to a six-topic field-notes route.
+9. Contact: direct, founder-oriented conversation prompt and Herzliya identity.
+10. Thesis route: premise, underwriting tests, proof path, founder fit, and conversation CTA.
+11. Companies route: filterable directory, portfolio pattern, and founder CTA.
+12. Field notes route: six active research questions, signals to watch, and research method.
 
 ## Sources consulted
 

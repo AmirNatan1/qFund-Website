@@ -1,128 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-
-const focusAreas = [
-  {
-    code: "01",
-    title: "Quantum systems",
-    short: "Quantum",
-    text: "Hardware, control layers, and software that turn quantum effects into useful computational advantage.",
-    signal: "QBIT / ERROR ↓",
-  },
-  {
-    code: "02",
-    title: "Robotics & autonomy",
-    short: "Robotics",
-    text: "Intelligent machines operating beyond the screen—from industrial automation to mission-critical autonomy.",
-    signal: "SENSE / PLAN / ACT",
-  },
-  {
-    code: "03",
-    title: "Compute infrastructure",
-    short: "Compute",
-    text: "Semiconductors, thermal systems, photonics, and infrastructure for the next order of compute density.",
-    signal: "FLOPS / WATT ↑",
-  },
-  {
-    code: "04",
-    title: "Space & communications",
-    short: "Space",
-    text: "Resilient connectivity, RF, optics, and orbital infrastructure for an always-connected physical world.",
-    signal: "LINK / LATENCY ↓",
-  },
-  {
-    code: "05",
-    title: "Energy systems",
-    short: "Energy",
-    text: "Breakthrough generation, storage, and control technologies built for abundant, resilient energy.",
-    signal: "BASELOAD / 24:7",
-  },
-  {
-    code: "06",
-    title: "Sensing & intelligence",
-    short: "Sensing",
-    text: "High-resolution sensing platforms that make the invisible measurable, actionable, and defensible.",
-    signal: "NOISE / SIGNAL ↑",
-  },
-];
-
-const portfolio = [
-  {
-    name: "Qedma",
-    category: "Quantum computing",
-    group: "compute",
-    line: "Error suppression software unlocking useful quantum computation.",
-    year: "2023",
-  },
-  {
-    name: "Actasys",
-    category: "Compute infrastructure",
-    group: "matter",
-    line: "Precision thermal systems for high-density data infrastructure.",
-    year: "2023",
-  },
-  {
-    name: "Commcrete",
-    category: "Satellite communications",
-    group: "connected",
-    line: "Compact satellite connectivity for the world beyond terrestrial networks.",
-    year: "2023",
-  },
-  {
-    name: "Element Security",
-    category: "Cyber infrastructure",
-    group: "connected",
-    line: "Continuous intelligence across the expanding external attack surface.",
-    year: "2022",
-  },
-];
-
-const team = [
-  {
-    initials: "LBR",
-    name: "Liav Ben Rubi",
-    role: "Managing Partner",
-    focus: "Deep technology · Company building",
-  },
-  {
-    initials: "DTK",
-    name: "Dana Taigman Koren",
-    role: "Managing Partner",
-    focus: "Frontier systems · Early-stage strategy",
-  },
-  {
-    initials: "LBZ",
-    name: "Liron Ben Zaken",
-    role: "Principal",
-    focus: "Research · Founder partnerships",
-  },
-];
-
-const filters = [
-  ["all", "All companies"],
-  ["matter", "Matter & energy"],
-  ["compute", "Compute"],
-  ["connected", "Connected systems"],
-];
-
-function BrandMark() {
-  return (
-    <span className="brand" aria-label="qFund">
-      <span className="brand-mark" aria-hidden="true">
-        <span className="brand-orbit" />
-        <span className="brand-core">q</span>
-      </span>
-      <span className="brand-name">Fund</span>
-    </span>
-  );
-}
+import BrandMark from "./components/BrandMark";
+import { filters, focusAreas, portfolio, team, underwritingTests } from "./siteData";
 
 export default function QFundExperience() {
   const [ready, setReady] = useState(false);
   const [loadValue, setLoadValue] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFocus, setActiveFocus] = useState(0);
+  const [activeTest, setActiveTest] = useState(0);
   const [filter, setFilter] = useState("all");
   const cursorRef = useRef<HTMLDivElement>(null);
 
@@ -133,8 +20,10 @@ export default function QFundExperience() {
     let loadTimer = 0;
 
     if (reduced) {
-      setLoadValue(100);
-      setReady(true);
+      loadTimer = window.setTimeout(() => {
+        setLoadValue(100);
+        setReady(true);
+      }, 0);
     } else {
       loadTimer = window.setInterval(() => {
         setLoadValue((current) => {
@@ -238,6 +127,7 @@ export default function QFundExperience() {
   }, []);
 
   const active = focusAreas[activeFocus];
+  const activeUnderwriting = underwritingTests[activeTest];
 
   return (
     <main className={ready ? "site is-ready" : "site is-loading"}>
@@ -342,7 +232,7 @@ export default function QFundExperience() {
             <p>
               We are comfortable before the benchmarks are obvious—when technical truth, founder velocity, and market timing matter more than consensus.
             </p>
-            <a className="text-link" href="#focus">See where we invest <span>↘</span></a>
+            <a className="text-link route-link" href="/thesis/">Read our full investment thesis <span>↗</span></a>
           </div>
           <div className="metrics reveal" aria-label="qFund investment approach">
             <article><strong>EARLY</strong><span>Pre-seed & seed</span></article>
@@ -352,8 +242,51 @@ export default function QFundExperience() {
         </div>
       </section>
 
+      <section className="underwrite section-sage" id="underwrite">
+        <div className="section-index reveal"><span>02</span><p>What we underwrite</p></div>
+        <div className="underwrite-layout">
+          <div className="underwrite-intro reveal">
+            <p className="eyebrow dark">CONVICTION BEFORE CONSENSUS</p>
+            <h2>Four tests for<br /><em>nonlinear progress.</em></h2>
+            <p>
+              Deeptech risk cannot be reduced to a conventional growth dashboard. We look for evidence that science, engineering, economics, and team are beginning to reinforce one another.
+            </p>
+            <a className="text-link route-link" href="/thesis/">Enter the thesis <span>↗</span></a>
+          </div>
+
+          <div className="underwrite-console reveal">
+            <div className="console-visual" aria-hidden="true">
+              <span className="console-ring ring-one" />
+              <span className="console-ring ring-two" />
+              <span className="console-axis axis-x" />
+              <span className="console-axis axis-y" />
+              <span className="console-sweep" />
+              <strong>{activeUnderwriting.code}</strong>
+              <small>{activeUnderwriting.signal}</small>
+            </div>
+            <div className="underwrite-tests" role="list" aria-label="qFund underwriting tests">
+              {underwritingTests.map((test, index) => (
+                <button
+                  className={activeTest === index ? "underwrite-test is-active" : "underwrite-test"}
+                  key={test.code}
+                  type="button"
+                  onMouseEnter={() => setActiveTest(index)}
+                  onFocus={() => setActiveTest(index)}
+                  onClick={() => setActiveTest(index)}
+                  aria-pressed={activeTest === index}
+                >
+                  <span>{test.code}</span>
+                  <span><strong>{test.title}</strong><small>{test.text}</small></span>
+                  <i aria-hidden="true">{activeTest === index ? "●" : "○"}</i>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="focus section-dark" id="focus">
-        <div className="section-index reveal"><span>02</span><p>What we look for</p></div>
+        <div className="section-index reveal"><span>03</span><p>What we look for</p></div>
         <div className="focus-layout">
           <div className="focus-list reveal">
             <p className="eyebrow">SELECT A FIELD</p>
@@ -389,9 +322,12 @@ export default function QFundExperience() {
       </section>
 
       <section className="portfolio section-ink" id="portfolio">
-        <div className="section-index reveal"><span>03</span><p>Selected companies</p></div>
+        <div className="section-index reveal"><span>04</span><p>Selected companies</p></div>
         <div className="portfolio-heading reveal">
-          <h2>Proof, not prediction.</h2>
+          <div>
+            <h2>Proof, not prediction.</h2>
+            <a className="text-link route-link" href="/companies/">Explore all companies <span>↗</span></a>
+          </div>
           <p>We are proud to be early partners to teams engineering what others still consider improbable.</p>
         </div>
         <div className="portfolio-filters reveal" role="group" aria-label="Filter portfolio companies">
@@ -427,7 +363,7 @@ export default function QFundExperience() {
       </section>
 
       <section className="method section-light" id="approach">
-        <div className="section-index reveal"><span>04</span><p>How we partner</p></div>
+        <div className="section-index reveal"><span>05</span><p>How we partner</p></div>
         <div className="method-intro reveal">
           <p className="eyebrow dark">CAPITAL FOR NONLINEAR PROGRESS</p>
           <h2>Technical patience.<br />Commercial urgency.</h2>
@@ -446,7 +382,7 @@ export default function QFundExperience() {
       </section>
 
       <section className="team section-sage" id="team">
-        <div className="section-index reveal"><span>05</span><p>The team</p></div>
+        <div className="section-index reveal"><span>06</span><p>The team</p></div>
         <div className="team-heading reveal">
           <h2>Partners for the<br />hard parts.</h2>
           <p>A compact team built for direct, senior-level partnership from first meeting to global scale.</p>
@@ -466,9 +402,12 @@ export default function QFundExperience() {
       </section>
 
       <section className="signals section-dark" id="insights">
-        <div className="section-index reveal"><span>06</span><p>Signals we follow</p></div>
+        <div className="section-index reveal"><span>07</span><p>Signals we follow</p></div>
         <div className="signals-heading reveal">
-          <h2>Research at the edge<br />of what is investable.</h2>
+          <div>
+            <h2>Research at the edge<br />of what is investable.</h2>
+            <a className="text-link route-link inverted" href="/field-notes/">Open field notes <span>↗</span></a>
+          </div>
           <p>Working theses from the technologies and markets shaping the next industrial cycle.</p>
         </div>
         <div className="signal-list">
@@ -477,7 +416,7 @@ export default function QFundExperience() {
             ["I/02", "The thermal wall is now a systems opportunity", "Infrastructure"],
             ["A/03", "Autonomy moves from software into the physical stack", "Robotics"],
           ].map(([code, title, tag]) => (
-            <a className="signal-row reveal" href="mailto:info@qfund.io?subject=qFund%20field%20note" key={code}>
+            <a className="signal-row reveal" href={`/field-notes/#${code.toLowerCase().replace("/", "-")}`} key={code}>
               <span>{code}</span><h3>{title}</h3><small>{tag}</small><i aria-hidden="true">↗</i>
             </a>
           ))}
@@ -486,7 +425,7 @@ export default function QFundExperience() {
 
       <section className="contact" id="contact">
         <div className="contact-field" aria-hidden="true" />
-        <div className="section-index reveal"><span>07</span><p>Build with us</p></div>
+        <div className="section-index reveal"><span>08</span><p>Build with us</p></div>
         <div className="contact-copy reveal">
           <p className="eyebrow">FOR FOUNDERS WORKING PAST THE OBVIOUS</p>
           <h2>Building the<br /><em>deep future?</em></h2>

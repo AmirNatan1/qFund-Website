@@ -1,13 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("https://qfund.io/", {
+    new Request(`https://qfund.io${pathname}`, {
       headers: { accept: "text/html", host: "qfund.io" },
     }),
     {
@@ -50,4 +50,20 @@ test("publishes the essential navigation and landmarks", async () => {
   assert.match(html, /aria-label="Main navigation"/i);
   assert.match(html, /aria-label="Filter portfolio companies"/i);
   assert.match(html, /aria-label="qFund home"/i);
+});
+
+test("server-renders every expanded route", async () => {
+  const expectations = [
+    ["/thesis", /Technical truth/, /The four tests/],
+    ["/companies", /Company directory/, /Qedma/],
+    ["/field-notes", /Questions worth pursuing/, /Quantum utility arrives before fault tolerance/],
+  ];
+
+  for (const [pathname, heading, proof] of expectations) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, `${pathname} should render`);
+    const html = await response.text();
+    assert.match(html, heading);
+    assert.match(html, proof);
+  }
 });

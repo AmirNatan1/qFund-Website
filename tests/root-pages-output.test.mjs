@@ -34,3 +34,13 @@ test("repository-root snapshot includes every required public asset", async () =
     access(new URL(script.replace(/^\//, ""), rootUrl)),
   ]);
 });
+
+test("repository-root snapshot includes every editorial route", async () => {
+  for (const route of ["thesis", "companies", "field-notes"]) {
+    const [rootHtml, canonicalHtml] = await Promise.all([
+      readFile(new URL(`${route}/index.html`, rootUrl), "utf8"),
+      readFile(new URL(`${route}/index.html`, canonicalOutputUrl), "utf8"),
+    ]);
+    assert.equal(rootHtml, canonicalHtml, `${route} root snapshot should be current`);
+  }
+});

@@ -43,3 +43,21 @@ test("supports the common Cloudflare Pages output-directory presets", async () =
   await access(new URL("index.html", outputUrl));
   await access(new URL("index.html", legacyClientOutputUrl));
 });
+
+test("exports the expanded editorial routes", async () => {
+  const [thesis, companies, notes] = await Promise.all([
+    readFile(new URL("thesis/index.html", outputUrl), "utf8"),
+    readFile(new URL("companies/index.html", outputUrl), "utf8"),
+    readFile(new URL("field-notes/index.html", outputUrl), "utf8"),
+  ]);
+
+  assert.match(thesis, /<title>Investment Thesis \| qFund<\/title>/i);
+  assert.match(thesis, /Technical truth/);
+  assert.match(thesis, /The four tests/);
+  assert.match(companies, /<title>Companies \| qFund<\/title>/i);
+  assert.match(companies, /Company directory/);
+  assert.match(companies, /Qedma/);
+  assert.match(notes, /<title>Field Notes \| qFund<\/title>/i);
+  assert.match(notes, /Questions worth pursuing/);
+  assert.match(notes, /Quantum utility arrives before fault tolerance/);
+});
