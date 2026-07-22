@@ -6,7 +6,6 @@ const nextConfig: NextConfig = isWorkerBuild
   ? {}
   : {
       output: "export",
-      distDir: "dist",
       trailingSlash: true,
       typescript: {
         tsconfigPath: "tsconfig.pages.json",

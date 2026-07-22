@@ -3,6 +3,8 @@ import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const outputUrl = new URL("../dist/", import.meta.url);
+const canonicalOutputUrl = new URL("../out/", import.meta.url);
+const legacyClientOutputUrl = new URL("../dist/client/", import.meta.url);
 
 async function readHome() {
   return readFile(new URL("index.html", outputUrl), "utf8");
@@ -34,4 +36,10 @@ test("publishes the required static assets", async () => {
   assert.ok(script, "exported page should reference a JavaScript bundle");
   await access(new URL(stylesheet.replace(/^\//, ""), outputUrl));
   await access(new URL(script.replace(/^\//, ""), outputUrl));
+});
+
+test("supports the common Cloudflare Pages output-directory presets", async () => {
+  await access(new URL("index.html", canonicalOutputUrl));
+  await access(new URL("index.html", outputUrl));
+  await access(new URL("index.html", legacyClientOutputUrl));
 });

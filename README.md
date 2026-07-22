@@ -32,7 +32,8 @@ The research and competitive benchmarking behind the redesign are documented in 
 
 The default build is a static export designed for the connected Cloudflare
 Pages project. It writes `index.html`, the 404 page, application bundles, and
-media directly to `dist`.
+media to `out`, then mirrors the same complete artifact to `dist` and
+`dist/client` for compatibility with existing Pages output-directory settings.
 
 - Framework preset: `None`
 - Build command: `npm run build`
