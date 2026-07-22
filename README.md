@@ -30,11 +30,15 @@ The research and competitive benchmarking behind the redesign are documented in 
 
 ## Cloudflare deployment
 
-This is a server-rendered vinext application and must be deployed as a Cloudflare
-Worker, not as a static Pages output. The repository includes `wrangler.jsonc`
-so Git-connected Workers Builds can deploy the compiled server and client assets
-without framework auto-detection.
+The default build is a static export designed for the connected Cloudflare
+Pages project. It writes `index.html`, the 404 page, application bundles, and
+media directly to `dist`.
 
+- Framework preset: `None`
 - Build command: `npm run build`
-- Deploy command: `npx wrangler deploy`
+- Build output directory: `dist`
 - Production branch: `main`
+
+The repository also retains an optional server-rendered Worker build. Use
+`npm run build:worker` to create it or `npm run deploy` to build and deploy it
+with the included `wrangler.jsonc` configuration.

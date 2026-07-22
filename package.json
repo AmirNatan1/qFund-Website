@@ -7,11 +7,14 @@
   },
   "scripts": {
     "dev": "vinext dev",
-    "build": "vinext build",
+    "build": "next build",
+    "build:worker": "node scripts/build-worker.mjs",
     "start": "vinext start",
-    "deploy": "vinext build && wrangler deploy",
-    "preview": "vinext build && wrangler dev",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "deploy": "npm run build:worker && wrangler deploy",
+    "preview": "npm run build:worker && wrangler dev",
+    "test": "npm run test:pages && npm run test:worker",
+    "test:pages": "npm run build && node --test tests/pages-output.test.mjs",
+    "test:worker": "npm run build:worker && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
