@@ -19,6 +19,7 @@ import {
   team,
   valueCreation,
 } from "./siteData";
+import HeroWaveField from "./components/HeroWaveField";
 
 const routes = [
   ["Thesis", "/thesis/"],
@@ -279,7 +280,9 @@ export default function QFundExperience() {
       </div>
 
       <section className="hero" id="top" aria-labelledby="hero-title">
-        <div className="hero-image" aria-hidden="true" />
+        <div className="hero-image" aria-hidden="true">
+          <HeroWaveField />
+        </div>
         <div className="hero-field" aria-hidden="true" />
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-coordinates" aria-hidden="true">

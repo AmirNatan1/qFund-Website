@@ -339,9 +339,7 @@ body:has(a:hover, button:hover) .cursor span {
 .hero-image {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(90deg, rgba(5, 7, 7, 0.98) 0%, rgba(5, 7, 7, 0.84) 31%, rgba(5, 7, 7, 0.08) 76%),
-    url("/qfund-field.png");
+  background-image: url("/qfund-field.png");
   background-position: center;
   background-size: cover;
   filter: saturate(0.82) contrast(1.06);
@@ -349,6 +347,32 @@ body:has(a:hover, button:hover) .cursor span {
   transform: scale(calc(1.04 + var(--hero-shift) * 0.08)) translateY(calc(var(--hero-shift) * 2.5rem));
   transform-origin: center right;
   will-change: transform, opacity;
+}
+
+.hero-image::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(5, 7, 7, 0.98) 0%, rgba(5, 7, 7, 0.84) 31%, rgba(5, 7, 7, 0.08) 76%);
+  pointer-events: none;
+}
+
+.hero-wave-canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 800ms ease;
+  will-change: opacity;
+}
+
+.hero-wave-canvas.is-ready {
+  opacity: 1;
 }
 
 .hero-field {
@@ -1625,10 +1649,10 @@ body:has(a:hover, button:hover) .cursor span {
   .hero-bottom p { width: 100%; }
   .hero-coordinates { display: none; }
   .hero-image {
-    background-image:
-      linear-gradient(180deg, rgba(5, 7, 7, 0.62), rgba(5, 7, 7, 0.92) 80%),
-      url("/qfund-field.png");
     background-position: 64% center;
+  }
+  .hero-image::after {
+    background: linear-gradient(180deg, rgba(5, 7, 7, 0.62), rgba(5, 7, 7, 0.92) 80%);
   }
   .preloader-grid,
   .hero-grid { background-size: 25vw 25vw; }
@@ -1708,6 +1732,7 @@ body:has(a:hover, button:hover) .cursor span {
   .reveal { opacity: 1; transform: none; }
   .hero-title .line > span { transform: none; }
   .hero-image { transform: none; }
+  .hero-wave-canvas { display: none; }
 }
 
 @media (pointer: coarse) {
