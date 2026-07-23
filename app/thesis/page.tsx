@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import InnerPageShell from "../components/InnerPageShell";
-import { evaluationPillars, focusAreas, qFactorPillars } from "../siteData";
+import { evaluationPillars, focusAreas, investmentCriteria } from "../siteData";
 
 export const metadata: Metadata = {
   title: "Investment Thesis | qFund",
@@ -17,7 +17,7 @@ export default function ThesisPage() {
         <div className="inner-hero-grid" aria-hidden="true" />
         <div className="inner-hero-copy reveal is-visible">
           <Link className="back-link" href="/">← qFund</Link>
-          <p className="eyebrow">INVESTMENT THESIS / Q FACTOR</p>
+          <p className="eyebrow">INVESTMENT THESIS</p>
           <h1>Investing in top-tier<br /><em>Deep Tech founders.</em></h1>
           <p className="inner-hero-deck">
             qFund invests in the proven experts behind 10× industry transformations.
@@ -30,10 +30,10 @@ export default function ThesisPage() {
           <span className="thesis-node node-one" />
           <span className="thesis-node node-two" />
           <span className="thesis-node node-three" />
-          <strong>Q<br />FACTOR</strong>
+          <strong>INVESTMENT<br />CRITERIA</strong>
           <small>FOUNDERS · DEEP TECH · MARKET</small>
         </div>
-        <div className="inner-hero-meta"><span>QFUND / HERZLIYA</span><span>THE THESIS ↓</span></div>
+        <div className="inner-hero-meta"><span>HERZLIYA · ISRAEL</span><span>THE THESIS ↓</span></div>
       </section>
 
       <section className="inner-section thesis-premise section-light">
@@ -49,17 +49,17 @@ export default function ThesisPage() {
         </div>
       </section>
 
-      <section className="inner-section four-tests section-dark" id="q-factor">
-        <div className="section-index reveal"><span>02</span><p>The Q Factor</p></div>
+      <section className="inner-section four-tests section-dark" id="investment-criteria">
+        <div className="section-index reveal"><span>02</span><p>Investment criteria</p></div>
         <div className="tests-heading reveal">
           <p className="eyebrow">INVESTMENT THESIS</p>
-          <h2>Three requirements.<br />One Q Factor.</h2>
+          <h2>Three requirements.<br />One investment discipline.</h2>
         </div>
         <div className="full-test-grid">
-          {qFactorPillars.map((pillar, index) => (
+          {investmentCriteria.map((pillar, index) => (
             <article className="full-test reveal" key={pillar.code} style={{ "--test-index": index } as CSSProperties}>
               <div className="test-radar" aria-hidden="true"><span /><i /><strong>{pillar.code}</strong></div>
-              <span>Q FACTOR</span>
+              <span>INVESTMENT CRITERION</span>
               <h3>{pillar.title}</h3>
               <p>{pillar.text}</p>
             </article>
@@ -70,7 +70,7 @@ export default function ThesisPage() {
       <section className="inner-section proof-path section-sage">
         <div className="section-index reveal"><span>03</span><p>Strategic focus</p></div>
         <div className="proof-heading reveal">
-          <p className="eyebrow dark">QFUND II</p>
+          <p className="eyebrow dark">STRATEGIC FOCUS</p>
           <h2>Breakthrough technologies across six strategic focus areas.</h2>
         </div>
         <div className="proof-track">

@@ -3777,3 +3777,749 @@ body:has(a:hover, button:hover) .cursor span {
     transform: none;
   }
 }
+
+/* 2026 typography and interaction refinement */
+
+:root {
+  --font-display: "Avenir Next", "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Avenir Next", "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-editorial: Georgia, "Times New Roman", serif;
+  --font-label: "Avenir Next", "Segoe UI Variable Text", "Segoe UI", Arial, sans-serif;
+  --font-geist-mono: var(--font-label);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+h1 em,
+h2 em,
+h3 em,
+.hero-title .accent-line {
+  padding-block: 0.035em 0.12em;
+  font-family: var(--font-editorial);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.eyebrow,
+.section-index,
+.preloader-inner p,
+.preloader-count,
+.hero-coordinates,
+.hero-status,
+.ticker-track span,
+.focus-button span,
+.focus-button i,
+.focus-readout .signal,
+.focus-readout small,
+.portfolio-filters button,
+.card-meta {
+  font-family: var(--font-label);
+}
+
+.eyebrow {
+  font-size: clamp(0.72rem, 0.72vw, 0.82rem);
+  font-weight: 650;
+  letter-spacing: 0.105em;
+  line-height: 1.45;
+}
+
+.section-index {
+  font-size: clamp(0.72rem, 0.72vw, 0.82rem);
+  font-weight: 620;
+  letter-spacing: 0.105em;
+  line-height: 1.4;
+}
+
+.hero-title {
+  width: min(1240px, 90vw);
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8.45vw, 9.9rem);
+  font-weight: 480;
+  letter-spacing: -0.055em;
+  line-height: 0.93;
+}
+
+.hero-title .line {
+  margin: -0.075em -0.045em;
+  padding: 0.075em 0.045em 0.11em;
+  overflow: clip;
+}
+
+.hero-title .accent-line {
+  letter-spacing: -0.045em;
+}
+
+.thesis-statement h2,
+.portfolio-heading h2,
+.team-heading h2,
+.signals-heading h2,
+.method-intro h2,
+.contact-copy h2,
+.corridor-type h2,
+.contact-route-copy h1,
+.contact-qfactor-heading h2,
+.inner-hero-copy h1,
+.gateway-heading h2,
+.editorial-split h2,
+.tests-heading h2,
+.proof-heading h2,
+.fit-heading h2,
+.inner-cta h2,
+.directory-copy h2,
+.notes-intro h2,
+.note-card > h2,
+.founder-conversation-heading h2,
+.vectors-heading h2,
+.prep-heading h2 {
+  font-family: var(--font-display);
+  font-weight: 470;
+  letter-spacing: -0.052em;
+  line-height: 0.96;
+  overflow: visible;
+}
+
+.hero-bottom p,
+.thesis-copy p,
+.portfolio-heading p,
+.team-heading p,
+.signals-heading p,
+.focus-readout p,
+.underwrite-intro > p,
+.gateway-heading > p,
+.gateway-card > p,
+.editorial-copy p,
+.full-test p,
+.proof-step p,
+.fit-row p,
+.contact-route-copy > p:last-child,
+.contact-qfactor-row p {
+  line-height: 1.62;
+}
+
+.portfolio {
+  overflow: hidden;
+}
+
+.portfolio-console {
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.78fr) minmax(0, 1.22fr);
+  width: min(100%, 1780px);
+  min-height: 48rem;
+  margin: 0 auto;
+  border: 1px solid var(--line-dark);
+  background: rgba(10, 13, 12, 0.96);
+}
+
+.portfolio-directory {
+  position: relative;
+  z-index: 4;
+  align-self: stretch;
+  border-right: 1px solid var(--line-dark);
+  background: rgba(8, 10, 10, 0.72);
+}
+
+.portfolio-directory-label,
+.portfolio-directory-row {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(8rem, 1fr) minmax(8rem, 0.75fr) 1.5rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+.portfolio-directory-label {
+  min-height: 4rem;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid var(--line-dark);
+  color: #7f8b85;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.portfolio-directory-label span:first-child {
+  grid-column: 1 / 3;
+}
+
+.portfolio-directory-row {
+  position: relative;
+  width: 100%;
+  min-height: 4.35rem;
+  padding: 0 1.25rem;
+  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--line-dark);
+  text-align: left;
+  background: transparent;
+  isolation: isolate;
+  transition: color 240ms ease, padding 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-directory-row::before,
+.portfolio-directory-row::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  transform-origin: left;
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-directory-row::before {
+  background: rgba(53, 244, 198, 0.075);
+  transform: scaleX(0);
+}
+
+.portfolio-directory-row::after {
+  right: auto;
+  width: 3px;
+  background: var(--signal);
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+.portfolio-directory-row:hover::before,
+.portfolio-directory-row:focus-visible::before,
+.portfolio-directory-row.is-active::before {
+  transform: scaleX(1);
+}
+
+.portfolio-directory-row.is-active::after {
+  transform: scaleY(1);
+}
+
+.portfolio-directory-row:hover,
+.portfolio-directory-row:focus-visible,
+.portfolio-directory-row.is-active {
+  color: var(--signal-soft);
+  padding-left: 1.55rem;
+  outline: 0;
+}
+
+.portfolio-directory-row strong {
+  font-size: clamp(0.96rem, 1.05vw, 1.16rem);
+  font-weight: 590;
+  letter-spacing: -0.018em;
+  line-height: 1.25;
+}
+
+.portfolio-row-number,
+.portfolio-directory-row > span:nth-of-type(2),
+.portfolio-directory-row i {
+  color: #79847f;
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 620;
+  letter-spacing: 0.055em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  transition: color 220ms ease, transform 280ms ease;
+}
+
+.portfolio-directory-row.is-active .portfolio-row-number,
+.portfolio-directory-row.is-active > span:nth-of-type(2),
+.portfolio-directory-row.is-active i {
+  color: var(--signal);
+}
+
+.portfolio-directory-row i {
+  opacity: 0;
+  transform: translate(-0.5rem, 0.5rem);
+}
+
+.portfolio-directory-row:hover i,
+.portfolio-directory-row:focus-visible i,
+.portfolio-directory-row.is-active i {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.portfolio-stage {
+  --company-accent-x: calc(18% + (var(--company-index) * 6%));
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-width: 0;
+  min-height: 48rem;
+  padding: clamp(1.5rem, 2.8vw, 3rem);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at var(--company-accent-x) 38%, rgba(53, 244, 198, 0.15), transparent 35%),
+    linear-gradient(145deg, #101514, #080a0a 72%);
+}
+
+.portfolio-stage::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 4.2rem 4.2rem;
+  mask-image: radial-gradient(circle at 50% 42%, #000 20%, transparent 74%);
+  animation: portfolio-grid-drift 12s linear infinite;
+}
+
+.portfolio-stage::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20%;
+  width: 16%;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(53, 244, 198, 0.09), transparent);
+  transform: skewX(-12deg);
+  animation: portfolio-light-pass 7s 1.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.portfolio-stage-top {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line-dark);
+  color: #8f9b95;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+}
+
+.portfolio-stage-top span:first-child {
+  color: var(--signal);
+}
+
+.portfolio-stage-field {
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  width: min(38vw, 35rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.portfolio-stage-ring,
+.portfolio-stage-trace,
+.portfolio-stage-node {
+  position: absolute;
+}
+
+.portfolio-stage-ring {
+  inset: 4%;
+  border: 1px solid rgba(53, 244, 198, 0.17);
+  border-radius: 50%;
+  animation: portfolio-orbit 20s linear infinite;
+}
+
+.portfolio-stage-ring.ring-b {
+  inset: 21%;
+  border-style: dashed;
+  animation-direction: reverse;
+  animation-duration: 14s;
+}
+
+.portfolio-stage-ring.ring-c {
+  inset: 39%;
+  border-color: rgba(240, 242, 237, 0.17);
+  animation-duration: 9s;
+}
+
+.portfolio-stage-trace {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(53, 244, 198, 0.52), transparent);
+}
+
+.portfolio-stage-trace.trace-b {
+  transform: rotate(90deg);
+}
+
+.portfolio-stage-node {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid var(--signal);
+  border-radius: 50%;
+  background: #0b0e0d;
+  box-shadow: 0 0 18px rgba(53, 244, 198, 0.72);
+}
+
+.portfolio-stage-node.node-a { top: 13%; left: 23%; animation: signal-pulse 2.4s infinite; }
+.portfolio-stage-node.node-b { top: 68%; right: 8%; animation: signal-pulse 2.4s 0.8s infinite; }
+.portfolio-stage-node.node-c { bottom: 5%; left: 34%; animation: signal-pulse 2.4s 1.6s infinite; }
+
+.portfolio-stage-content {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  align-content: space-between;
+  min-height: 0;
+  padding-top: clamp(2rem, 4vw, 4rem);
+  animation: portfolio-content-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.portfolio-stage-logo {
+  display: grid;
+  width: min(29rem, 78%);
+  min-height: 10rem;
+  margin: 0 auto;
+  padding: clamp(1.8rem, 3vw, 3rem);
+  border: 1px solid rgba(240, 242, 237, 0.25);
+  background: rgba(247, 248, 246, 0.96);
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.28);
+  place-items: center;
+  transform: perspective(900px) rotateX(3deg);
+  transition: border-color 280ms ease, box-shadow 380ms ease, transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-stage-logo:hover,
+.portfolio-stage-logo:focus-visible {
+  border-color: var(--signal);
+  outline: 0;
+  box-shadow: 0 2.4rem 7rem rgba(0, 0, 0, 0.35), 0 0 2.5rem rgba(53, 244, 198, 0.12);
+  transform: perspective(900px) rotateX(0) translateY(-0.4rem);
+}
+
+.portfolio-stage-logo img {
+  width: 100%;
+  max-height: 8rem;
+  object-fit: contain;
+}
+
+.portfolio-stage-copy {
+  align-self: end;
+  max-width: 44rem;
+  padding-top: clamp(2rem, 4vw, 4rem);
+}
+
+.portfolio-stage-copy > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  color: #8e9994;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 620;
+  letter-spacing: 0.065em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.portfolio-stage-copy > div span:first-child {
+  color: var(--signal);
+}
+
+.portfolio-stage-copy h3 {
+  margin: 0.85rem 0 0.8rem;
+  font-size: clamp(2.7rem, 5vw, 6.4rem);
+  font-weight: 470;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+.portfolio-stage-copy p {
+  max-width: 38rem;
+  margin: 0;
+  color: #a8b2ad;
+  font-size: clamp(0.98rem, 1.15vw, 1.16rem);
+  line-height: 1.62;
+}
+
+.portfolio-stage-copy > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1.4rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--signal);
+  color: var(--signal-soft);
+  font-family: var(--font-label);
+  font-size: 0.76rem;
+  font-weight: 680;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.portfolio-stage-copy > a span {
+  transition: transform 240ms ease;
+}
+
+.portfolio-stage-copy > a:hover span {
+  transform: translate(0.25rem, -0.25rem);
+}
+
+.portfolio-stage-progress {
+  position: relative;
+  z-index: 4;
+  height: 2px;
+  margin-top: 2rem;
+  overflow: hidden;
+  background: var(--line-dark);
+}
+
+.portfolio-stage-progress span {
+  display: block;
+  height: 100%;
+  background: var(--signal);
+  box-shadow: 0 0 18px rgba(53, 244, 198, 0.65);
+  transition: width 620ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.corridor-core,
+.contact-transmission strong {
+  display: grid;
+  place-items: center;
+}
+
+.corridor-core > span,
+.contact-transmission strong > span {
+  display: block;
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 1.5rem currentColor;
+  animation: signal-pulse 2.4s ease-out infinite;
+}
+
+@keyframes portfolio-content-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(1.3rem) scale(0.985);
+  }
+}
+
+@keyframes portfolio-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes portfolio-grid-drift {
+  to { background-position: 4.2rem 4.2rem, 4.2rem 4.2rem; }
+}
+
+@keyframes portfolio-light-pass {
+  0%, 58% { transform: translateX(0) skewX(-12deg); opacity: 0; }
+  66% { opacity: 1; }
+  88%, 100% { transform: translateX(860%) skewX(-12deg); opacity: 0; }
+}
+
+@keyframes signal-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(0.82); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+@media (max-width: 1100px) {
+  .portfolio-console {
+    grid-template-columns: minmax(19rem, 0.72fr) minmax(0, 1.28fr);
+  }
+
+  .portfolio-directory-label,
+  .portfolio-directory-row {
+    grid-template-columns: 2.7rem minmax(7rem, 1fr) 1.5rem;
+  }
+
+  .portfolio-directory-label span:nth-child(2),
+  .portfolio-directory-row > span:nth-of-type(2) {
+    display: none;
+  }
+
+  .portfolio-directory-row strong {
+    grid-column: 2;
+  }
+
+  .portfolio-directory-row i {
+    grid-column: 3;
+  }
+
+  .portfolio-stage-field {
+    width: min(52vw, 34rem);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-title {
+    width: 100%;
+    margin-bottom: 6vh;
+    font-size: clamp(3.15rem, 14.4vw, 5.05rem);
+    letter-spacing: -0.048em;
+    line-height: 0.97;
+  }
+
+  .hero-title .line {
+    margin: -0.045em -0.03em;
+    padding: 0.045em 0.03em 0.105em;
+  }
+
+  .thesis-statement h2,
+  .portfolio-heading h2,
+  .team-heading h2,
+  .signals-heading h2,
+  .method-intro h2,
+  .contact-copy h2,
+  .corridor-type h2,
+  .contact-route-copy h1,
+  .contact-qfactor-heading h2,
+  .inner-hero-copy h1,
+  .gateway-heading h2,
+  .editorial-split h2,
+  .tests-heading h2,
+  .proof-heading h2,
+  .fit-heading h2,
+  .inner-cta h2,
+  .directory-copy h2,
+  .notes-intro h2,
+  .note-card > h2,
+  .founder-conversation-heading h2,
+  .vectors-heading h2,
+  .prep-heading h2 {
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .portfolio-filters {
+    gap: 0.45rem;
+    margin-top: 3rem;
+    padding-bottom: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .portfolio-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portfolio-filters button {
+    flex: 0 0 auto;
+    min-height: 2.75rem;
+    padding: 0.72rem 0.9rem;
+    font-size: 0.7rem;
+  }
+
+  .portfolio-console {
+    display: flex;
+    flex-direction: column-reverse;
+    min-height: auto;
+  }
+
+  .portfolio-directory {
+    display: flex;
+    gap: 1px;
+    padding: 1px;
+    overflow-x: auto;
+    border-top: 1px solid var(--line-dark);
+    border-right: 0;
+    background: var(--line-dark);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .portfolio-directory::-webkit-scrollbar {
+    display: none;
+  }
+
+  .portfolio-directory-label {
+    display: none;
+  }
+
+  .portfolio-directory-row {
+    flex: 0 0 min(17rem, 78vw);
+    grid-template-columns: 2.5rem 1fr 1.2rem;
+    min-height: 5.2rem;
+    border: 0;
+    background: #0a0d0c;
+    scroll-snap-align: start;
+  }
+
+  .portfolio-directory-row strong {
+    font-size: 1rem;
+  }
+
+  .portfolio-stage {
+    min-height: 43rem;
+    padding: 1.25rem;
+  }
+
+  .portfolio-stage-top {
+    font-size: 0.68rem;
+  }
+
+  .portfolio-stage-field {
+    top: 34%;
+    width: 100vw;
+    opacity: 0.7;
+  }
+
+  .portfolio-stage-content {
+    padding-top: 2rem;
+  }
+
+  .portfolio-stage-logo {
+    width: min(22rem, 88%);
+    min-height: 8.6rem;
+    padding: 1.5rem;
+  }
+
+  .portfolio-stage-logo img {
+    max-height: 6rem;
+  }
+
+  .portfolio-stage-copy {
+    padding-top: 2.5rem;
+  }
+
+  .portfolio-stage-copy h3 {
+    font-size: clamp(2.7rem, 13vw, 4.4rem);
+    line-height: 1;
+  }
+
+  .portfolio-stage-copy > div {
+    display: grid;
+    font-size: 0.68rem;
+  }
+
+  .portfolio-stage-copy p {
+    font-size: 0.98rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-stage::before,
+  .portfolio-stage::after,
+  .portfolio-stage-ring,
+  .portfolio-stage-node,
+  .corridor-core > span,
+  .contact-transmission strong > span {
+    animation: none;
+  }
+
+  .portfolio-stage-content {
+    animation: none;
+  }
+}

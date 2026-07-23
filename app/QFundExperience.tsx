@@ -8,8 +8,8 @@ import {
   evaluationPillars,
   filters,
   focusAreas,
+  investmentCriteria,
   portfolio,
-  qFactorPillars,
   team,
   valueCreation,
 } from "./siteData";
@@ -28,6 +28,7 @@ export default function QFundExperience() {
   const [activeFocus, setActiveFocus] = useState(0);
   const [activeTest, setActiveTest] = useState(0);
   const [filter, setFilter] = useState("all");
+  const [activeCompany, setActiveCompany] = useState(0);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -153,6 +154,11 @@ export default function QFundExperience() {
 
   const active = focusAreas[activeFocus];
   const activeEvaluation = evaluationPillars[activeTest];
+  const visibleCompanies = portfolio
+    .map((company, index) => ({ company, index }))
+    .filter(({ company }) => filter === "all" || filter === company.group);
+  const selectedCompany =
+    visibleCompanies.find(({ index }) => index === activeCompany) ?? visibleCompanies[0];
 
   return (
     <main className={ready ? "site is-ready" : "site is-loading"}>
@@ -243,7 +249,7 @@ export default function QFundExperience() {
       <section className="page-gateway section-ink" id="explore">
         <div className="section-index reveal"><span>00</span><p>Explore qFund</p></div>
         <div className="gateway-heading reveal">
-          <p className="eyebrow">QFUND / DEEP TECH / ISRAEL</p>
+          <p className="eyebrow">EARLY STAGE / DEEP TECH / ISRAEL</p>
           <h2>Backing<br /><em>Deep Tech founders.</em></h2>
           <p>
             Financial investment, technical validation, commercialization support, and strategic access.
@@ -254,7 +260,7 @@ export default function QFundExperience() {
             <div className="gateway-visual" aria-hidden="true">
               <span className="gateway-orbit orbit-outer" /><span className="gateway-orbit orbit-inner" /><i className="gateway-core">01</i>
             </div>
-            <span>Investment thesis</span><h3>The Q Factor.</h3>
+            <span>Investment thesis</span><h3>What qFund looks for.</h3>
             <p>Founders, breakthrough Deep Tech, and massive high-conviction markets.</p>
             <i className="gateway-arrow" aria-hidden="true">↗</i>
           </Link>
@@ -363,7 +369,7 @@ export default function QFundExperience() {
         <div className="section-index reveal"><span>03</span><p>Strategic focus areas</p></div>
         <div className="focus-layout">
           <div className="focus-list reveal">
-            <p className="eyebrow">QFUND II</p>
+            <p className="eyebrow">STRATEGIC FOCUS</p>
             {focusAreas.map((item, index) => (
               <button
                 key={item.title}
@@ -382,7 +388,7 @@ export default function QFundExperience() {
             <div className="orbit-system" aria-hidden="true">
               <span className="orbit orbit-a" /><span className="orbit orbit-b" /><span className="orbit orbit-c" />
               <span className="satellite sat-a" /><span className="satellite sat-b" /><span className="satellite sat-c" />
-              <span className="orbit-core">Q/{active.code}</span>
+              <span className="orbit-core">{active.code}</span>
             </div>
             <div className="focus-readout">
               <span className="signal">STRATEGIC FOCUS AREA</span>
@@ -404,7 +410,7 @@ export default function QFundExperience() {
             <span className="corridor-ring corridor-ring-c" />
             <span className="corridor-axis corridor-axis-x" />
             <span className="corridor-axis corridor-axis-y" />
-            <i className="corridor-core">Q</i>
+            <i className="corridor-core"><span /></i>
           </div>
           <div className="corridor-type">
             <p className="eyebrow">CORE INFRASTRUCTURE · HARDWARE · ENABLING TECHNOLOGIES</p>
@@ -437,39 +443,96 @@ export default function QFundExperience() {
         </div>
         <div className="portfolio-filters reveal" role="group" aria-label="Filter portfolio companies">
           {filters.map(([value, label]) => (
-            <button key={value} type="button" className={filter === value ? "is-active" : ""} onClick={() => setFilter(value)}>
+            <button
+              key={value}
+              type="button"
+              className={filter === value ? "is-active" : ""}
+              onClick={() => {
+                setFilter(value);
+                const firstMatch = portfolio.findIndex((company) => value === "all" || company.group === value);
+                setActiveCompany(Math.max(0, firstMatch));
+              }}
+            >
               {label}
             </button>
           ))}
         </div>
-        <div className="portfolio-grid">
-          {portfolio.map((company, index) => {
-            const visible = filter === "all" || filter === company.group;
-            return (
-              <article
+        <div className="portfolio-console reveal">
+          <div className="portfolio-directory" role="group" aria-label="Portfolio company selector">
+            <div className="portfolio-directory-label">
+              <span>Company</span><span>Field</span><span aria-hidden="true">Select</span>
+            </div>
+            {visibleCompanies.map(({ company, index }, visibleIndex) => (
+              <button
                 key={company.name}
-                className={visible ? "portfolio-card reveal is-filtered-in" : "portfolio-card reveal is-filtered-out"}
-                style={{ "--card-index": index } as CSSProperties}
-                data-tilt
-                aria-hidden={!visible}
+                type="button"
+                className={selectedCompany?.index === index ? "portfolio-directory-row is-active" : "portfolio-directory-row"}
+                onMouseEnter={() => setActiveCompany(index)}
+                onFocus={() => setActiveCompany(index)}
+                onClick={() => setActiveCompany(index)}
+                aria-pressed={selectedCompany?.index === index}
               >
+                <span className="portfolio-row-number">{String(visibleIndex + 1).padStart(2, "0")}</span>
+                <strong>{company.name}</strong>
+                <span>{company.category}</span>
+                <i aria-hidden="true">↗</i>
+              </button>
+            ))}
+          </div>
+
+          {selectedCompany ? (
+            <article
+              className="portfolio-stage"
+              style={{ "--company-index": selectedCompany.index } as CSSProperties}
+              aria-live="polite"
+            >
+              <div className="portfolio-stage-field" aria-hidden="true">
+                <span className="portfolio-stage-ring ring-a" />
+                <span className="portfolio-stage-ring ring-b" />
+                <span className="portfolio-stage-ring ring-c" />
+                <span className="portfolio-stage-trace trace-a" />
+                <span className="portfolio-stage-trace trace-b" />
+                <i className="portfolio-stage-node node-a" />
+                <i className="portfolio-stage-node node-b" />
+                <i className="portfolio-stage-node node-c" />
+              </div>
+              <div className="portfolio-stage-top">
+                <span>ACTIVE COMPANY</span>
+                <span>{String(selectedCompany.index + 1).padStart(2, "0")} / {String(portfolio.length).padStart(2, "0")}</span>
+              </div>
+              <div className="portfolio-stage-content" key={selectedCompany.company.name}>
                 <a
-                  className="card-visual company-logo-link"
-                  href={company.website}
+                  className="portfolio-stage-logo"
+                  href={selectedCompany.company.website}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Visit ${company.name}`}
+                  aria-label={`Visit ${selectedCompany.company.name}`}
                 >
-                  <span className="scan-line" aria-hidden="true" />
-                  <Image src={company.logo} alt={`${company.name} logo`} width={600} height={240} />
+                  <Image
+                    src={selectedCompany.company.logo}
+                    alt={`${selectedCompany.company.name} logo`}
+                    width={660}
+                    height={260}
+                    priority={selectedCompany.index === 0}
+                  />
                 </a>
-                <div className="card-meta"><span>{company.category}</span><span>FOUNDED / {company.founded}</span></div>
-                <h3>{company.name}</h3>
-                <p>{company.description}</p>
-                <a className="card-arrow" href={company.website} target="_blank" rel="noreferrer" aria-label={`Open ${company.name} website`}>↗</a>
-              </article>
-            );
-          })}
+                <div className="portfolio-stage-copy">
+                  <div>
+                    <span>{selectedCompany.company.category}</span>
+                    <span>{selectedCompany.company.stage} · Founded {selectedCompany.company.founded}</span>
+                  </div>
+                  <h3>{selectedCompany.company.name}</h3>
+                  <p>{selectedCompany.company.description}</p>
+                  <a href={selectedCompany.company.website} target="_blank" rel="noreferrer">
+                    Visit company <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
+              <div className="portfolio-stage-progress" aria-hidden="true">
+                <span style={{ width: `${((selectedCompany.index + 1) / portfolio.length) * 100}%` }} />
+              </div>
+            </article>
+          ) : null}
         </div>
       </section>
 
@@ -510,7 +573,7 @@ export default function QFundExperience() {
               >
                 <span className="portrait-grid" aria-hidden="true" />
                 <Image src={person.image} alt={person.name} width={460} height={670} />
-                <small>QF / 0{index + 1} · LINKEDIN ↗</small>
+                <small>0{index + 1} · LINKEDIN ↗</small>
               </a>
               <div className="team-info">
                 <h3>{person.name}</h3><p>{person.role}</p>
@@ -521,18 +584,18 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="signals section-dark" id="q-factor">
+      <section className="signals section-dark" id="investment-criteria">
         <div className="section-index reveal"><span>07</span><p>Investment thesis</p></div>
         <div className="signals-heading reveal">
           <div>
-            <h2>We call it<br />the Q Factor.</h2>
+            <h2>What qFund<br />looks for.</h2>
             <Link className="text-link route-link inverted" href="/thesis/">Read the thesis <span>↗</span></Link>
           </div>
           <p>Investing in top-tier founders, the proven experts behind 10× industry transformations.</p>
         </div>
         <div className="signal-list">
-          {qFactorPillars.map((pillar) => (
-            <Link className="signal-row reveal" href="/thesis/#q-factor" key={pillar.code}>
+          {investmentCriteria.map((pillar) => (
+            <Link className="signal-row reveal" href="/thesis/#investment-criteria" key={pillar.code}>
               <span>{pillar.code}</span><h3>{pillar.title}</h3><small>{pillar.text}</small><i aria-hidden="true">↗</i>
             </Link>
           ))}

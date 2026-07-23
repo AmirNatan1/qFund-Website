@@ -24,7 +24,7 @@ This release replaces the previous provisional website copy. Visible investment,
 | Contact email and Herzliya office address | Overview deck, p. 48; [qFund public website](https://qfund.io/) |
 | qFund × Quantum Hub integrated growth platform | Japan deck, pp. 8–9; overview deck, pp. 12–14 |
 | Three-year deal-flow funnel | Japan deck, p. 10 |
-| Q Factor: founders, Deep Tech, and market | Japan deck, p. 11; overview deck, pp. 18–23 |
+| Investment criteria: founders, Deep Tech, and market | Japan deck, p. 11; overview deck, pp. 18–23 |
 | qFund II strategic focus areas | Japan deck, p. 12 |
 | Four-pillar Deep Tech evaluation method | Overview deck, p. 45 |
 | Portfolio roster and logos | Overview deck, pp. 15–17; portfolio deck, pp. 1–2 |

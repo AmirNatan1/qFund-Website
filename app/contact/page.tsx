@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import InnerPageShell from "../components/InnerPageShell";
-import { qFactorPillars } from "../siteData";
+import { investmentCriteria } from "../siteData";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export default function ContactPage() {
           <b className="transmission-node node-a" />
           <b className="transmission-node node-b" />
           <b className="transmission-node node-c" />
-          <strong>Q</strong>
+          <strong><span /></strong>
           <small>CHANNEL OPEN</small>
         </div>
 
@@ -70,7 +70,7 @@ export default function ContactPage() {
       </section>
 
       <section className="contact-qfactor section-dark">
-        <div className="section-index reveal"><span>02</span><p>The Q Factor</p></div>
+        <div className="section-index reveal"><span>02</span><p>Investment criteria</p></div>
         <div className="contact-qfactor-heading reveal">
           <p className="eyebrow">INVESTMENT THESIS</p>
           <h2>Founders.<br />Deep Tech.<br /><em>Market.</em></h2>
@@ -79,7 +79,7 @@ export default function ContactPage() {
           </Link>
         </div>
         <div className="contact-qfactor-list">
-          {qFactorPillars.map((pillar, index) => (
+          {investmentCriteria.map((pillar, index) => (
             <article className="contact-qfactor-row reveal" key={pillar.code}>
               <span>{pillar.code}</span>
               <h3>{pillar.title}</h3>

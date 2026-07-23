@@ -54,7 +54,7 @@ test("publishes the essential navigation and landmarks", async () => {
 
 test("server-renders every source-backed route", async () => {
   const expectations = [
-    ["/thesis", /The Q Factor/, /Strategic focus/],
+    ["/thesis", /Investment criteria/, /Strategic focus/],
     ["/companies", /Company directory/, /Qedma/],
     ["/founders", /How qFund evaluates/, /Value creation/],
     ["/quantum-hub", /qFund ×/, /Deal flow activity/],

@@ -61,7 +61,7 @@ test("exports the source-backed editorial routes", async () => {
   ]);
 
   assert.match(thesis, /<title>Investment Thesis \| qFund<\/title>/i);
-  assert.match(thesis, /The Q Factor/);
+  assert.match(thesis, /Investment criteria/);
   assert.match(thesis, /Strategic focus/);
   assert.match(companies, /<title>Portfolio Companies \| qFund<\/title>/i);
   assert.match(companies, /Company directory/);

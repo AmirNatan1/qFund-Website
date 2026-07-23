@@ -37,7 +37,7 @@ export default function CompaniesExperience() {
                 <span className="directory-grid" aria-hidden="true" />
                 <span className="directory-scan" aria-hidden="true" />
                 <Image src={company.logo} alt={`${company.name} logo`} width={600} height={240} />
-                <small>QF / {String(index + 1).padStart(2, "0")} · WEBSITE ↗</small>
+                <small>{String(index + 1).padStart(2, "0")} · WEBSITE ↗</small>
               </a>
               <div className="directory-copy">
                 <div><span>{company.category}</span><span>FOUNDED / {company.founded} · {company.stage}</span></div>

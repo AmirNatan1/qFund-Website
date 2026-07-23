@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import InnerPageShell from "../components/InnerPageShell";
-import { evaluationPillars, qFactorPillars, valueCreation } from "../siteData";
+import { evaluationPillars, investmentCriteria, valueCreation } from "../siteData";
 
 export const metadata: Metadata = {
   title: "For Founders | qFund",
@@ -20,7 +20,7 @@ export default function FoundersPage() {
           {Array.from({ length: 16 }, (_, index) => (
             <i key={index} style={{ "--node-index": index } as CSSProperties} />
           ))}
-          <strong>Q<br />FACTOR</strong>
+          <strong>DEEP<br />TECH</strong>
         </div>
         <div className="inner-hero-copy reveal is-visible">
           <Link className="back-link" href="/">← qFund</Link>
@@ -30,17 +30,17 @@ export default function FoundersPage() {
             Financial investment, technical validation, commercialization support, and strategic access.
           </p>
         </div>
-        <div className="inner-hero-meta"><span>EARLY STAGE · SEED TO SERIES A</span><span>THE Q FACTOR ↓</span></div>
+        <div className="inner-hero-meta"><span>EARLY STAGE · SEED TO SERIES A</span><span>INVESTMENT CRITERIA ↓</span></div>
       </section>
 
       <section className="inner-section founder-conversation section-light">
-        <div className="section-index reveal"><span>01</span><p>The Q Factor</p></div>
+        <div className="section-index reveal"><span>01</span><p>Investment criteria</p></div>
         <div className="founder-conversation-heading reveal">
           <p className="eyebrow dark">INVESTMENT THESIS</p>
           <h2>Top-tier founders—the proven experts behind 10× industry transformations.</h2>
         </div>
         <div className="conversation-layers">
-          {qFactorPillars.map((pillar, index) => (
+          {investmentCriteria.map((pillar, index) => (
             <article className="conversation-layer reveal" key={pillar.code} style={{ "--layer-index": index } as CSSProperties}>
               <span>{pillar.code}</span>
               <h3>{pillar.title}</h3>

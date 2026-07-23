@@ -181,19 +181,19 @@ export const filters = [
   ["infrastructure", "Infrastructure"],
 ] as const;
 
-export const qFactorPillars = [
+export const investmentCriteria = [
   {
-    code: "Q/01",
+    code: "01",
     title: "Founders",
     text: "Industry top-tier founders—proven experts capable of driving 10× industry transformations.",
   },
   {
-    code: "Q/02",
+    code: "02",
     title: "Deep Tech",
     text: "Breakthrough technologies delivering order-of-magnitude performance in at least one critical dimension.",
   },
   {
-    code: "Q/03",
+    code: "03",
     title: "Market",
     text: "Massive, high-conviction markets with clear potential for 10× industry transformations and short go-to-market.",
   },
@@ -201,25 +201,25 @@ export const qFactorPillars = [
 
 export const evaluationPillars = [
   {
-    code: "E/01",
+    code: "01",
     title: "Founders",
     text: "Domain authority with deep, proven expertise. The founder must be the world’s leading expert on this specific problem.",
     signal: "DOMAIN AUTHORITY",
   },
   {
-    code: "E/02",
+    code: "02",
     title: "Technology",
     text: "10× performance improvement in a critical dimension. Proprietary, defensible, and not replicable for two to three years.",
     signal: "10× PERFORMANCE",
   },
   {
-    code: "E/03",
+    code: "03",
     title: "Market",
     text: "Massive markets undergoing transformation. A real-world problem with a clear path to market dominance.",
     signal: "MARKET TRANSFORMATION",
   },
   {
-    code: "E/04",
+    code: "04",
     title: "Defensibility",
     text: "Strong IP position: patents, trade secrets, and years of hard R&D. A technology barrier that compounds over time.",
     signal: "COMPOUNDING BARRIER",
