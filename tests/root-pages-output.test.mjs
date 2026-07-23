@@ -29,6 +29,7 @@ test("repository-root snapshot includes every required public asset", async () =
   await Promise.all([
     access(new URL("404.html", rootUrl)),
     access(new URL("og-motion.png", rootUrl)),
+    access(new URL("qfund-logo.png", rootUrl)),
     access(new URL("qfund-logo.jpg", rootUrl)),
     access(new URL("qfund-field.png", rootUrl)),
     access(new URL("team/liron-ben-zaken.png", rootUrl)),
@@ -52,7 +53,7 @@ test("repository-root snapshot uses direct public image URLs", async () => {
   const home = await readFile(new URL("index.html", rootUrl), "utf8");
 
   assert.doesNotMatch(home, /\/_next\/image\//);
-  assert.match(home, /src="\/qfund-logo\.jpg"/);
+  assert.match(home, /src="\/qfund-logo\.png"/);
   assert.match(home, /src="\/portfolio\/element-security\.webp"/);
   assert.match(home, /src="\/team\/liav-ben-rubi\.webp"/);
 });

@@ -29,6 +29,7 @@ test("exports a Cloudflare Pages entry document", async () => {
 test("publishes the required static assets", async () => {
   await access(new URL("404.html", outputUrl));
   await access(new URL("og-motion.png", outputUrl));
+  await access(new URL("qfund-logo.png", outputUrl));
   await access(new URL("qfund-logo.jpg", outputUrl));
   await access(new URL("qfund-field.png", outputUrl));
   await access(new URL("team/liav-ben-rubi.webp", outputUrl));
@@ -42,7 +43,7 @@ test("publishes the required static assets", async () => {
 
   assert.ok(stylesheet, "exported page should reference a stylesheet");
   assert.ok(script, "exported page should reference a JavaScript bundle");
-  assert.match(html, /src="\/qfund-logo\.jpg"/);
+  assert.match(html, /src="\/qfund-logo\.png"/);
   await access(new URL(stylesheet.replace(/^\//, ""), outputUrl));
   await access(new URL(script.replace(/^\//, ""), outputUrl));
 });

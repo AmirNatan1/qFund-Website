@@ -5,10 +5,10 @@ export default function BrandMark() {
     <span className="brand" aria-label="qFund">
       <Image
         className="brand-image"
-        src="/qfund-logo.jpg"
+        src="/qfund-logo.png"
         alt=""
-        width="510"
-        height="126"
+        width="178"
+        height="78"
         draggable="false"
         aria-hidden="true"
         unoptimized
