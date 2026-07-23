@@ -246,46 +246,25 @@ body:has(a:hover, button:hover) .cursor span {
 }
 
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.05em;
-  color: currentColor;
-  font-size: 1.15rem;
-  font-weight: 520;
-  letter-spacing: -0.06em;
-}
-
-.brand-mark {
   position: relative;
-  display: grid;
-  width: 1.65em;
-  height: 1.65em;
-  margin-right: -0.18em;
-  place-items: center;
+  display: block;
+  width: 6.25rem;
+  height: 2.05rem;
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.brand-orbit {
+.brand-image {
   position: absolute;
-  inset: 0;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-}
-
-.brand-orbit::after {
-  position: absolute;
-  right: -0.08em;
-  bottom: 0.02em;
-  width: 0.38em;
-  height: 0.38em;
-  content: "";
-  border-radius: 50%;
-  background: var(--signal);
-}
-
-.brand-core {
-  margin-top: -0.1em;
-  font-size: 1.05em;
-  font-weight: 600;
+  top: 50%;
+  left: -12.35rem;
+  width: 21.25rem;
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+  mix-blend-mode: screen;
+  transform: translateY(-50%);
 }
 
 .desktop-nav {

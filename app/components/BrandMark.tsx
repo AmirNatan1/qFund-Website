@@ -1,11 +1,18 @@
+import Image from "next/image";
+
 export default function BrandMark() {
   return (
     <span className="brand" aria-label="qFund">
-      <span className="brand-mark" aria-hidden="true">
-        <span className="brand-orbit" />
-        <span className="brand-core">q</span>
-      </span>
-      <span className="brand-name">Fund</span>
+      <Image
+        className="brand-image"
+        src="/qfund-logo.jpg"
+        alt=""
+        width="510"
+        height="126"
+        draggable="false"
+        aria-hidden="true"
+        unoptimized
+      />
     </span>
   );
 }
