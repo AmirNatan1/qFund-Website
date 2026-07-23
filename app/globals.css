@@ -3853,17 +3853,33 @@ h3 em,
   font-size: clamp(4rem, 8.45vw, 9.9rem);
   font-weight: 480;
   letter-spacing: -0.055em;
-  line-height: 0.93;
+  line-height: 0.98;
 }
 
 .hero-title .line {
-  margin: -0.075em -0.045em;
-  padding: 0.075em 0.045em 0.11em;
-  overflow: clip;
+  margin: 0;
+  padding: 0 0.035em 0.075em;
+  overflow: visible;
 }
 
 .hero-title .accent-line {
   letter-spacing: -0.045em;
+}
+
+@media (min-width: 721px) {
+  .corridor-type h2 {
+    font-size: clamp(3.9rem, 7.2vw, 8.8rem);
+    letter-spacing: -0.052em;
+    line-height: 0.98;
+  }
+
+  .corridor-type h2 span:first-child {
+    transform: translateX(calc(var(--corridor-shift) * -3.5vw));
+  }
+
+  .corridor-type h2 span:last-child {
+    transform: translateX(calc(var(--corridor-shift) * 3.5vw));
+  }
 }
 
 .thesis-statement h2,
@@ -4369,12 +4385,12 @@ h3 em,
     margin-bottom: 6vh;
     font-size: clamp(3.15rem, 14.4vw, 5.05rem);
     letter-spacing: -0.048em;
-    line-height: 0.97;
+    line-height: 1;
   }
 
   .hero-title .line {
-    margin: -0.045em -0.03em;
-    padding: 0.045em 0.03em 0.105em;
+    margin: 0;
+    padding: 0 0.025em 0.07em;
   }
 
   .thesis-statement h2,
