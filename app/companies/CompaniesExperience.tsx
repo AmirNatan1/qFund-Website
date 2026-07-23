@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, type CSSProperties } from "react";
 import { filters, portfolio } from "../siteData";
 
@@ -8,7 +9,7 @@ export default function CompaniesExperience() {
 
   return (
     <>
-      <div className="company-filter reveal" role="group" aria-label="Filter all companies">
+      <div className="company-filter reveal" role="group" aria-label="Filter portfolio companies">
         {filters.map(([value, label]) => (
           <button type="button" className={filter === value ? "is-active" : ""} onClick={() => setFilter(value)} key={value}>
             <span>{label}</span><i>{portfolio.filter((company) => value === "all" || company.group === value).length}</i>
@@ -26,18 +27,26 @@ export default function CompaniesExperience() {
               aria-hidden={!visible}
               key={company.name}
             >
-              <div className="directory-visual" aria-hidden="true">
-                <span className="directory-grid" />
-                <span className="directory-scan" />
-                <strong>{company.name.slice(0, 1)}</strong>
-                <small>QF / 0{index + 1}</small>
-              </div>
+              <a
+                className="directory-visual directory-logo-link"
+                href={company.website}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Visit ${company.name}`}
+              >
+                <span className="directory-grid" aria-hidden="true" />
+                <span className="directory-scan" aria-hidden="true" />
+                <Image src={company.logo} alt={`${company.name} logo`} width={600} height={240} />
+                <small>QF / {String(index + 1).padStart(2, "0")} · WEBSITE ↗</small>
+              </a>
               <div className="directory-copy">
-                <div><span>{company.category}</span><span>FIRST PARTNERED / {company.year}</span></div>
+                <div><span>{company.category}</span><span>FOUNDED / {company.founded} · {company.stage}</span></div>
                 <h2>{company.name}</h2>
-                <p>{company.line}</p>
+                <p>{company.description}</p>
               </div>
-              <span className="directory-status"><i /> BUILDING</span>
+              <a className="directory-status" href={company.website} target="_blank" rel="noreferrer">
+                <i /> COMPANY WEBSITE ↗
+              </a>
             </article>
           );
         })}

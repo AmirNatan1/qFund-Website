@@ -2229,7 +2229,7 @@ body:has(a:hover, button:hover) .cursor span {
 .pattern-card i { position: absolute; right: -4rem; top: -4rem; width: 10rem; height: 10rem; border: 1px solid rgba(7, 9, 9, 0.2); border-radius: 50%; transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1); }
 .pattern-card:hover i { transform: scale(2.2); }
 
-/* Field notes */
+/* Integrated platform route */
 
 .notes-wave { position: absolute; right: -2%; bottom: 8%; display: flex; align-items: center; gap: clamp(0.25rem, 0.5vw, 0.65rem); width: 48%; height: 72%; opacity: 0.75; }
 .notes-wave i { display: block; width: 2px; height: calc(8% + (var(--wave-index) % 8) * 7%); background: linear-gradient(to bottom, transparent, var(--signal), transparent); transform-origin: center; animation: wave-signal 2.8s ease-in-out infinite; animation-delay: calc(var(--wave-index) * -90ms); }
@@ -2580,4 +2580,292 @@ body:has(a:hover, button:hover) .cursor span {
   .vector-card { min-height: 23rem; padding: 1.5rem; }
   .vector-card h3 { margin-top: 6rem; }
   .prep-row { grid-template-columns: 3rem 1fr; }
+}
+
+/* Source-backed content release */
+
+.company-logo-link,
+.directory-logo-link,
+.team-portrait,
+.directory-status {
+  color: inherit;
+  text-decoration: none;
+}
+
+.company-logo-link {
+  display: grid;
+  background: #f7f8f6;
+  filter: none;
+  place-items: center;
+}
+
+.portfolio-card:nth-child(even) .company-logo-link {
+  background-position: center;
+  transform: none;
+}
+
+.company-logo-link img {
+  position: relative;
+  z-index: 2;
+  width: min(78%, 34rem);
+  height: auto;
+  object-fit: contain;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-card:hover .company-logo-link img {
+  transform: scale(1.045);
+}
+
+.company-logo-link .scan-line {
+  z-index: 3;
+  opacity: 0.45;
+}
+
+.portfolio-card .card-arrow {
+  z-index: 4;
+  color: var(--paper);
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.team-portrait {
+  background:
+    radial-gradient(circle at 50% 58%, rgba(53, 244, 198, 0.1), transparent 46%),
+    #0c100f;
+}
+
+.team-portrait img {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 94%;
+  object-fit: contain;
+  object-position: center bottom;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-card:hover .team-portrait img {
+  transform: scale(1.025);
+}
+
+.team-portrait small {
+  z-index: 4;
+  padding: 0.45rem 0.6rem;
+  color: var(--signal);
+  background: rgba(7, 9, 9, 0.78);
+}
+
+.team-info {
+  flex: 1;
+  padding: 1.5rem 1.25rem 0;
+}
+
+.team-info span {
+  font-family: inherit;
+  font-size: 0.86rem;
+  letter-spacing: 0;
+  line-height: 1.55;
+  text-transform: none;
+}
+
+.directory-logo-link {
+  background:
+    linear-gradient(rgba(53, 244, 198, 0.035), rgba(53, 244, 198, 0.035)),
+    #f7f8f6;
+}
+
+.directory-logo-link img {
+  position: relative;
+  z-index: 2;
+  width: min(76%, 32rem);
+  height: auto;
+  object-fit: contain;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.directory-card:hover .directory-logo-link img {
+  transform: scale(1.04);
+}
+
+.directory-logo-link .directory-grid {
+  opacity: 0.22;
+}
+
+.directory-logo-link .directory-scan {
+  z-index: 3;
+  opacity: 0.45;
+}
+
+.directory-logo-link small {
+  z-index: 4;
+  color: #52605a;
+}
+
+.directory-status {
+  white-space: nowrap;
+}
+
+.full-test-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.proof-track {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  row-gap: 5rem;
+}
+
+.proof-track::before {
+  display: none;
+}
+
+.signal-row {
+  grid-template-columns: minmax(3rem, 8vw) minmax(11rem, 0.42fr) 1fr auto;
+}
+
+.signal-row small {
+  max-width: 45rem;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.platform-playground,
+.platform-flow {
+  position: relative;
+}
+
+.platform-flow-heading {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  gap: 7vw;
+  width: min(100%, 1780px);
+  margin: 0 auto;
+}
+
+.platform-flow-heading h2 {
+  max-width: 65rem;
+  margin: 0;
+  font-size: clamp(3.5rem, 6.5vw, 8rem);
+  font-weight: 420;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+}
+
+.deal-flow-funnel {
+  display: grid;
+  gap: 1px;
+  width: min(100%, 1100px);
+  margin: clamp(5rem, 9vw, 9rem) auto 0;
+}
+
+.deal-flow-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.34fr) 1fr;
+  align-items: center;
+  justify-self: center;
+  width: var(--flow-width);
+  min-height: 5.5rem;
+  padding: 1rem clamp(1rem, 2.5vw, 2.2rem);
+  overflow: hidden;
+  border: 1px solid rgba(7, 9, 9, 0.22);
+  background: rgba(247, 248, 246, 0.34);
+  transition-delay: calc(var(--flow-index) * 80ms);
+}
+
+.deal-flow-stage::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, rgba(53, 244, 198, 0.35), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--flow-index) * 80ms);
+}
+
+.deal-flow-stage.is-visible::before {
+  transform: scaleX(1);
+}
+
+.deal-flow-stage strong,
+.deal-flow-stage span {
+  position: relative;
+  z-index: 2;
+}
+
+.deal-flow-stage strong {
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  font-weight: 440;
+  letter-spacing: -0.05em;
+}
+
+.deal-flow-stage span {
+  font-family: var(--font-geist-mono, "SFMono-Regular"), Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.deal-flow-stage i {
+  position: absolute;
+  top: 50%;
+  right: 1.2rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #167762;
+  box-shadow: 0 0 15px rgba(22, 119, 98, 0.8);
+  transform: translateY(-50%);
+  animation: constellation-pulse 3s ease-in-out infinite;
+  animation-delay: calc(var(--flow-index) * -240ms);
+}
+
+.notes-grid .note-card {
+  min-height: 31rem;
+}
+
+@media (max-width: 1180px) {
+  .full-test-grid,
+  .proof-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .full-test-grid,
+  .proof-track {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-track {
+    row-gap: 0;
+  }
+
+  .platform-flow-heading {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .platform-flow-heading h2 {
+    font-size: clamp(3.1rem, 14vw, 5.2rem);
+  }
+
+  .deal-flow-stage {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    width: max(72%, var(--flow-width));
+  }
+
+  .team-info {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }

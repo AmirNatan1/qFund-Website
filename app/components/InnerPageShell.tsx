@@ -5,7 +5,7 @@ import Link from "next/link";
 import BrandMark from "./BrandMark";
 
 type InnerPageShellProps = {
-  active: "thesis" | "companies" | "founders" | "notes";
+  active: "thesis" | "companies" | "founders" | "platform";
   children: ReactNode;
 };
 
@@ -13,7 +13,7 @@ const routes = [
   ["Thesis", "/thesis/", "thesis"],
   ["Companies", "/companies/", "companies"],
   ["Founders", "/founders/", "founders"],
-  ["Field notes", "/field-notes/", "notes"],
+  ["Platform", "/platform/", "platform"],
 ] as const;
 
 export default function InnerPageShell({ active, children }: InnerPageShellProps) {
@@ -79,7 +79,7 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
           ))}
         </nav>
         <a className="nav-cta" href="mailto:info@qfund.io" data-magnetic>
-          <span>Start a conversation</span><span aria-hidden="true">↗</span>
+          <span>Contact qFund</span><span aria-hidden="true">↗</span>
         </a>
         <button
           className="menu-toggle"
@@ -108,11 +108,11 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
 
       <footer className="inner-footer">
         <Link href="/" aria-label="qFund home"><BrandMark /></Link>
-        <p>Early-stage capital for the scientists and engineers building the deep future.</p>
+        <p>Early-stage venture capital backing Deep Tech founders.</p>
         <div>
           <a href="mailto:info@qfund.io">info@qfund.io</a>
           <a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          <span>Herzliya, Israel · © {new Date().getFullYear()} qFund</span>
+          <span>Arik Einstein 3 · Herzliya, Israel · © {new Date().getFullYear()} qFund</span>
         </div>
       </footer>
     </main>

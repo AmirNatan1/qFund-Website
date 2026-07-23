@@ -31,7 +31,7 @@ test("server-renders the qFund experience", async () => {
   assert.match(html, /<title>qFund \| Funding the Deep Future of Technology<\/title>/i);
   assert.match(html, /Funding the/);
   assert.match(html, /deep future/);
-  assert.match(html, /Quantum systems/);
+  assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /info@qfund\.io/);
@@ -43,7 +43,7 @@ test("publishes the essential navigation and landmarks", async () => {
   const response = await render();
   const html = await response.text();
 
-  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/field-notes/"]) {
+  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/platform/"]) {
     assert.match(html, new RegExp(`href=["']${anchor}["']`, "i"));
   }
 
@@ -52,12 +52,12 @@ test("publishes the essential navigation and landmarks", async () => {
   assert.match(html, /aria-label="qFund home"/i);
 });
 
-test("server-renders every expanded route", async () => {
+test("server-renders every source-backed route", async () => {
   const expectations = [
-    ["/thesis", /Technical truth/, /The four tests/],
+    ["/thesis", /The Q Factor/, /Strategic focus/],
     ["/companies", /Company directory/, /Qedma/],
-    ["/founders", /Build the company/, /How evidence compounds/],
-    ["/field-notes", /Questions worth pursuing/, /Quantum utility arrives before fault tolerance/],
+    ["/founders", /How qFund evaluates/, /Value creation/],
+    ["/platform", /qFund ×/, /Deal flow activity/],
   ];
 
   for (const [pathname, heading, proof] of expectations) {

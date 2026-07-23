@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://qfund.io"),
   title: "qFund | Deep Tech Venture Capital",
   description:
-    "Early-stage capital for the scientists and engineers building the deep future of technology.",
+    "Early-stage venture capital backing Israeli-related Deep Tech founders.",
 };
 
 export default function RootLayout({

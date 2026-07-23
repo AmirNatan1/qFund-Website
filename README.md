@@ -26,7 +26,7 @@ npm run build
 npm test
 ```
 
-The research and competitive benchmarking behind the redesign are documented in `RESEARCH.md`.
+The claim-by-claim content provenance, portfolio URLs, and source reconciliations are documented in `CONTENT_SOURCES.md`.
 
 ## Cloudflare deployment
 

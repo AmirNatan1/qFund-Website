@@ -4,19 +4,19 @@ import QFundExperience from "./QFundExperience";
 export const metadata: Metadata = {
   title: "qFund | Funding the Deep Future of Technology",
   description:
-    "qFund is an early-stage deep tech venture firm partnering with exceptional Israeli scientists and engineers.",
+    "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders.",
   keywords: [
     "deep tech venture capital",
     "Israel VC",
     "quantum computing",
-    "robotics",
-    "compute infrastructure",
+    "defense technology",
+    "semiconductors",
     "qFund",
   ],
   openGraph: {
     title: "qFund | Funding the Deep Future of Technology",
     description:
-      "Early partners to exceptional scientists and engineers building the foundations of what comes next.",
+      "An early-stage venture capital firm backing Israeli-related Deep Tech founders.",
     type: "website",
     siteName: "qFund",
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "qFund | Funding the Deep Future of Technology",
     description:
-      "Early partners to exceptional scientists and engineers building the foundations of what comes next.",
+      "An early-stage venture capital firm backing Israeli-related Deep Tech founders.",
     images: ["/og.png"],
   },
 };

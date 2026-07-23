@@ -4,9 +4,17 @@ import InnerPageShell from "../components/InnerPageShell";
 import CompaniesExperience from "./CompaniesExperience";
 
 export const metadata: Metadata = {
-  title: "Companies | qFund",
-  description: "Selected qFund companies building foundational technology across compute, communications, and intelligent systems.",
+  title: "Portfolio Companies | qFund",
+  description:
+    "qFund portfolio companies across quantum computing, defense, satellite communications, thermal management, cybersecurity, sensing, RF, and electro-optics.",
 };
+
+const portfolioProfile = [
+  ["01", "Real Deep Tech", "Hardware and hardware-enabling software form the foundation of qFund’s portfolio."],
+  ["02", "Deep Tech founders", "Academic experts, alumni of elite technological units, and industry leaders."],
+  ["03", "Critical challenges", "Thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration."],
+  ["04", "Israeli-related", "qFund invests in Israeli-related Deep Tech startups."],
+] as const;
 
 export default function CompaniesPage() {
   return (
@@ -18,12 +26,14 @@ export default function CompaniesPage() {
           <i className="constellation-node cn-a" /><i className="constellation-node cn-b" /><i className="constellation-node cn-c" /><i className="constellation-node cn-d" />
         </div>
         <div className="inner-hero-copy reveal is-visible">
-          <Link className="back-link" href="/#portfolio">← Back to selected companies</Link>
-          <p className="eyebrow">COMPANY SYSTEM / QF–02</p>
-          <h1>Proof lives<br />in the <em>build.</em></h1>
-          <p className="inner-hero-deck">A portfolio of teams turning difficult science and engineering into infrastructure the world can depend on.</p>
+          <Link className="back-link" href="/#portfolio">← qFund portfolio</Link>
+          <p className="eyebrow">PORTFOLIO COMPANIES</p>
+          <h1>Real Deep Tech<br /><em>companies.</em></h1>
+          <p className="inner-hero-deck">
+            Companies solving critical challenges in thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.
+          </p>
         </div>
-        <div className="inner-hero-meta"><span>SELECTED PORTFOLIO</span><span>FILTER THE SYSTEM ↓</span></div>
+        <div className="inner-hero-meta"><span>NAMED PORTFOLIO</span><span>FILTER BY FIELD ↓</span></div>
       </section>
 
       <section className="inner-section directory-section section-light">
@@ -32,27 +42,24 @@ export default function CompaniesPage() {
       </section>
 
       <section className="inner-section portfolio-pattern section-sage">
-        <div className="section-index reveal"><span>02</span><p>The pattern</p></div>
+        <div className="section-index reveal"><span>02</span><p>Portfolio profile</p></div>
         <div className="pattern-heading reveal">
-          <p className="eyebrow dark">DIFFERENT FIELDS / SHARED ARCHITECTURE</p>
-          <h2>We look for advantages that become more defensible as the company learns.</h2>
+          <p className="eyebrow dark">QFUND I</p>
+          <h2>Deep Tech founders solving critical challenges.</h2>
         </div>
         <div className="pattern-grid">
-          {[
-            ["01", "Hard to begin", "Specialized insight, engineering depth, or scientific risk creates a real starting barrier."],
-            ["02", "Clear to prove", "The defining risk can be translated into milestones that produce credible evidence."],
-            ["03", "Valuable to integrate", "The technology changes a critical workflow or system—not merely a feature."],
-            ["04", "Stronger with scale", "Deployment compounds know-how, data, integration depth, or manufacturing advantage."],
-          ].map(([number, title, text]) => (
-            <article className="pattern-card reveal" key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p><i aria-hidden="true" /></article>
+          {portfolioProfile.map(([number, title, text]) => (
+            <article className="pattern-card reveal" key={number}>
+              <span>{number}</span><h3>{title}</h3><p>{text}</p><i aria-hidden="true" />
+            </article>
           ))}
         </div>
       </section>
 
       <section className="inner-cta companies-inner-cta">
-        <p className="eyebrow reveal">THE NEXT COMPANY WILL NOT LOOK LIKE THE LAST ONE</p>
-        <h2 className="reveal">Building something<br /><em>foundational?</em></h2>
-        <a className="reveal" href="mailto:info@qfund.io?subject=A%20foundational%20company">Start a conversation <span>↗</span></a>
+        <p className="eyebrow reveal">EARLY-STAGE · SEED TO SERIES A</p>
+        <h2 className="reveal">Backing Israeli-related<br /><em>Deep Tech startups.</em></h2>
+        <a className="reveal" href="mailto:info@qfund.io">info@qfund.io <span>↗</span></a>
       </section>
     </InnerPageShell>
   );
