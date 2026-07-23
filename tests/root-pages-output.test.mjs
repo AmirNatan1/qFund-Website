@@ -46,3 +46,11 @@ test("repository-root snapshot includes every source-backed route", async () => 
     assert.equal(rootHtml, canonicalHtml, `${route} root snapshot should be current`);
   }
 });
+
+test("repository-root snapshot uses direct public image URLs", async () => {
+  const home = await readFile(new URL("index.html", rootUrl), "utf8");
+
+  assert.doesNotMatch(home, /\/_next\/image\//);
+  assert.match(home, /src="\/portfolio\/element-security\.webp"/);
+  assert.match(home, /src="\/team\/liav-ben-rubi\.webp"/);
+});

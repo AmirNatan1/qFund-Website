@@ -103,6 +103,34 @@ test("links every team portrait and portfolio logo to its verified destination",
   }
 });
 
+test("serves portfolio and team images directly in the static export", async () => {
+  const [home, companies] = await Promise.all([
+    readFile(new URL("index.html", outputUrl), "utf8"),
+    readFile(new URL("companies/index.html", outputUrl), "utf8"),
+  ]);
+  const rendered = `${home}\n${companies}`;
+
+  assert.doesNotMatch(rendered, /\/_next\/image\//);
+  assert.match(home, /src="\/team\/liav-ben-rubi\.webp"/);
+  assert.match(home, /src="\/team\/dana-taigman-koren\.webp"/);
+  assert.match(home, /src="\/team\/liron-ben-zaken\.png"/);
+
+  for (const company of [
+    "element-security",
+    "commcrete",
+    "skapion",
+    "oraqon",
+    "qedma",
+    "actasys",
+    "particle",
+    "signal-edge",
+    "litevision",
+    "quamcore",
+  ]) {
+    assert.match(rendered, new RegExp(`src="/portfolio/${company}\\.webp"`));
+  }
+});
+
 test("does not publish the superseded provisional narrative", async () => {
   const pages = await Promise.all(
     ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "quantum-hub/index.html"]
