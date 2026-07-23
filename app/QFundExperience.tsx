@@ -64,6 +64,7 @@ export default function QFundExperience() {
     );
 
     document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+    const signalCorridor = document.querySelector<HTMLElement>("[data-signal-corridor]");
 
     const onScroll = () => {
       if (frame) return;
@@ -72,6 +73,13 @@ export default function QFundExperience() {
         const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         root.style.setProperty("--page-progress", String(scroll / max));
         root.style.setProperty("--hero-shift", String(Math.min(1, scroll / window.innerHeight)));
+        if (signalCorridor) {
+          const bounds = signalCorridor.getBoundingClientRect();
+          const travel = Math.max(1, signalCorridor.offsetHeight - window.innerHeight);
+          const progress = reduced ? 0.55 : Math.min(1, Math.max(0, -bounds.top / travel));
+          signalCorridor.style.setProperty("--corridor-progress", String(progress));
+          signalCorridor.style.setProperty("--corridor-shift", String((progress - 0.5) * 2));
+        }
         frame = 0;
       });
     };
@@ -168,9 +176,9 @@ export default function QFundExperience() {
         <nav className="desktop-nav" aria-label="Main navigation">
           {routes.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
         </nav>
-        <a className="nav-cta" href="mailto:info@qfund.io" data-magnetic>
+        <Link className="nav-cta" href="/contact/" data-magnetic>
           <span>Contact qFund</span><span aria-hidden="true">↗</span>
-        </a>
+        </Link>
         <button
           className="menu-toggle"
           type="button"
@@ -189,6 +197,9 @@ export default function QFundExperience() {
               <span>0{index + 1}</span>{label}
             </Link>
           ))}
+          <Link href="/contact/" onClick={() => setMenuOpen(false)}>
+            <span>05</span>Contact
+          </Link>
         </nav>
         <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
       </div>
@@ -384,6 +395,35 @@ export default function QFundExperience() {
         </div>
       </section>
 
+      <section className="signal-corridor" data-signal-corridor aria-label="From advanced research to scalable companies">
+        <div className="signal-corridor-stage">
+          <div className="corridor-grid" aria-hidden="true" />
+          <div className="corridor-aperture" aria-hidden="true">
+            <span className="corridor-ring corridor-ring-a" />
+            <span className="corridor-ring corridor-ring-b" />
+            <span className="corridor-ring corridor-ring-c" />
+            <span className="corridor-axis corridor-axis-x" />
+            <span className="corridor-axis corridor-axis-y" />
+            <i className="corridor-core">Q</i>
+          </div>
+          <div className="corridor-type">
+            <p className="eyebrow">CORE INFRASTRUCTURE · HARDWARE · ENABLING TECHNOLOGIES</p>
+            <h2>
+              <span>From advanced research</span>
+              <span>to scalable companies.</span>
+            </h2>
+          </div>
+          <div className="corridor-signals">
+            <span>TECHNICAL VALIDATION</span>
+            <span>COMMERCIALIZATION SUPPORT</span>
+            <span>STRATEGIC ACCESS</span>
+          </div>
+          <div className="corridor-counter" aria-hidden="true">
+            <span>RESEARCH</span><i /><span>SCALE</span>
+          </div>
+        </div>
+      </section>
+
       <section className="portfolio section-ink" id="portfolio">
         <div className="section-index reveal"><span>04</span><p>Portfolio companies</p></div>
         <div className="portfolio-heading reveal">
@@ -505,9 +545,9 @@ export default function QFundExperience() {
         <div className="contact-copy reveal">
           <p className="eyebrow">BACKING DEEP TECH FOUNDERS</p>
           <h2>Building an<br /><em>Israeli-related Deep Tech company?</em></h2>
-          <a href="mailto:info@qfund.io" data-magnetic>
-            <span>info@qfund.io</span><i aria-hidden="true">↗</i>
-          </a>
+          <Link href="/contact/" data-magnetic>
+            <span>Contact qFund</span><i aria-hidden="true">↗</i>
+          </Link>
         </div>
         <footer>
           <BrandMark />

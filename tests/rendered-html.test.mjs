@@ -35,7 +35,7 @@ test("server-renders the qFund experience", async () => {
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /info@qfund\.io/);
-  assert.match(html, /og\.png/);
+  assert.match(html, /og-motion\.png/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });
 
@@ -43,7 +43,7 @@ test("publishes the essential navigation and landmarks", async () => {
   const response = await render();
   const html = await response.text();
 
-  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/quantum-hub/"]) {
+  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/quantum-hub/", "/contact/"]) {
     assert.match(html, new RegExp(`href=["']${anchor}["']`, "i"));
   }
 
@@ -58,6 +58,7 @@ test("server-renders every source-backed route", async () => {
     ["/companies", /Company directory/, /Qedma/],
     ["/founders", /How qFund evaluates/, /Value creation/],
     ["/quantum-hub", /qFund ×/, /Deal flow activity/],
+    ["/contact", /Begin the/, /info@qfund\.io/],
   ];
 
   for (const [pathname, heading, proof] of expectations) {

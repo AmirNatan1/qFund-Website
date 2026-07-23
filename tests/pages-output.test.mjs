@@ -21,13 +21,14 @@ test("exports a Cloudflare Pages entry document", async () => {
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /href="\/founders\/"/);
   assert.match(html, /href="\/quantum-hub\/"/);
+  assert.match(html, /href="\/contact\/"/);
   assert.match(html, /info@qfund\.io/);
-  assert.match(html, /og\.png/);
+  assert.match(html, /og-motion\.png/);
 });
 
 test("publishes the required static assets", async () => {
   await access(new URL("404.html", outputUrl));
-  await access(new URL("og.png", outputUrl));
+  await access(new URL("og-motion.png", outputUrl));
   await access(new URL("qfund-field.png", outputUrl));
   await access(new URL("team/liav-ben-rubi.webp", outputUrl));
   await access(new URL("team/dana-taigman-koren.webp", outputUrl));
@@ -51,11 +52,12 @@ test("supports the common Cloudflare Pages output-directory presets", async () =
 });
 
 test("exports the source-backed editorial routes", async () => {
-  const [thesis, companies, founders, platform] = await Promise.all([
+  const [thesis, companies, founders, platform, contact] = await Promise.all([
     readFile(new URL("thesis/index.html", outputUrl), "utf8"),
     readFile(new URL("companies/index.html", outputUrl), "utf8"),
     readFile(new URL("founders/index.html", outputUrl), "utf8"),
     readFile(new URL("quantum-hub/index.html", outputUrl), "utf8"),
+    readFile(new URL("contact/index.html", outputUrl), "utf8"),
   ]);
 
   assert.match(thesis, /<title>Investment Thesis \| qFund<\/title>/i);
@@ -71,6 +73,10 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(platform, /<title>qFund × Quantum Hub \| qFund<\/title>/i);
   assert.match(platform, /Deal flow activity/);
   assert.match(platform, /3,250/);
+  assert.match(contact, /<title>Contact qFund \| Deep Tech Venture Capital<\/title>/i);
+  assert.match(contact, /Tell us what/);
+  assert.match(contact, /info@qfund\.io/);
+  assert.match(contact, /Arik Einstein 3/);
 });
 
 test("links every team portrait and portfolio logo to its verified destination", async () => {
@@ -133,7 +139,7 @@ test("serves portfolio and team images directly in the static export", async () 
 
 test("does not publish the superseded provisional narrative", async () => {
   const pages = await Promise.all(
-    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "quantum-hub/index.html"]
+    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "quantum-hub/index.html", "contact/index.html"]
       .map((path) => readFile(new URL(path, outputUrl), "utf8")),
   );
   const rendered = pages.join("\n");

@@ -5,7 +5,7 @@ import Link from "next/link";
 import BrandMark from "./BrandMark";
 
 type InnerPageShellProps = {
-  active: "thesis" | "companies" | "founders" | "platform";
+  active: "thesis" | "companies" | "founders" | "platform" | "contact";
   children: ReactNode;
 };
 
@@ -78,9 +78,9 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
             <Link href={href} className={active === key ? "is-active" : ""} aria-current={active === key ? "page" : undefined} key={key}>{label}</Link>
           ))}
         </nav>
-        <a className="nav-cta" href="mailto:info@qfund.io" data-magnetic>
+        <Link className={active === "contact" ? "nav-cta is-active" : "nav-cta"} href="/contact/">
           <span>Contact qFund</span><span aria-hidden="true">↗</span>
-        </a>
+        </Link>
         <button
           className="menu-toggle"
           type="button"
@@ -99,7 +99,8 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
               <span>0{index + 1}</span>{label}
             </Link>
           ))}
-          <Link href="/"><span>05</span>Home</Link>
+          <Link href="/contact/" aria-current={active === "contact" ? "page" : undefined}><span>05</span>Contact</Link>
+          <Link href="/"><span>06</span>Home</Link>
         </nav>
         <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
       </div>

@@ -28,7 +28,7 @@ test("repository-root snapshot includes every required public asset", async () =
 
   await Promise.all([
     access(new URL("404.html", rootUrl)),
-    access(new URL("og.png", rootUrl)),
+    access(new URL("og-motion.png", rootUrl)),
     access(new URL("qfund-field.png", rootUrl)),
     access(new URL("team/liron-ben-zaken.png", rootUrl)),
     access(new URL("portfolio/quamcore.webp", rootUrl)),
@@ -38,7 +38,7 @@ test("repository-root snapshot includes every required public asset", async () =
 });
 
 test("repository-root snapshot includes every source-backed route", async () => {
-  for (const route of ["thesis", "companies", "founders", "quantum-hub"]) {
+  for (const route of ["thesis", "companies", "founders", "quantum-hub", "contact"]) {
     const [rootHtml, canonicalHtml] = await Promise.all([
       readFile(new URL(`${route}/index.html`, rootUrl), "utf8"),
       readFile(new URL(`${route}/index.html`, canonicalOutputUrl), "utf8"),

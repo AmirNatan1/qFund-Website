@@ -21,9 +21,9 @@ export const metadata: Metadata = {
     siteName: "qFund",
     images: [
       {
-        url: "/og.png",
-        width: 1712,
-        height: 944,
+        url: "/og-motion.png",
+        width: 1659,
+        height: 948,
         alt: "qFund — Funding the deep future of technology.",
       },
     ],
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "qFund | Funding the Deep Future of Technology",
     description:
       "An early-stage venture capital firm backing Israeli-related Deep Tech founders.",
-    images: ["/og.png"],
+    images: ["/og-motion.png"],
   },
 };
 
