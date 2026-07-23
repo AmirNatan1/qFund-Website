@@ -19,6 +19,8 @@ test("exports a Cloudflare Pages entry document", async () => {
   assert.match(html, /Quantum systems/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
+  assert.match(html, /The long scroll is/);
+  assert.match(html, /href="\/founders\/"/);
   assert.match(html, /info@qfund\.io/);
   assert.match(html, /og\.png/);
 });
@@ -45,9 +47,10 @@ test("supports the common Cloudflare Pages output-directory presets", async () =
 });
 
 test("exports the expanded editorial routes", async () => {
-  const [thesis, companies, notes] = await Promise.all([
+  const [thesis, companies, founders, notes] = await Promise.all([
     readFile(new URL("thesis/index.html", outputUrl), "utf8"),
     readFile(new URL("companies/index.html", outputUrl), "utf8"),
+    readFile(new URL("founders/index.html", outputUrl), "utf8"),
     readFile(new URL("field-notes/index.html", outputUrl), "utf8"),
   ]);
 
@@ -57,6 +60,9 @@ test("exports the expanded editorial routes", async () => {
   assert.match(companies, /<title>Companies \| qFund<\/title>/i);
   assert.match(companies, /Company directory/);
   assert.match(companies, /Qedma/);
+  assert.match(founders, /<title>For Founders \| qFund<\/title>/i);
+  assert.match(founders, /Build the company/);
+  assert.match(founders, /How evidence compounds/);
   assert.match(notes, /<title>Field Notes \| qFund<\/title>/i);
   assert.match(notes, /Questions worth pursuing/);
   assert.match(notes, /Quantum utility arrives before fault tolerance/);

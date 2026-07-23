@@ -43,7 +43,7 @@ test("publishes the essential navigation and landmarks", async () => {
   const response = await render();
   const html = await response.text();
 
-  for (const anchor of ["#thesis", "#focus", "#portfolio", "#team"]) {
+  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/field-notes/"]) {
     assert.match(html, new RegExp(`href=["']${anchor}["']`, "i"));
   }
 
@@ -56,6 +56,7 @@ test("server-renders every expanded route", async () => {
   const expectations = [
     ["/thesis", /Technical truth/, /The four tests/],
     ["/companies", /Company directory/, /Qedma/],
+    ["/founders", /Build the company/, /How evidence compounds/],
     ["/field-notes", /Questions worth pursuing/, /Quantum utility arrives before fault tolerance/],
   ];
 

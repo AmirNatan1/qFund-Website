@@ -171,6 +171,24 @@ The second benchmark pass focused on what makes a VC website useful after its fi
 - The field-notes route uses a phase-shifted signal waveform, active-signal indicators, and pointer-responsive illumination.
 - All new motion is transform/opacity based, degrades under reduced-motion preferences, and preserves the existing grid/node/scan/orbit visual language.
 
+## 23 July visibility and founder-surface pass
+
+The first expansion proved that adding routes is not enough if they are only linked far down a long homepage. A further navigation audit of current peers showed that substantial pages are almost always exposed directly from the primary menu:
+
+- **DCVC** puts Companies, About, Team, News & Insights, Careers, and its flagship Deep Tech Opportunities report in obvious navigation positions. The research report is also featured high on the homepage.
+- **Lux** gives Companies and People primary placement and treats Riskgaming as a named, standalone intellectual product rather than a hidden blog.
+- **Eclipse** exposes About, Team, Companies, Blog, and Press directly, while its operator identity explains why a founder should choose the firm.
+- **Grove Ventures** surfaces Portfolio, Team, Reports & Playbooks, Events, Careers, Portfolio Perks, and Founder OS. The breadth is useful because each destination demonstrates a specific form of founder support.
+- **Aleph** places Companies and Insights alongside a dominant “Founder Journey” narrative, making founder experience a first-class content surface.
+- **Glilot Capital** uses lifecycle programs to explain how the firm engages founders at different moments.
+
+### Resulting qFund changes
+
+- Replace section-only primary navigation with direct links to Thesis, Companies, Founders, and Field Notes.
+- Add a large, animated “Explore qFund” gateway immediately after the opening ticker so the multi-page structure cannot be missed.
+- Add `/founders/` as a fourth standalone route. It explains the first technical conversations, how evidence compounds, where partnership is useful, and what founders can bring—without inventing check sizes, response times, named programs, or unsupported operational claims.
+- Give each route a meaningful live-system animation: thesis orbits, company scans, founder evidence paths, and research waveforms.
+
 ## Final information architecture
 
 1. Hero: positioning, location, and direct founder promise.

@@ -19,7 +19,7 @@ export default function FieldNotesPage() {
         </div>
         <div className="inner-hero-copy reveal is-visible">
           <Link className="back-link" href="/#insights">← Back to signals</Link>
-          <p className="eyebrow">FIELD NOTES / QF–03</p>
+          <p className="eyebrow">FIELD NOTES / QF–04</p>
           <h1>Questions worth pursuing<br /><em>before consensus.</em></h1>
           <p className="inner-hero-deck">These are working theses—not finished answers. A live map of the technical shifts we believe are becoming investable.</p>
         </div>

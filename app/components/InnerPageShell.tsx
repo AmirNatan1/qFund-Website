@@ -5,13 +5,14 @@ import Link from "next/link";
 import BrandMark from "./BrandMark";
 
 type InnerPageShellProps = {
-  active: "thesis" | "companies" | "notes";
+  active: "thesis" | "companies" | "founders" | "notes";
   children: ReactNode;
 };
 
 const routes = [
   ["Thesis", "/thesis/", "thesis"],
   ["Companies", "/companies/", "companies"],
+  ["Founders", "/founders/", "founders"],
   ["Field notes", "/field-notes/", "notes"],
 ] as const;
 
@@ -98,7 +99,7 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
               <span>0{index + 1}</span>{label}
             </Link>
           ))}
-          <Link href="/"><span>04</span>Home</Link>
+          <Link href="/"><span>05</span>Home</Link>
         </nav>
         <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
       </div>

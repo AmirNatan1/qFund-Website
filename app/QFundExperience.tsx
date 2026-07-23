@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import Link from "next/link";
 import BrandMark from "./components/BrandMark";
 import { filters, focusAreas, portfolio, team, underwritingTests } from "./siteData";
 
@@ -149,10 +150,10 @@ export default function QFundExperience() {
       <header className="nav-shell">
         <a href="#top" className="nav-logo" aria-label="qFund home"><BrandMark /></a>
         <nav className="desktop-nav" aria-label="Main navigation">
-          <a href="#thesis">Thesis</a>
-          <a href="#focus">Focus</a>
-          <a href="#portfolio">Companies</a>
-          <a href="#team">Team</a>
+          <Link href="/thesis/">Thesis</Link>
+          <Link href="/companies/">Companies</Link>
+          <Link href="/founders/">Founders</Link>
+          <Link href="/field-notes/">Field notes</Link>
         </nav>
         <a className="nav-cta" href="mailto:info@qfund.io" data-magnetic>
           <span>Start a conversation</span><span aria-hidden="true">↗</span>
@@ -170,10 +171,10 @@ export default function QFundExperience() {
 
       <div className={menuOpen ? "mobile-menu is-open" : "mobile-menu"}>
         <nav aria-label="Mobile navigation">
-          {[["Thesis", "thesis"], ["Focus", "focus"], ["Companies", "portfolio"], ["Team", "team"]].map(([label, id], index) => (
-            <a key={id} href={"#" + id} onClick={() => setMenuOpen(false)}>
+          {[["Thesis", "/thesis/"], ["Companies", "/companies/"], ["Founders", "/founders/"], ["Field notes", "/field-notes/"]].map(([label, href], index) => (
+            <Link key={href} href={href} onClick={() => setMenuOpen(false)}>
               <span>0{index + 1}</span>{label}
-            </a>
+            </Link>
           ))}
         </nav>
         <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
@@ -197,7 +198,7 @@ export default function QFundExperience() {
             <p>
               We partner with exceptional scientists and engineers turning hard-won breakthroughs into category-defining companies.
             </p>
-            <a className="round-link" href="#thesis" aria-label="Explore qFund's thesis" data-magnetic>
+            <a className="round-link" href="#explore" aria-label="Explore qFund" data-magnetic>
               <span>Explore</span><span aria-hidden="true">↓</span>
             </a>
           </div>
@@ -212,6 +213,42 @@ export default function QFundExperience() {
           {[...focusAreas, ...focusAreas].map((item, index) => (
             <span key={item.title + index}>{item.short}<i>✦</i></span>
           ))}
+        </div>
+      </section>
+
+      <section className="page-gateway section-ink" id="explore">
+        <div className="section-index reveal"><span>00</span><p>Explore qFund</p></div>
+        <div className="gateway-heading reveal">
+          <p className="eyebrow">GO DEEPER / FOUR DISTINCT SURFACES</p>
+          <h2>The long scroll is<br />only the <em>entry point.</em></h2>
+          <p>Move from the firm’s core belief to portfolio proof, the founder journey, and the technical signals shaping our attention.</p>
+        </div>
+        <div className="gateway-grid">
+          <Link className="gateway-card gateway-thesis reveal" href="/thesis/" data-tilt>
+            <div className="gateway-visual" aria-hidden="true">
+              <span className="gateway-orbit orbit-outer" /><span className="gateway-orbit orbit-inner" /><i className="gateway-core">01</i>
+            </div>
+            <span>Investment thesis</span><h3>How we build conviction.</h3><p>Our premise, underwriting tests, proof path, and founder fit.</p><i className="gateway-arrow" aria-hidden="true">↗</i>
+          </Link>
+          <Link className="gateway-card gateway-companies reveal" href="/companies/" data-tilt>
+            <div className="gateway-visual" aria-hidden="true">
+              <span className="gateway-scan" /><span className="gateway-grid-field" /><i className="gateway-core">02</i>
+            </div>
+            <span>Company system</span><h3>Where belief becomes proof.</h3><p>A filterable portfolio and the shared architecture we seek.</p><i className="gateway-arrow" aria-hidden="true">↗</i>
+          </Link>
+          <Link className="gateway-card gateway-founders reveal" href="/founders/" data-tilt>
+            <div className="gateway-visual" aria-hidden="true">
+              <span className="gateway-path" /><b className="path-node pn-one" /><b className="path-node pn-two" /><b className="path-node pn-three" /><i className="gateway-core">03</i>
+            </div>
+            <span>For founders</span><h3>From breakthrough to company.</h3><p>What the first conversations examine and how evidence compounds.</p><i className="gateway-arrow" aria-hidden="true">↗</i>
+          </Link>
+          <Link className="gateway-card gateway-notes reveal" href="/field-notes/" data-tilt>
+            <div className="gateway-visual gateway-wave" aria-hidden="true">
+              {Array.from({ length: 15 }, (_, index) => <b key={index} style={{ "--bar-index": index } as CSSProperties} />)}
+              <i className="gateway-core">04</i>
+            </div>
+            <span>Field notes</span><h3>Questions before consensus.</h3><p>Six active working theses and the signals we are watching.</p><i className="gateway-arrow" aria-hidden="true">↗</i>
+          </Link>
         </div>
       </section>
 
