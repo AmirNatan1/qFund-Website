@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import InnerPageShell from "../components/InnerPageShell";
 import { evaluationPillars, focusAreas, investmentCriteria } from "../siteData";
+import ThesisConvictionField from "./ThesisConvictionField";
 
 export const metadata: Metadata = {
   title: "Investment Thesis | qFund",
@@ -27,16 +28,7 @@ export default function ThesisPage() {
             qFund invests in the proven experts behind 10× industry transformations.
           </p>
         </div>
-        <div className="thesis-hero-system reveal is-visible" aria-hidden="true">
-          <span className="thesis-ring thesis-ring-a" />
-          <span className="thesis-ring thesis-ring-b" />
-          <span className="thesis-ring thesis-ring-c" />
-          <span className="thesis-node node-one" />
-          <span className="thesis-node node-two" />
-          <span className="thesis-node node-three" />
-          <strong>INVESTMENT<br />CRITERIA</strong>
-          <small>FOUNDERS · DEEP TECH · MARKET</small>
-        </div>
+        <ThesisConvictionField points={investmentCriteria} />
         <div className="inner-hero-meta"><span>HERZLIYA · ISRAEL</span><span>THE THESIS ↓</span></div>
       </section>
 
