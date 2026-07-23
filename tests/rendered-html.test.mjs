@@ -43,7 +43,7 @@ test("publishes the essential navigation and landmarks", async () => {
   const response = await render();
   const html = await response.text();
 
-  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/platform/"]) {
+  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/quantum-hub/"]) {
     assert.match(html, new RegExp(`href=["']${anchor}["']`, "i"));
   }
 
@@ -57,7 +57,7 @@ test("server-renders every source-backed route", async () => {
     ["/thesis", /The Q Factor/, /Strategic focus/],
     ["/companies", /Company directory/, /Qedma/],
     ["/founders", /How qFund evaluates/, /Value creation/],
-    ["/platform", /qFund ×/, /Deal flow activity/],
+    ["/quantum-hub", /qFund ×/, /Deal flow activity/],
   ];
 
   for (const [pathname, heading, proof] of expectations) {

@@ -13,7 +13,7 @@ const routes = [
   ["Thesis", "/thesis/", "thesis"],
   ["Companies", "/companies/", "companies"],
   ["Founders", "/founders/", "founders"],
-  ["Platform", "/platform/", "platform"],
+  ["Platform", "/quantum-hub/", "platform"],
 ] as const;
 
 export default function InnerPageShell({ active, children }: InnerPageShellProps) {

@@ -18,7 +18,7 @@ const routes = [
   ["Thesis", "/thesis/"],
   ["Companies", "/companies/"],
   ["Founders", "/founders/"],
-  ["Platform", "/platform/"],
+  ["Platform", "/quantum-hub/"],
 ] as const;
 
 export default function QFundExperience() {
@@ -263,7 +263,7 @@ export default function QFundExperience() {
             <p>Founders, technology, market, and defensibility.</p>
             <i className="gateway-arrow" aria-hidden="true">↗</i>
           </Link>
-          <Link className="gateway-card gateway-notes reveal" href="/platform/" data-tilt>
+          <Link className="gateway-card gateway-notes reveal" href="/quantum-hub/" data-tilt>
             <div className="gateway-visual gateway-wave" aria-hidden="true">
               {Array.from({ length: 15 }, (_, index) => <b key={index} style={{ "--bar-index": index } as CSSProperties} />)}
               <i className="gateway-core">04</i>
@@ -441,7 +441,7 @@ export default function QFundExperience() {
           <p>
             qFund and Quantum Hub operate side by side to enhance capital with strategic access to partners and proof-of-concept implementation.
           </p>
-          <Link className="text-link route-link" href="/platform/">Explore the platform <span>↗</span></Link>
+          <Link className="text-link route-link" href="/quantum-hub/">Explore the platform <span>↗</span></Link>
         </div>
         <div className="method-steps">
           {valueCreation.slice(0, 3).map((item) => (

@@ -20,7 +20,7 @@ test("exports a Cloudflare Pages entry document", async () => {
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /href="\/founders\/"/);
-  assert.match(html, /href="\/platform\/"/);
+  assert.match(html, /href="\/quantum-hub\/"/);
   assert.match(html, /info@qfund\.io/);
   assert.match(html, /og\.png/);
 });
@@ -55,7 +55,7 @@ test("exports the source-backed editorial routes", async () => {
     readFile(new URL("thesis/index.html", outputUrl), "utf8"),
     readFile(new URL("companies/index.html", outputUrl), "utf8"),
     readFile(new URL("founders/index.html", outputUrl), "utf8"),
-    readFile(new URL("platform/index.html", outputUrl), "utf8"),
+    readFile(new URL("quantum-hub/index.html", outputUrl), "utf8"),
   ]);
 
   assert.match(thesis, /<title>Investment Thesis \| qFund<\/title>/i);
@@ -105,7 +105,7 @@ test("links every team portrait and portfolio logo to its verified destination",
 
 test("does not publish the superseded provisional narrative", async () => {
   const pages = await Promise.all(
-    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "platform/index.html"]
+    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "quantum-hub/index.html"]
       .map((path) => readFile(new URL(path, outputUrl), "utf8")),
   );
   const rendered = pages.join("\n");
