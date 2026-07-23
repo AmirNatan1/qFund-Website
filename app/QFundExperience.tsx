@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent as ReactMouseEvent,
+} from "react";
 import BrandMark from "./components/BrandMark";
 import {
   evaluationPillars,
@@ -20,6 +26,38 @@ const routes = [
   ["Founders", "/founders/"],
   ["Platform", "/quantum-hub/"],
 ] as const;
+
+const gatewayStages = [
+  { cue: "IDENTIFY", name: "discovery" },
+  { cue: "VALIDATE", name: "validation" },
+  { cue: "BUILD", name: "trajectory" },
+  { cue: "SCALE", name: "network" },
+] as const;
+
+function GatewaySignal({ stage }: { stage: 0 | 1 | 2 | 3 }) {
+  const signal = gatewayStages[stage];
+
+  return (
+    <div
+      className={`gateway-visual gateway-system gateway-system-${signal.name}`}
+      style={{ "--gateway-stage": stage } as CSSProperties}
+      aria-hidden="true"
+    >
+      <span className="gateway-system-grid" />
+      <span className="gateway-system-beam gateway-beam-primary" />
+      <span className="gateway-system-beam gateway-beam-secondary" />
+      <span className="gateway-system-track" />
+      <span className="gateway-system-pulse" />
+      {Array.from({ length: 4 }, (_, index) => (
+        <b className={`gateway-system-node gateway-system-node-${index + 1}`} key={index} />
+      ))}
+      <span className="gateway-system-halo gateway-halo-one" />
+      <span className="gateway-system-halo gateway-halo-two" />
+      <i className="gateway-core">0{stage + 1}</i>
+      <small>{signal.cue}</small>
+    </div>
+  );
+}
 
 export default function QFundExperience() {
   const [ready, setReady] = useState(false);
@@ -160,6 +198,28 @@ export default function QFundExperience() {
   const selectedCompany =
     visibleCompanies.find(({ index }) => index === activeCompany) ?? visibleCompanies[0];
 
+  const returnToTop = (event: ReactMouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    const origin = window.scrollY;
+    const startedAt = window.performance.now();
+    const duration = 650;
+
+    const move = (time: number) => {
+      const progress = Math.min(1, (time - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      window.scrollTo(0, Math.round(origin * (1 - eased)));
+      if (progress < 1) window.requestAnimationFrame(move);
+    };
+
+    window.requestAnimationFrame(move);
+  };
+
   return (
     <main className={ready ? "site is-ready" : "site is-loading"}>
       <a className="skip-link" href="#main-content">Skip to content</a>
@@ -228,9 +288,6 @@ export default function QFundExperience() {
             <p>
               qFund is an early-stage venture capital firm backing Deep Tech founders.
             </p>
-            <a className="round-link" href="#explore" aria-label="Explore qFund" data-magnetic>
-              <span>Explore</span><span aria-hidden="true">↓</span>
-            </a>
           </div>
         </div>
         <div className="hero-status" aria-hidden="true">
@@ -257,34 +314,25 @@ export default function QFundExperience() {
         </div>
         <div className="gateway-grid">
           <Link className="gateway-card gateway-thesis reveal" href="/thesis/" data-tilt>
-            <div className="gateway-visual" aria-hidden="true">
-              <span className="gateway-orbit orbit-outer" /><span className="gateway-orbit orbit-inner" /><i className="gateway-core">01</i>
-            </div>
+            <GatewaySignal stage={0} />
             <span>Investment thesis</span><h3>What qFund looks for.</h3>
             <p>Founders, breakthrough Deep Tech, and massive high-conviction markets.</p>
             <i className="gateway-arrow" aria-hidden="true">↗</i>
           </Link>
           <Link className="gateway-card gateway-companies reveal" href="/companies/" data-tilt>
-            <div className="gateway-visual" aria-hidden="true">
-              <span className="gateway-scan" /><span className="gateway-grid-field" /><i className="gateway-core">02</i>
-            </div>
+            <GatewaySignal stage={1} />
             <span>Portfolio</span><h3>Real Deep Tech companies.</h3>
             <p>Thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.</p>
             <i className="gateway-arrow" aria-hidden="true">↗</i>
           </Link>
           <Link className="gateway-card gateway-founders reveal" href="/founders/" data-tilt>
-            <div className="gateway-visual" aria-hidden="true">
-              <span className="gateway-path" /><b className="path-node pn-one" /><b className="path-node pn-two" /><b className="path-node pn-three" /><i className="gateway-core">03</i>
-            </div>
+            <GatewaySignal stage={2} />
             <span>For founders</span><h3>How qFund evaluates Deep Tech.</h3>
             <p>Founders, technology, market, and defensibility.</p>
             <i className="gateway-arrow" aria-hidden="true">↗</i>
           </Link>
           <Link className="gateway-card gateway-notes reveal" href="/quantum-hub/" data-tilt>
-            <div className="gateway-visual gateway-wave" aria-hidden="true">
-              {Array.from({ length: 15 }, (_, index) => <b key={index} style={{ "--bar-index": index } as CSSProperties} />)}
-              <i className="gateway-core">04</i>
-            </div>
+            <GatewaySignal stage={3} />
             <span>Integrated growth platform</span><h3>qFund × Quantum Hub.</h3>
             <p>Investment, validation, partner access, and proof-of-concept implementation.</p>
             <i className="gateway-arrow" aria-hidden="true">↗</i>
@@ -615,6 +663,10 @@ export default function QFundExperience() {
         <footer>
           <BrandMark />
           <div><span>Arik Einstein 3 · Herzliya, Israel</span><a href="mailto:info@qfund.io">info@qfund.io</a></div>
+          <a className="footer-to-top" href="#top" aria-label="Back to the top" onClick={returnToTop} data-magnetic>
+            <span aria-hidden="true">↑</span>
+            <small>Back to top</small>
+          </a>
           <div><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} qFund</span></div>
         </footer>
       </section>
