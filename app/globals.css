@@ -3874,11 +3874,11 @@ h3 em,
   }
 
   .corridor-type h2 span:first-child {
-    transform: translateX(calc(var(--corridor-shift) * -3.5vw));
+    transform: translateX(calc(var(--corridor-shift) * -1.5vw));
   }
 
   .corridor-type h2 span:last-child {
-    transform: translateX(calc(var(--corridor-shift) * 3.5vw));
+    transform: translateX(calc(var(--corridor-shift) * 1.5vw));
   }
 }
 
@@ -4310,6 +4310,11 @@ h3 em,
 .contact-transmission strong {
   display: grid;
   place-items: center;
+}
+
+.corridor-core {
+  color: var(--signal);
+  background: #07100e;
 }
 
 .corridor-core > span,
