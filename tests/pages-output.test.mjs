@@ -63,6 +63,7 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(thesis, /<title>Investment Thesis \| qFund<\/title>/i);
   assert.match(thesis, /Investment criteria/);
   assert.match(thesis, /Strategic focus/);
+  assert.equal((thesis.match(/class="full-test reveal"/g) ?? []).length, 3);
   assert.match(companies, /<title>Portfolio Companies \| qFund<\/title>/i);
   assert.match(companies, /Company directory/);
   assert.match(companies, /Qedma/);
@@ -70,6 +71,7 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(founders, /<title>For Founders \| qFund<\/title>/i);
   assert.match(founders, /How qFund evaluates/);
   assert.match(founders, /Value creation/);
+  assert.equal((founders.match(/class="conversation-layer reveal"/g) ?? []).length, 3);
   assert.match(platform, /<title>qFund × Quantum Hub \| qFund<\/title>/i);
   assert.match(platform, /Deal flow activity/);
   assert.match(platform, /3,250/);

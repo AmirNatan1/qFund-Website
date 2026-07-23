@@ -18,7 +18,11 @@ export default function ThesisPage() {
         <div className="inner-hero-copy reveal is-visible">
           <Link className="back-link" href="/">← qFund</Link>
           <p className="eyebrow">INVESTMENT THESIS</p>
-          <h1>Investing in top-tier<br /><em>Deep Tech founders.</em></h1>
+          <h1>
+            <span>Investing in</span>
+            <span>top-tier <em>Deep Tech</em></span>
+            <span>founders.</span>
+          </h1>
           <p className="inner-hero-deck">
             qFund invests in the proven experts behind 10× industry transformations.
           </p>

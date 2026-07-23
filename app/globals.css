@@ -2061,7 +2061,7 @@ body:has(a:hover, button:hover) .cursor span {
 
 .full-test-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   width: min(100%, 1780px);
   margin: 0 auto;
@@ -2493,7 +2493,7 @@ body:has(a:hover, button:hover) .cursor span {
 .vectors-heading h2,
 .prep-heading h2 { margin: 0; font-size: clamp(3.2rem, 5.8vw, 7.2rem); font-weight: 425; letter-spacing: -0.07em; line-height: 0.92; }
 
-.conversation-layers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: clamp(5rem, 9vw, 10rem); border: 1px solid var(--line-light); background: var(--line-light); }
+.conversation-layers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: clamp(5rem, 9vw, 10rem); border: 1px solid var(--line-light); background: var(--line-light); }
 .conversation-layer { position: relative; min-height: 30rem; padding: 2rem; overflow: hidden; background: var(--paper); transition-delay: calc(var(--layer-index) * 90ms); }
 .conversation-layer > span { color: #177965; font-family: var(--font-geist-mono, "SFMono-Regular"), Consolas, monospace; font-size: 0.6rem; letter-spacing: 0.1em; }
 .conversation-layer h3 { margin: 8rem 0 1.2rem; font-size: clamp(1.6rem, 2.3vw, 2.5rem); font-weight: 470; letter-spacing: -0.05em; line-height: 1; }
@@ -4542,5 +4542,107 @@ h3 em,
 
   .portfolio-stage-content {
     animation: none;
+  }
+}
+
+/* Inner-page fit corrections */
+
+.thesis-hero .inner-hero-copy {
+  width: min(58vw, 55rem);
+  margin-left: 4vw;
+}
+
+.thesis-hero .inner-hero-copy h1 {
+  max-width: none;
+  font-size: clamp(4rem, 6.55vw, 8.2rem);
+  letter-spacing: -0.052em;
+  line-height: 0.96;
+}
+
+.thesis-hero .inner-hero-copy h1 > span {
+  display: block;
+}
+
+.thesis-hero-system,
+.thesis-hero-system.reveal,
+.thesis-hero-system.reveal.is-visible {
+  top: 50%;
+  right: 3.2vw;
+  width: min(35vw, 35rem);
+  transform: translateY(-42%);
+}
+
+.thesis-hero-system strong {
+  font-size: clamp(1.75rem, 3.25vw, 4rem);
+  font-weight: 520;
+  letter-spacing: 0.035em;
+  line-height: 0.9;
+}
+
+.thesis-hero-system small {
+  bottom: 14%;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 1180px) {
+  .thesis-hero .inner-hero-copy {
+    width: min(64vw, 45rem);
+    margin-left: 0;
+  }
+
+  .thesis-hero .inner-hero-copy h1 {
+    font-size: clamp(3.8rem, 6.35vw, 6rem);
+  }
+
+  .thesis-hero-system,
+  .thesis-hero-system.reveal,
+  .thesis-hero-system.reveal.is-visible {
+    right: 2vw;
+    width: min(39vw, 29rem);
+    opacity: 0.38;
+  }
+}
+
+@media (max-width: 720px) {
+  .thesis-hero {
+    min-height: 100svh;
+    padding-bottom: 4.5rem;
+  }
+
+  .thesis-hero .inner-hero-copy {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .thesis-hero .inner-hero-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.45rem, 12.4vw, 4.5rem);
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .thesis-hero .inner-hero-copy h1 > span:nth-child(2) {
+    font-size: 0.82em;
+  }
+
+  .thesis-hero-system,
+  .thesis-hero-system.reveal,
+  .thesis-hero-system.reveal.is-visible {
+    top: auto;
+    right: 1rem;
+    bottom: 3.5rem;
+    width: min(72vw, 22rem);
+    opacity: 0.16;
+    transform: none;
+  }
+
+  .thesis-hero-system strong {
+    font-size: clamp(1rem, 5vw, 1.4rem);
+  }
+
+  .thesis-hero-system small {
+    display: none;
   }
 }
