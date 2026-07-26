@@ -46,7 +46,13 @@ function FounderPortrait({ founder, index }: { founder: PortfolioFounder; index:
     <>
       <span className="portrait-grid" aria-hidden="true" />
       {founder.headshot ? (
-        <Image src={founder.headshot} alt={founder.name} width={460} height={460} />
+        <Image
+          src={founder.headshot}
+          alt={`${founder.name}, ${founder.role} at ${founder.company}`}
+          width={460}
+          height={460}
+          sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
+        />
       ) : (
         <strong aria-hidden="true">{initials(founder.name)}</strong>
       )}
