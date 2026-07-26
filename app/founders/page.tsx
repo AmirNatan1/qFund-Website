@@ -121,7 +121,7 @@ export default function FoundersPage() {
                 <p className="eyebrow dark">PORTFOLIO COMPANY</p>
                 <h2 id={`founders-${company.toLowerCase().replace(/\s+/g, "-")}`}>{company}</h2>
               </div>
-              <div className="team-grid">
+              <div className="team-grid founder-roster-grid" data-founder-count={founders.length}>
                 {founders.map((founder) => {
                   const index = portfolioFounders.indexOf(founder);
                   return (

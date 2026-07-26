@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import BackToTop from "./BackToTop";
 import BrandMark from "./BrandMark";
 
 type InnerPageShellProps = {
@@ -66,7 +67,7 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
   }, []);
 
   return (
-    <main className="inner-site is-ready">
+    <main className="inner-site is-ready" id="top">
       <a className="skip-link" href="#page-content">Skip to content</a>
       <div className="cursor" ref={cursorRef} aria-hidden="true"><span /></div>
       <div className="scroll-progress" aria-hidden="true" />
@@ -109,6 +110,7 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
       <footer className="inner-footer">
         <Link href="/" aria-label="qFund home"><BrandMark /></Link>
         <p>Early-stage venture capital backing Deep Tech founders.</p>
+        <BackToTop />
         <div>
           <a href="mailto:info@qfund.io">info@qfund.io</a>
           <a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a>

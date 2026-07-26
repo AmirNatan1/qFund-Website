@@ -7,9 +7,9 @@ import {
   useRef,
   useState,
   type CSSProperties,
-  type MouseEvent as ReactMouseEvent,
 } from "react";
 import BrandMark from "./components/BrandMark";
+import BackToTop from "./components/BackToTop";
 import {
   evaluationPillars,
   filters,
@@ -196,36 +196,6 @@ export default function QFundExperience() {
     .filter(({ company }) => filter === "all" || filter === company.group);
   const selectedCompany =
     visibleCompanies.find(({ index }) => index === activeCompany) ?? visibleCompanies[0];
-
-  const returnToTop = (event: ReactMouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      window.scrollTo(0, 0);
-      return;
-    }
-
-    const origin = window.scrollY;
-    const startedAt = window.performance.now();
-    const duration = 650;
-    const root = document.documentElement;
-    const previousScrollBehavior = root.style.scrollBehavior;
-
-    root.style.scrollBehavior = "auto";
-
-    const move = (time: number) => {
-      const progress = Math.min(1, (time - startedAt) / duration);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      window.scrollTo(0, Math.round(origin * (1 - eased)));
-      if (progress < 1) {
-        window.requestAnimationFrame(move);
-      } else {
-        root.style.scrollBehavior = previousScrollBehavior;
-      }
-    };
-
-    window.requestAnimationFrame(move);
-  };
 
   return (
     <main className={ready ? "site is-ready" : "site is-loading"}>
@@ -659,10 +629,7 @@ export default function QFundExperience() {
         <footer>
           <BrandMark />
           <div><span>Arik Einstein 3 · Herzliya, Israel</span><a href="mailto:info@qfund.io">info@qfund.io</a></div>
-          <a className="footer-to-top" href="#top" aria-label="Back to the top" onClick={returnToTop} data-magnetic>
-            <span aria-hidden="true">↑</span>
-            <small>Back to top</small>
-          </a>
+          <BackToTop />
           <div><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} qFund</span></div>
         </footer>
       </section>

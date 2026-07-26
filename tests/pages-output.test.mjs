@@ -88,6 +88,31 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(contact, /Arik Einstein 3/);
 });
 
+test("publishes one back-to-top control on every page", async () => {
+  const pages = await Promise.all(
+    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "news/index.html", "contact/index.html"]
+      .map((path) => readFile(new URL(path, outputUrl), "utf8")),
+  );
+
+  for (const html of pages) {
+    assert.equal(
+      (html.match(/aria-label="Back to the top"/g) ?? []).length,
+      1,
+      "each page should render exactly one back-to-top control",
+    );
+  }
+});
+
+test("marks founder rows with their actual profile count", async () => {
+  const founders = await readFile(new URL("founders/index.html", outputUrl), "utf8");
+  const rosterRows = founders.match(/class="team-grid founder-roster-grid" data-founder-count="\d+"/g) ?? [];
+
+  assert.equal(rosterRows.length, 10);
+  assert.match(founders, /data-founder-count="1"/);
+  assert.match(founders, /data-founder-count="2"/);
+  assert.match(founders, /data-founder-count="3"/);
+});
+
 test("links every team portrait and portfolio logo to its verified destination", async () => {
   const [home, companies] = await Promise.all([
     readHome(),
