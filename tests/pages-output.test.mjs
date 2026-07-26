@@ -13,14 +13,14 @@ async function readHome() {
 test("exports a Cloudflare Pages entry document", async () => {
   const html = await readHome();
 
-  assert.match(html, /<title>qFund \| Funding the Deep Future of Technology<\/title>/i);
-  assert.match(html, /Funding the/);
-  assert.match(html, /deep future/);
+  assert.match(html, /<title>qFund \| Early-Stage Deep Tech Venture Capital<\/title>/i);
+  assert.match(html, /Backing/);
+  assert.match(html, /Israeli-related/);
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /href="\/founders\/"/);
-  assert.match(html, /href="\/quantum-hub\/"/);
+  assert.match(html, /href="\/news\/"/);
   assert.match(html, /href="\/contact\/"/);
   assert.match(html, /info@qfund\.io/);
   assert.match(html, /og-motion\.png/);
@@ -55,17 +55,19 @@ test("supports the common Cloudflare Pages output-directory presets", async () =
 });
 
 test("exports the source-backed editorial routes", async () => {
-  const [thesis, companies, founders, platform, contact] = await Promise.all([
+  const [thesis, companies, founders, news, contact] = await Promise.all([
     readFile(new URL("thesis/index.html", outputUrl), "utf8"),
     readFile(new URL("companies/index.html", outputUrl), "utf8"),
     readFile(new URL("founders/index.html", outputUrl), "utf8"),
-    readFile(new URL("quantum-hub/index.html", outputUrl), "utf8"),
+    readFile(new URL("news/index.html", outputUrl), "utf8"),
     readFile(new URL("contact/index.html", outputUrl), "utf8"),
   ]);
 
   assert.match(thesis, /<title>Investment Thesis \| qFund<\/title>/i);
   assert.match(thesis, /Investment criteria/);
   assert.match(thesis, /Strategic focus/);
+  assert.match(thesis, /The world is/);
+  assert.match(thesis, /Technical validation/);
   assert.match(thesis, /class="thesis-conviction-field reveal is-visible"/);
   assert.doesNotMatch(thesis, /class="thesis-hero-system/);
   assert.equal((thesis.match(/class="full-test reveal"/g) ?? []).length, 3);
@@ -73,13 +75,13 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(companies, /Company directory/);
   assert.match(companies, /Qedma/);
   assert.match(companies, /https:\/\/www\.qedma\.com\//);
-  assert.match(founders, /<title>For Founders \| qFund<\/title>/i);
-  assert.match(founders, /How qFund evaluates/);
-  assert.match(founders, /Value creation/);
-  assert.equal((founders.match(/class="conversation-layer reveal"/g) ?? []).length, 3);
-  assert.match(platform, /<title>qFund × Quantum Hub \| qFund<\/title>/i);
-  assert.match(platform, /Deal flow activity/);
-  assert.match(platform, /3,250/);
+  assert.match(founders, /<title>Portfolio Founders \| qFund<\/title>/i);
+  assert.match(founders, /The people behind/);
+  assert.match(founders, /Itzik Daniel Michaeli/);
+  assert.equal((founders.match(/class="team-card reveal"/g) ?? []).length, 23);
+  assert.match(news, /<title>News and Activity \| qFund<\/title>/i);
+  assert.match(news, /qFund in New York/);
+  assert.match(news, /May 2026/i);
   assert.match(contact, /<title>Contact qFund \| Deep Tech Venture Capital<\/title>/i);
   assert.match(contact, /Tell us what/);
   assert.match(contact, /info@qfund\.io/);
@@ -146,7 +148,7 @@ test("serves portfolio and team images directly in the static export", async () 
 
 test("does not publish the superseded provisional narrative", async () => {
   const pages = await Promise.all(
-    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "quantum-hub/index.html", "contact/index.html"]
+    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "news/index.html", "contact/index.html"]
       .map((path) => readFile(new URL(path, outputUrl), "utf8")),
   );
   const rendered = pages.join("\n");

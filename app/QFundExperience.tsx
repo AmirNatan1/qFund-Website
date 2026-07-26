@@ -14,28 +14,26 @@ import {
   evaluationPillars,
   filters,
   focusAreas,
-  investmentCriteria,
   portfolio,
   team,
-  valueCreation,
 } from "./siteData";
 import HeroWaveField from "./components/HeroWaveField";
+import { formatNewsDate, newsItems } from "./newsData";
 
 const routes = [
   ["Thesis", "/thesis/"],
   ["Companies", "/companies/"],
   ["Founders", "/founders/"],
-  ["Platform", "/quantum-hub/"],
+  ["News", "/news/"],
 ] as const;
 
 const gatewayStages = [
   { cue: "IDENTIFY", name: "discovery" },
   { cue: "VALIDATE", name: "validation" },
   { cue: "BUILD", name: "trajectory" },
-  { cue: "SCALE", name: "network" },
 ] as const;
 
-function GatewaySignal({ stage }: { stage: 0 | 1 | 2 | 3 }) {
+function GatewaySignal({ stage }: { stage: 0 | 1 | 2 }) {
   const signal = gatewayStages[stage];
 
   return (
@@ -237,7 +235,7 @@ export default function QFundExperience() {
         <div className="preloader-grid" />
         <div className="preloader-inner">
           <BrandMark />
-          <p>Funding the deep future of technology</p>
+          <p>Backing Deep Tech founders</p>
           <div className="preloader-track"><span style={{ width: `${loadValue}%` }} /></div>
           <span className="preloader-count">{String(loadValue).padStart(3, "0")}</span>
         </div>
@@ -291,13 +289,13 @@ export default function QFundExperience() {
         <div className="hero-content" id="main-content">
           <p className="eyebrow hero-eyebrow"><span /> EARLY-STAGE VENTURE CAPITAL · DEEP TECH</p>
           <h1 id="hero-title" className="hero-title">
-            <span className="line"><span>Funding the</span></span>
-            <span className="line accent-line"><span>deep future</span></span>
-            <span className="line"><span>of technology.</span></span>
+            <span className="line"><span>Backing</span></span>
+            <span className="line accent-line"><span>Israeli-related</span></span>
+            <span className="line"><span>Deep Tech founders.</span></span>
           </h1>
           <div className="hero-bottom">
             <p>
-              qFund is an early-stage venture capital firm backing Deep Tech founders.
+              We are an early-stage venture capital firm backing Deep Tech founders.
             </p>
           </div>
         </div>
@@ -338,14 +336,8 @@ export default function QFundExperience() {
           </Link>
           <Link className="gateway-card gateway-founders reveal" href="/founders/" data-tilt>
             <GatewaySignal stage={2} />
-            <span>For founders</span><h3>How qFund evaluates Deep Tech.</h3>
-            <p>Founders, technology, market, and defensibility.</p>
-            <i className="gateway-arrow" aria-hidden="true">↗</i>
-          </Link>
-          <Link className="gateway-card gateway-notes reveal" href="/quantum-hub/" data-tilt>
-            <GatewaySignal stage={3} />
-            <span>Integrated growth platform</span><h3>qFund × Quantum Hub.</h3>
-            <p>Investment, validation, partner access, and proof-of-concept implementation.</p>
+            <span>Portfolio founders</span><h3>The people behind the portfolio.</h3>
+            <p>Academic experts, alumni of elite technological units, and industry leaders.</p>
             <i className="gateway-arrow" aria-hidden="true">↗</i>
           </Link>
         </div>
@@ -363,13 +355,10 @@ export default function QFundExperience() {
         <div className="thesis-grid">
           <div className="thesis-copy reveal">
             <p>
-              qFund invests in Israeli-related startups developing core infrastructure, hardware, and enabling technologies across defense and energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
+              We invest in Israeli-related startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
             </p>
             <p>
-              Its approach combines financial investment with technical validation, commercialization support, and strategic access, enabling founders to develop their go-to-market journey and transform advanced research into scalable companies.
-            </p>
-            <p>
-              Through its integration with Israel’s Deep Tech ecosystem, qFund identifies and builds technologies with strategic and economic impact.
+              Our approach combines financial investment with technical validation, commercialization support, and strategic access.
             </p>
             <Link className="text-link route-link" href="/thesis/">Read the investment thesis <span>↗</span></Link>
           </div>
@@ -388,9 +377,9 @@ export default function QFundExperience() {
             <p className="eyebrow dark">FOUR-PILLAR METHOD</p>
             <h2>Separating science fiction<br /><em>from real-world infrastructure.</em></h2>
             <p>
-              qFund evaluates founders, technology, market, and defensibility.
+              We evaluate founders, technology, market, and defensibility.
             </p>
-            <Link className="text-link route-link" href="/founders/">Evaluation and value creation <span>↗</span></Link>
+            <Link className="text-link route-link" href="/thesis/#evaluation">Evaluation and value creation <span>↗</span></Link>
           </div>
 
           <div className="underwrite-console reveal">
@@ -460,7 +449,7 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="signal-corridor" data-signal-corridor aria-label="From advanced research to scalable companies">
+      <section className="signal-corridor" data-signal-corridor aria-label="Our investment approach">
         <div className="signal-corridor-stage">
           <div className="corridor-grid" aria-hidden="true" />
           <div className="corridor-aperture" aria-hidden="true">
@@ -474,8 +463,8 @@ export default function QFundExperience() {
           <div className="corridor-type">
             <p className="eyebrow">CORE INFRASTRUCTURE · HARDWARE · ENABLING TECHNOLOGIES</p>
             <h2>
-              <span>From advanced research</span>
-              <span>to scalable companies.</span>
+              <span>Financial investment.</span>
+              <span>Technical validation.</span>
             </h2>
           </div>
           <div className="corridor-signals">
@@ -497,7 +486,7 @@ export default function QFundExperience() {
             <Link className="text-link route-link" href="/companies/">Open the complete portfolio <span>↗</span></Link>
           </div>
           <p>
-            qFund’s named portfolio spans quantum computing, defense, satellite communications, thermal management, cybersecurity, sensing, RF, and electro-optics.
+            Our portfolio spans quantum computing, defense, satellite communications, thermal management, cybersecurity, sensing, RF, and electro-optics.
           </p>
         </div>
         <div className="portfolio-filters reveal" role="group" aria-label="Filter portfolio companies">
@@ -578,10 +567,11 @@ export default function QFundExperience() {
                 <div className="portfolio-stage-copy">
                   <div>
                     <span>{selectedCompany.company.category}</span>
-                    <span>{selectedCompany.company.stage} · Founded {selectedCompany.company.founded}</span>
+                     <span>PORTFOLIO COMPANY</span>
                   </div>
                   <h3>{selectedCompany.company.name}</h3>
-                  <p>{selectedCompany.company.description}</p>
+                   <p>{selectedCompany.company.description}</p>
+                   {selectedCompany.company.validation ? <p>{selectedCompany.company.validation}</p> : null}
                   <a href={selectedCompany.company.website} target="_blank" rel="noreferrer">
                     Visit company <span aria-hidden="true">↗</span>
                   </a>
@@ -595,27 +585,8 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="method section-light" id="platform">
-        <div className="section-index reveal"><span>05</span><p>qFund × Quantum Hub</p></div>
-        <div className="method-intro reveal">
-          <p className="eyebrow dark">AN INTEGRATED GROWTH PLATFORM</p>
-          <h2>Investment and validation.<br />One platform.</h2>
-          <p>
-            qFund and Quantum Hub operate side by side to enhance capital with strategic access to partners and proof-of-concept implementation.
-          </p>
-          <Link className="text-link route-link" href="/quantum-hub/">Explore the platform <span>↗</span></Link>
-        </div>
-        <div className="method-steps">
-          {valueCreation.slice(0, 3).map((item) => (
-            <article className="method-step reveal" key={item.code}>
-              <span>{item.code}</span><h3>{item.title}</h3><p>{item.text}</p><i aria-hidden="true">+</i>
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section className="team section-sage" id="team">
-        <div className="section-index reveal"><span>06</span><p>Team</p></div>
+        <div className="section-index reveal"><span>05</span><p>Team</p></div>
         <div className="team-heading reveal">
           <h2>qFund<br />investment team.</h2>
           <p>Managing Partners Liav Ben Rubi and Dana Taigman Koren, with Principal Liron Ben Zaken.</p>
@@ -644,19 +615,33 @@ export default function QFundExperience() {
       </section>
 
       <section className="signals section-dark" id="investment-criteria">
-        <div className="section-index reveal"><span>07</span><p>Investment thesis</p></div>
+        <div className="section-index reveal"><span>06</span><p>Investment thesis</p></div>
         <div className="signals-heading reveal">
           <div>
             <h2>What qFund<br />looks for.</h2>
             <Link className="text-link route-link inverted" href="/thesis/">Read the thesis <span>↗</span></Link>
           </div>
-          <p>Investing in top-tier founders, the proven experts behind 10× industry transformations.</p>
+          <p>Founders, Deep Tech, and market — three requirements, one investment discipline.</p>
         </div>
-        <div className="signal-list">
-          {investmentCriteria.map((pillar) => (
-            <Link className="signal-row reveal" href="/thesis/#investment-criteria" key={pillar.code}>
-              <span>{pillar.code}</span><h3>{pillar.title}</h3><small>{pillar.text}</small><i aria-hidden="true">↗</i>
-            </Link>
+      </section>
+
+      <section className="portfolio section-sage" id="news">
+        <div className="section-index reveal"><span>07</span><p>News and activity</p></div>
+        <div className="portfolio-heading reveal">
+          <div>
+            <h2>qFund<br />in motion.</h2>
+            <Link className="text-link route-link" href="/news/">View all activity <span>↗</span></Link>
+          </div>
+          <p>Meetings, ecosystem activity, and venture delegations supporting Israeli-related Deep Tech founders.</p>
+        </div>
+        <div className="pattern-grid three-up">
+          {newsItems.slice(0, 3).map((item, index) => (
+            <article className="pattern-card reveal" key={`${item.date}-${item.title}`}>
+              <span>{String(index + 1).padStart(2, "0")} · {item.tag.toUpperCase()} · {formatNewsDate(item.date).toUpperCase()}</span>
+              <h3>{item.title}</h3>
+              <p>{item.blurb}</p>
+              <i aria-hidden="true" />
+            </article>
           ))}
         </div>
       </section>

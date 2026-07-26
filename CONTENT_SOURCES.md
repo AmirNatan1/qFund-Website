@@ -2,7 +2,7 @@
 
 Last reviewed: 23 July 2026
 
-This release replaces the previous provisional website copy. Visible investment, team, portfolio, and platform claims are grounded in the three qFund-supplied decks below or in the linked public sources. Navigation labels and interface instructions are functional website language.
+This release replaces the previous provisional website copy. Visible investment, team, portfolio, founder, and activity claims are grounded in the client-approved content brief and the sources it records. Navigation labels and interface instructions are functional website language.
 
 ## Source priority
 
@@ -22,8 +22,6 @@ This release replaces the previous provisional website copy. Visible investment,
 | Liav Ben Rubi and Dana Taigman Koren biographies | Overview deck, p. 11 |
 | Team titles, including Liron Ben Zaken as Principal | [qFund public website](https://qfund.io/); [qFund public LinkedIn](https://www.linkedin.com/company/q-fund) |
 | Contact email and Herzliya office address | Overview deck, p. 48; [qFund public website](https://qfund.io/) |
-| qFund × Quantum Hub integrated growth platform | Japan deck, pp. 8–9; overview deck, pp. 12–14 |
-| Three-year deal-flow funnel | Japan deck, p. 10 |
 | Investment criteria: founders, Deep Tech, and market | Japan deck, p. 11; overview deck, pp. 18–23 |
 | qFund II strategic focus areas | Japan deck, p. 12 |
 | Four-pillar Deep Tech evaluation method | Overview deck, p. 45 |

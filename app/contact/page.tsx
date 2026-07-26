@@ -1,14 +1,26 @@
-import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import InnerPageShell from "../components/InnerPageShell";
-import { investmentCriteria } from "../siteData";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact qFund | Deep Tech Venture Capital",
   description:
-    "Contact qFund, an early-stage venture capital firm backing Israeli-related Deep Tech founders.",
+    "Contact our early-stage venture capital team at Arik Einstein 3, Herzliya, Israel, about Israeli-related Deep Tech companies from Seed to Series A.",
+  alternates: { canonical: "/contact/" },
+  openGraph: {
+    title: "Contact qFund | Deep Tech Venture Capital",
+    description: "Contact our early-stage venture capital team at Arik Einstein 3, Herzliya, Israel, about Israeli-related Deep Tech companies from Seed to Series A.",
+    url: "/contact/",
+    type: "website",
+    images: ["/og.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact qFund | Deep Tech Venture Capital",
+    description: "Contact our early-stage venture capital team at Arik Einstein 3, Herzliya, Israel, about Israeli-related Deep Tech companies from Seed to Series A.",
+    images: ["/og.png"],
+  },
 };
 
 export default function ContactPage() {
@@ -31,17 +43,17 @@ export default function ContactPage() {
 
         <div className="contact-route-copy reveal is-visible">
           <Link className="back-link" href="/">← qFund</Link>
-          <p className="eyebrow">CONTACT QFUND</p>
+          <p className="eyebrow">CONTACT qFund</p>
           <h1>Begin the<br /><em>conversation.</em></h1>
           <p>
-            qFund backs Israeli-related startups developing core infrastructure,
+            We back Israeli-related startups developing core infrastructure,
             hardware, and enabling technologies.
           </p>
         </div>
 
         <div className="contact-route-meta">
           <span>ARIK EINSTEIN 3 · HERZLIYA, ISRAEL</span>
-          <a href="mailto:info@qfund.io">INFO@QFUND.IO ↗</a>
+          <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
         </div>
       </section>
 
@@ -66,27 +78,6 @@ export default function ContactPage() {
               <p>Arik Einstein 3<br />Herzliya, Israel</p>
             </div>
           </aside>
-        </div>
-      </section>
-
-      <section className="contact-qfactor section-dark">
-        <div className="section-index reveal"><span>02</span><p>Investment criteria</p></div>
-        <div className="contact-qfactor-heading reveal">
-          <p className="eyebrow">INVESTMENT THESIS</p>
-          <h2>Founders.<br />Deep Tech.<br /><em>Market.</em></h2>
-          <Link className="text-link route-link inverted" href="/thesis/">
-            Read the investment thesis <span>↗</span>
-          </Link>
-        </div>
-        <div className="contact-qfactor-list">
-          {investmentCriteria.map((pillar, index) => (
-            <article className="contact-qfactor-row reveal" key={pillar.code}>
-              <span>{pillar.code}</span>
-              <h3>{pillar.title}</h3>
-              <p>{pillar.text}</p>
-              <i style={{ "--contact-index": index } as CSSProperties} aria-hidden="true" />
-            </article>
-          ))}
         </div>
       </section>
     </InnerPageShell>

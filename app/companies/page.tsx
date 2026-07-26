@@ -6,14 +6,28 @@ import CompaniesExperience from "./CompaniesExperience";
 export const metadata: Metadata = {
   title: "Portfolio Companies | qFund",
   description:
-    "qFund portfolio companies across quantum computing, defense, satellite communications, thermal management, cybersecurity, sensing, RF, and electro-optics.",
+    "Our portfolio spans thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.",
+  alternates: { canonical: "/companies/" },
+  openGraph: {
+    title: "Portfolio Companies | qFund",
+    description: "Our portfolio spans thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.",
+    url: "/companies/",
+    type: "website",
+    images: ["/og.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Portfolio Companies | qFund",
+    description: "Our portfolio spans thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.",
+    images: ["/og.png"],
+  },
 };
 
 const portfolioProfile = [
-  ["01", "Real Deep Tech", "Hardware and hardware-enabling software form the foundation of qFund’s portfolio."],
-  ["02", "Deep Tech founders", "Academic experts, alumni of elite technological units, and industry leaders."],
-  ["03", "Critical challenges", "Thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration."],
-  ["04", "Israeli-related", "qFund invests in Israeli-related Deep Tech startups."],
+  ["01", "Portfolio composition", "Hardware and hardware-enabling software make up 90% of our portfolio."],
+  ["02", "Portfolio founders", "Our founders are academic experts, alumni of elite technological units, and industry leaders."],
+  ["03", "Critical challenges", "The portfolio spans thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration."],
+  ["04", "Named companies", "10 Israeli-related Deep Tech companies are represented in the portfolio."],
 ] as const;
 
 export default function CompaniesPage() {
@@ -44,7 +58,7 @@ export default function CompaniesPage() {
       <section className="inner-section portfolio-pattern section-sage">
         <div className="section-index reveal"><span>02</span><p>Portfolio profile</p></div>
         <div className="pattern-heading reveal">
-          <p className="eyebrow dark">QFUND I</p>
+          <p className="eyebrow dark">PORTFOLIO PROFILE</p>
           <h2>Deep Tech founders solving critical challenges.</h2>
         </div>
         <div className="pattern-grid">
@@ -54,6 +68,7 @@ export default function CompaniesPage() {
             </article>
           ))}
         </div>
+        <Link className="text-link route-link reveal" href="/founders/">Meet the people behind the portfolio <span>↗</span></Link>
       </section>
 
       <section className="inner-cta companies-inner-cta">

@@ -40,9 +40,10 @@ export default function CompaniesExperience() {
                 <small>{String(index + 1).padStart(2, "0")} · WEBSITE ↗</small>
               </a>
               <div className="directory-copy">
-                <div><span>{company.category}</span><span>FOUNDED / {company.founded} · {company.stage}</span></div>
+                <div><span>{company.category}</span><span>PORTFOLIO COMPANY</span></div>
                 <h2>{company.name}</h2>
                 <p>{company.description}</p>
+                {company.validation ? <p>{company.validation}</p> : null}
               </div>
               <a className="directory-status" href={company.website} target="_blank" rel="noreferrer">
                 <i /> COMPANY WEBSITE ↗

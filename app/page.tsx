@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import QFundExperience from "./QFundExperience";
 
 export const metadata: Metadata = {
-  title: "qFund | Funding the Deep Future of Technology",
+  title: "qFund | Early-Stage Deep Tech Venture Capital",
   description:
-    "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders.",
+    "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders developing core infrastructure, hardware, and enabling technologies.",
+  alternates: { canonical: "/" },
   keywords: [
-    "deep tech venture capital",
+    "Deep Tech venture capital",
     "Israel VC",
     "quantum computing",
     "defense technology",
@@ -14,9 +15,10 @@ export const metadata: Metadata = {
     "qFund",
   ],
   openGraph: {
-    title: "qFund | Funding the Deep Future of Technology",
+    title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "An early-stage venture capital firm backing Israeli-related Deep Tech founders.",
+      "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders developing core infrastructure, hardware, and enabling technologies.",
+    url: "/",
     type: "website",
     siteName: "qFund",
     images: [
@@ -24,19 +26,43 @@ export const metadata: Metadata = {
         url: "/og-motion.png",
         width: 1659,
         height: 948,
-        alt: "qFund — Funding the deep future of technology.",
+        alt: "qFund",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "qFund | Funding the Deep Future of Technology",
+    title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "An early-stage venture capital firm backing Israeli-related Deep Tech founders.",
+      "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders developing core infrastructure, hardware, and enabling technologies.",
     images: ["/og-motion.png"],
   },
 };
 
 export default function Home() {
-  return <QFundExperience />;
+  const organization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "qFund",
+    url: "https://qfund.io/",
+    logo: "https://qfund.io/qfund-logo.png",
+    email: "info@qfund.io",
+    sameAs: ["https://www.linkedin.com/company/q-fund"],
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Arik Einstein 3",
+      addressLocality: "Herzliya",
+      addressCountry: "IL",
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+      />
+      <QFundExperience />
+    </>
+  );
 }

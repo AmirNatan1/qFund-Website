@@ -5,7 +5,7 @@ import Link from "next/link";
 import BrandMark from "./BrandMark";
 
 type InnerPageShellProps = {
-  active: "thesis" | "companies" | "founders" | "platform" | "contact";
+  active: "thesis" | "companies" | "founders" | "news" | "contact";
   children: ReactNode;
 };
 
@@ -13,7 +13,7 @@ const routes = [
   ["Thesis", "/thesis/", "thesis"],
   ["Companies", "/companies/", "companies"],
   ["Founders", "/founders/", "founders"],
-  ["Platform", "/quantum-hub/", "platform"],
+  ["News", "/news/", "news"],
 ] as const;
 
 export default function InnerPageShell({ active, children }: InnerPageShellProps) {
@@ -100,7 +100,6 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
             </Link>
           ))}
           <Link href="/contact/" aria-current={active === "contact" ? "page" : undefined}><span>05</span>Contact</Link>
-          <Link href="/"><span>06</span>Home</Link>
         </nav>
         <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
       </div>

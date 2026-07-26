@@ -28,9 +28,9 @@ test("server-renders the qFund experience", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>qFund \| Funding the Deep Future of Technology<\/title>/i);
-  assert.match(html, /Funding the/);
-  assert.match(html, /deep future/);
+  assert.match(html, /<title>qFund \| Early-Stage Deep Tech Venture Capital<\/title>/i);
+  assert.match(html, /Backing/);
+  assert.match(html, /Israeli-related/);
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
@@ -43,7 +43,7 @@ test("publishes the essential navigation and landmarks", async () => {
   const response = await render();
   const html = await response.text();
 
-  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/quantum-hub/", "/contact/"]) {
+  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/news/", "/contact/"]) {
     assert.match(html, new RegExp(`href=["']${anchor}["']`, "i"));
   }
 
@@ -56,8 +56,8 @@ test("server-renders every source-backed route", async () => {
   const expectations = [
     ["/thesis", /Investment criteria/, /Strategic focus/],
     ["/companies", /Company directory/, /Qedma/],
-    ["/founders", /How qFund evaluates/, /Value creation/],
-    ["/quantum-hub", /qFund ×/, /Deal flow activity/],
+    ["/founders", /The people behind/, /Itzik Daniel Michaeli/],
+    ["/news", /qFund/, /qFund in New York/],
     ["/contact", /Begin the/, /info@qfund\.io/],
   ];
 
