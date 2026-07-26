@@ -35,7 +35,7 @@ test("publishes the required static assets", async () => {
   await access(new URL("team/liav-ben-rubi.webp", outputUrl));
   await access(new URL("team/dana-taigman-koren.webp", outputUrl));
   await access(new URL("team/liron-ben-zaken.png", outputUrl));
-  await access(new URL("founders/daniel-lublin-portrait.webp", outputUrl));
+  await access(new URL("founders/daniel-lublin-cutout.png", outputUrl));
   await access(new URL("portfolio/qedma.webp", outputUrl));
   await access(new URL("focus/quantum-computing.webp", outputUrl));
   await access(new URL("focus/defense.webp", outputUrl));
@@ -89,7 +89,7 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(founders, /<title>Portfolio Founders \| qFund<\/title>/i);
   assert.match(founders, /The people behind/);
   assert.match(founders, /Itzik Daniel Michaeli/);
-  assert.match(founders, /src="\/founders\/daniel-lublin-portrait\.webp"/);
+  assert.match(founders, /src="\/founders\/daniel-lublin-cutout\.png"/);
   assert.equal((founders.match(/class="team-card reveal"/g) ?? []).length, 23);
   assert.match(news, /<title>News and Activity \| qFund<\/title>/i);
   assert.match(news, /qFund in New York/);
