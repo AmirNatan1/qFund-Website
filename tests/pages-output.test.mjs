@@ -117,8 +117,20 @@ test("uses the simplified portfolio naming and uncluttered inner heroes", async 
 
   for (const html of [thesis, companies, founders, news]) {
     assert.doesNotMatch(html, /class="inner-hero-meta"/);
+    assert.doesNotMatch(html, /class="inner-hero-deck"/);
   }
   assert.doesNotMatch(contact, /class="contact-route-meta"/);
+
+  const rendered = pages.join("\n");
+  for (const presentationCopy of [
+    "Meetings, ecosystem activity, and venture delegations supporting Israeli-related Deep Tech founders.",
+    "Founders, Deep Tech, and market — three requirements, one investment discipline.",
+    "Managing Partners Liav Ben Rubi and Dana Taigman Koren, with Principal Liron Ben Zaken.",
+    "Financial investment, technical validation, commercialization support, and strategic access.",
+    "Each investment must withstand technical, commercial, and founder-level scrutiny.",
+  ]) {
+    assert.ok(!rendered.includes(presentationCopy), `removed presentation copy should stay absent: ${presentationCopy}`);
+  }
   assert.doesNotMatch(pages.join("\n"), /FILTER BY FIELD|MEET THE ROSTER|REVERSE CHRONOLOGICAL|THE THESIS ↓/i);
 });
 

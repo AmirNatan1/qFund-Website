@@ -263,11 +263,6 @@ export default function QFundExperience() {
             <span className="line accent-line"><span>Israeli-related</span></span>
             <span className="line"><span>Deep Tech founders.</span></span>
           </h1>
-          <div className="hero-bottom">
-            <p>
-              We are an early-stage venture capital firm backing Deep Tech founders.
-            </p>
-          </div>
         </div>
         <div className="hero-status" aria-hidden="true">
           <span className="pulse-dot" /> ISRAELI-RELATED DEEP TECH
@@ -284,12 +279,9 @@ export default function QFundExperience() {
 
       <section className="page-gateway section-ink" id="explore">
         <div className="section-index reveal"><span>00</span><p>Explore qFund</p></div>
-        <div className="gateway-heading reveal">
+        <div className="gateway-heading heading-solo reveal">
           <p className="eyebrow">EARLY STAGE / DEEP TECH / ISRAEL</p>
           <h2>Backing<br /><em>Deep Tech founders.</em></h2>
-          <p>
-            Financial investment, technical validation, commercialization support, and strategic access.
-          </p>
         </div>
         <div className="gateway-grid">
           <Link className="gateway-card gateway-thesis reveal" href="/thesis/" data-tilt>
@@ -346,9 +338,6 @@ export default function QFundExperience() {
           <div className="underwrite-intro reveal">
             <p className="eyebrow dark">FOUR-PILLAR METHOD</p>
             <h2>Separating science fiction<br /><em>from real-world infrastructure.</em></h2>
-            <p>
-              We evaluate founders, technology, market, and defensibility.
-            </p>
             <Link className="text-link route-link" href="/thesis/#evaluation">Evaluation and value creation <span>↗</span></Link>
           </div>
 
@@ -462,14 +451,11 @@ export default function QFundExperience() {
 
       <section className="portfolio section-ink" id="portfolio">
         <div className="section-index reveal"><span>04</span><p>Our portfolio</p></div>
-        <div className="portfolio-heading reveal">
+        <div className="portfolio-heading heading-solo reveal">
           <div>
             <h2>Real Deep Tech companies.</h2>
             <Link className="text-link route-link" href="/companies/">Explore our portfolio <span>↗</span></Link>
           </div>
-          <p>
-            Our portfolio spans quantum computing, defense, satellite communications, thermal management, cybersecurity, sensing, RF, and electro-optics.
-          </p>
         </div>
         <div className="portfolio-filters reveal" role="group" aria-label="Filter portfolio companies">
           {filters.map(([value, label]) => (
@@ -569,9 +555,8 @@ export default function QFundExperience() {
 
       <section className="team section-sage" id="team">
         <div className="section-index reveal"><span>05</span><p>Team</p></div>
-        <div className="team-heading reveal">
+        <div className="team-heading heading-solo reveal">
           <h2>qFund<br />investment team.</h2>
-          <p>Managing Partners Liav Ben Rubi and Dana Taigman Koren, with Principal Liron Ben Zaken.</p>
         </div>
         <div className="team-grid">
           {team.map((person, index) => (
@@ -598,23 +583,21 @@ export default function QFundExperience() {
 
       <section className="signals section-dark" id="investment-criteria">
         <div className="section-index reveal"><span>06</span><p>Investment thesis</p></div>
-        <div className="signals-heading reveal">
+        <div className="signals-heading heading-solo reveal">
           <div>
             <h2>What qFund<br />looks for.</h2>
             <Link className="text-link route-link inverted" href="/thesis/">Read the thesis <span>↗</span></Link>
           </div>
-          <p>Founders, Deep Tech, and market — three requirements, one investment discipline.</p>
         </div>
       </section>
 
       <section className="portfolio section-sage" id="news">
         <div className="section-index reveal"><span>07</span><p>News and activity</p></div>
-        <div className="portfolio-heading reveal">
+        <div className="portfolio-heading heading-solo reveal">
           <div>
             <h2>qFund<br />in motion.</h2>
             <Link className="text-link route-link" href="/news/">View all activity <span>↗</span></Link>
           </div>
-          <p>Meetings, ecosystem activity, and venture delegations supporting Israeli-related Deep Tech founders.</p>
         </div>
         <div className="pattern-grid three-up">
           {newsItems.slice(0, 3).map((item, index) => (

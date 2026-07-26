@@ -43,9 +43,6 @@ export default function CompaniesPage() {
           <Link className="back-link" href="/#portfolio">← qFund portfolio</Link>
           <p className="eyebrow">OUR PORTFOLIO</p>
           <h1>Our Deep Tech<br /><em>portfolio.</em></h1>
-          <p className="inner-hero-deck">
-            Companies solving critical challenges in thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.
-          </p>
         </div>
       </section>
 

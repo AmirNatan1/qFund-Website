@@ -86,9 +86,6 @@ export default function FoundersPage() {
           <Link className="back-link" href="/">← qFund</Link>
           <p className="eyebrow">PORTFOLIO FOUNDERS</p>
           <h1>The people behind<br /><em>the portfolio.</em></h1>
-          <p className="inner-hero-deck">
-            Academic experts, alumni of elite technological units, and industry leaders.
-          </p>
         </div>
       </section>
 
@@ -109,7 +106,6 @@ export default function FoundersPage() {
         <div className="section-index reveal"><span>02</span><p>Portfolio founder roster</p></div>
         <div className="team-heading reveal">
           <h2>Meet the<br />founders.</h2>
-          <p>Most investors read a pitch deck and make a bet. We don&apos;t. We back founders who are the leading experts on the specific problem they have chosen — and this is who they are.</p>
         </div>
 
         {companies.map((company) => {

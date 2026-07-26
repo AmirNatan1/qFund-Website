@@ -37,9 +37,6 @@ export default function NewsPage() {
           <Link className="back-link" href="/">← qFund</Link>
           <p className="eyebrow">NEWS AND ACTIVITY</p>
           <h1>qFund<br /><em>in motion.</em></h1>
-          <p className="inner-hero-deck">
-            Meetings, ecosystem activity, and venture delegations supporting Israeli-related Deep Tech founders.
-          </p>
         </div>
       </section>
 

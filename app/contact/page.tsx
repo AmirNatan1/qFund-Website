@@ -35,10 +35,6 @@ export default function ContactPage() {
           <Link className="back-link" href="/">← qFund</Link>
           <p className="eyebrow">CONTACT qFund</p>
           <h1>Begin the<br /><em>conversation.</em></h1>
-          <p>
-            We back Israeli-related startups developing core infrastructure,
-            hardware, and enabling technologies.
-          </p>
         </div>
 
       </section>

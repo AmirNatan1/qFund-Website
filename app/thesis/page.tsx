@@ -40,9 +40,6 @@ export default function ThesisPage() {
             <span>top-tier <em>Deep Tech</em></span>
             <span>founders.</span>
           </h1>
-          <p className="inner-hero-deck">
-            We invest in Israeli-related startups developing core infrastructure, hardware, and enabling technologies.
-          </p>
         </div>
         <ThesisConvictionField points={investmentCriteria} />
       </section>
@@ -123,10 +120,9 @@ export default function ThesisPage() {
 
       <section className="inner-section founder-fit section-ink" id="evaluation">
         <div className="section-index reveal"><span>04</span><p>Evaluation</p></div>
-        <div className="evaluation-heading reveal">
+        <div className="evaluation-heading heading-solo reveal">
           <p className="eyebrow">HOW WE EVALUATE DEEP TECH</p>
           <h2>A four-part test for enduring advantage.</h2>
-          <p>Each investment must withstand technical, commercial, and founder-level scrutiny.</p>
         </div>
         <EvaluationChamber pillars={evaluationPillars} />
       </section>
@@ -152,7 +148,6 @@ export default function ThesisPage() {
         <div className="strategic-focus-heading reveal">
           <p className="eyebrow dark">WHERE WE INVEST</p>
           <h2>Six strategic <em>focus areas.</em></h2>
-          <p>Quantum computing, defense, energy, advanced industry, semiconductors, and advanced electronics.</p>
         </div>
         <FocusAreasGallery areas={focusAreas} />
       </section>
