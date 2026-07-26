@@ -48,6 +48,7 @@ test("publishes the essential navigation and landmarks", async () => {
   }
 
   assert.match(html, /aria-label="Main navigation"/i);
+  assert.match(html, />Our Portfolio<\/a>/i);
   assert.match(html, /aria-label="Filter portfolio companies"/i);
   assert.match(html, /aria-label="qFund home"/i);
 });
@@ -55,7 +56,7 @@ test("publishes the essential navigation and landmarks", async () => {
 test("server-renders every source-backed route", async () => {
   const expectations = [
     ["/thesis", /Investment criteria/, /Strategic focus/],
-    ["/companies", /Company directory/, /Qedma/],
+    ["/companies", /Our portfolio/, /Qedma/],
     ["/founders", /The people behind/, /Itzik Daniel Michaeli/],
     ["/news", /qFund/, /qFund in New York/],
     ["/contact", /Begin the/, /info@qfund\.io/],

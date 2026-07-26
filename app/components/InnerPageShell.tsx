@@ -12,7 +12,7 @@ type InnerPageShellProps = {
 
 const routes = [
   ["Thesis", "/thesis/", "thesis"],
-  ["Companies", "/companies/", "companies"],
+  ["Our Portfolio", "/companies/", "companies"],
   ["Founders", "/founders/", "founders"],
   ["News", "/news/", "news"],
 ] as const;

@@ -21,6 +21,7 @@ This release replaces the previous provisional website copy. Visible investment,
 | Financial investment, technical validation, commercialization support, and strategic access | Japan deck, p. 3; overview deck, p. 10 |
 | Liav Ben Rubi and Dana Taigman Koren biographies | Overview deck, p. 11 |
 | Team titles, including Liron Ben Zaken as Principal | [qFund public website](https://qfund.io/); [qFund public LinkedIn](https://www.linkedin.com/company/q-fund) |
+| Liron Ben Zaken biography: Principal, professional tenure, and Ben-Gurion University education | [qFund public website](https://qfund.io/); [LinkedIn public profile](https://www.linkedin.com/in/liron-ben-zaken/); [public professional listing](https://www.signalhire.com/companies/q-fund/employees) |
 | Contact email and Herzliya office address | Overview deck, p. 48; [qFund public website](https://qfund.io/) |
 | Investment criteria: founders, Deep Tech, and market | Japan deck, p. 11; overview deck, pp. 18–23 |
 | qFund II strategic focus areas | Japan deck, p. 12 |

@@ -160,7 +160,7 @@ export const team = [
     role: "Principal",
     image: "/team/liron-ben-zaken.png",
     linkedin: "https://www.linkedin.com/in/liron-ben-zaken/",
-    bio: "",
+    bio: "Liron is a Principal on qFund’s investment team, bringing more than a decade of professional experience to the role. She is an alumna of Ben-Gurion University of the Negev.",
   },
 ] as const;
 

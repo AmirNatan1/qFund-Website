@@ -12,7 +12,7 @@ These items are intentionally tracked outside the rendered website where the bri
 - Qedma: confirm the proof-of-concept engagement with Hyundai before final client sign-off.
 - Particle: confirm VDL as a manufacturing and co-development partner before final client sign-off.
 - Commcrete: confirm consent before naming Amnon Shashua as an angel investor. This line is held back and is not rendered.
-- Liron Ben Zaken: no biography is available in the approved source material. The website renders name and role only.
+- Liron Ben Zaken: a concise biography now uses her public qFund role, publicly listed professional tenure, and Ben-Gurion University education. More detailed investment history can be added when qFund supplies an approved long-form biography.
 
 ## Portfolio founder biography review
 

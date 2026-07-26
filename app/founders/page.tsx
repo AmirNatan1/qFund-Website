@@ -90,7 +90,6 @@ export default function FoundersPage() {
             Academic experts, alumni of elite technological units, and industry leaders.
           </p>
         </div>
-        <div className="inner-hero-meta"><span>PORTFOLIO FOUNDERS</span><span>MEET THE ROSTER ↓</span></div>
       </section>
 
       <section className="inner-section portfolio-pattern section-light">

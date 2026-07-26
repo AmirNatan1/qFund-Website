@@ -4,12 +4,12 @@ import InnerPageShell from "../components/InnerPageShell";
 import CompaniesExperience from "./CompaniesExperience";
 
 export const metadata: Metadata = {
-  title: "Portfolio Companies | qFund",
+  title: "Our Portfolio | qFund",
   description:
     "Our portfolio spans thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.",
   alternates: { canonical: "/companies/" },
   openGraph: {
-    title: "Portfolio Companies | qFund",
+    title: "Our Portfolio | qFund",
     description: "Our portfolio spans thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.",
     url: "/companies/",
     type: "website",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Portfolio Companies | qFund",
+    title: "Our Portfolio | qFund",
     description: "Our portfolio spans thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.",
     images: ["/og.png"],
   },
@@ -41,17 +41,16 @@ export default function CompaniesPage() {
         </div>
         <div className="inner-hero-copy reveal is-visible">
           <Link className="back-link" href="/#portfolio">← qFund portfolio</Link>
-          <p className="eyebrow">PORTFOLIO COMPANIES</p>
-          <h1>Real Deep Tech<br /><em>companies.</em></h1>
+          <p className="eyebrow">OUR PORTFOLIO</p>
+          <h1>Our Deep Tech<br /><em>portfolio.</em></h1>
           <p className="inner-hero-deck">
             Companies solving critical challenges in thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.
           </p>
         </div>
-        <div className="inner-hero-meta"><span>NAMED PORTFOLIO</span><span>FILTER BY FIELD ↓</span></div>
       </section>
 
       <section className="inner-section directory-section section-light">
-        <div className="section-index reveal"><span>01</span><p>Company directory</p></div>
+        <div className="section-index reveal"><span>01</span><p>Our portfolio</p></div>
         <CompaniesExperience />
       </section>
 

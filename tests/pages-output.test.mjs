@@ -81,8 +81,8 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(thesis, /src="\/focus\/quantum-computing\.webp"/);
   assert.match(thesis, /src="\/focus\/advanced-electronics\.webp"/);
   assert.doesNotMatch(thesis, /class="thesis-hero-system/);
-  assert.match(companies, /<title>Portfolio Companies \| qFund<\/title>/i);
-  assert.match(companies, /Company directory/);
+  assert.match(companies, /<title>Our Portfolio \| qFund<\/title>/i);
+  assert.match(companies, /Our portfolio/);
   assert.match(companies, /Qedma/);
   assert.match(companies, /https:\/\/www\.qedma\.com\//);
   assert.match(founders, /<title>Portfolio Founders \| qFund<\/title>/i);
@@ -96,6 +96,30 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(contact, /Tell us what/);
   assert.match(contact, /info@qfund\.io/);
   assert.match(contact, /Arik Einstein 3/);
+  assert.match(contact, /class="contact-dialogue"/);
+  assert.doesNotMatch(contact, /class="contact-transmission"/);
+});
+
+test("uses the simplified portfolio naming and uncluttered inner heroes", async () => {
+  const pages = await Promise.all(
+    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "news/index.html", "contact/index.html"]
+      .map((path) => readFile(new URL(path, outputUrl), "utf8")),
+  );
+  const [home, thesis, companies, founders, news, contact] = pages;
+
+  assert.match(home, />Our Portfolio<\/a>/);
+  assert.match(companies, /OUR PORTFOLIO/);
+  assert.match(companies, /Our Deep Tech/);
+  assert.match(home, /class="evidence-visual"/);
+  assert.doesNotMatch(home, /class="console-visual"/);
+  assert.match(home, /Liron is a Principal on qFund/);
+  assert.match(home, /Ben-Gurion University of the Negev/);
+
+  for (const html of [thesis, companies, founders, news]) {
+    assert.doesNotMatch(html, /class="inner-hero-meta"/);
+  }
+  assert.doesNotMatch(contact, /class="contact-route-meta"/);
+  assert.doesNotMatch(pages.join("\n"), /FILTER BY FIELD|MEET THE ROSTER|REVERSE CHRONOLOGICAL|THE THESIS ↓/i);
 });
 
 test("publishes one back-to-top control on every page", async () => {

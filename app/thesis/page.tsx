@@ -45,7 +45,6 @@ export default function ThesisPage() {
           </p>
         </div>
         <ThesisConvictionField points={investmentCriteria} />
-        <div className="inner-hero-meta"><span>HERZLIYA · ISRAEL</span><span>THE THESIS ↓</span></div>
       </section>
 
       <section className="inner-section thesis-premise thesis-premise-world section-light">

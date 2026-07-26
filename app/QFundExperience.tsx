@@ -22,7 +22,7 @@ import { formatNewsDate, newsItems } from "./newsData";
 
 const routes = [
   ["Thesis", "/thesis/"],
-  ["Companies", "/companies/"],
+  ["Our Portfolio", "/companies/"],
   ["Founders", "/founders/"],
   ["News", "/news/"],
 ] as const;
@@ -353,14 +353,26 @@ export default function QFundExperience() {
           </div>
 
           <div className="underwrite-console reveal">
-            <div className="console-visual" aria-hidden="true">
-              <span className="console-ring ring-one" />
-              <span className="console-ring ring-two" />
-              <span className="console-axis axis-x" />
-              <span className="console-axis axis-y" />
-              <span className="console-sweep" />
-              <strong>{activeEvaluation.code}</strong>
-              <small>{activeEvaluation.signal}</small>
+            <div className="evidence-visual" data-evidence={activeTest} aria-hidden="true">
+              <div className="evidence-scene evidence-founders">
+                <span className="evidence-link link-a" /><span className="evidence-link link-b" /><span className="evidence-link link-c" />
+                <i className="evidence-node node-a" /><i className="evidence-node node-b" /><i className="evidence-node node-c" /><i className="evidence-node node-d" />
+              </div>
+              <div className="evidence-scene evidence-technology">
+                {Array.from({ length: 6 }, (_, index) => <i style={{ "--bar": index } as CSSProperties} key={index} />)}
+                <span>10×</span>
+              </div>
+              <div className="evidence-scene evidence-market">
+                <i /><i /><i /><span />
+              </div>
+              <div className="evidence-scene evidence-defensibility">
+                <i /><i /><i /><i /><span />
+              </div>
+              <div className="evidence-readout" key={activeEvaluation.code}>
+                <span>{activeEvaluation.code}</span>
+                <strong>{activeEvaluation.title}</strong>
+                <small>{activeEvaluation.signal}</small>
+              </div>
             </div>
             <div className="underwrite-tests" role="list" aria-label="qFund evaluation pillars">
               {evaluationPillars.map((test, index) => (
@@ -449,11 +461,11 @@ export default function QFundExperience() {
       </section>
 
       <section className="portfolio section-ink" id="portfolio">
-        <div className="section-index reveal"><span>04</span><p>Portfolio companies</p></div>
+        <div className="section-index reveal"><span>04</span><p>Our portfolio</p></div>
         <div className="portfolio-heading reveal">
           <div>
             <h2>Real Deep Tech companies.</h2>
-            <Link className="text-link route-link" href="/companies/">Open the complete portfolio <span>↗</span></Link>
+            <Link className="text-link route-link" href="/companies/">Explore our portfolio <span>↗</span></Link>
           </div>
           <p>
             Our portfolio spans quantum computing, defense, satellite communications, thermal management, cybersecurity, sensing, RF, and electro-optics.

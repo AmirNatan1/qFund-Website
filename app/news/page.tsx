@@ -41,7 +41,6 @@ export default function NewsPage() {
             Meetings, ecosystem activity, and venture delegations supporting Israeli-related Deep Tech founders.
           </p>
         </div>
-        <div className="inner-hero-meta"><span>ACTIVITY</span><span>REVERSE CHRONOLOGICAL ↓</span></div>
       </section>
 
       <section className="inner-section directory-section section-light">

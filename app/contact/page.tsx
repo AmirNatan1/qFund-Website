@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import InnerPageShell from "../components/InnerPageShell";
+import ContactDialogue from "./ContactDialogue";
 import ContactForm from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -28,18 +29,7 @@ export default function ContactPage() {
     <InnerPageShell active="contact">
       <section className="contact-route-hero">
         <div className="contact-route-grid" aria-hidden="true" />
-        <div className="contact-transmission" aria-hidden="true">
-          <span className="transmission-ring transmission-ring-a" />
-          <span className="transmission-ring transmission-ring-b" />
-          <span className="transmission-ring transmission-ring-c" />
-          <span className="transmission-ring transmission-ring-d" />
-          <i className="transmission-sweep" />
-          <b className="transmission-node node-a" />
-          <b className="transmission-node node-b" />
-          <b className="transmission-node node-c" />
-          <strong><span /></strong>
-          <small>CHANNEL OPEN</small>
-        </div>
+        <ContactDialogue />
 
         <div className="contact-route-copy reveal is-visible">
           <Link className="back-link" href="/">← qFund</Link>
@@ -51,10 +41,6 @@ export default function ContactPage() {
           </p>
         </div>
 
-        <div className="contact-route-meta">
-          <span>ARIK EINSTEIN 3 · HERZLIYA, ISRAEL</span>
-          <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
-        </div>
       </section>
 
       <section className="contact-route-body section-light">
