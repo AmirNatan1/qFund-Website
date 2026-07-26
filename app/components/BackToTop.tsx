@@ -37,7 +37,6 @@ export default function BackToTop() {
   return (
     <a className="footer-to-top" href="#top" aria-label="Back to the top" onClick={returnToTop} data-magnetic>
       <span aria-hidden="true">↑</span>
-      <small>Back to top</small>
     </a>
   );
 }

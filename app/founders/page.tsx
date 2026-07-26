@@ -106,7 +106,7 @@ export default function FoundersPage() {
         </div>
       </section>
 
-      <section className="team section-sage">
+      <section className="team section-sage founders-roster">
         <div className="section-index reveal"><span>02</span><p>Portfolio founder roster</p></div>
         <div className="team-heading reveal">
           <h2>Meet the<br />founders.</h2>
@@ -116,8 +116,8 @@ export default function FoundersPage() {
         {companies.map((company) => {
           const founders = portfolioFounders.filter((founder) => founder.company === company);
           return (
-            <section className="inner-section" aria-labelledby={`founders-${company.toLowerCase().replace(/\s+/g, "-")}`} key={company}>
-              <div className="pattern-heading reveal">
+            <section className="inner-section founder-company-section" aria-labelledby={`founders-${company.toLowerCase().replace(/\s+/g, "-")}`} key={company}>
+              <div className="pattern-heading founder-company-heading reveal">
                 <p className="eyebrow dark">PORTFOLIO COMPANY</p>
                 <h2 id={`founders-${company.toLowerCase().replace(/\s+/g, "-")}`}>{company}</h2>
               </div>

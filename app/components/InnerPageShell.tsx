@@ -109,7 +109,6 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
 
       <footer className="inner-footer">
         <Link href="/" aria-label="qFund home"><BrandMark /></Link>
-        <p>Early-stage venture capital backing Deep Tech founders.</p>
         <BackToTop />
         <div>
           <a href="mailto:info@qfund.io">info@qfund.io</a>

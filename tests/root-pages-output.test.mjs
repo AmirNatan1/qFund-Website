@@ -34,6 +34,8 @@ test("repository-root snapshot includes every required public asset", async () =
     access(new URL("qfund-field.png", rootUrl)),
     access(new URL("team/liron-ben-zaken.png", rootUrl)),
     access(new URL("portfolio/quamcore.webp", rootUrl)),
+    access(new URL("focus/quantum-computing.webp", rootUrl)),
+    access(new URL("focus/advanced-electronics.webp", rootUrl)),
     access(new URL(stylesheet.replace(/^\//, ""), rootUrl)),
     access(new URL(script.replace(/^\//, ""), rootUrl)),
   ]);

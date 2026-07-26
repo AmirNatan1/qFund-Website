@@ -36,6 +36,12 @@ test("publishes the required static assets", async () => {
   await access(new URL("team/dana-taigman-koren.webp", outputUrl));
   await access(new URL("team/liron-ben-zaken.png", outputUrl));
   await access(new URL("portfolio/qedma.webp", outputUrl));
+  await access(new URL("focus/quantum-computing.webp", outputUrl));
+  await access(new URL("focus/defense.webp", outputUrl));
+  await access(new URL("focus/energy.webp", outputUrl));
+  await access(new URL("focus/advanced-industry.webp", outputUrl));
+  await access(new URL("focus/semiconductors.webp", outputUrl));
+  await access(new URL("focus/advanced-electronics.webp", outputUrl));
 
   const html = await readHome();
   const stylesheet = html.match(/href="([^"]+\.css)"/i)?.[1];
@@ -69,8 +75,12 @@ test("exports the source-backed editorial routes", async () => {
   assert.match(thesis, /The world is/);
   assert.match(thesis, /Technical validation/);
   assert.match(thesis, /class="thesis-conviction-field reveal is-visible"/);
+  assert.match(thesis, /class="evaluation-chamber reveal"/);
+  assert.match(thesis, /class="focus-gallery reveal"/);
+  assert.equal((thesis.match(/class="full-test criterion-card criterion-\d reveal"/g) ?? []).length, 3);
+  assert.match(thesis, /src="\/focus\/quantum-computing\.webp"/);
+  assert.match(thesis, /src="\/focus\/advanced-electronics\.webp"/);
   assert.doesNotMatch(thesis, /class="thesis-hero-system/);
-  assert.equal((thesis.match(/class="full-test reveal"/g) ?? []).length, 3);
   assert.match(companies, /<title>Portfolio Companies \| qFund<\/title>/i);
   assert.match(companies, /Company directory/);
   assert.match(companies, /Qedma/);
@@ -100,6 +110,8 @@ test("publishes one back-to-top control on every page", async () => {
       1,
       "each page should render exactly one back-to-top control",
     );
+    assert.doesNotMatch(html, /<small>Back to top<\/small>/i);
+    assert.doesNotMatch(html, /Early-stage venture capital backing Deep Tech founders\./i);
   }
 });
 
