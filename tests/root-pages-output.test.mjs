@@ -22,10 +22,10 @@ test("repository-root snapshot includes every required public asset", async () =
 
   await Promise.all([
     access(new URL("404.html", rootUrl)),
-    access(new URL("qfund-logo.png", rootUrl)),
+    access(new URL("qfund-logo-light.png", rootUrl)),
     access(new URL("team/liron-ben-zaken.png", rootUrl)),
     access(new URL("portfolio/quamcore.webp", rootUrl)),
-    access(new URL("focus/quantum-computing.webp", rootUrl)),
+    access(new URL("focus/quantum-computing.jpg", rootUrl)),
     ...stylesheets.map((href) => access(new URL(href.replace(/^\//, ""), rootUrl))),
     access(new URL(script.replace(/^\//, ""), rootUrl)),
   ]);

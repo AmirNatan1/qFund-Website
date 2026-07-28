@@ -26,7 +26,7 @@ const sections = [
 ] as const;
 
 function imagePath(title: string) {
-  return `/focus/${title.toLowerCase().replaceAll(" ", "-")}.webp`;
+  return `/focus/${title.toLowerCase().replaceAll(" ", "-")}.jpg`;
 }
 
 function SectionRail({ active }: { active: string }) {
@@ -40,7 +40,7 @@ function SectionRail({ active }: { active: string }) {
 
   return (
     <nav className="qf-section-rail" aria-label="Page sections">
-      {sections.map(([id, label], index) => (
+      {sections.map(([id, label]) => (
         <button
           className={active === id ? "is-active" : ""}
           type="button"
@@ -51,10 +51,53 @@ function SectionRail({ active }: { active: string }) {
         >
           <span>{label}</span>
           <i aria-hidden="true" />
-          <small aria-hidden="true">{String(index + 1).padStart(2, "0")}</small>
         </button>
       ))}
     </nav>
+  );
+}
+
+function ApproachGraphic({ index, code }: { index: number; code: string }) {
+  const variant = ["team", "technology", "market", "defensibility"][index];
+
+  return (
+    <div className={`qf-approach-graphic is-${variant}`} aria-hidden="true">
+      <span className="qf-approach-grid" />
+      {variant === "team" ? (
+        <div className="qf-team-symbol">
+          <span className="qf-person person-left"><i /></span>
+          <span className="qf-team-link"><i /></span>
+          <span className="qf-person person-right"><i /></span>
+          <b>DOMAIN / FOUNDER FIT</b>
+        </div>
+      ) : null}
+      {variant === "technology" ? (
+        <div className="qf-technology-symbol">
+          <span className="qf-chip"><b>10×</b><i /></span>
+          <span className="qf-trace trace-one" />
+          <span className="qf-trace trace-two" />
+          <span className="qf-trace trace-three" />
+          <span className="qf-trace trace-four" />
+        </div>
+      ) : null}
+      {variant === "market" ? (
+        <div className="qf-market-symbol">
+          <span className="qf-market-ring ring-one" />
+          <span className="qf-market-ring ring-two" />
+          <span className="qf-market-ring ring-three" />
+          <span className="qf-market-vector"><i /><b /></span>
+        </div>
+      ) : null}
+      {variant === "defensibility" ? (
+        <div className="qf-defensibility-symbol">
+          <span className="qf-barrier barrier-one" />
+          <span className="qf-barrier barrier-two" />
+          <span className="qf-barrier barrier-three" />
+          <span className="qf-lock"><i /></span>
+        </div>
+      ) : null}
+      <span className="qf-approach-code">{code}</span>
+    </div>
   );
 }
 
@@ -313,11 +356,7 @@ export default function QFundExperience() {
             ))}
           </div>
           <div className="qf-approach-readout" key={approach.code}>
-            <div className="qf-approach-graphic" style={{ "--approach-index": activeApproach } as CSSProperties} aria-hidden="true">
-              <span className="ring ring-a" /><span className="ring ring-b" /><span className="ring ring-c" />
-              <i className="axis axis-a" /><i className="axis axis-b" />
-              <b>{approach.code}</b>
-            </div>
+            <ApproachGraphic index={activeApproach} code={approach.code} />
             <div className="qf-approach-copy">
               <span>{approach.signal}</span>
               <h3>{approach.title}</h3>

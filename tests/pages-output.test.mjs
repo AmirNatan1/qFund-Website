@@ -37,17 +37,17 @@ test("publishes the required static assets", async () => {
   await Promise.all([
     access(new URL("404.html", outputUrl)),
     access(new URL("og-motion.png", outputUrl)),
-    access(new URL("qfund-logo.png", outputUrl)),
+    access(new URL("qfund-logo-light.png", outputUrl)),
     access(new URL("team/liav-ben-rubi.webp", outputUrl)),
     access(new URL("team/dana-taigman-koren.webp", outputUrl)),
     access(new URL("team/liron-ben-zaken.png", outputUrl)),
     access(new URL("portfolio/qedma.webp", outputUrl)),
-    access(new URL("focus/quantum-computing.webp", outputUrl)),
-    access(new URL("focus/defense.webp", outputUrl)),
-    access(new URL("focus/energy.webp", outputUrl)),
-    access(new URL("focus/advanced-industry.webp", outputUrl)),
-    access(new URL("focus/semiconductors.webp", outputUrl)),
-    access(new URL("focus/advanced-electronics.webp", outputUrl)),
+    access(new URL("focus/quantum-computing.jpg", outputUrl)),
+    access(new URL("focus/defense.jpg", outputUrl)),
+    access(new URL("focus/energy.jpg", outputUrl)),
+    access(new URL("focus/advanced-industry.jpg", outputUrl)),
+    access(new URL("focus/semiconductors.jpg", outputUrl)),
+    access(new URL("focus/advanced-electronics.jpg", outputUrl)),
   ]);
 
   const html = await readHome();
@@ -133,7 +133,7 @@ test("uses direct image URLs and one back-to-top control per page", async () => 
   assert.doesNotMatch(rendered, /\/_next\/image\//);
   assert.match(pages[0], /src="\/team\/liav-ben-rubi\.webp"/);
   assert.match(pages[0], /src="\/portfolio\/element-security\.webp"/);
-  assert.match(pages[0], /src="\/focus\/advanced-electronics\.webp"/);
+  assert.match(pages[0], /src="\/focus\/advanced-electronics\.jpg"/);
 
   for (const html of pages) {
     assert.equal((html.match(/aria-label="Back to the top"/g) ?? []).length, 1);

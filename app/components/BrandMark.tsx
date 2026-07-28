@@ -5,7 +5,7 @@ export default function BrandMark() {
     <span className="brand" aria-label="qFund">
       <Image
         className="brand-image"
-        src="/qfund-logo.png"
+        src="/qfund-logo-light.png"
         alt=""
         width="178"
         height="78"
