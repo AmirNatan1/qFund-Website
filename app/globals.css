@@ -527,42 +527,6 @@ body:has(a:hover, button:hover) .cursor span {
   65%, 100% { box-shadow: 0 0 0 0.65rem rgba(53, 244, 198, 0); }
 }
 
-.ticker {
-  position: relative;
-  z-index: 4;
-  overflow: hidden;
-  padding: 1rem 0;
-  color: var(--ink);
-  background: var(--signal);
-}
-
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: ticker 28s linear infinite;
-}
-
-.ticker-track span {
-  display: flex;
-  align-items: center;
-  gap: 2.2rem;
-  padding-left: 2.2rem;
-  font-family: var(--font-geist-mono, "SFMono-Regular"), Consolas, monospace;
-  font-size: 0.7rem;
-  font-weight: 650;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.ticker-track i {
-  font-style: normal;
-}
-
-@keyframes ticker {
-  to { transform: translateX(-50%); }
-}
-
 .section-light,
 .section-dark,
 .section-ink,
@@ -5241,7 +5205,6 @@ h3 em,
 .preloader-count,
 .hero-coordinates,
 .hero-status,
-.ticker-track span,
 .focus-button span,
 .focus-button i,
 .focus-readout .signal,

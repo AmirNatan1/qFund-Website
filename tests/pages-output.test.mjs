@@ -24,6 +24,7 @@ test("exports a Cloudflare Pages entry document", async () => {
   assert.match(html, /href="\/contact\/"/);
   assert.match(html, /info@qfund\.io/);
   assert.match(html, /og-motion\.png/);
+  assert.doesNotMatch(html, /class="ticker(?:-track)?"/);
 });
 
 test("publishes the required static assets", async () => {

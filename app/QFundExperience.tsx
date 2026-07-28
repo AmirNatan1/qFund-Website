@@ -269,14 +269,6 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="ticker" aria-label="Strategic focus areas">
-        <div className="ticker-track">
-          {[...focusAreas, ...focusAreas].map((item, index) => (
-            <span key={`${item.title}-${index}`}>{item.short}<i>✦</i></span>
-          ))}
-        </div>
-      </section>
-
       <section className="page-gateway section-ink" id="explore">
         <div className="section-index reveal"><span>00</span><p>Explore qFund</p></div>
         <div className="gateway-heading heading-solo reveal">
