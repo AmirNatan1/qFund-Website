@@ -25,6 +25,9 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
     const root = document.documentElement;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
+    let pointerFrame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
@@ -36,6 +39,21 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
     );
 
     document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+    const motionNodes = Array.from(document.querySelectorAll<HTMLElement>(
+      ".inner-hero, .inner-section, .inner-cta, .contact-route-hero, .contact-route-body",
+    ));
+    const motionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-motion-active", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.01, rootMargin: "18% 0px 18%" },
+    );
+    motionNodes.forEach((node) => {
+      node.classList.add("motion-section");
+      motionObserver.observe(node);
+    });
 
     const onScroll = () => {
       if (frame) return;
@@ -47,11 +65,17 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
     };
 
     const onPointer = (event: PointerEvent) => {
-      root.style.setProperty("--mx", event.clientX + "px");
-      root.style.setProperty("--my", event.clientY + "px");
-      if (!reduced && cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${event.clientX}px,${event.clientY}px,0)`;
-      }
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (pointerFrame) return;
+      pointerFrame = window.requestAnimationFrame(() => {
+        root.style.setProperty("--mx", pointerX + "px");
+        root.style.setProperty("--my", pointerY + "px");
+        if (!reduced && cursorRef.current) {
+          cursorRef.current.style.transform = `translate3d(${pointerX}px,${pointerY}px,0)`;
+        }
+        pointerFrame = 0;
+      });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -60,7 +84,9 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
 
     return () => {
       window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(pointerFrame);
       revealObserver.disconnect();
+      motionObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointer);
     };

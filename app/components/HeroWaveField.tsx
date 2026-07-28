@@ -249,7 +249,6 @@ export default function HeroWaveField() {
       velocityTarget.x *= 0.82;
       velocityTarget.y *= 0.82;
 
-      resize();
       gl.useProgram(program);
       gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
       gl.uniform2f(mouseLocation, pointer.x, pointer.y);

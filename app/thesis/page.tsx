@@ -70,10 +70,10 @@ export default function ThesisPage() {
         </div>
       </section>
 
-      <section className="inner-section four-tests section-dark" id="investment-criteria">
+      <section className="inner-section four-tests section-sage" id="investment-criteria">
         <div className="section-index reveal"><span>03</span><p>Investment criteria</p></div>
         <div className="tests-heading reveal">
-          <p className="eyebrow">INVESTMENT THESIS</p>
+          <p className="eyebrow dark">INVESTMENT THESIS</p>
           <h2>Three requirements.<br />One investment discipline.</h2>
         </div>
         <div className="full-test-grid criteria-grid">
@@ -118,10 +118,10 @@ export default function ThesisPage() {
         </div>
       </section>
 
-      <section className="inner-section founder-fit section-ink" id="evaluation">
+      <section className="inner-section founder-fit section-light" id="evaluation">
         <div className="section-index reveal"><span>04</span><p>Evaluation</p></div>
         <div className="evaluation-heading heading-solo reveal">
-          <p className="eyebrow">HOW WE EVALUATE DEEP TECH</p>
+          <p className="eyebrow dark">HOW WE EVALUATE DEEP TECH</p>
           <h2>A four-part test for enduring advantage.</h2>
         </div>
         <EvaluationChamber pillars={evaluationPillars} />

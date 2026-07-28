@@ -14,6 +14,7 @@ import {
   evaluationPillars,
   filters,
   focusAreas,
+  investmentCriteria,
   portfolio,
   team,
 } from "./siteData";
@@ -72,6 +73,9 @@ export default function QFundExperience() {
     const root = document.documentElement;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
+    let pointerFrame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
     let loadTimer = 0;
 
     if (reduced) {
@@ -102,6 +106,21 @@ export default function QFundExperience() {
     );
 
     document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+    const motionNodes = Array.from(document.querySelectorAll<HTMLElement>(
+      ".page-gateway, .underwrite, .focus, .signal-corridor, .portfolio, .team, .signals, .contact",
+    ));
+    const motionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-motion-active", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.01, rootMargin: "18% 0px 18%" },
+    );
+    motionNodes.forEach((node) => {
+      node.classList.add("motion-section");
+      motionObserver.observe(node);
+    });
     const signalCorridor = document.querySelector<HTMLElement>("[data-signal-corridor]");
 
     const onScroll = () => {
@@ -123,11 +142,17 @@ export default function QFundExperience() {
     };
 
     const onPointer = (event: PointerEvent) => {
-      root.style.setProperty("--mx", `${event.clientX}px`);
-      root.style.setProperty("--my", `${event.clientY}px`);
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${event.clientX}px,${event.clientY}px,0)`;
-      }
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (pointerFrame) return;
+      pointerFrame = window.requestAnimationFrame(() => {
+        root.style.setProperty("--mx", `${pointerX}px`);
+        root.style.setProperty("--my", `${pointerY}px`);
+        if (cursorRef.current) {
+          cursorRef.current.style.transform = `translate3d(${pointerX}px,${pointerY}px,0)`;
+        }
+        pointerFrame = 0;
+      });
     };
 
     const magneticNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-magnetic]"));
@@ -181,7 +206,9 @@ export default function QFundExperience() {
     return () => {
       window.clearInterval(loadTimer);
       window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(pointerFrame);
       revealObserver.disconnect();
+      motionObserver.disconnect();
       magneticCleanup.forEach((cleanup) => cleanup());
       tiltCleanup.forEach((cleanup) => cleanup());
       window.removeEventListener("scroll", onScroll);
@@ -269,7 +296,7 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="page-gateway section-ink" id="explore">
+      <section className="page-gateway section-light" id="explore">
         <div className="section-index reveal"><span>00</span><p>Explore qFund</p></div>
         <div className="gateway-heading heading-solo reveal">
           <p className="eyebrow">EARLY STAGE / DEEP TECH / ISRAEL</p>
@@ -376,7 +403,7 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="focus section-dark" id="focus">
+      <section className="focus section-light" id="focus">
         <div className="section-index reveal"><span>03</span><p>Strategic focus areas</p></div>
         <div className="focus-layout">
           <div className="focus-list reveal">
@@ -441,7 +468,7 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="portfolio section-ink" id="portfolio">
+      <section className="portfolio section-light" id="portfolio">
         <div className="section-index reveal"><span>04</span><p>Our portfolio</p></div>
         <div className="portfolio-heading heading-solo reveal">
           <div>
@@ -573,13 +600,36 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="signals section-dark" id="investment-criteria">
+      <section className="signals section-light" id="investment-criteria">
         <div className="section-index reveal"><span>06</span><p>Investment thesis</p></div>
         <div className="signals-heading heading-solo reveal">
           <div>
             <h2>What qFund<br />looks for.</h2>
-            <Link className="text-link route-link inverted" href="/thesis/">Read the thesis <span>↗</span></Link>
+            <Link className="text-link route-link" href="/thesis/">Read the thesis <span>↗</span></Link>
           </div>
+        </div>
+        <div className="signal-principles">
+          {investmentCriteria.map((criterion, index) => (
+            <article
+              className={`signal-principle signal-principle-${index + 1} reveal`}
+              style={{ "--principle-index": index } as CSSProperties}
+              key={criterion.code}
+            >
+              <div className="signal-principle-visual" aria-hidden="true">
+                <span className="principle-grid" />
+                <span className="principle-ring principle-ring-a" />
+                <span className="principle-ring principle-ring-b" />
+                <span className="principle-beam" />
+                <i className="principle-node principle-node-a" />
+                <i className="principle-node principle-node-b" />
+                <i className="principle-node principle-node-c" />
+                <b>{criterion.code}</b>
+              </div>
+              <span>INVESTMENT CRITERION</span>
+              <h3>{criterion.title}</h3>
+              <p>{criterion.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
