@@ -12,7 +12,7 @@ export default function ContactForm() {
     const company = String(data.get("company") ?? "");
     const stage = String(data.get("stage") ?? "");
     const message = String(data.get("message") ?? "");
-    const subject = encodeURIComponent(`qFund introduction — ${company || name}`);
+    const subject = encodeURIComponent(`qFund startup introduction — ${company || name}`);
     const body = encodeURIComponent(
       [
         `Name: ${name}`,
@@ -28,10 +28,10 @@ export default function ContactForm() {
   };
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
+    <form className="contact-form qf-contact-form qf-reveal" onSubmit={handleSubmit}>
       <div className="contact-form-heading">
-        <p className="eyebrow dark">FOUNDER INTRODUCTION</p>
-        <h2>Tell us what<br />you are building.</h2>
+        <p className="qf-kicker">STARTUP INTRODUCTION</p>
+        <h2>Your company,<br />in your words.</h2>
       </div>
 
       <div className="contact-field-row">
@@ -73,7 +73,7 @@ export default function ContactForm() {
       </label>
 
       <div className="contact-form-action">
-        <p>Submitting opens a prepared message in your email application.</p>
+        <p>Your details open as a prepared email to qFund.</p>
         <button type="submit">
           <span>Prepare email</span><span aria-hidden="true">↗</span>
         </button>

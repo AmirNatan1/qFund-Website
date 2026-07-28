@@ -174,8 +174,8 @@ export const filters = [
 export const investmentCriteria = [
   {
     code: "01",
-    title: "Founders",
-    text: "Industry top-tier founders—proven experts capable of driving 10× industry transformations.",
+    title: "Team",
+    text: "Industry-leading teams with the expertise to drive 10× industry transformations.",
   },
   {
     code: "02",
@@ -192,8 +192,8 @@ export const investmentCriteria = [
 export const evaluationPillars = [
   {
     code: "01",
-    title: "Founders",
-    text: "Domain authority with deep, proven expertise. The founder must be the world’s leading expert on this specific problem.",
+    title: "Team",
+    text: "Domain authority with deep, proven expertise concentrated in the team solving the problem.",
     signal: "DOMAIN AUTHORITY",
   },
   {

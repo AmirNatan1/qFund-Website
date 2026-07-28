@@ -7,59 +7,30 @@ async function render(pathname = "/") {
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request(`https://qfund.io${pathname}`, {
-      headers: { accept: "text/html", host: "qfund.io" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
+    new Request(`https://qfund.io${pathname}`, { headers: { accept: "text/html", host: "qfund.io" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
   );
 }
 
-test("server-renders the qFund experience", async () => {
+test("server-renders the unified qFund experience", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-
   const html = await response.text();
-  assert.match(html, /<title>qFund \| Early-Stage Deep Tech Venture Capital<\/title>/i);
-  assert.match(html, /Backing/);
-  assert.match(html, /Israeli-related/);
+  assert.match(html, /Funding the/);
+  assert.match(html, /Pre-seed/);
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
-  assert.match(html, /info@qfund\.io/);
-  assert.match(html, /og-motion\.png/);
-  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
+  assert.match(html, /class="qf-section-rail"/);
+  assert.doesNotMatch(html, /href=["']\/(?:thesis|companies|founders)\/["']/i);
 });
 
-test("publishes the essential navigation and landmarks", async () => {
-  const response = await render();
-  const html = await response.text();
-
-  for (const anchor of ["/thesis/", "/companies/", "/founders/", "/news/", "/contact/"]) {
-    assert.match(html, new RegExp(`href=["']${anchor}["']`, "i"));
-  }
-
-  assert.match(html, /aria-label="Main navigation"/i);
-  assert.match(html, />Our Portfolio<\/a>/i);
-  assert.match(html, /aria-label="Filter portfolio companies"/i);
-  assert.match(html, /aria-label="qFund home"/i);
-});
-
-test("server-renders every source-backed route", async () => {
+test("server-renders the only intended secondary pages", async () => {
   const expectations = [
-    ["/thesis", /Investment criteria/, /Strategic focus/],
-    ["/companies", /Our portfolio/, /Qedma/],
-    ["/founders", /The people behind/, /Itzik Daniel Michaeli/],
-    ["/news", /qFund/, /qFund in New York/],
-    ["/contact", /Begin the/, /info@qfund\.io/],
+    ["/news", /News and activity/i, /qFund in New York/],
+    ["/contact", /Tell us what you are/i, /info@qfund\.io/],
   ];
 
   for (const [pathname, heading, proof] of expectations) {

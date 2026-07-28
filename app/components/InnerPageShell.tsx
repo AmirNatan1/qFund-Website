@@ -1,78 +1,48 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import BackToTop from "./BackToTop";
 import BrandMark from "./BrandMark";
 
 type InnerPageShellProps = {
-  active: "thesis" | "companies" | "founders" | "news" | "contact";
+  active: "news" | "contact";
   children: ReactNode;
 };
-
-const routes = [
-  ["Thesis", "/thesis/", "thesis"],
-  ["Our Portfolio", "/companies/", "companies"],
-  ["Founders", "/founders/", "founders"],
-  ["News", "/news/", "news"],
-] as const;
 
 export default function InnerPageShell({ active, children }: InnerPageShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const root = document.documentElement;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let frame = 0;
+    const root = document.documentElement;
+    let scrollFrame = 0;
     let pointerFrame = 0;
-    let pointerX = 0;
-    let pointerY = 0;
 
     const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("is-visible");
-        });
-      },
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("is-visible");
+      }),
       { threshold: 0.12, rootMargin: "0px 0px -5%" },
     );
 
-    document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
-    const motionNodes = Array.from(document.querySelectorAll<HTMLElement>(
-      ".inner-hero, .inner-section, .inner-cta, .contact-route-hero, .contact-route-body",
-    ));
-    const motionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          entry.target.classList.toggle("is-motion-active", entry.isIntersecting);
-        });
-      },
-      { threshold: 0.01, rootMargin: "18% 0px 18%" },
-    );
-    motionNodes.forEach((node) => {
-      node.classList.add("motion-section");
-      motionObserver.observe(node);
-    });
+    document.querySelectorAll(".qf-reveal").forEach((node) => revealObserver.observe(node));
 
     const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(() => {
         const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         root.style.setProperty("--page-progress", String(window.scrollY / max));
-        frame = 0;
+        scrollFrame = 0;
       });
     };
 
     const onPointer = (event: PointerEvent) => {
-      pointerX = event.clientX;
-      pointerY = event.clientY;
       if (pointerFrame) return;
       pointerFrame = window.requestAnimationFrame(() => {
-        root.style.setProperty("--mx", pointerX + "px");
-        root.style.setProperty("--my", pointerY + "px");
         if (!reduced && cursorRef.current) {
-          cursorRef.current.style.transform = `translate3d(${pointerX}px,${pointerY}px,0)`;
+          cursorRef.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
         }
         pointerFrame = 0;
       });
@@ -83,64 +53,50 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
     onScroll();
 
     return () => {
-      window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(scrollFrame);
       window.cancelAnimationFrame(pointerFrame);
       revealObserver.disconnect();
-      motionObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointer);
     };
   }, []);
 
   return (
-    <main className="inner-site is-ready" id="top">
-      <a className="skip-link" href="#page-content">Skip to content</a>
-      <div className="cursor" ref={cursorRef} aria-hidden="true"><span /></div>
-      <div className="scroll-progress" aria-hidden="true" />
+    <main className="qf-inner" id="top">
+      <a className="qf-skip-link" href="#page-content">Skip to content</a>
+      <div className="qf-cursor" ref={cursorRef} aria-hidden="true"><span /></div>
+      <div className="qf-progress" aria-hidden="true" />
 
-      <header className="nav-shell inner-nav">
-        <Link href="/" className="nav-logo" aria-label="qFund home"><BrandMark /></Link>
-        <nav className="desktop-nav" aria-label="Main navigation">
-          {routes.map(([label, href, key]) => (
-            <Link href={href} className={active === key ? "is-active" : ""} aria-current={active === key ? "page" : undefined} key={key}>{label}</Link>
-          ))}
+      <header className="qf-header qf-inner-header">
+        <Link className="qf-logo" href="/" aria-label="qFund home"><BrandMark /></Link>
+        <Link className="qf-back-home" href="/">← Back to qFund</Link>
+        <nav className="qf-header-actions" aria-label="Secondary navigation">
+          <Link className={active === "news" ? "is-active" : ""} href="/news/">News</Link>
+          <Link className={active === "contact" ? "qf-button qf-button-small is-active" : "qf-button qf-button-small"} href="/contact/">Contact qFund <span>↗</span></Link>
         </nav>
-        <Link className={active === "contact" ? "nav-cta is-active" : "nav-cta"} href="/contact/">
-          <span>Contact qFund</span><span aria-hidden="true">↗</span>
-        </Link>
         <button
-          className="menu-toggle"
+          className="qf-menu-toggle"
           type="button"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((value) => !value)}
-        >
-          <span /><span />
-        </button>
+        ><span /><span /></button>
       </header>
 
-      <div className={menuOpen ? "mobile-menu inner-mobile-menu is-open" : "mobile-menu inner-mobile-menu"}>
+      <div className={menuOpen ? "qf-mobile-menu is-open" : "qf-mobile-menu"}>
         <nav aria-label="Mobile navigation">
-          {routes.map(([label, href, key], index) => (
-            <Link href={href} aria-current={active === key ? "page" : undefined} key={key}>
-              <span>0{index + 1}</span>{label}
-            </Link>
-          ))}
-          <Link href="/contact/" aria-current={active === "contact" ? "page" : undefined}><span>05</span>Contact</Link>
+          <Link href="/" onClick={() => setMenuOpen(false)}><span>01</span>Home</Link>
+          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>02</span>News</Link>
+          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>03</span>Contact</Link>
         </nav>
-        <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
       </div>
 
       <div id="page-content">{children}</div>
 
-      <footer className="inner-footer">
+      <footer className="qf-footer-bar qf-inner-footer">
         <Link href="/" aria-label="qFund home"><BrandMark /></Link>
         <BackToTop />
-        <div>
-          <a href="mailto:info@qfund.io">info@qfund.io</a>
-          <a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-          <span>Arik Einstein 3 · Herzliya, Israel · © {new Date().getFullYear()} qFund</span>
-        </div>
+        <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>Arik Einstein 3 · Herzliya, Israel · © {new Date().getFullYear()} qFund</span></div>
       </footer>
     </main>
   );

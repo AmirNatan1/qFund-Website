@@ -1,18 +1,19 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./revamp.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qfund.io"),
   title: "qFund | Early-Stage Deep Tech Venture Capital",
   description:
-    "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders developing core infrastructure, hardware, and enabling technologies.",
+    "qFund invests from Pre-seed to Series A in Israeli-related Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
   openGraph: {
     type: "website",
     url: "https://qfund.io",
     siteName: "qFund",
     title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders developing core infrastructure, hardware, and enabling technologies.",
+      "qFund invests from Pre-seed to Series A in Israeli-related Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
     images: [
       {
         url: "/og.png",
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund is an early-stage venture capital firm backing Israeli-related Deep Tech founders developing core infrastructure, hardware, and enabling technologies.",
+      "qFund invests from Pre-seed to Series A in Israeli-related Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
     images: ["/og.png"],
   },
 };

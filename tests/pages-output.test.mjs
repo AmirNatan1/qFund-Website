@@ -10,166 +10,96 @@ async function readHome() {
   return readFile(new URL("index.html", outputUrl), "utf8");
 }
 
-test("exports a Cloudflare Pages entry document", async () => {
+test("exports the unified qFund homepage", async () => {
   const html = await readHome();
 
   assert.match(html, /<title>qFund \| Early-Stage Deep Tech Venture Capital<\/title>/i);
-  assert.match(html, /Backing/);
-  assert.match(html, /Israeli-related/);
+  assert.match(html, /Funding the/);
+  assert.match(html, /deep future/);
+  assert.match(html, /Pre-seed/);
+  assert.match(html, /Series A/);
+  assert.match(html, /id="about"/);
+  assert.match(html, /id="industries"/);
+  assert.match(html, /id="approach"/);
+  assert.match(html, /id="portfolio"/);
+  assert.match(html, /id="team"/);
+  assert.match(html, /id="news"/);
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
-  assert.match(html, /href="\/founders\/"/);
   assert.match(html, /href="\/news\/"/);
   assert.match(html, /href="\/contact\/"/);
-  assert.match(html, /info@qfund\.io/);
-  assert.match(html, /og-motion\.png/);
-  assert.doesNotMatch(html, /class="ticker(?:-track)?"/);
+  assert.doesNotMatch(html, /href="\/(?:thesis|companies|founders)\/"/);
+  assert.doesNotMatch(html, /Deep Tech founders|tech founders/i);
 });
 
 test("publishes the required static assets", async () => {
-  await access(new URL("404.html", outputUrl));
-  await access(new URL("og-motion.png", outputUrl));
-  await access(new URL("qfund-logo.png", outputUrl));
-  await access(new URL("qfund-logo.jpg", outputUrl));
-  await access(new URL("qfund-field.png", outputUrl));
-  await access(new URL("team/liav-ben-rubi.webp", outputUrl));
-  await access(new URL("team/dana-taigman-koren.webp", outputUrl));
-  await access(new URL("team/liron-ben-zaken.png", outputUrl));
-  await access(new URL("founders/daniel-lublin-cutout.png", outputUrl));
-  await access(new URL("portfolio/qedma.webp", outputUrl));
-  await access(new URL("focus/quantum-computing.webp", outputUrl));
-  await access(new URL("focus/defense.webp", outputUrl));
-  await access(new URL("focus/energy.webp", outputUrl));
-  await access(new URL("focus/advanced-industry.webp", outputUrl));
-  await access(new URL("focus/semiconductors.webp", outputUrl));
-  await access(new URL("focus/advanced-electronics.webp", outputUrl));
+  await Promise.all([
+    access(new URL("404.html", outputUrl)),
+    access(new URL("og-motion.png", outputUrl)),
+    access(new URL("qfund-logo.png", outputUrl)),
+    access(new URL("team/liav-ben-rubi.webp", outputUrl)),
+    access(new URL("team/dana-taigman-koren.webp", outputUrl)),
+    access(new URL("team/liron-ben-zaken.png", outputUrl)),
+    access(new URL("portfolio/qedma.webp", outputUrl)),
+    access(new URL("focus/quantum-computing.webp", outputUrl)),
+    access(new URL("focus/defense.webp", outputUrl)),
+    access(new URL("focus/energy.webp", outputUrl)),
+    access(new URL("focus/advanced-industry.webp", outputUrl)),
+    access(new URL("focus/semiconductors.webp", outputUrl)),
+    access(new URL("focus/advanced-electronics.webp", outputUrl)),
+  ]);
 
   const html = await readHome();
-  const stylesheet = html.match(/href="([^"]+\.css)"/i)?.[1];
+  const stylesheets = [...html.matchAll(/href="([^"]+\.css)"/gi)].map((match) => match[1]);
   const script = html.match(/src="([^"]+\.js)"/i)?.[1];
-
-  assert.ok(stylesheet, "exported page should reference a stylesheet");
+  assert.ok(stylesheets.length > 0, "exported page should reference a stylesheet");
   assert.ok(script, "exported page should reference a JavaScript bundle");
-  assert.match(html, /src="\/qfund-logo\.png"/);
-  await access(new URL(stylesheet.replace(/^\//, ""), outputUrl));
+  await Promise.all(stylesheets.map((href) => access(new URL(href.replace(/^\//, ""), outputUrl))));
   await access(new URL(script.replace(/^\//, ""), outputUrl));
 });
 
 test("supports the common Cloudflare Pages output-directory presets", async () => {
-  await access(new URL("index.html", canonicalOutputUrl));
-  await access(new URL("index.html", outputUrl));
-  await access(new URL("index.html", legacyClientOutputUrl));
+  await Promise.all([
+    access(new URL("index.html", canonicalOutputUrl)),
+    access(new URL("index.html", outputUrl)),
+    access(new URL("index.html", legacyClientOutputUrl)),
+  ]);
 });
 
-test("exports the source-backed editorial routes", async () => {
-  const [thesis, companies, founders, news, contact] = await Promise.all([
-    readFile(new URL("thesis/index.html", outputUrl), "utf8"),
-    readFile(new URL("companies/index.html", outputUrl), "utf8"),
-    readFile(new URL("founders/index.html", outputUrl), "utf8"),
+test("publishes only the intended secondary pages", async () => {
+  const [news, contact] = await Promise.all([
     readFile(new URL("news/index.html", outputUrl), "utf8"),
     readFile(new URL("contact/index.html", outputUrl), "utf8"),
   ]);
 
-  assert.match(thesis, /<title>Investment Thesis \| qFund<\/title>/i);
-  assert.match(thesis, /Investment criteria/);
-  assert.match(thesis, /Strategic focus/);
-  assert.match(thesis, /The world is/);
-  assert.match(thesis, /Technical validation/);
-  assert.match(thesis, /class="thesis-conviction-field reveal is-visible"/);
-  assert.match(thesis, /class="evaluation-chamber reveal"/);
-  assert.match(thesis, /class="focus-gallery reveal"/);
-  assert.equal((thesis.match(/class="full-test criterion-card criterion-\d reveal"/g) ?? []).length, 3);
-  assert.match(thesis, /src="\/focus\/quantum-computing\.webp"/);
-  assert.match(thesis, /src="\/focus\/advanced-electronics\.webp"/);
-  assert.doesNotMatch(thesis, /class="thesis-hero-system/);
-  assert.match(companies, /<title>Our Portfolio \| qFund<\/title>/i);
-  assert.match(companies, /Our portfolio/);
-  assert.match(companies, /Qedma/);
-  assert.match(companies, /https:\/\/www\.qedma\.com\//);
-  assert.match(founders, /<title>Portfolio Founders \| qFund<\/title>/i);
-  assert.match(founders, /The people behind/);
-  assert.match(founders, /Itzik Daniel Michaeli/);
-  assert.match(founders, /src="\/founders\/daniel-lublin-cutout\.png"/);
-  assert.equal((founders.match(/class="team-card reveal"/g) ?? []).length, 23);
   assert.match(news, /<title>News and Activity \| qFund<\/title>/i);
   assert.match(news, /qFund in New York/);
-  assert.match(news, /May 2026/i);
+  assert.match(news, /VC delegation to Japan/);
+  assert.match(news, /class="qf-news-art/);
   assert.match(contact, /<title>Contact qFund \| Deep Tech Venture Capital<\/title>/i);
-  assert.match(contact, /Tell us what/);
+  assert.match(contact, /Tell us what you are/);
+  assert.match(contact, /Pre-seed to Series A/);
   assert.match(contact, /info@qfund\.io/);
-  assert.match(contact, /Arik Einstein 3/);
-  assert.match(contact, /class="contact-dialogue"/);
-  assert.doesNotMatch(contact, /class="contact-transmission"/);
-});
+  assert.doesNotMatch(contact, /Begin the|contact-dialogue/i);
 
-test("uses the simplified portfolio naming and uncluttered inner heroes", async () => {
-  const pages = await Promise.all(
-    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "news/index.html", "contact/index.html"]
-      .map((path) => readFile(new URL(path, outputUrl), "utf8")),
-  );
-  const [home, thesis, companies, founders, news, contact] = pages;
-
-  assert.match(home, />Our Portfolio<\/a>/);
-  assert.match(companies, /OUR PORTFOLIO/);
-  assert.match(companies, /Our Deep Tech/);
-  assert.match(home, /class="evidence-visual"/);
-  assert.doesNotMatch(home, /class="console-visual"/);
-  assert.match(home, /Liron is a Principal on qFund/);
-  assert.match(home, /Ben-Gurion University of the Negev/);
-
-  for (const html of [thesis, companies, founders, news]) {
-    assert.doesNotMatch(html, /class="inner-hero-meta"/);
-    assert.doesNotMatch(html, /class="inner-hero-deck"/);
-  }
-  assert.doesNotMatch(contact, /class="contact-route-meta"/);
-
-  const rendered = pages.join("\n");
-  for (const presentationCopy of [
-    "Meetings, ecosystem activity, and venture delegations supporting Israeli-related Deep Tech founders.",
-    "Founders, Deep Tech, and market — three requirements, one investment discipline.",
-    "Managing Partners Liav Ben Rubi and Dana Taigman Koren, with Principal Liron Ben Zaken.",
-    "Financial investment, technical validation, commercialization support, and strategic access.",
-    "Each investment must withstand technical, commercial, and founder-level scrutiny.",
-  ]) {
-    assert.ok(!rendered.includes(presentationCopy), `removed presentation copy should stay absent: ${presentationCopy}`);
-  }
-  assert.doesNotMatch(pages.join("\n"), /FILTER BY FIELD|MEET THE ROSTER|REVERSE CHRONOLOGICAL|THE THESIS ↓/i);
-});
-
-test("publishes one back-to-top control on every page", async () => {
-  const pages = await Promise.all(
-    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "news/index.html", "contact/index.html"]
-      .map((path) => readFile(new URL(path, outputUrl), "utf8")),
-  );
-
-  for (const html of pages) {
-    assert.equal(
-      (html.match(/aria-label="Back to the top"/g) ?? []).length,
-      1,
-      "each page should render exactly one back-to-top control",
-    );
-    assert.doesNotMatch(html, /<small>Back to top<\/small>/i);
-    assert.doesNotMatch(html, /Early-stage venture capital backing Deep Tech founders\./i);
+  for (const route of ["thesis", "companies", "founders"]) {
+    await assert.rejects(access(new URL(`${route}/index.html`, outputUrl)));
   }
 });
 
-test("marks founder rows with their actual profile count", async () => {
-  const founders = await readFile(new URL("founders/index.html", outputUrl), "utf8");
-  const rosterRows = founders.match(/class="team-grid founder-roster-grid" data-founder-count="\d+"/g) ?? [];
-
-  assert.equal(rosterRows.length, 10);
-  assert.match(founders, /data-founder-count="1"/);
-  assert.match(founders, /data-founder-count="2"/);
-  assert.match(founders, /data-founder-count="3"/);
+test("renders the right-side section rail and three latest news stories", async () => {
+  const home = await readHome();
+  assert.match(home, /class="qf-section-rail"/);
+  assert.match(home, /aria-label="Go to About"/);
+  assert.match(home, /aria-label="Go to Industries"/);
+  assert.match(home, /aria-label="Go to Our approach"/);
+  assert.equal((home.match(/class="qf-news-card qf-reveal"/g) ?? []).length, 3);
+  assert.match(home, />View all news/);
 });
 
-test("links every team portrait and portfolio logo to its verified destination", async () => {
-  const [home, companies] = await Promise.all([
-    readHome(),
-    readFile(new URL("companies/index.html", outputUrl), "utf8"),
-  ]);
-
+test("links every team portrait and portfolio logo to its destination", async () => {
+  const home = await readHome();
   for (const linkedin of [
     "https://www.linkedin.com/in/liav-ben-rubi/",
     "https://www.linkedin.com/in/danataigmankoren/",
@@ -190,53 +120,22 @@ test("links every team portrait and portfolio logo to its verified destination",
     "https://litevision-eo.com/",
     "https://www.quamcore.com/",
   ]) {
-    assert.match(companies, new RegExp(`href="${website.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
+    assert.match(home, new RegExp(`href="${website.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
   }
 });
 
-test("serves portfolio and team images directly in the static export", async () => {
-  const [home, companies] = await Promise.all([
-    readFile(new URL("index.html", outputUrl), "utf8"),
-    readFile(new URL("companies/index.html", outputUrl), "utf8"),
-  ]);
-  const rendered = `${home}\n${companies}`;
-
-  assert.doesNotMatch(rendered, /\/_next\/image\//);
-  assert.match(home, /src="\/team\/liav-ben-rubi\.webp"/);
-  assert.match(home, /src="\/team\/dana-taigman-koren\.webp"/);
-  assert.match(home, /src="\/team\/liron-ben-zaken\.png"/);
-
-  for (const company of [
-    "element-security",
-    "commcrete",
-    "skapion",
-    "oraqon",
-    "qedma",
-    "actasys",
-    "particle",
-    "signal-edge",
-    "litevision",
-    "quamcore",
-  ]) {
-    assert.match(rendered, new RegExp(`src="/portfolio/${company}\\.webp"`));
-  }
-});
-
-test("does not publish the superseded provisional narrative", async () => {
+test("uses direct image URLs and one back-to-top control per page", async () => {
   const pages = await Promise.all(
-    ["index.html", "thesis/index.html", "companies/index.html", "founders/index.html", "news/index.html", "contact/index.html"]
-      .map((path) => readFile(new URL(path, outputUrl), "utf8")),
+    ["index.html", "news/index.html", "contact/index.html"].map((path) => readFile(new URL(path, outputUrl), "utf8")),
   );
   const rendered = pages.join("\n");
 
-  for (const phrase of [
-    "Technical truth becomes economic leverage",
-    "Proof, not prediction",
-    "Questions worth pursuing before consensus",
-    "Quantum utility arrives before fault tolerance",
-    "Calibrating frontier systems",
-  ]) {
-    assert.doesNotMatch(rendered, new RegExp(phrase, "i"));
+  assert.doesNotMatch(rendered, /\/_next\/image\//);
+  assert.match(pages[0], /src="\/team\/liav-ben-rubi\.webp"/);
+  assert.match(pages[0], /src="\/portfolio\/element-security\.webp"/);
+  assert.match(pages[0], /src="\/focus\/advanced-electronics\.webp"/);
+
+  for (const html of pages) {
+    assert.equal((html.match(/aria-label="Back to the top"/g) ?? []).length, 1);
   }
-  assert.doesNotMatch(rendered, /href="\/field-notes\/"/i);
 });

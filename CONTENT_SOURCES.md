@@ -1,6 +1,6 @@
 # qFund website content source ledger
 
-Last reviewed: 23 July 2026
+Last reviewed: 28 July 2026
 
 This release replaces the previous provisional website copy. Visible investment, team, portfolio, founder, and activity claims are grounded in the client-approved content brief and the sources it records. Navigation labels and interface instructions are functional website language.
 
@@ -16,7 +16,7 @@ This release replaces the previous provisional website copy. Visible investment,
 | Website content | Primary source |
 | --- | --- |
 | “Funding the deep future of technology” | Japan deck, p. 1 |
-| Early-stage VC backing Deep Tech founders | Japan deck, p. 3; overview deck, p. 10 |
+| Pre-seed to Series A Deep Tech investment focus | Japan deck, p. 3; overview deck, p. 10; client direction |
 | Core infrastructure, hardware, enabling technologies, and named sectors | Japan deck, p. 3; overview deck, p. 10 |
 | Financial investment, technical validation, commercialization support, and strategic access | Japan deck, p. 3; overview deck, p. 10 |
 | Liav Ben Rubi and Dana Taigman Koren biographies | Overview deck, p. 11 |

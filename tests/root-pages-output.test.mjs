@@ -10,52 +10,46 @@ test("keeps the repository-root Pages snapshot current", async () => {
     readFile(new URL("index.html", rootUrl), "utf8"),
     readFile(new URL("index.html", canonicalOutputUrl), "utf8"),
   ]);
-
-  assert.equal(
-    rootHtml,
-    canonicalHtml,
-    "run npm run release:pages-root before publishing",
-  );
+  assert.equal(rootHtml, canonicalHtml, "run npm run release:pages-root before publishing");
 });
 
 test("repository-root snapshot includes every required public asset", async () => {
   const html = await readFile(new URL("index.html", rootUrl), "utf8");
-  const stylesheet = html.match(/href="([^"]+\.css)"/i)?.[1];
+  const stylesheets = [...html.matchAll(/href="([^"]+\.css)"/gi)].map((match) => match[1]);
   const script = html.match(/src="([^"]+\.js)"/i)?.[1];
-
-  assert.ok(stylesheet, "root page should reference a stylesheet");
-  assert.ok(script, "root page should reference a JavaScript bundle");
+  assert.ok(stylesheets.length > 0);
+  assert.ok(script);
 
   await Promise.all([
     access(new URL("404.html", rootUrl)),
-    access(new URL("og-motion.png", rootUrl)),
     access(new URL("qfund-logo.png", rootUrl)),
-    access(new URL("qfund-logo.jpg", rootUrl)),
-    access(new URL("qfund-field.png", rootUrl)),
     access(new URL("team/liron-ben-zaken.png", rootUrl)),
     access(new URL("portfolio/quamcore.webp", rootUrl)),
     access(new URL("focus/quantum-computing.webp", rootUrl)),
-    access(new URL("focus/advanced-electronics.webp", rootUrl)),
-    access(new URL(stylesheet.replace(/^\//, ""), rootUrl)),
+    ...stylesheets.map((href) => access(new URL(href.replace(/^\//, ""), rootUrl))),
     access(new URL(script.replace(/^\//, ""), rootUrl)),
   ]);
 });
 
-test("repository-root snapshot includes every source-backed route", async () => {
-  for (const route of ["thesis", "companies", "founders", "news", "contact"]) {
+test("repository-root snapshot includes only News and Contact routes", async () => {
+  for (const route of ["news", "contact"]) {
     const [rootHtml, canonicalHtml] = await Promise.all([
       readFile(new URL(`${route}/index.html`, rootUrl), "utf8"),
       readFile(new URL(`${route}/index.html`, canonicalOutputUrl), "utf8"),
     ]);
     assert.equal(rootHtml, canonicalHtml, `${route} root snapshot should be current`);
   }
+
+  for (const route of ["thesis", "companies", "founders"]) {
+    await assert.rejects(access(new URL(`${route}/index.html`, rootUrl)));
+  }
 });
 
-test("repository-root snapshot uses direct public image URLs", async () => {
+test("repository-root snapshot uses the new one-page experience", async () => {
   const home = await readFile(new URL("index.html", rootUrl), "utf8");
-
-  assert.doesNotMatch(home, /\/_next\/image\//);
-  assert.match(home, /src="\/qfund-logo\.png"/);
+  assert.match(home, /Funding the/);
+  assert.match(home, /class="qf-section-rail"/);
   assert.match(home, /src="\/portfolio\/element-security\.webp"/);
   assert.match(home, /src="\/team\/liav-ben-rubi\.webp"/);
+  assert.doesNotMatch(home, /href="\/(?:thesis|companies|founders)\/"/);
 });

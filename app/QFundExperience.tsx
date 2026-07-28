@@ -7,94 +7,89 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
 } from "react";
-import BrandMark from "./components/BrandMark";
 import BackToTop from "./components/BackToTop";
-import {
-  evaluationPillars,
-  filters,
-  focusAreas,
-  investmentCriteria,
-  portfolio,
-  team,
-} from "./siteData";
-import HeroWaveField from "./components/HeroWaveField";
+import BrandMark from "./components/BrandMark";
+import NewsArtwork from "./components/NewsArtwork";
 import { formatNewsDate, newsItems } from "./newsData";
+import { evaluationPillars, focusAreas, portfolio, team, valueCreation } from "./siteData";
 
-const routes = [
-  ["Thesis", "/thesis/"],
-  ["Our Portfolio", "/companies/"],
-  ["Founders", "/founders/"],
-  ["News", "/news/"],
+const sections = [
+  ["top", "Home"],
+  ["about", "About"],
+  ["industries", "Industries"],
+  ["approach", "Our approach"],
+  ["portfolio", "Portfolio"],
+  ["team", "Team"],
+  ["news", "News"],
 ] as const;
 
-const gatewayStages = [
-  { cue: "IDENTIFY", name: "discovery" },
-  { cue: "VALIDATE", name: "validation" },
-  { cue: "BUILD", name: "trajectory" },
-] as const;
+function imagePath(title: string) {
+  return `/focus/${title.toLowerCase().replaceAll(" ", "-")}.webp`;
+}
 
-function GatewaySignal({ stage }: { stage: 0 | 1 | 2 }) {
-  const signal = gatewayStages[stage];
+function SectionRail({ active }: { active: string }) {
+  const goToSection = (id: string) => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById(id)?.scrollIntoView({
+      behavior: reduced ? "auto" : "smooth",
+      block: "start",
+    });
+  };
 
   return (
-    <div
-      className={`gateway-visual gateway-system gateway-system-${signal.name}`}
-      style={{ "--gateway-stage": stage } as CSSProperties}
-      aria-hidden="true"
-    >
-      <span className="gateway-system-grid" />
-      <span className="gateway-system-beam gateway-beam-primary" />
-      <span className="gateway-system-beam gateway-beam-secondary" />
-      <span className="gateway-system-track" />
-      <span className="gateway-system-pulse" />
-      {Array.from({ length: 4 }, (_, index) => (
-        <b className={`gateway-system-node gateway-system-node-${index + 1}`} key={index} />
+    <nav className="qf-section-rail" aria-label="Page sections">
+      {sections.map(([id, label], index) => (
+        <button
+          className={active === id ? "is-active" : ""}
+          type="button"
+          aria-label={`Go to ${label}`}
+          aria-current={active === id ? "location" : undefined}
+          onClick={() => goToSection(id)}
+          key={id}
+        >
+          <span>{label}</span>
+          <i aria-hidden="true" />
+          <small aria-hidden="true">{String(index + 1).padStart(2, "0")}</small>
+        </button>
       ))}
-      <span className="gateway-system-halo gateway-halo-one" />
-      <span className="gateway-system-halo gateway-halo-two" />
-      <i className="gateway-core">0{stage + 1}</i>
-      <small>{signal.cue}</small>
+    </nav>
+  );
+}
+
+function FutureField() {
+  return (
+    <div className="qf-future-field" aria-hidden="true">
+      <span className="qf-field-grid" />
+      <span className="qf-field-axis axis-x" />
+      <span className="qf-field-axis axis-y" />
+      <span className="qf-field-orbit orbit-one"><i /></span>
+      <span className="qf-field-orbit orbit-two"><i /></span>
+      <span className="qf-field-orbit orbit-three"><i /></span>
+      <span className="qf-field-wave wave-one" />
+      <span className="qf-field-wave wave-two" />
+      <span className="qf-field-core"><i /><b /></span>
+      <span className="qf-field-caption">PRE-SEED</span>
+      <span className="qf-field-caption caption-end">SERIES A</span>
     </div>
   );
 }
 
 export default function QFundExperience() {
-  const [ready, setReady] = useState(false);
-  const [loadValue, setLoadValue] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeFocus, setActiveFocus] = useState(0);
-  const [activeTest, setActiveTest] = useState(0);
-  const [filter, setFilter] = useState("all");
+  const [activeSection, setActiveSection] = useState("top");
+  const [activeApproach, setActiveApproach] = useState(0);
   const [activeCompany, setActiveCompany] = useState(0);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = document.documentElement;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let frame = 0;
+    let scrollFrame = 0;
     let pointerFrame = 0;
     let pointerX = 0;
     let pointerY = 0;
-    let loadTimer = 0;
-
-    if (reduced) {
-      loadTimer = window.setTimeout(() => {
-        setLoadValue(100);
-        setReady(true);
-      }, 0);
-    } else {
-      loadTimer = window.setInterval(() => {
-        setLoadValue((current) => {
-          const next = Math.min(100, current + Math.max(2, Math.round((100 - current) / 7)));
-          if (next === 100) {
-            window.clearInterval(loadTimer);
-            window.setTimeout(() => setReady(true), 220);
-          }
-          return next;
-        });
-      }, 42);
-    }
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
@@ -102,42 +97,32 @@ export default function QFundExperience() {
           if (entry.isIntersecting) entry.target.classList.add("is-visible");
         });
       },
-      { threshold: 0.14, rootMargin: "0px 0px -6%" },
+      { threshold: 0.12, rootMargin: "0px 0px -5%" },
     );
 
-    document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
-    const motionNodes = Array.from(document.querySelectorAll<HTMLElement>(
-      ".page-gateway, .underwrite, .focus, .signal-corridor, .portfolio, .team, .signals, .contact",
-    ));
-    const motionObserver = new IntersectionObserver(
+    document.querySelectorAll(".qf-reveal").forEach((node) => revealObserver.observe(node));
+
+    const sectionObserver = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          entry.target.classList.toggle("is-motion-active", entry.isIntersecting);
-        });
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible?.target.id) setActiveSection(visible.target.id);
       },
-      { threshold: 0.01, rootMargin: "18% 0px 18%" },
+      { threshold: [0.12, 0.3, 0.55], rootMargin: "-34% 0px -34%" },
     );
-    motionNodes.forEach((node) => {
-      node.classList.add("motion-section");
-      motionObserver.observe(node);
+
+    sections.forEach(([id]) => {
+      const node = document.getElementById(id);
+      if (node) sectionObserver.observe(node);
     });
-    const signalCorridor = document.querySelector<HTMLElement>("[data-signal-corridor]");
 
     const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        const scroll = window.scrollY;
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(() => {
         const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-        root.style.setProperty("--page-progress", String(scroll / max));
-        root.style.setProperty("--hero-shift", String(Math.min(1, scroll / window.innerHeight)));
-        if (signalCorridor) {
-          const bounds = signalCorridor.getBoundingClientRect();
-          const travel = Math.max(1, signalCorridor.offsetHeight - window.innerHeight);
-          const progress = reduced ? 0.55 : Math.min(1, Math.max(0, -bounds.top / travel));
-          signalCorridor.style.setProperty("--corridor-progress", String(progress));
-          signalCorridor.style.setProperty("--corridor-shift", String((progress - 0.5) * 2));
-        }
-        frame = 0;
+        root.style.setProperty("--page-progress", String(window.scrollY / max));
+        scrollFrame = 0;
       });
     };
 
@@ -146,111 +131,62 @@ export default function QFundExperience() {
       pointerY = event.clientY;
       if (pointerFrame) return;
       pointerFrame = window.requestAnimationFrame(() => {
-        root.style.setProperty("--mx", `${pointerX}px`);
-        root.style.setProperty("--my", `${pointerY}px`);
-        if (cursorRef.current) {
-          cursorRef.current.style.transform = `translate3d(${pointerX}px,${pointerY}px,0)`;
+        if (!reduced && cursorRef.current) {
+          cursorRef.current.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
         }
         pointerFrame = 0;
       });
     };
-
-    const magneticNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-magnetic]"));
-    const magneticCleanup = magneticNodes.map((node) => {
-      const move = (event: PointerEvent) => {
-        if (reduced) return;
-        const box = node.getBoundingClientRect();
-        const x = (event.clientX - box.left - box.width / 2) * 0.16;
-        const y = (event.clientY - box.top - box.height / 2) * 0.16;
-        node.style.transform = `translate3d(${x}px,${y}px,0)`;
-      };
-      const leave = () => {
-        node.style.transform = "translate3d(0,0,0)";
-      };
-      node.addEventListener("pointermove", move);
-      node.addEventListener("pointerleave", leave);
-      return () => {
-        node.removeEventListener("pointermove", move);
-        node.removeEventListener("pointerleave", leave);
-      };
-    });
-
-    const tiltNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-tilt]"));
-    const tiltCleanup = tiltNodes.map((node) => {
-      const move = (event: PointerEvent) => {
-        if (reduced) return;
-        const box = node.getBoundingClientRect();
-        const px = (event.clientX - box.left) / box.width - 0.5;
-        const py = (event.clientY - box.top) / box.height - 0.5;
-        node.style.setProperty("--tilt-x", String(py * -4));
-        node.style.setProperty("--tilt-y", String(px * 5));
-        node.style.setProperty("--card-x", `${(px + 0.5) * 100}%`);
-        node.style.setProperty("--card-y", `${(py + 0.5) * 100}%`);
-      };
-      const leave = () => {
-        node.style.setProperty("--tilt-x", "0");
-        node.style.setProperty("--tilt-y", "0");
-      };
-      node.addEventListener("pointermove", move);
-      node.addEventListener("pointerleave", leave);
-      return () => {
-        node.removeEventListener("pointermove", move);
-        node.removeEventListener("pointerleave", leave);
-      };
-    });
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("pointermove", onPointer, { passive: true });
     onScroll();
 
     return () => {
-      window.clearInterval(loadTimer);
-      window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(scrollFrame);
       window.cancelAnimationFrame(pointerFrame);
       revealObserver.disconnect();
-      motionObserver.disconnect();
-      magneticCleanup.forEach((cleanup) => cleanup());
-      tiltCleanup.forEach((cleanup) => cleanup());
+      sectionObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointer);
     };
   }, []);
 
-  const active = focusAreas[activeFocus];
-  const activeEvaluation = evaluationPillars[activeTest];
-  const visibleCompanies = portfolio
-    .map((company, index) => ({ company, index }))
-    .filter(({ company }) => filter === "all" || filter === company.group);
-  const selectedCompany =
-    visibleCompanies.find(({ index }) => index === activeCompany) ?? visibleCompanies[0];
+  const moveFutureField = (event: ReactPointerEvent<HTMLElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    event.currentTarget.style.setProperty("--field-shift-x", `${(x * 14).toFixed(2)}px`);
+    event.currentTarget.style.setProperty("--field-shift-y", `${(y * 12).toFixed(2)}px`);
+    event.currentTarget.style.setProperty("--field-rotate-x", `${(y * -3).toFixed(2)}deg`);
+    event.currentTarget.style.setProperty("--field-rotate-y", `${(x * 4).toFixed(2)}deg`);
+  };
+
+  const resetFutureField = (event: ReactPointerEvent<HTMLElement>) => {
+    event.currentTarget.style.setProperty("--field-shift-x", "0px");
+    event.currentTarget.style.setProperty("--field-shift-y", "0px");
+    event.currentTarget.style.setProperty("--field-rotate-x", "0deg");
+    event.currentTarget.style.setProperty("--field-rotate-y", "0deg");
+  };
+
+  const approach = evaluationPillars[activeApproach];
+  const company = portfolio[activeCompany];
 
   return (
-    <main className={ready ? "site is-ready" : "site is-loading"}>
-      <a className="skip-link" href="#main-content">Skip to content</a>
+    <main className="qf-site">
+      <a className="qf-skip-link" href="#about">Skip to content</a>
+      <div className="qf-cursor" ref={cursorRef} aria-hidden="true"><span /></div>
+      <div className="qf-progress" aria-hidden="true" />
 
-      <div className="preloader" aria-hidden={ready}>
-        <div className="preloader-grid" />
-        <div className="preloader-inner">
-          <BrandMark />
-          <p>Backing Deep Tech founders</p>
-          <div className="preloader-track"><span style={{ width: `${loadValue}%` }} /></div>
-          <span className="preloader-count">{String(loadValue).padStart(3, "0")}</span>
-        </div>
-      </div>
-
-      <div className="cursor" ref={cursorRef} aria-hidden="true"><span /></div>
-      <div className="scroll-progress" aria-hidden="true" />
-
-      <header className="nav-shell">
-        <a href="#top" className="nav-logo" aria-label="qFund home"><BrandMark /></a>
-        <nav className="desktop-nav" aria-label="Main navigation">
-          {routes.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
+      <header className="qf-header">
+        <a className="qf-logo" href="#top" aria-label="qFund home"><BrandMark /></a>
+        <p className="qf-header-stage">Pre-seed <span /> Series A</p>
+        <nav className="qf-header-actions" aria-label="Secondary navigation">
+          <Link href="/news/">News</Link>
+          <Link className="qf-button qf-button-small" href="/contact/">Contact qFund <span>↗</span></Link>
         </nav>
-        <Link className="nav-cta" href="/contact/" data-magnetic>
-          <span>Contact qFund</span><span aria-hidden="true">↗</span>
-        </Link>
         <button
-          className="menu-toggle"
+          className="qf-menu-toggle"
           type="button"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
@@ -260,416 +196,231 @@ export default function QFundExperience() {
         </button>
       </header>
 
-      <div className={menuOpen ? "mobile-menu is-open" : "mobile-menu"}>
+      <div className={menuOpen ? "qf-mobile-menu is-open" : "qf-mobile-menu"}>
         <nav aria-label="Mobile navigation">
-          {routes.map(([label, href], index) => (
-            <Link key={href} href={href} onClick={() => setMenuOpen(false)}>
-              <span>0{index + 1}</span>{label}
-            </Link>
+          {sections.slice(1).map(([id, label], index) => (
+            <a href={`#${id}`} onClick={() => setMenuOpen(false)} key={id}>
+              <span>{String(index + 1).padStart(2, "0")}</span>{label}
+            </a>
           ))}
-          <Link href="/contact/" onClick={() => setMenuOpen(false)}>
-            <span>05</span>Contact
-          </Link>
+          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>07</span>All news</Link>
+          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>08</span>Contact</Link>
         </nav>
-        <a href="mailto:info@qfund.io">info@qfund.io ↗</a>
       </div>
 
-      <section className="hero" id="top" aria-labelledby="hero-title">
-        <div className="hero-image" aria-hidden="true">
-          <HeroWaveField />
-        </div>
-        <div className="hero-field" aria-hidden="true" />
-        <div className="hero-grid" aria-hidden="true" />
-        <div className="hero-coordinates" aria-hidden="true">
-          <span>HERZLIYA</span><span>ISRAEL</span>
-        </div>
-        <div className="hero-content" id="main-content">
-          <p className="eyebrow hero-eyebrow"><span /> EARLY-STAGE VENTURE CAPITAL · DEEP TECH</p>
-          <h1 id="hero-title" className="hero-title">
-            <span className="line"><span>Backing</span></span>
-            <span className="line accent-line"><span>Israeli-related</span></span>
-            <span className="line"><span>Deep Tech founders.</span></span>
+      <SectionRail active={activeSection} />
+
+      <section
+        className="qf-hero qf-scroll-section"
+        id="top"
+        data-qf-section
+        aria-labelledby="qf-hero-title"
+        onPointerMove={moveFutureField}
+        onPointerLeave={resetFutureField}
+      >
+        <span className="qf-hero-grid" aria-hidden="true" />
+        <div className="qf-hero-copy">
+          <p className="qf-kicker qf-reveal is-visible"><span /> DEEP TECH VENTURE CAPITAL · ISRAEL</p>
+          <h1 id="qf-hero-title" className="qf-reveal is-visible">
+            <span>Funding the</span>
+            <span className="qf-serif">deep future</span>
+            <span>of technology.</span>
           </h1>
-        </div>
-        <div className="hero-status" aria-hidden="true">
-          <span className="pulse-dot" /> ISRAELI-RELATED DEEP TECH
-        </div>
-      </section>
-
-      <section className="page-gateway section-light" id="explore">
-        <div className="section-index reveal"><span>00</span><p>Explore qFund</p></div>
-        <div className="gateway-heading heading-solo reveal">
-          <p className="eyebrow">EARLY STAGE / DEEP TECH / ISRAEL</p>
-          <h2>Backing<br /><em>Deep Tech founders.</em></h2>
-        </div>
-        <div className="gateway-grid">
-          <Link className="gateway-card gateway-thesis reveal" href="/thesis/" data-tilt>
-            <GatewaySignal stage={0} />
-            <span>Investment thesis</span><h3>What qFund looks for.</h3>
-            <p>Founders, breakthrough Deep Tech, and massive high-conviction markets.</p>
-            <i className="gateway-arrow" aria-hidden="true">↗</i>
-          </Link>
-          <Link className="gateway-card gateway-companies reveal" href="/companies/" data-tilt>
-            <GatewaySignal stage={1} />
-            <span>Portfolio</span><h3>Real Deep Tech companies.</h3>
-            <p>Thermal management, defense, satellite communications, quantum computing, cybersecurity, laser detection, and particle acceleration.</p>
-            <i className="gateway-arrow" aria-hidden="true">↗</i>
-          </Link>
-          <Link className="gateway-card gateway-founders reveal" href="/founders/" data-tilt>
-            <GatewaySignal stage={2} />
-            <span>Portfolio founders</span><h3>The people behind the portfolio.</h3>
-            <p>Academic experts, alumni of elite technological units, and industry leaders.</p>
-            <i className="gateway-arrow" aria-hidden="true">↗</i>
-          </Link>
-        </div>
-      </section>
-
-      <section className="thesis section-light" id="thesis">
-        <div className="section-index reveal"><span>01</span><p>About qFund</p></div>
-        <div className="thesis-statement reveal">
-          <p className="eyebrow dark">EARLY-STAGE VENTURE CAPITAL</p>
-          <h2>
-            Core infrastructure, hardware, and
-            <em> enabling technologies.</em>
-          </h2>
-        </div>
-        <div className="thesis-grid">
-          <div className="thesis-copy reveal">
-            <p>
-              We invest in Israeli-related startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
-            </p>
-            <p>
-              Our approach combines financial investment with technical validation, commercialization support, and strategic access.
-            </p>
-            <Link className="text-link route-link" href="/thesis/">Read the investment thesis <span>↗</span></Link>
+          <p className="qf-hero-deck qf-reveal is-visible">
+            qFund invests in Israeli-related startups developing core infrastructure, hardware, and enabling technologies.
+          </p>
+          <div className="qf-hero-actions qf-reveal is-visible">
+            <a className="qf-button" href="#approach">Our approach <span>↓</span></a>
+            <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
           </div>
-          <div className="metrics reveal" aria-label="qFund investment approach">
-            <article><strong>EARLY</strong><span>Seed to Series A</span></article>
-            <article><strong>DEEP</strong><span>Hardware and enabling software</span></article>
-            <article><strong>ISRAEL</strong><span>Israeli-related startups</span></article>
+        </div>
+        <div className="qf-hero-visual"><FutureField /></div>
+        <div className="qf-hero-foot">
+          <span>HERZLIYA · ISRAEL</span>
+          <a href="#about">SCROLL TO EXPLORE <i>↓</i></a>
+        </div>
+      </section>
+
+      <section className="qf-about qf-scroll-section" id="about" data-qf-section aria-labelledby="about-title">
+        <div className="qf-section-label qf-reveal"><span>01</span><p>About us</p></div>
+        <div className="qf-about-heading qf-reveal">
+          <p className="qf-kicker">EARLY-STAGE VENTURE CAPITAL</p>
+          <h2 id="about-title">Built for technologies that have to work <em>in the real world.</em></h2>
+        </div>
+        <div className="qf-about-body">
+          <div className="qf-about-copy qf-reveal">
+            <p>We invest in Israeli-related startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.</p>
+            <p>Our approach combines financial investment with technical validation, commercialization support, and strategic access.</p>
+          </div>
+          <div className="qf-about-facts qf-reveal" aria-label="qFund at a glance">
+            <article><strong>Pre-seed</strong><span>Entry point</span></article>
+            <article><strong>Series A</strong><span>Investment horizon</span></article>
+            <article><strong>Israel</strong><span>Israeli-related startups</span></article>
           </div>
         </div>
       </section>
 
-      <section className="underwrite section-sage" id="evaluate">
-        <div className="section-index reveal"><span>02</span><p>How qFund evaluates</p></div>
-        <div className="underwrite-layout">
-          <div className="underwrite-intro reveal">
-            <p className="eyebrow dark">FOUR-PILLAR METHOD</p>
-            <h2>Separating science fiction<br /><em>from real-world infrastructure.</em></h2>
-            <Link className="text-link route-link" href="/thesis/#evaluation">Evaluation and value creation <span>↗</span></Link>
-          </div>
-
-          <div className="underwrite-console reveal">
-            <div className="evidence-visual" data-evidence={activeTest} aria-hidden="true">
-              <div className="evidence-scene evidence-founders">
-                <span className="evidence-link link-a" /><span className="evidence-link link-b" /><span className="evidence-link link-c" />
-                <i className="evidence-node node-a" /><i className="evidence-node node-b" /><i className="evidence-node node-c" /><i className="evidence-node node-d" />
-              </div>
-              <div className="evidence-scene evidence-technology">
-                {Array.from({ length: 6 }, (_, index) => <i style={{ "--bar": index } as CSSProperties} key={index} />)}
-                <span>10×</span>
-              </div>
-              <div className="evidence-scene evidence-market">
-                <i /><i /><i /><span />
-              </div>
-              <div className="evidence-scene evidence-defensibility">
-                <i /><i /><i /><i /><span />
-              </div>
-              <div className="evidence-readout" key={activeEvaluation.code}>
-                <span>{activeEvaluation.code}</span>
-                <strong>{activeEvaluation.title}</strong>
-                <small>{activeEvaluation.signal}</small>
-              </div>
-            </div>
-            <div className="underwrite-tests" role="list" aria-label="qFund evaluation pillars">
-              {evaluationPillars.map((test, index) => (
-                <button
-                  className={activeTest === index ? "underwrite-test is-active" : "underwrite-test"}
-                  key={test.code}
-                  type="button"
-                  onMouseEnter={() => setActiveTest(index)}
-                  onFocus={() => setActiveTest(index)}
-                  onClick={() => setActiveTest(index)}
-                  aria-pressed={activeTest === index}
-                >
-                  <span>{test.code}</span>
-                  <span><strong>{test.title}</strong><small>{test.text}</small></span>
-                  <i aria-hidden="true">{activeTest === index ? "●" : "○"}</i>
-                </button>
-              ))}
-            </div>
-          </div>
+      <section className="qf-industries qf-scroll-section" id="industries" data-qf-section aria-labelledby="industries-title">
+        <div className="qf-section-label qf-reveal"><span>02</span><p>Industries</p></div>
+        <div className="qf-section-heading qf-reveal">
+          <p className="qf-kicker">SIX STRATEGIC FOCUS AREAS</p>
+          <h2 id="industries-title">Where scientific advantage becomes <em>industrial consequence.</em></h2>
         </div>
-      </section>
-
-      <section className="focus section-light" id="focus">
-        <div className="section-index reveal"><span>03</span><p>Strategic focus areas</p></div>
-        <div className="focus-layout">
-          <div className="focus-list reveal">
-            <p className="eyebrow">STRATEGIC FOCUS</p>
-            {focusAreas.map((item, index) => (
-              <button
-                key={item.title}
-                type="button"
-                className={activeFocus === index ? "focus-button is-active" : "focus-button"}
-                onMouseEnter={() => setActiveFocus(index)}
-                onFocus={() => setActiveFocus(index)}
-                onClick={() => setActiveFocus(index)}
-                aria-pressed={activeFocus === index}
-              >
-                <span>{item.code}</span><strong>{item.title}</strong><i aria-hidden="true">↗</i>
-              </button>
-            ))}
-          </div>
-          <div className="focus-stage reveal" data-focus={activeFocus}>
-            <div className="orbit-system" aria-hidden="true">
-              <span className="orbit orbit-a" /><span className="orbit orbit-b" /><span className="orbit orbit-c" />
-              <span className="satellite sat-a" /><span className="satellite sat-b" /><span className="satellite sat-c" />
-              <span className="orbit-core">{active.code}</span>
-            </div>
-            <div className="focus-readout">
-              <span className="signal">STRATEGIC FOCUS AREA</span>
-              <h3 key={active.title}>{active.title}</h3>
-              <p key={active.text}>{active.text}</p>
-              <div className="readout-line"><span style={{ width: `${((activeFocus + 1) / focusAreas.length) * 100}%` }} /></div>
-              <small>FIELD {active.code} / 0{focusAreas.length}</small>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="signal-corridor" data-signal-corridor aria-label="Our investment approach">
-        <div className="signal-corridor-stage">
-          <div className="corridor-grid" aria-hidden="true" />
-          <div className="corridor-aperture" aria-hidden="true">
-            <span className="corridor-ring corridor-ring-a" />
-            <span className="corridor-ring corridor-ring-b" />
-            <span className="corridor-ring corridor-ring-c" />
-            <span className="corridor-axis corridor-axis-x" />
-            <span className="corridor-axis corridor-axis-y" />
-            <i className="corridor-core"><span /></i>
-          </div>
-          <div className="corridor-type">
-            <p className="eyebrow">CORE INFRASTRUCTURE · HARDWARE · ENABLING TECHNOLOGIES</p>
-            <h2>
-              <span>Financial investment.</span>
-              <span>Technical validation.</span>
-            </h2>
-          </div>
-          <div className="corridor-signals">
-            <span>TECHNICAL VALIDATION</span>
-            <span>COMMERCIALIZATION SUPPORT</span>
-            <span>STRATEGIC ACCESS</span>
-          </div>
-          <div className="corridor-counter" aria-hidden="true">
-            <span>RESEARCH</span><i /><span>SCALE</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="portfolio section-light" id="portfolio">
-        <div className="section-index reveal"><span>04</span><p>Our portfolio</p></div>
-        <div className="portfolio-heading heading-solo reveal">
-          <div>
-            <h2>Real Deep Tech companies.</h2>
-            <Link className="text-link route-link" href="/companies/">Explore our portfolio <span>↗</span></Link>
-          </div>
-        </div>
-        <div className="portfolio-filters reveal" role="group" aria-label="Filter portfolio companies">
-          {filters.map(([value, label]) => (
-            <button
-              key={value}
-              type="button"
-              className={filter === value ? "is-active" : ""}
-              onClick={() => {
-                setFilter(value);
-                const firstMatch = portfolio.findIndex((company) => value === "all" || company.group === value);
-                setActiveCompany(Math.max(0, firstMatch));
-              }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <div className="portfolio-console reveal">
-          <div className="portfolio-directory" role="group" aria-label="Portfolio company selector">
-            <div className="portfolio-directory-label">
-              <span>Company</span><span>Field</span><span aria-hidden="true">Select</span>
-            </div>
-            {visibleCompanies.map(({ company, index }, visibleIndex) => (
-              <button
-                key={company.name}
-                type="button"
-                className={selectedCompany?.index === index ? "portfolio-directory-row is-active" : "portfolio-directory-row"}
-                onMouseEnter={() => setActiveCompany(index)}
-                onFocus={() => setActiveCompany(index)}
-                onClick={() => setActiveCompany(index)}
-                aria-pressed={selectedCompany?.index === index}
-              >
-                <span className="portfolio-row-number">{String(visibleIndex + 1).padStart(2, "0")}</span>
-                <strong>{company.name}</strong>
-                <span>{company.category}</span>
-                <i aria-hidden="true">↗</i>
-              </button>
-            ))}
-          </div>
-
-          {selectedCompany ? (
-            <article
-              className="portfolio-stage"
-              style={{ "--company-index": selectedCompany.index } as CSSProperties}
-              aria-live="polite"
-            >
-              <div className="portfolio-stage-field" aria-hidden="true">
-                <span className="portfolio-stage-ring ring-a" />
-                <span className="portfolio-stage-ring ring-b" />
-                <span className="portfolio-stage-ring ring-c" />
-                <span className="portfolio-stage-trace trace-a" />
-                <span className="portfolio-stage-trace trace-b" />
-                <i className="portfolio-stage-node node-a" />
-                <i className="portfolio-stage-node node-b" />
-                <i className="portfolio-stage-node node-c" />
-              </div>
-              <div className="portfolio-stage-top">
-                <span>ACTIVE COMPANY</span>
-                <span>{String(selectedCompany.index + 1).padStart(2, "0")} / {String(portfolio.length).padStart(2, "0")}</span>
-              </div>
-              <div className="portfolio-stage-content" key={selectedCompany.company.name}>
-                <a
-                  className="portfolio-stage-logo"
-                  href={selectedCompany.company.website}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Visit ${selectedCompany.company.name}`}
-                >
-                  <Image
-                    src={selectedCompany.company.logo}
-                    alt={`${selectedCompany.company.name} logo`}
-                    width={660}
-                    height={260}
-                    priority={selectedCompany.index === 0}
-                  />
-                </a>
-                <div className="portfolio-stage-copy">
-                  <div>
-                    <span>{selectedCompany.company.category}</span>
-                     <span>PORTFOLIO COMPANY</span>
-                  </div>
-                  <h3>{selectedCompany.company.name}</h3>
-                   <p>{selectedCompany.company.description}</p>
-                   {selectedCompany.company.validation ? <p>{selectedCompany.company.validation}</p> : null}
-                  <a href={selectedCompany.company.website} target="_blank" rel="noreferrer">
-                    Visit company <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-              </div>
-              <div className="portfolio-stage-progress" aria-hidden="true">
-                <span style={{ width: `${((selectedCompany.index + 1) / portfolio.length) * 100}%` }} />
+        <div className="qf-industry-grid">
+          {focusAreas.map((item, index) => (
+            <article className="qf-industry-card qf-reveal" style={{ "--card-index": index } as CSSProperties} key={item.title}>
+              <figure>
+                <Image
+                  src={imagePath(item.title)}
+                  alt={`${item.title} technical system`}
+                  fill
+                  sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  unoptimized
+                />
+                <span className="qf-image-wash" aria-hidden="true" />
+                <span className="qf-image-scan" aria-hidden="true" />
+              </figure>
+              <div>
+                <span>{item.code}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
               </div>
             </article>
-          ) : null}
+          ))}
         </div>
       </section>
 
-      <section className="team section-sage" id="team">
-        <div className="section-index reveal"><span>05</span><p>Team</p></div>
-        <div className="team-heading heading-solo reveal">
-          <h2>qFund<br />investment team.</h2>
+      <section className="qf-approach qf-scroll-section" id="approach" data-qf-section aria-labelledby="approach-title">
+        <div className="qf-section-label qf-reveal"><span>03</span><p>Our approach</p></div>
+        <div className="qf-approach-heading qf-reveal">
+          <p className="qf-kicker">CONVICTION, THEN COMPANY BUILDING</p>
+          <h2 id="approach-title">A disciplined route from technical truth to <em>commercial scale.</em></h2>
         </div>
-        <div className="team-grid">
-          {team.map((person, index) => (
-            <article className="team-card reveal" data-tilt key={person.name}>
+        <div className="qf-approach-instrument qf-reveal">
+          <div className="qf-approach-controls" role="list" aria-label="Investment evaluation pillars">
+            {evaluationPillars.map((item, index) => (
+              <button
+                type="button"
+                className={activeApproach === index ? "is-active" : ""}
+                onMouseEnter={() => setActiveApproach(index)}
+                onFocus={() => setActiveApproach(index)}
+                onClick={() => setActiveApproach(index)}
+                aria-pressed={activeApproach === index}
+                key={item.code}
+              >
+                <span>{item.code}</span><strong>{item.title}</strong><i aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+          <div className="qf-approach-readout" key={approach.code}>
+            <div className="qf-approach-graphic" style={{ "--approach-index": activeApproach } as CSSProperties} aria-hidden="true">
+              <span className="ring ring-a" /><span className="ring ring-b" /><span className="ring ring-c" />
+              <i className="axis axis-a" /><i className="axis axis-b" />
+              <b>{approach.code}</b>
+            </div>
+            <div className="qf-approach-copy">
+              <span>{approach.signal}</span>
+              <h3>{approach.title}</h3>
+              <p>{approach.text}</p>
+              <small>{String(activeApproach + 1).padStart(2, "0")} / {String(evaluationPillars.length).padStart(2, "0")}</small>
+            </div>
+          </div>
+        </div>
+        <div className="qf-value-grid">
+          {valueCreation.map((item) => (
+            <article className="qf-value-card qf-reveal" key={item.code}>
+              <span>{item.code}</span><h3>{item.title}</h3><p>{item.text}</p><i aria-hidden="true" />
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="qf-portfolio qf-scroll-section" id="portfolio" data-qf-section aria-labelledby="portfolio-title">
+        <div className="qf-section-label qf-reveal"><span>04</span><p>Our portfolio</p></div>
+        <div className="qf-portfolio-heading qf-reveal">
+          <p className="qf-kicker">TEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
+          <h2 id="portfolio-title">Built around technologies with <em>consequence.</em></h2>
+        </div>
+        <div className="qf-portfolio-console qf-reveal">
+          <div className="qf-company-feature" key={company.name}>
+            <div className="qf-company-feature-logo">
+              <Image src={company.logo} alt={`${company.name} logo`} width={360} height={150} unoptimized />
+            </div>
+            <span>{company.category}</span>
+            <h3>{company.name}</h3>
+            <p>{company.description}</p>
+            {company.validation ? <small>{company.validation}</small> : null}
+            <a href={company.website} target="_blank" rel="noreferrer">Visit company <i>↗</i></a>
+          </div>
+          <div className="qf-company-matrix" aria-label="Portfolio companies">
+            {portfolio.map((item, index) => (
               <a
-                className="team-portrait"
-                href={person.linkedin}
+                className={activeCompany === index ? "is-active" : ""}
+                href={item.website}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`${person.name} on LinkedIn`}
+                onMouseEnter={() => setActiveCompany(index)}
+                onFocus={() => setActiveCompany(index)}
+                aria-label={`${item.name} website`}
+                key={item.name}
               >
-                <span className="portrait-grid" aria-hidden="true" />
-                <Image src={person.image} alt={person.name} width={460} height={670} />
-                <small>0{index + 1} · LINKEDIN ↗</small>
+                <Image src={item.logo} alt={`${item.name} logo`} width={220} height={90} unoptimized />
+                <span>{item.name}</span><i aria-hidden="true">↗</i>
               </a>
-              <div className="team-info">
-                <h3>{person.name}</h3><p>{person.role}</p>
-                {person.bio ? <span>{person.bio}</span> : null}
-              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="qf-team qf-scroll-section" id="team" data-qf-section aria-labelledby="team-title">
+        <div className="qf-section-label qf-reveal"><span>05</span><p>Investment team</p></div>
+        <div className="qf-section-heading qf-reveal">
+          <p className="qf-kicker">QFUND · HERZLIYA</p>
+          <h2 id="team-title">Experience across R&amp;D, industry, investment, and <em>global partnerships.</em></h2>
+        </div>
+        <div className="qf-team-grid">
+          {team.map((member, index) => (
+            <article className="qf-team-card qf-reveal" style={{ "--card-index": index } as CSSProperties} key={member.name}>
+              <a className="qf-team-image" href={member.linkedin} target="_blank" rel="noreferrer" aria-label={`${member.name} on LinkedIn`}>
+                <Image src={member.image} alt={member.name} fill sizes="(max-width: 720px) 100vw, 33vw" unoptimized />
+                <span aria-hidden="true">LinkedIn ↗</span>
+              </a>
+              <div><span>{member.role}</span><h3>{member.name}</h3><p>{member.bio}</p></div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="signals section-light" id="investment-criteria">
-        <div className="section-index reveal"><span>06</span><p>Investment thesis</p></div>
-        <div className="signals-heading heading-solo reveal">
-          <div>
-            <h2>What qFund<br />looks for.</h2>
-            <Link className="text-link route-link" href="/thesis/">Read the thesis <span>↗</span></Link>
-          </div>
+      <section className="qf-news qf-scroll-section" id="news" data-qf-section aria-labelledby="news-title">
+        <div className="qf-section-label qf-reveal"><span>06</span><p>News</p></div>
+        <div className="qf-news-heading qf-reveal">
+          <div><p className="qf-kicker">LATEST ACTIVITY</p><h2 id="news-title">qFund <em>in motion.</em></h2></div>
+          <Link className="qf-text-link" href="/news/">View all news <span>↗</span></Link>
         </div>
-        <div className="signal-principles">
-          {investmentCriteria.map((criterion, index) => (
-            <article
-              className={`signal-principle signal-principle-${index + 1} reveal`}
-              style={{ "--principle-index": index } as CSSProperties}
-              key={criterion.code}
-            >
-              <div className="signal-principle-visual" aria-hidden="true">
-                <span className="principle-grid" />
-                <span className="principle-ring principle-ring-a" />
-                <span className="principle-ring principle-ring-b" />
-                <span className="principle-beam" />
-                <i className="principle-node principle-node-a" />
-                <i className="principle-node principle-node-b" />
-                <i className="principle-node principle-node-c" />
-                <b>{criterion.code}</b>
-              </div>
-              <span>INVESTMENT CRITERION</span>
-              <h3>{criterion.title}</h3>
-              <p>{criterion.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="portfolio section-sage" id="news">
-        <div className="section-index reveal"><span>07</span><p>News and activity</p></div>
-        <div className="portfolio-heading heading-solo reveal">
-          <div>
-            <h2>qFund<br />in motion.</h2>
-            <Link className="text-link route-link" href="/news/">View all activity <span>↗</span></Link>
-          </div>
-        </div>
-        <div className="pattern-grid three-up">
+        <div className="qf-news-grid">
           {newsItems.slice(0, 3).map((item, index) => (
-            <article className="pattern-card reveal" key={`${item.date}-${item.title}`}>
-              <span>{String(index + 1).padStart(2, "0")} · {item.tag.toUpperCase()} · {formatNewsDate(item.date).toUpperCase()}</span>
+            <article className="qf-news-card qf-reveal" key={`${item.date}-${item.title}`}>
+              <NewsArtwork item={item} index={index} />
+              <div><span>{item.tag}</span><time dateTime={item.date}>{formatNewsDate(item.date)}</time></div>
               <h3>{item.title}</h3>
               <p>{item.blurb}</p>
-              <i aria-hidden="true" />
             </article>
           ))}
         </div>
       </section>
 
-      <section className="contact" id="contact">
-        <div className="contact-field" aria-hidden="true" />
-        <div className="section-index reveal"><span>08</span><p>Contact qFund</p></div>
-        <div className="contact-copy reveal">
-          <p className="eyebrow">BACKING DEEP TECH FOUNDERS</p>
-          <h2>Building an<br /><em>Israeli-related Deep Tech company?</em></h2>
-          <Link href="/contact/" data-magnetic>
-            <span>Contact qFund</span><i aria-hidden="true">↗</i>
-          </Link>
+      <footer className="qf-footer">
+        <div className="qf-footer-lead">
+          <p className="qf-kicker">START A CONVERSATION</p>
+          <h2>Tell us what you are <em>building.</em></h2>
+          <Link className="qf-button" href="/contact/">Contact qFund <span>↗</span></Link>
         </div>
-        <footer>
-          <BrandMark />
-          <div><span>Arik Einstein 3 · Herzliya, Israel</span><a href="mailto:info@qfund.io">info@qfund.io</a></div>
+        <div className="qf-footer-bar">
+          <a href="#top" aria-label="qFund home"><BrandMark /></a>
           <BackToTop />
-          <div><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} qFund</span></div>
-        </footer>
-      </section>
+          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>Arik Einstein 3 · Herzliya, Israel · © {new Date().getFullYear()} qFund</span></div>
+        </div>
+      </footer>
     </main>
   );
 }

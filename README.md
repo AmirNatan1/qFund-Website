@@ -4,11 +4,15 @@ The redesigned website for qFund, a deep-technology venture capital firm based i
 
 ## Experience
 
-- Institutional editorial design with a graphite, mineral-white, and electric-cyan visual system
-- Interactive investment-focus and portfolio sections
+- A unified long-scroll homepage with About, Industries, Approach, Portfolio, Team, and News sections
+- A light eggshell, sage, and green institutional visual system
+- A right-edge section rail with active-section tracking and smooth scrolling
+- Interactive evaluation, portfolio, and industry modules
 - Responsive layouts and accessible reduced-motion behavior
-- Original motion design and coherent AI-generated scientific artwork
+- Original motion design and coherent technical artwork
 - Production metadata and a dedicated social sharing card
+
+News and Contact are the only standalone pages. Contact is intentionally concise; the complete news archive is available at `/news/`.
 
 ## Development
 
