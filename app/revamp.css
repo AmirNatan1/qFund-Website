@@ -558,8 +558,6 @@ body:has(a:hover, button:hover) .qf-cursor span {
   display: block;
   aspect-ratio: 259 / 84;
   width: 76%;
-  perspective: 45rem;
-  transform-style: preserve-3d;
   animation: qf-lockup-cycle 8.8s linear infinite;
 }
 
@@ -586,7 +584,6 @@ body:has(a:hover, button:hover) .qf-cursor span {
 
 .qf-q-base {
   z-index: 4;
-  filter: drop-shadow(0 0.28rem 0.46rem rgba(3, 36, 38, 0.18));
   animation: qf-q-settle 8.8s linear infinite;
 }
 
@@ -597,7 +594,6 @@ body:has(a:hover, button:hover) .qf-cursor span {
 .qf-q-arrow-flight {
   z-index: 7;
   transform-origin: 13.3% 36.3%;
-  transform-style: preserve-3d;
   will-change: transform;
   animation: qf-arrow-flight 8.8s linear infinite;
 }
@@ -610,7 +606,6 @@ body:has(a:hover, button:hover) .qf-cursor span {
   width: 11.4%;
   aspect-ratio: 1;
   background: #00c8e8;
-  backface-visibility: visible;
   clip-path: polygon(0 50%, 50% 0, 100% 0, 100% 50%, 50% 100%, 50% 50%);
   filter: drop-shadow(0 0.18rem 0.2rem rgba(3, 36, 38, 0.18));
 }
@@ -1349,34 +1344,35 @@ body:has(a:hover, button:hover) .qf-cursor span {
 
 @keyframes qf-lockup-cycle {
   0%, 82% { opacity: 1; }
-  87%, 93% { opacity: 0; }
-  100% { opacity: 1; }
+  86%, 91% { opacity: 0; }
+  96%, 100% { opacity: 1; }
 }
 
 @keyframes qf-q-settle {
   0%, 34% { transform: translateX(-2.2%); }
-  53%, 100% { transform: translateX(0); }
+  53%, 86% { transform: translateX(0); }
+  91%, 100% { transform: translateX(-2.2%); }
 }
 
 @keyframes qf-arrow-flight {
-  0%, 13% { opacity: 1; transform: translateX(-2.2%) rotateY(0deg) rotateZ(0deg) scaleX(1); }
-  23% { opacity: 1; transform: translateX(18%) rotateY(-360deg) rotateZ(135deg) scaleX(1); }
-  34% { opacity: 1; transform: translateX(18%) rotateY(-360deg) rotateZ(135deg) scaleX(1.7); }
-  52% { opacity: 1; transform: translateX(87%) rotateY(-360deg) rotateZ(135deg) scaleX(1.7); }
-  55%, 92% { opacity: 0; transform: translateX(99%) rotateY(-360deg) rotateZ(135deg) scaleX(1.7); }
-  93%, 100% { opacity: 1; transform: translateX(-2.2%) rotateY(0deg) rotateZ(0deg) scaleX(1); }
+  0%, 13% { opacity: 1; transform: translateX(-2.2%) rotate(0deg) scaleX(1); }
+  23% { opacity: 1; transform: translateX(18%) rotate(45deg) scaleX(1); }
+  34% { opacity: 1; transform: translateX(18%) rotate(45deg) scaleX(1.7); }
+  52% { opacity: 1; transform: translateX(87%) rotate(45deg) scaleX(1.7); }
+  55%, 86% { opacity: 0; transform: translateX(99%) rotate(45deg) scaleX(1.7); }
+  91%, 100% { opacity: 1; transform: translateX(-2.2%) rotate(0deg) scaleX(1); }
 }
 
 @keyframes qf-fund-uncover {
   0%, 33.99% { clip-path: inset(0 73.4% 0 0); }
-  52%, 88% { clip-path: inset(0 0 0 0); }
-  93%, 100% { clip-path: inset(0 73.4% 0 0); }
+  52%, 86% { clip-path: inset(0 0 0 0); }
+  91%, 100% { clip-path: inset(0 73.4% 0 0); }
 }
 
 @keyframes qf-final-arrow {
   0%, 50% { opacity: 0; }
-  55%, 88% { opacity: 1; }
-  93%, 100% { opacity: 0; }
+  55%, 84% { opacity: 1; }
+  88%, 100% { opacity: 0; }
 }
 
 @keyframes qf-speed-line {

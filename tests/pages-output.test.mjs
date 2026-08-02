@@ -50,6 +50,9 @@ test("publishes the required static assets", async () => {
     access(new URL("qfund-q-base-hd.png", outputUrl)),
     access(new URL("qfund-q-arrow-hd.png", outputUrl)),
     access(new URL("qfund-fund-hd.png", outputUrl)),
+    access(new URL("qfund-q-base-vector.svg", outputUrl)),
+    access(new URL("qfund-q-arrow-vector.svg", outputUrl)),
+    access(new URL("qfund-fund-vector.svg", outputUrl)),
     access(new URL("team/liav-ben-rubi-hd.webp", outputUrl)),
     access(new URL("team/dana-taigman-koren-hd.webp", outputUrl)),
     access(new URL("team/liron-ben-zaken-hd.webp", outputUrl)),
@@ -114,14 +117,20 @@ test("keeps the logo turn and word reveal synchronized", async () => {
   const css = await readFile(new URL("../app/revamp.css", import.meta.url), "utf8");
   const arrowMotion = css.match(/@keyframes qf-arrow-flight\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
   const wordReveal = css.match(/@keyframes qf-fund-uncover\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+  const qMotion = css.match(/@keyframes qf-q-settle\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+  const cycle = css.match(/@keyframes qf-lockup-cycle\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
 
-  assert.match(arrowMotion, /rotateY\(-360deg\)/);
-  assert.match(arrowMotion, /rotateZ\(135deg\)/);
+  assert.match(arrowMotion, /rotate\(45deg\)/);
   assert.doesNotMatch(arrowMotion, /rotateX\(/);
+  assert.doesNotMatch(arrowMotion, /rotateY\(/);
+  assert.doesNotMatch(arrowMotion, /rotateZ\(/);
   assert.match(arrowMotion, /52%/);
   assert.match(wordReveal, /33\.99%/);
   assert.match(wordReveal, /52%/);
   assert.match(wordReveal, /73\.4%/);
+  assert.match(qMotion, /91%, 100% \{ transform: translateX\(-2\.2%\)/);
+  assert.match(arrowMotion, /91%, 100% \{ opacity: 1; transform: translateX\(-2\.2%\) rotate\(0deg\)/);
+  assert.match(cycle, /86%, 91% \{ opacity: 0/);
   assert.doesNotMatch(css, /\.qf-assembly-core::before/);
 });
 

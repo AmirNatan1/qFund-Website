@@ -106,13 +106,13 @@ function LogoField() {
     <div className="qf-logo-field" aria-hidden="true">
       <span className="qf-assembly-core">
         <span className="qf-lockup-track">
-          <Image className="qf-q-base" src="/qfund-q-base-hd.png" alt="" width={1036} height={336} unoptimized />
+          <Image className="qf-q-base" src="/qfund-q-base-vector.svg" alt="" width={259} height={84} unoptimized />
           <span className="qf-q-arrow-flight"><i /></span>
           <span className="qf-fund-reveal">
-            <Image className="qf-fund-word" src="/qfund-fund-hd.png" alt="" width={1036} height={336} unoptimized />
+            <Image className="qf-fund-word" src="/qfund-fund-vector.svg" alt="" width={259} height={84} unoptimized />
           </span>
           <span className="qf-final-arrow-mask">
-            <Image className="qf-q-arrow qf-q-arrow-final" src="/qfund-q-arrow-hd.png" alt="" width={1036} height={336} unoptimized />
+            <Image className="qf-q-arrow qf-q-arrow-final" src="/qfund-q-arrow-vector.svg" alt="" width={259} height={84} unoptimized />
           </span>
           <span className="qf-arrow-speed-line line-one" />
           <span className="qf-arrow-speed-line line-two" />
