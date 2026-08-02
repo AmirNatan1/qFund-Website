@@ -18,6 +18,8 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /deep future/);
   assert.match(html, /Pre-seed/);
   assert.match(html, /Series A/);
+  assert.match(html, /Deep Tech/);
+  assert.match(html, /Pre-seed to Series A/);
   assert.match(html, /id="about"/);
   assert.match(html, /id="industries"/);
   assert.match(html, /id="approach"/);
@@ -27,10 +29,12 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
+  assert.match(html, /class="qf-qmark-symbol"/);
   assert.match(html, /href="\/news\/"/);
   assert.match(html, /href="\/contact\/"/);
   assert.doesNotMatch(html, /href="\/(?:thesis|companies|founders)\/"/);
   assert.doesNotMatch(html, /Deep Tech founders|tech founders/i);
+  assert.doesNotMatch(html, /board member|board observer|sits on the boards/i);
 });
 
 test("publishes the required static assets", async () => {
@@ -38,6 +42,7 @@ test("publishes the required static assets", async () => {
     access(new URL("404.html", outputUrl)),
     access(new URL("og-motion.png", outputUrl)),
     access(new URL("qfund-logo-light.png", outputUrl)),
+    access(new URL("qfund-qmark.png", outputUrl)),
     access(new URL("team/liav-ben-rubi.webp", outputUrl)),
     access(new URL("team/dana-taigman-koren.webp", outputUrl)),
     access(new URL("team/liron-ben-zaken.png", outputUrl)),

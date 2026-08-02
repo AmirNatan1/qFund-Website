@@ -101,20 +101,28 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
   );
 }
 
-function FutureField() {
+function QMarkField() {
   return (
-    <div className="qf-future-field" aria-hidden="true">
-      <span className="qf-field-grid" />
-      <span className="qf-field-axis axis-x" />
-      <span className="qf-field-axis axis-y" />
-      <span className="qf-field-orbit orbit-one"><i /></span>
-      <span className="qf-field-orbit orbit-two"><i /></span>
-      <span className="qf-field-orbit orbit-three"><i /></span>
-      <span className="qf-field-wave wave-one" />
-      <span className="qf-field-wave wave-two" />
-      <span className="qf-field-core"><i /><b /></span>
-      <span className="qf-field-caption">PRE-SEED</span>
-      <span className="qf-field-caption caption-end">SERIES A</span>
+    <div className="qf-qmark-field" aria-hidden="true">
+      <span className="qf-qmark-grid" />
+      <span className="qf-qmark-echo echo-one" />
+      <span className="qf-qmark-echo echo-two" />
+      <span className="qf-qmark-echo echo-three" />
+      <span className="qf-qmark-axis axis-horizontal" />
+      <span className="qf-qmark-axis axis-vertical" />
+      <span className="qf-qmark-lockup">
+        <span className="qf-qmark-flow"><i /></span>
+        <span className="qf-qmark-symbol">
+          <i className="qf-q-body" />
+          <i className="qf-q-accent" />
+          <i className="qf-q-cut" />
+        </span>
+      </span>
+      <span className="qf-qmark-tail"><i /><b /></span>
+      <span className="qf-qmark-index">Q / 01</span>
+      <span className="qf-qmark-caption">PRE-SEED</span>
+      <span className="qf-qmark-caption caption-end">SERIES A</span>
+      <span className="qf-qmark-stage-line"><i /></span>
     </div>
   );
 }
@@ -277,7 +285,7 @@ export default function QFundExperience() {
             <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
           </div>
         </div>
-        <div className="qf-hero-visual"><FutureField /></div>
+        <div className="qf-hero-visual"><QMarkField /></div>
         <div className="qf-hero-foot">
           <span>HERZLIYA · ISRAEL</span>
           <a href="#about">SCROLL TO EXPLORE <i>↓</i></a>
@@ -296,8 +304,8 @@ export default function QFundExperience() {
             <p>Our approach combines financial investment with technical validation, commercialization support, and strategic access.</p>
           </div>
           <div className="qf-about-facts qf-reveal" aria-label="qFund at a glance">
-            <article><strong>Pre-seed</strong><span>Entry point</span></article>
-            <article><strong>Series A</strong><span>Investment horizon</span></article>
+            <article><strong>Deep Tech</strong><span>Investment focus</span></article>
+            <article><strong>Pre-seed to Series A</strong><span>Investment horizon</span></article>
             <article><strong>Israel</strong><span>Israeli-related startups</span></article>
           </div>
         </div>

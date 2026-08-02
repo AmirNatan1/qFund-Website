@@ -20,10 +20,14 @@ test("server-renders the unified qFund experience", async () => {
   const html = await response.text();
   assert.match(html, /Funding the/);
   assert.match(html, /Pre-seed/);
+  assert.match(html, /Pre-seed to Series A/);
+  assert.match(html, /Deep Tech/);
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-section-rail"/);
+  assert.match(html, /class="qf-qmark-symbol"/);
+  assert.doesNotMatch(html, /board member|board observer|sits on the boards/i);
   assert.doesNotMatch(html, /href=["']\/(?:thesis|companies|founders)\/["']/i);
 });
 

@@ -146,14 +146,14 @@ export const team = [
     role: "Managing Partner",
     image: "/team/liav-ben-rubi.webp",
     linkedin: "https://www.linkedin.com/in/liav-ben-rubi/",
-    bio: "Liav has over 14 years of experience across automotive, robotics, and logistics. He began his career leading R&D programs in the Intelligence Technological Operational Command, and later served as a CEO in the automotive sector, running multinational programs from inception through implementation. He sits on the boards of Commcrete, Element Security, and LiteVision.",
+    bio: "Liav has over 14 years of experience across automotive, robotics, and logistics. He began his career leading R&D programs in the Intelligence Technological Operational Command, and later served as a CEO in the automotive sector, running multinational programs from inception through implementation.",
   },
   {
     name: "Dana Taigman Koren",
     role: "Managing Partner",
     image: "/team/dana-taigman-koren.webp",
     linkedin: "https://www.linkedin.com/in/danataigmankoren/",
-    bio: "Dana has more than 18 years of experience in investments, strategic initiatives, and global partnerships. She began as a strategic consultant and held corporate roles across IT, system integration, market research, and business intelligence, and led a multi-CVC collaboration with Lufthansa, Boeing, and gategroup. She is a board member at Signal Edge and a board observer at Actasys and QuamCore.",
+    bio: "Dana has more than 18 years of experience in investments, strategic initiatives, and global partnerships. She began as a strategic consultant and held corporate roles across IT, system integration, market research, and business intelligence, and led a multi-CVC collaboration with Lufthansa, Boeing, and gategroup.",
   },
   {
     name: "Liron Ben Zaken",
