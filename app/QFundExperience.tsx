@@ -105,17 +105,17 @@ function LogoField() {
   return (
     <div className="qf-logo-field" aria-hidden="true">
       <span className="qf-assembly-core">
+        <span className="qf-logo-orbit orbit-one"><i /></span>
+        <span className="qf-logo-orbit orbit-two"><i /></span>
         <span className="qf-lockup-track">
-          <Image className="qf-q-base" src="/qfund-q-base-vector.svg" alt="" width={259} height={84} unoptimized />
+          <span className="qf-q-base" />
           <span className="qf-q-arrow-flight"><i /></span>
           <span className="qf-fund-reveal">
-            <Image className="qf-fund-word" src="/qfund-fund-vector.svg" alt="" width={259} height={84} unoptimized />
+            <span className="qf-fund-word" />
           </span>
           <span className="qf-final-arrow-mask">
-            <Image className="qf-q-arrow qf-q-arrow-final" src="/qfund-q-arrow-vector.svg" alt="" width={259} height={84} unoptimized />
+            <span className="qf-q-arrow qf-q-arrow-final" />
           </span>
-          <span className="qf-arrow-speed-line line-one" />
-          <span className="qf-arrow-speed-line line-two" />
         </span>
       </span>
     </div>

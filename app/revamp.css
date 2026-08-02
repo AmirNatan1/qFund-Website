@@ -537,19 +537,63 @@ body:has(a:hover, button:hover) .qf-cursor span {
   z-index: 3;
   display: grid;
   place-items: center;
-  width: 82%;
-  aspect-ratio: 2.65;
+  width: 88%;
+  height: 70%;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 2.15rem;
+  border: 1px solid rgba(12, 111, 105, 0.15);
+  border-radius: 2.25rem;
   background:
-    radial-gradient(circle at 18% 34%, rgba(34, 199, 203, 0.2), transparent 27%),
-    linear-gradient(116deg, #075c58, #0c6f69 58%, #0a625e);
+    radial-gradient(circle at 14% 24%, rgba(34, 199, 203, 0.22), transparent 26%),
+    radial-gradient(circle at 86% 78%, rgba(12, 111, 105, 0.12), transparent 24%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(220, 241, 238, 0.68));
   box-shadow:
-    0 1.7rem 3.8rem rgba(6, 43, 47, 0.24),
-    inset 0 1px rgba(255, 255, 255, 0.18);
+    0 1.7rem 4.2rem rgba(6, 43, 47, 0.12),
+    inset 0 1px rgba(255, 255, 255, 0.82);
   transform: translate(-50%, -50%);
   transition: box-shadow 420ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.qf-logo-orbit {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  aspect-ratio: 1;
+  border: 1px solid rgba(12, 111, 105, 0.16);
+  border-radius: 50%;
+  animation: qf-logo-orbit 9s ease-in-out infinite;
+}
+
+.qf-logo-orbit::before {
+  position: absolute;
+  inset: 12%;
+  border: 1px dashed rgba(34, 199, 203, 0.26);
+  border-radius: inherit;
+  content: "";
+}
+
+.qf-logo-orbit i {
+  position: absolute;
+  top: 17%;
+  right: 8%;
+  width: 0.55rem;
+  aspect-ratio: 1;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: var(--qf-coral);
+  box-shadow: 0 0 0 0.45rem rgba(34, 199, 203, 0.1);
+}
+
+.qf-logo-orbit.orbit-one {
+  top: -43%;
+  left: -17%;
+  width: 62%;
+}
+
+.qf-logo-orbit.orbit-two {
+  right: -12%;
+  bottom: -38%;
+  width: 48%;
+  animation-delay: -4.5s;
 }
 
 .qf-lockup-track {
@@ -557,7 +601,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   z-index: 4;
   display: block;
   aspect-ratio: 259 / 84;
-  width: 76%;
+  width: 78%;
   animation: qf-lockup-cycle 8.8s linear infinite;
 }
 
@@ -577,13 +621,15 @@ body:has(a:hover, button:hover) .qf-cursor span {
 .qf-q-base,
 .qf-q-arrow,
 .qf-fund-word {
-  object-fit: contain;
   pointer-events: none;
   user-select: none;
 }
 
 .qf-q-base {
   z-index: 4;
+  background: var(--qf-ink-strong);
+  -webkit-mask: url("/qfund-q-base-vector.svg") center / contain no-repeat;
+  mask: url("/qfund-q-base-vector.svg") center / contain no-repeat;
   animation: qf-q-settle 8.8s linear infinite;
 }
 
@@ -617,35 +663,26 @@ body:has(a:hover, button:hover) .qf-cursor span {
   animation: qf-fund-uncover 8.8s linear infinite;
 }
 
+.qf-fund-word {
+  background: var(--qf-ink-strong);
+  -webkit-mask: url("/qfund-fund-vector.svg") center / contain no-repeat;
+  mask: url("/qfund-fund-vector.svg") center / contain no-repeat;
+}
+
+.qf-q-arrow-final {
+  background: var(--qf-coral);
+  -webkit-mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
+  mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
+}
+
 .qf-final-arrow-mask {
   z-index: 8;
   opacity: 0;
   animation: qf-final-arrow 8.8s linear infinite;
 }
 
-.qf-arrow-speed-line {
-  position: absolute;
-  top: 49%;
-  left: 19%;
-  z-index: 6;
-  width: 22%;
-  height: 2px;
-  border-radius: 999px;
-  opacity: 0;
-  background: linear-gradient(90deg, transparent, rgba(34, 199, 203, 0.9));
-  transform-origin: right center;
-  animation: qf-speed-line 8.8s linear infinite;
-}
-
-.qf-arrow-speed-line.line-two {
-  top: 58%;
-  left: 23%;
-  width: 15%;
-  animation-delay: 0.06s;
-}
-
 .qf-hero:hover .qf-logo-field { box-shadow: 0 2.4rem 7rem rgba(6, 43, 47, 0.15); }
-.qf-hero:hover .qf-assembly-core { box-shadow: 0 2rem 4.5rem rgba(6, 43, 47, 0.3), inset 0 1px rgba(255, 255, 255, 0.18); transform: translate(-50%, -50%) scale(1.012); }
+.qf-hero:hover .qf-assembly-core { box-shadow: 0 2rem 4.8rem rgba(6, 43, 47, 0.16), inset 0 1px rgba(255, 255, 255, 0.82); transform: translate(-50%, -50%) scale(1.012); }
 
 .qf-hero-foot {
   position: absolute;
@@ -1375,10 +1412,9 @@ body:has(a:hover, button:hover) .qf-cursor span {
   88%, 100% { opacity: 0; }
 }
 
-@keyframes qf-speed-line {
-  0%, 32% { opacity: 0; transform: translateX(0) scaleX(0.2); }
-  38% { opacity: 0.86; transform: translateX(8%) scaleX(1); }
-  51%, 100% { opacity: 0; transform: translateX(310%) scaleX(0.34); }
+@keyframes qf-logo-orbit {
+  0%, 100% { opacity: 0.58; transform: rotate(-4deg) scale(0.98); }
+  50% { opacity: 0.92; transform: rotate(4deg) scale(1.025); }
 }
 
 @keyframes qf-scroll-cue {
@@ -1577,11 +1613,11 @@ body:has(a:hover, button:hover) .qf-cursor span {
   .qf-industry-card figure img,
   .qf-team-image img { transition: none; }
   .qf-lockup-track,
+  .qf-logo-orbit,
   .qf-q-base,
   .qf-q-arrow-flight,
   .qf-fund-reveal,
   .qf-final-arrow-mask,
-  .qf-arrow-speed-line,
   .qf-hero-foot i,
   .qf-approach-graphic *,
   .qf-chip::after,

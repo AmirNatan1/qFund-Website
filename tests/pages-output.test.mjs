@@ -31,6 +31,8 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-q-arrow-flight"/);
   assert.match(html, /class="qf-fund-reveal"/);
+  assert.doesNotMatch(html, /qf-arrow-speed-line/);
+  assert.doesNotMatch(html, /qfund-(?:q-base|q-arrow|fund)-hd\.png/);
   assert.equal((html.match(/class="qf-paper-person"/g) ?? []).length, 3);
   assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm/);
   assert.doesNotMatch(html, /class="qf-team-link"/);
@@ -132,6 +134,8 @@ test("keeps the logo turn and word reveal synchronized", async () => {
   assert.match(arrowMotion, /91%, 100% \{ opacity: 1; transform: translateX\(-2\.2%\) rotate\(0deg\)/);
   assert.match(cycle, /86%, 91% \{ opacity: 0/);
   assert.doesNotMatch(css, /\.qf-assembly-core::before/);
+  assert.doesNotMatch(css, /@keyframes qf-speed-line/);
+  assert.match(css, /mask: url\("\/qfund-fund-vector\.svg"\)/);
 });
 
 test("links every team portrait and portfolio logo to its destination", async () => {
