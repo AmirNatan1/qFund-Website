@@ -23,8 +23,8 @@ test("repository-root snapshot includes every required public asset", async () =
   await Promise.all([
     access(new URL("404.html", rootUrl)),
     access(new URL("qfund-logo-light.png", rootUrl)),
-    access(new URL("qfund-qmark.png", rootUrl)),
-    access(new URL("team/liron-ben-zaken.png", rootUrl)),
+    access(new URL("qfund-logo-official-hd.png", rootUrl)),
+    access(new URL("team/liron-ben-zaken-hd.webp", rootUrl)),
     access(new URL("portfolio/quamcore.webp", rootUrl)),
     access(new URL("focus/quantum-computing.jpg", rootUrl)),
     ...stylesheets.map((href) => access(new URL(href.replace(/^\//, ""), rootUrl))),
@@ -51,6 +51,6 @@ test("repository-root snapshot uses the new one-page experience", async () => {
   assert.match(home, /Funding the/);
   assert.match(home, /class="qf-section-rail"/);
   assert.match(home, /src="\/portfolio\/element-security\.webp"/);
-  assert.match(home, /src="\/team\/liav-ben-rubi\.webp"/);
+  assert.match(home, /src="\/team\/liav-ben-rubi-hd\.webp"/);
   assert.doesNotMatch(home, /href="\/(?:thesis|companies|founders)\/"/);
 });

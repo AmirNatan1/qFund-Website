@@ -26,7 +26,8 @@ test("server-renders the unified qFund experience", async () => {
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-section-rail"/);
-  assert.match(html, /class="qf-qmark-symbol"/);
+  assert.match(html, /class="qf-logo-master"/);
+  assert.match(html, /class="qf-joined-hands"/);
   assert.doesNotMatch(html, /board member|board observer|sits on the boards/i);
   assert.doesNotMatch(html, /href=["']\/(?:thesis|companies|founders)\/["']/i);
 });

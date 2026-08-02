@@ -498,202 +498,162 @@ body:has(a:hover, button:hover) .qf-cursor span {
   padding: 8vh 1vw 9vh 2vw;
 }
 
-.qf-qmark-field {
+.qf-logo-field {
   position: relative;
-  aspect-ratio: 0.94;
+  isolation: isolate;
+  aspect-ratio: 0.98;
   width: min(100%, 42rem);
   overflow: hidden;
   border: 1px solid var(--qf-line);
-  border-radius: 42% 13% 42% 42%;
+  border-radius: 2.4rem;
   background:
-    radial-gradient(circle at 54% 43%, rgba(34, 199, 203, 0.23), transparent 39%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(201, 236, 232, 0.78));
+    radial-gradient(circle at 28% 45%, rgba(34, 199, 203, 0.22), transparent 29%),
+    radial-gradient(circle at 77% 62%, rgba(12, 111, 105, 0.12), transparent 31%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(225, 241, 239, 0.92));
   box-shadow: 0 2rem 6rem rgba(6, 43, 47, 0.11);
   transform: translate(var(--field-shift-x), var(--field-shift-y)) rotateX(var(--field-rotate-x)) rotateY(var(--field-rotate-y));
   transform-style: preserve-3d;
-  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1), border-radius 500ms ease;
+  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 420ms ease;
   will-change: transform;
 }
 
-.qf-hero:hover .qf-qmark-field {
-  border-radius: 13% 42% 42% 42%;
-}
-
-.qf-qmark-grid {
+.qf-logo-field::before,
+.qf-logo-field::after {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(12, 111, 105, 0.085) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(12, 111, 105, 0.085) 1px, transparent 1px);
-  background-size: 7.5% 7.5%;
-  mask-image: radial-gradient(circle at 53% 45%, black 5%, transparent 73%);
-}
-
-.qf-qmark-axis {
-  position: absolute;
-  display: block;
-  background: linear-gradient(90deg, transparent, rgba(12, 111, 105, 0.34), transparent);
-}
-
-.qf-qmark-axis.axis-horizontal { top: 46%; right: 9%; left: 9%; height: 1px; }
-.qf-qmark-axis.axis-vertical { top: 10%; bottom: 12%; left: 52%; width: 1px; background: linear-gradient(transparent, rgba(12, 111, 105, 0.28), transparent); }
-
-.qf-qmark-echo {
-  position: absolute;
-  top: 47%;
-  left: 52%;
-  display: block;
-  aspect-ratio: 516 / 648;
-  width: 32%;
-  opacity: 0.15;
-  background: var(--qf-green);
-  mask: url("/qfund-qmark.png") center / contain no-repeat;
-  transform: translate(-50%, -50%);
-  animation: qf-qmark-echo 8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
-}
-
-.qf-qmark-echo.echo-two { width: 45%; opacity: 0.085; animation-delay: -2.65s; }
-.qf-qmark-echo.echo-three { width: 59%; opacity: 0.045; animation-delay: -5.3s; }
-
-.qf-qmark-lockup {
-  position: absolute;
-  top: 47%;
-  left: 52%;
-  display: block;
-  aspect-ratio: 516 / 648;
-  width: 31%;
-  transform: translate(-50%, -50%);
-  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
-  animation: qf-qmark-breathe 7s ease-in-out infinite;
-}
-
-.qf-qmark-symbol {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: block;
-  filter: drop-shadow(0 1.2rem 1.8rem rgba(6, 43, 47, 0.14));
-}
-
-.qf-q-body {
-  position: absolute;
-  top: 14%;
-  left: 1%;
-  width: 78%;
-  aspect-ratio: 1;
-  border: clamp(1.3rem, 2.8vw, 2.55rem) solid var(--qf-ink-strong);
-  border-radius: 50%;
-}
-
-.qf-q-body::after {
-  position: absolute;
-  top: 47%;
-  right: calc(0px - clamp(1.3rem, 2.8vw, 2.55rem));
-  width: clamp(1.3rem, 2.8vw, 2.55rem);
-  height: 86%;
-  border-radius: 0 0 0.7rem 0.7rem;
-  content: "";
-  background: var(--qf-ink-strong);
-}
-
-.qf-q-accent {
-  position: absolute;
-  top: 14%;
-  left: 49%;
-  z-index: 2;
-  width: 33%;
-  height: 34%;
-  border-top: clamp(1.3rem, 2.8vw, 2.55rem) solid var(--qf-coral);
-  border-right: clamp(1.3rem, 2.8vw, 2.55rem) solid var(--qf-coral);
-  border-radius: 0 100% 0 0;
-}
-
-.qf-q-cut {
-  position: absolute;
-  top: 19%;
-  left: 53%;
-  z-index: 3;
-  width: 10%;
-  height: 43%;
-  background: rgba(249, 252, 250, 0.96);
-  transform: rotate(43deg);
-  transform-origin: center;
-}
-
-.qf-qmark-flow {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  overflow: hidden;
-  opacity: 0.72;
-  mix-blend-mode: screen;
-  mask: url("/qfund-qmark.png") center / contain no-repeat;
-}
-
-.qf-qmark-flow i {
-  position: absolute;
-  inset: -55%;
-  display: block;
-  background: conic-gradient(from 0deg, transparent 0 32%, rgba(255, 255, 255, 0.92) 40%, var(--qf-coral) 48%, transparent 58% 100%);
-  animation: qf-qmark-flow 10s linear infinite;
-}
-
-.qf-qmark-tail {
-  position: absolute;
-  top: 65%;
-  left: 59%;
-  width: 23%;
+  width: 54%;
   height: 1px;
-  background: linear-gradient(90deg, var(--qf-green), var(--qf-coral), transparent);
-  transform: rotate(-18deg);
-  transform-origin: left;
-  transition: width 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms ease;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(12, 111, 105, 0.3), transparent);
+  transform: rotate(-34deg);
 }
 
-.qf-qmark-tail i,
-.qf-qmark-tail b {
+.qf-logo-field::before { top: 26%; left: -10%; }
+.qf-logo-field::after { right: -8%; bottom: 27%; }
+
+.qf-logo-halo {
   position: absolute;
   top: 50%;
+  left: 24%;
   display: block;
   aspect-ratio: 1;
+  width: 43%;
+  border: 1px solid rgba(34, 199, 203, 0.34);
   border-radius: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
+  animation: qf-logo-halo 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
-.qf-qmark-tail i { left: 42%; width: 0.5rem; border: 2px solid var(--qf-white); background: var(--qf-coral); animation: qf-qmark-node 3.2s ease-in-out infinite; }
-.qf-qmark-tail b { right: 0; width: 0.75rem; border: 1px solid var(--qf-green); background: rgba(255, 255, 255, 0.68); }
-.qf-hero:hover .qf-qmark-lockup { animation-play-state: paused; transform: translate(-50%, -50%) scale(1.055) rotate(0.8deg); }
-.qf-hero:hover .qf-qmark-tail { width: 31%; }
+.qf-logo-halo.halo-two { width: 58%; border-color: rgba(12, 111, 105, 0.17); animation-delay: -4s; }
 
-.qf-qmark-index {
+.qf-logo-phase {
   position: absolute;
-  top: 1.55rem;
-  left: 1.55rem;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 72%;
+  height: 24%;
+  border-radius: 2.1rem;
+  transform-origin: center;
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: qf-logo-phase 8s ease-in-out infinite;
+}
+
+.qf-logo-phase.phase-one {
+  background: rgba(34, 199, 203, 0.22);
+  transform: translate(-52%, -43%) rotate(-4deg);
+}
+
+.qf-logo-phase.phase-two {
+  background: rgba(12, 111, 105, 0.14);
+  transform: translate(-48%, -57%) rotate(4deg);
+  animation-delay: -4s;
+}
+
+.qf-logo-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
   display: grid;
   place-items: center;
-  width: 3.1rem;
-  aspect-ratio: 1;
-  border: 1px solid rgba(12, 111, 105, 0.46);
-  border-radius: 50%;
-  color: var(--qf-green);
-  font-size: 0.6rem;
-  font-weight: 760;
-  letter-spacing: 0.11em;
+  width: 72%;
+  height: 24%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 2.1rem;
+  background: linear-gradient(118deg, #075d59, #0c6f69 56%, #0f7d75);
+  box-shadow: 0 1.7rem 3.5rem rgba(6, 43, 47, 0.24), inset 0 1px rgba(255, 255, 255, 0.18);
+  transform: translate(-50%, -50%);
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 650ms ease;
+  animation: qf-logo-float 7s ease-in-out infinite;
 }
 
-.qf-qmark-caption {
+.qf-logo-master,
+.qf-logo-echo img {
+  display: block;
+  width: 72%;
+  height: auto;
+}
+
+.qf-logo-master {
+  position: relative;
+  z-index: 4;
+  filter: drop-shadow(0 0.32rem 0.48rem rgba(3, 36, 38, 0.18));
+}
+
+.qf-logo-echo {
   position: absolute;
-  bottom: 2.2rem;
-  left: 1.6rem;
-  font-size: 0.64rem;
-  font-weight: 750;
-  letter-spacing: 0.13em;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  animation: qf-logo-register 9s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
-.qf-qmark-caption.caption-end { right: 1.6rem; left: auto; }
+.qf-logo-echo.echo-left { --phase-return: 0.11rem; --phase-shift: -0.32rem; clip-path: inset(0 0 51%); }
+.qf-logo-echo.echo-right { --phase-return: -0.11rem; --phase-shift: 0.32rem; clip-path: inset(49% 0 0); animation-delay: -0.09s; }
 
-.qf-qmark-stage-line { position: absolute; right: 1.6rem; bottom: 1.55rem; left: 1.6rem; height: 1px; background: rgba(12, 111, 105, 0.28); }
-.qf-qmark-stage-line i { position: absolute; top: 50%; left: 0; width: 0.52rem; aspect-ratio: 1; border: 2px solid var(--qf-white); border-radius: 50%; background: var(--qf-coral); transform: translate(-50%, -50%); animation: qf-stage-travel 8s cubic-bezier(0.45, 0, 0.2, 1) infinite; }
+.qf-logo-sweep {
+  position: absolute;
+  top: -45%;
+  bottom: -45%;
+  left: -34%;
+  z-index: 5;
+  width: 18%;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.48), transparent);
+  mix-blend-mode: screen;
+  transform: skewX(-14deg);
+  animation: qf-logo-sweep 6.8s ease-in-out infinite;
+}
+
+.qf-logo-origin {
+  position: absolute;
+  top: 50%;
+  left: 14.7%;
+  z-index: 6;
+  width: 3.4rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(34, 199, 203, 0.48);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.7);
+  animation: qf-logo-origin 4.5s ease-out infinite;
+}
+
+.qf-logo-origin i {
+  position: absolute;
+  inset: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: inherit;
+}
+
+.qf-hero:hover .qf-logo-field { box-shadow: 0 2.4rem 7rem rgba(6, 43, 47, 0.15); }
+.qf-hero:hover .qf-logo-core { box-shadow: 0 2rem 4.4rem rgba(6, 43, 47, 0.28), inset 0 1px rgba(255, 255, 255, 0.18); transform: translate(-50%, -50%) scale(1.018); animation-play-state: paused; }
+.qf-hero:hover .qf-logo-phase.phase-one { transform: translate(-54%, -40%) rotate(-5.5deg); }
+.qf-hero:hover .qf-logo-phase.phase-two { transform: translate(-46%, -60%) rotate(5.5deg); }
 
 .qf-hero-foot {
   position: absolute;
@@ -997,13 +957,13 @@ body:has(a:hover, button:hover) .qf-cursor span {
   letter-spacing: 0.08em;
 }
 
-/* Team — two domain experts joining around one problem. */
+/* Team — two people moving in unison and joining hands. */
 .qf-team-symbol {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(66%, 21rem);
+  width: min(70%, 23rem);
   height: 72%;
 }
 
@@ -1011,67 +971,81 @@ body:has(a:hover, button:hover) .qf-cursor span {
   position: relative;
   width: 5.8rem;
   height: 10.6rem;
-  transform-origin: center bottom;
-  animation: qf-person-balance 5.5s ease-in-out infinite;
+  animation: qf-team-unison 5.5s ease-in-out infinite;
 }
 
-.qf-person::before {
+.qf-person-head {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 2.55rem;
+  z-index: 3;
+  width: 2.45rem;
   aspect-ratio: 1;
-  border: 2px solid var(--qf-green);
   border-radius: 50%;
-  content: "";
-  background: var(--qf-white);
+  background: var(--qf-green);
+  box-shadow: inset 0 0 0 0.38rem rgba(255, 255, 255, 0.16);
   transform: translateX(-50%);
 }
 
-.qf-person::after {
+.qf-person-body {
   position: absolute;
-  top: 3.35rem;
+  top: 3.15rem;
   left: 50%;
-  width: 4.8rem;
-  height: 6.5rem;
-  border: 2px solid var(--qf-green);
-  border-radius: 2.5rem 2.5rem 0.75rem 0.75rem;
-  content: "";
-  background: rgba(255, 255, 255, 0.62);
+  z-index: 2;
+  width: 5.1rem;
+  height: 6.8rem;
+  border-radius: 2.45rem 2.45rem 0.7rem 0.7rem;
+  background: var(--qf-green);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   transform: translateX(-50%);
 }
 
-.qf-person i {
+.qf-person-arm {
   position: absolute;
-  top: 5.05rem;
-  z-index: 2;
-  width: 3.8rem;
-  height: 2px;
+  top: 4.85rem;
+  z-index: 4;
+  width: 7.35rem;
+  height: 0.82rem;
+  border-radius: 999px;
   background: var(--qf-green);
 }
 
-.qf-person i::after {
+.qf-person.person-left .qf-person-arm { right: -6rem; transform: rotate(8deg); transform-origin: left center; }
+.qf-person.person-right .qf-person-arm { left: -6rem; transform: rotate(-8deg); transform-origin: right center; }
+
+.qf-joined-hands {
+  position: absolute;
+  top: 52.5%;
+  left: 50%;
+  z-index: 6;
+  width: 1.2rem;
+  height: 1rem;
+  transform: translate(-50%, -50%);
+  animation: qf-hands-unison 5.5s ease-in-out infinite;
+}
+
+.qf-joined-hands::after {
+  position: absolute;
+  inset: -0.55rem -0.4rem;
+  border: 1px solid rgba(34, 199, 203, 0.44);
+  border-radius: 999px;
+  content: "";
+  animation: qf-hand-pulse 3.2s ease-out infinite;
+}
+
+.qf-joined-hands i {
   position: absolute;
   top: 50%;
-  width: 0.52rem;
+  width: 0.78rem;
   aspect-ratio: 1;
+  border: 2px solid var(--qf-white);
   border-radius: 50%;
-  content: "";
   background: var(--qf-coral);
   transform: translateY(-50%);
 }
 
-.qf-person.person-left i { right: -2.65rem; transform: rotate(9deg); transform-origin: left; }
-.qf-person.person-left i::after { right: -0.2rem; }
-.qf-person.person-right { animation-delay: -2.75s; }
-.qf-person.person-right i { left: -2.65rem; transform: rotate(-9deg); transform-origin: right; }
-.qf-person.person-right i::after { left: -0.2rem; }
-.qf-team-link { position: absolute; top: 52.2%; left: 50%; width: 24%; height: 1px; background: var(--qf-coral); transform: translate(-50%, -50%); }
-.qf-team-link::before,
-.qf-team-link::after { position: absolute; top: 50%; width: 0.55rem; aspect-ratio: 1; border: 1px solid var(--qf-coral); border-radius: 50%; content: ""; background: var(--qf-white); transform: translateY(-50%); }
-.qf-team-link::before { left: -0.25rem; }
-.qf-team-link::after { right: -0.25rem; }
-.qf-team-link i { position: absolute; inset: -0.45rem -0.7rem; border: 1px solid rgba(34, 199, 203, 0.36); border-radius: 999px; animation: qf-link-signal 2.8s ease-out infinite; }
+.qf-joined-hands i:first-child { left: 0; }
+.qf-joined-hands i:last-child { right: 0; }
 .qf-team-symbol > b { position: absolute; right: 0; bottom: -0.15rem; left: 0; color: var(--qf-green); font-size: 0.58rem; font-weight: 780; letter-spacing: 0.14em; text-align: center; }
 
 /* Technology — the core and its measurable performance traces. */
@@ -1235,9 +1209,9 @@ body:has(a:hover, button:hover) .qf-cursor span {
 .qf-team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--qf-line); border-left: 1px solid var(--qf-line); }
 .qf-team-card { min-width: 0; border-right: 1px solid var(--qf-line); border-bottom: 1px solid var(--qf-line); background: var(--qf-white); }
 .qf-team-image { position: relative; display: block; aspect-ratio: 0.92; overflow: hidden; border-bottom: 1px solid var(--qf-line); background: var(--qf-sage); }
-.qf-team-image img { object-fit: cover; object-position: center top; filter: saturate(0.82); transition: filter 350ms ease, transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.qf-team-image img { object-fit: cover; object-position: center top; filter: saturate(0.96) contrast(1.03); transition: filter 350ms ease, transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 .qf-team-image:hover img,
-.qf-team-image:focus-visible img { filter: saturate(1); transform: scale(1.035); }
+.qf-team-image:focus-visible img { filter: saturate(1.04) contrast(1.02); transform: scale(1.035); }
 .qf-team-image > span { position: absolute; right: 1rem; bottom: 1rem; padding: 0.5rem 0.7rem; color: var(--qf-white); background: var(--qf-green); font-size: 0.65rem; font-weight: 720; letter-spacing: 0.07em; text-transform: uppercase; transform: translateY(calc(100% + 1rem)); transition: transform 260ms ease; }
 .qf-team-image:hover > span,
 .qf-team-image:focus-visible > span { transform: translateY(0); }
@@ -1388,29 +1362,38 @@ body:has(a:hover, button:hover) .qf-cursor span {
   50% { transform: scale(1); box-shadow: 0 0 0 0.55rem rgba(34, 199, 203, 0); }
 }
 
-@keyframes qf-qmark-echo {
-  0%, 100% { opacity: 0.035; transform: translate(-50%, -50%) scale(0.91); }
-  48% { opacity: 0.14; transform: translate(-50%, -50%) scale(1.035); }
+@keyframes qf-logo-halo {
+  0%, 100% { opacity: 0.28; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 0.68; transform: translate(-50%, -50%) scale(1.045); }
 }
 
-@keyframes qf-qmark-breathe {
-  0%, 100% { transform: translate(-50%, -50%) scale(0.988) rotate(-0.35deg); }
-  50% { transform: translate(-50%, -50%) scale(1.018) rotate(0.35deg); }
+@keyframes qf-logo-phase {
+  0%, 100% { opacity: 0.64; }
+  50% { opacity: 1; }
 }
 
-@keyframes qf-qmark-flow {
-  to { transform: rotate(360deg); }
+@keyframes qf-logo-float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-0.28rem); }
 }
 
-@keyframes qf-qmark-node {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 199, 203, 0.12); transform: translateY(-50%) scale(0.82); }
-  50% { box-shadow: 0 0 0 0.55rem rgba(34, 199, 203, 0); transform: translateY(-50%) scale(1.12); }
+@keyframes qf-logo-register {
+  0%, 82%, 100% { opacity: 0; transform: translateX(0); }
+  88% { opacity: 0.22; transform: translateX(var(--phase-shift)); }
+  94% { opacity: 0.08; transform: translateX(var(--phase-return)); }
 }
 
-@keyframes qf-stage-travel {
-  0% { left: 0; opacity: 0.45; }
-  46%, 54% { opacity: 1; }
-  100% { left: 100%; opacity: 0.45; }
+@keyframes qf-logo-sweep {
+  0%, 18% { left: -34%; opacity: 0; }
+  24% { opacity: 0.56; }
+  46% { left: 116%; opacity: 0; }
+  100% { left: 116%; opacity: 0; }
+}
+
+@keyframes qf-logo-origin {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.58); }
+  22% { opacity: 0.62; }
+  72%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.34); }
 }
 
 @keyframes qf-scroll-cue {
@@ -1427,14 +1410,19 @@ body:has(a:hover, button:hover) .qf-cursor span {
   to { transform: rotate(360deg); }
 }
 
-@keyframes qf-person-balance {
-  0%, 100% { transform: rotate(-0.8deg) translateY(0); }
-  50% { transform: rotate(0.8deg) translateY(-0.25rem); }
+@keyframes qf-team-unison {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.22rem); }
 }
 
-@keyframes qf-link-signal {
-  0% { opacity: 0.7; transform: scaleX(0.72); }
-  75%, 100% { opacity: 0; transform: scaleX(1.35); }
+@keyframes qf-hands-unison {
+  0%, 100% { transform: translate(-50%, -50%); }
+  50% { transform: translate(-50%, calc(-50% - 0.22rem)); }
+}
+
+@keyframes qf-hand-pulse {
+  0% { opacity: 0.72; transform: scale(0.72); }
+  75%, 100% { opacity: 0; transform: scale(1.35); }
 }
 
 @keyframes qf-chip-breathe {
@@ -1501,7 +1489,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   .qf-hero-copy { min-height: 78svh; padding-bottom: 4rem; }
   .qf-hero h1 { font-size: clamp(4rem, 11vw, 7rem); }
   .qf-hero-visual { min-height: 70svh; padding: 2rem 7vw 7rem; }
-  .qf-qmark-field { justify-self: center; width: min(34rem, 100%); }
+  .qf-logo-field { justify-self: center; width: min(34rem, 100%); }
   .qf-about { grid-template-columns: 1fr; gap: 4rem; }
   .qf-about-body { align-content: start; }
   .qf-section-heading,
@@ -1610,14 +1598,15 @@ body:has(a:hover, button:hover) .qf-cursor span {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .qf-reveal { opacity: 1; transform: none; transition: none; }
-  .qf-qmark-field,
+  .qf-logo-field,
   .qf-industry-card figure img,
   .qf-team-image img { transition: none; }
-  .qf-qmark-echo,
-  .qf-qmark-lockup,
-  .qf-qmark-flow i,
-  .qf-qmark-tail i,
-  .qf-qmark-stage-line i,
+  .qf-logo-halo,
+  .qf-logo-phase,
+  .qf-logo-core,
+  .qf-logo-echo,
+  .qf-logo-sweep,
+  .qf-logo-origin,
   .qf-hero-foot i,
   .qf-approach-graphic *,
   .qf-chip::after,

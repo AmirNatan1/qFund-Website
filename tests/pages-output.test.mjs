@@ -29,7 +29,9 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
-  assert.match(html, /class="qf-qmark-symbol"/);
+  assert.match(html, /class="qf-logo-master"/);
+  assert.match(html, /class="qf-joined-hands"/);
+  assert.doesNotMatch(html, /class="qf-team-link"/);
   assert.match(html, /href="\/news\/"/);
   assert.match(html, /href="\/contact\/"/);
   assert.doesNotMatch(html, /href="\/(?:thesis|companies|founders)\/"/);
@@ -42,10 +44,10 @@ test("publishes the required static assets", async () => {
     access(new URL("404.html", outputUrl)),
     access(new URL("og-motion.png", outputUrl)),
     access(new URL("qfund-logo-light.png", outputUrl)),
-    access(new URL("qfund-qmark.png", outputUrl)),
-    access(new URL("team/liav-ben-rubi.webp", outputUrl)),
-    access(new URL("team/dana-taigman-koren.webp", outputUrl)),
-    access(new URL("team/liron-ben-zaken.png", outputUrl)),
+    access(new URL("qfund-logo-official-hd.png", outputUrl)),
+    access(new URL("team/liav-ben-rubi-hd.webp", outputUrl)),
+    access(new URL("team/dana-taigman-koren-hd.webp", outputUrl)),
+    access(new URL("team/liron-ben-zaken-hd.webp", outputUrl)),
     access(new URL("portfolio/qedma.webp", outputUrl)),
     access(new URL("focus/quantum-computing.jpg", outputUrl)),
     access(new URL("focus/defense.jpg", outputUrl)),
@@ -136,7 +138,7 @@ test("uses direct image URLs and one back-to-top control per page", async () => 
   const rendered = pages.join("\n");
 
   assert.doesNotMatch(rendered, /\/_next\/image\//);
-  assert.match(pages[0], /src="\/team\/liav-ben-rubi\.webp"/);
+  assert.match(pages[0], /src="\/team\/liav-ben-rubi-hd\.webp"/);
   assert.match(pages[0], /src="\/portfolio\/element-security\.webp"/);
   assert.match(pages[0], /src="\/focus\/advanced-electronics\.jpg"/);
 

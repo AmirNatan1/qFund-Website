@@ -65,9 +65,9 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
       <span className="qf-approach-grid" />
       {variant === "team" ? (
         <div className="qf-team-symbol">
-          <span className="qf-person person-left"><i /></span>
-          <span className="qf-team-link"><i /></span>
-          <span className="qf-person person-right"><i /></span>
+          <span className="qf-person person-left"><i className="qf-person-head" /><i className="qf-person-body" /><i className="qf-person-arm" /></span>
+          <span className="qf-joined-hands"><i /><i /></span>
+          <span className="qf-person person-right"><i className="qf-person-head" /><i className="qf-person-body" /><i className="qf-person-arm" /></span>
           <b>DOMAIN / FOUNDER FIT</b>
         </div>
       ) : null}
@@ -101,28 +101,24 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
   );
 }
 
-function QMarkField() {
+function LogoField() {
   return (
-    <div className="qf-qmark-field" aria-hidden="true">
-      <span className="qf-qmark-grid" />
-      <span className="qf-qmark-echo echo-one" />
-      <span className="qf-qmark-echo echo-two" />
-      <span className="qf-qmark-echo echo-three" />
-      <span className="qf-qmark-axis axis-horizontal" />
-      <span className="qf-qmark-axis axis-vertical" />
-      <span className="qf-qmark-lockup">
-        <span className="qf-qmark-flow"><i /></span>
-        <span className="qf-qmark-symbol">
-          <i className="qf-q-body" />
-          <i className="qf-q-accent" />
-          <i className="qf-q-cut" />
+    <div className="qf-logo-field" aria-hidden="true">
+      <span className="qf-logo-halo halo-one" />
+      <span className="qf-logo-halo halo-two" />
+      <span className="qf-logo-phase phase-one" />
+      <span className="qf-logo-phase phase-two" />
+      <span className="qf-logo-core">
+        <span className="qf-logo-echo echo-left">
+          <Image src="/qfund-logo-official-hd.png" alt="" width={1036} height={336} unoptimized />
         </span>
+        <span className="qf-logo-echo echo-right">
+          <Image src="/qfund-logo-official-hd.png" alt="" width={1036} height={336} unoptimized />
+        </span>
+        <Image className="qf-logo-master" src="/qfund-logo-official-hd.png" alt="" width={1036} height={336} unoptimized />
+        <span className="qf-logo-sweep" />
+        <span className="qf-logo-origin"><i /></span>
       </span>
-      <span className="qf-qmark-tail"><i /><b /></span>
-      <span className="qf-qmark-index">Q / 01</span>
-      <span className="qf-qmark-caption">PRE-SEED</span>
-      <span className="qf-qmark-caption caption-end">SERIES A</span>
-      <span className="qf-qmark-stage-line"><i /></span>
     </div>
   );
 }
@@ -285,7 +281,7 @@ export default function QFundExperience() {
             <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
           </div>
         </div>
-        <div className="qf-hero-visual"><QMarkField /></div>
+        <div className="qf-hero-visual"><LogoField /></div>
         <div className="qf-hero-foot">
           <span>HERZLIYA · ISRAEL</span>
           <a href="#about">SCROLL TO EXPLORE <i>↓</i></a>
