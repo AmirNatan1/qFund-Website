@@ -29,8 +29,10 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
-  assert.match(html, /class="qf-logo-master"/);
-  assert.match(html, /class="qf-joined-hands"/);
+  assert.match(html, /class="qf-q-arrow qf-q-arrow-flight"/);
+  assert.match(html, /class="qf-fund-reveal"/);
+  assert.equal((html.match(/class="qf-paper-person"/g) ?? []).length, 5);
+  assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm/);
   assert.doesNotMatch(html, /class="qf-team-link"/);
   assert.match(html, /href="\/news\/"/);
   assert.match(html, /href="\/contact\/"/);
@@ -45,6 +47,9 @@ test("publishes the required static assets", async () => {
     access(new URL("og-motion.png", outputUrl)),
     access(new URL("qfund-logo-light.png", outputUrl)),
     access(new URL("qfund-logo-official-hd.png", outputUrl)),
+    access(new URL("qfund-q-base-hd.png", outputUrl)),
+    access(new URL("qfund-q-arrow-hd.png", outputUrl)),
+    access(new URL("qfund-fund-hd.png", outputUrl)),
     access(new URL("team/liav-ben-rubi-hd.webp", outputUrl)),
     access(new URL("team/dana-taigman-koren-hd.webp", outputUrl)),
     access(new URL("team/liron-ben-zaken-hd.webp", outputUrl)),

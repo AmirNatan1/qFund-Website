@@ -64,10 +64,10 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
     <div className={`qf-approach-graphic is-${variant}`} aria-hidden="true">
       <span className="qf-approach-grid" />
       {variant === "team" ? (
-        <div className="qf-team-symbol">
-          <span className="qf-person person-left"><i className="qf-person-head" /><i className="qf-person-body" /><i className="qf-person-arm" /></span>
-          <span className="qf-joined-hands"><i /><i /></span>
-          <span className="qf-person person-right"><i className="qf-person-head" /><i className="qf-person-body" /><i className="qf-person-arm" /></span>
+        <div className="qf-paper-chain">
+          {[0, 1, 2, 3, 4].map((person) => (
+            <span className="qf-paper-person" key={person}><i /></span>
+          ))}
           <b>DOMAIN / FOUNDER FIT</b>
         </div>
       ) : null}
@@ -104,20 +104,19 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
 function LogoField() {
   return (
     <div className="qf-logo-field" aria-hidden="true">
-      <span className="qf-logo-halo halo-one" />
-      <span className="qf-logo-halo halo-two" />
-      <span className="qf-logo-phase phase-one" />
-      <span className="qf-logo-phase phase-two" />
-      <span className="qf-logo-core">
-        <span className="qf-logo-echo echo-left">
-          <Image src="/qfund-logo-official-hd.png" alt="" width={1036} height={336} unoptimized />
+      <span className="qf-assembly-core">
+        <span className="qf-lockup-track">
+          <Image className="qf-q-base" src="/qfund-q-base-hd.png" alt="" width={1036} height={336} unoptimized />
+          <Image className="qf-q-arrow qf-q-arrow-flight" src="/qfund-q-arrow-hd.png" alt="" width={1036} height={336} unoptimized />
+          <span className="qf-fund-reveal">
+            <Image className="qf-fund-word" src="/qfund-fund-hd.png" alt="" width={1036} height={336} unoptimized />
+          </span>
+          <span className="qf-final-arrow-mask">
+            <Image className="qf-q-arrow qf-q-arrow-final" src="/qfund-q-arrow-hd.png" alt="" width={1036} height={336} unoptimized />
+          </span>
+          <span className="qf-arrow-speed-line line-one" />
+          <span className="qf-arrow-speed-line line-two" />
         </span>
-        <span className="qf-logo-echo echo-right">
-          <Image src="/qfund-logo-official-hd.png" alt="" width={1036} height={336} unoptimized />
-        </span>
-        <Image className="qf-logo-master" src="/qfund-logo-official-hd.png" alt="" width={1036} height={336} unoptimized />
-        <span className="qf-logo-sweep" />
-        <span className="qf-logo-origin"><i /></span>
       </span>
     </div>
   );
