@@ -115,12 +115,14 @@ test("keeps the logo turn and word reveal synchronized", async () => {
   const arrowMotion = css.match(/@keyframes qf-arrow-flight\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
   const wordReveal = css.match(/@keyframes qf-fund-uncover\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
 
-  assert.match(arrowMotion, /rotateY\(360deg\)/);
+  assert.match(arrowMotion, /rotateY\(-360deg\)/);
+  assert.match(arrowMotion, /rotateZ\(135deg\)/);
   assert.doesNotMatch(arrowMotion, /rotateX\(/);
   assert.match(arrowMotion, /52%/);
   assert.match(wordReveal, /33\.99%/);
   assert.match(wordReveal, /52%/);
   assert.match(wordReveal, /73\.4%/);
+  assert.doesNotMatch(css, /\.qf-assembly-core::before/);
 });
 
 test("links every team portrait and portfolio logo to its destination", async () => {
