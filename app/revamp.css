@@ -568,6 +568,8 @@ body:has(a:hover, button:hover) .qf-cursor span {
   display: block;
   aspect-ratio: 259 / 84;
   width: 76%;
+  perspective: 45rem;
+  transform-style: preserve-3d;
   animation: qf-lockup-cycle 8.8s linear infinite;
 }
 
@@ -575,7 +577,8 @@ body:has(a:hover, button:hover) .qf-cursor span {
 .qf-q-arrow,
 .qf-fund-word,
 .qf-fund-reveal,
-.qf-final-arrow-mask {
+.qf-final-arrow-mask,
+.qf-q-arrow-flight {
   position: absolute;
   inset: 0;
   display: block;
@@ -603,8 +606,23 @@ body:has(a:hover, button:hover) .qf-cursor span {
 
 .qf-q-arrow-flight {
   z-index: 7;
-  filter: drop-shadow(0 0.22rem 0.3rem rgba(3, 36, 38, 0.22));
+  transform-origin: 13.3% 36.3%;
+  transform-style: preserve-3d;
+  will-change: transform;
   animation: qf-arrow-flight 8.8s linear infinite;
+}
+
+.qf-q-arrow-flight i {
+  position: absolute;
+  top: 18.75%;
+  left: 7.63%;
+  display: block;
+  width: 11.4%;
+  aspect-ratio: 1;
+  background: #00c8e8;
+  backface-visibility: visible;
+  clip-path: polygon(0 50%, 50% 0, 100% 0, 100% 50%, 50% 100%, 50% 50%);
+  filter: drop-shadow(0 0.18rem 0.2rem rgba(3, 36, 38, 0.18));
 }
 
 .qf-fund-reveal {
@@ -952,7 +970,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: min(84%, 28rem);
+  width: min(68%, 22rem);
   height: 76%;
   filter: drop-shadow(0 0.8rem 0.72rem rgba(6, 43, 47, 0.12));
   animation: qf-paper-chain 5.6s ease-in-out infinite;
@@ -973,7 +991,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
 .qf-paper-person {
   position: relative;
   z-index: 2;
-  flex: 0 0 20%;
+  flex: 0 0 33.333%;
   height: 79%;
   margin-inline: -0.4%;
   transform-origin: 50% 46%;
@@ -1023,8 +1041,6 @@ body:has(a:hover, button:hover) .qf-cursor span {
   transform: rotate(1deg);
 }
 
-.qf-paper-person:nth-child(2),
-.qf-paper-person:nth-child(4) { transform: translateY(3%); }
 .qf-paper-chain > b { position: absolute; right: 0; bottom: -0.15rem; left: 0; color: var(--qf-green); font-size: 0.58rem; font-weight: 780; letter-spacing: 0.14em; text-align: center; }
 
 /* Technology — the core and its measurable performance traces. */
@@ -1353,18 +1369,18 @@ body:has(a:hover, button:hover) .qf-cursor span {
 }
 
 @keyframes qf-arrow-flight {
-  0%, 13% { opacity: 1; transform: translateX(-2.2%) rotate(0deg) scaleX(1); }
-  23% { opacity: 1; transform: translateX(18%) rotate(45deg) scaleX(1); }
-  34% { opacity: 1; transform: translateX(18%) rotate(45deg) scaleX(1.7); }
-  49% { opacity: 1; transform: translateX(108%) rotate(45deg) scaleX(1.7); }
-  53%, 92% { opacity: 0; transform: translateX(124%) rotate(45deg) scaleX(1.7); }
-  93%, 100% { opacity: 1; transform: translateX(-2.2%) rotate(0deg) scaleX(1); }
+  0%, 13% { opacity: 1; transform: translateX(-2.2%) rotateY(0deg) rotateZ(0deg) scaleX(1); }
+  23% { opacity: 1; transform: translateX(18%) rotateY(360deg) rotateZ(45deg) scaleX(1); }
+  34% { opacity: 1; transform: translateX(18%) rotateY(360deg) rotateZ(45deg) scaleX(1.7); }
+  52% { opacity: 1; transform: translateX(87%) rotateY(360deg) rotateZ(45deg) scaleX(1.7); }
+  55%, 92% { opacity: 0; transform: translateX(99%) rotateY(360deg) rotateZ(45deg) scaleX(1.7); }
+  93%, 100% { opacity: 1; transform: translateX(-2.2%) rotateY(0deg) rotateZ(0deg) scaleX(1); }
 }
 
 @keyframes qf-fund-uncover {
-  0%, 37% { clip-path: inset(0 100% 0 0); }
-  54%, 88% { clip-path: inset(0 0 0 0); }
-  93%, 100% { clip-path: inset(0 100% 0 0); }
+  0%, 33.99% { clip-path: inset(0 73.4% 0 0); }
+  52%, 88% { clip-path: inset(0 0 0 0); }
+  93%, 100% { clip-path: inset(0 73.4% 0 0); }
 }
 
 @keyframes qf-final-arrow {

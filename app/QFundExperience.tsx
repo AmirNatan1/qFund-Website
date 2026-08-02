@@ -65,7 +65,7 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
       <span className="qf-approach-grid" />
       {variant === "team" ? (
         <div className="qf-paper-chain">
-          {[0, 1, 2, 3, 4].map((person) => (
+          {[0, 1, 2].map((person) => (
             <span className="qf-paper-person" key={person}><i /></span>
           ))}
           <b>DOMAIN / FOUNDER FIT</b>
@@ -107,7 +107,7 @@ function LogoField() {
       <span className="qf-assembly-core">
         <span className="qf-lockup-track">
           <Image className="qf-q-base" src="/qfund-q-base-hd.png" alt="" width={1036} height={336} unoptimized />
-          <Image className="qf-q-arrow qf-q-arrow-flight" src="/qfund-q-arrow-hd.png" alt="" width={1036} height={336} unoptimized />
+          <span className="qf-q-arrow-flight"><i /></span>
           <span className="qf-fund-reveal">
             <Image className="qf-fund-word" src="/qfund-fund-hd.png" alt="" width={1036} height={336} unoptimized />
           </span>

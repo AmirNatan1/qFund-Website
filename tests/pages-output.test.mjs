@@ -29,9 +29,9 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
-  assert.match(html, /class="qf-q-arrow qf-q-arrow-flight"/);
+  assert.match(html, /class="qf-q-arrow-flight"/);
   assert.match(html, /class="qf-fund-reveal"/);
-  assert.equal((html.match(/class="qf-paper-person"/g) ?? []).length, 5);
+  assert.equal((html.match(/class="qf-paper-person"/g) ?? []).length, 3);
   assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm/);
   assert.doesNotMatch(html, /class="qf-team-link"/);
   assert.match(html, /href="\/news\/"/);
@@ -108,6 +108,19 @@ test("renders the right-side section rail and three latest news stories", async 
   assert.match(home, /aria-label="Go to Our approach"/);
   assert.equal((home.match(/class="qf-news-card qf-reveal"/g) ?? []).length, 3);
   assert.match(home, />View all news/);
+});
+
+test("keeps the logo turn and word reveal synchronized", async () => {
+  const css = await readFile(new URL("../app/revamp.css", import.meta.url), "utf8");
+  const arrowMotion = css.match(/@keyframes qf-arrow-flight\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+  const wordReveal = css.match(/@keyframes qf-fund-uncover\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+
+  assert.match(arrowMotion, /rotateY\(360deg\)/);
+  assert.doesNotMatch(arrowMotion, /rotateX\(/);
+  assert.match(arrowMotion, /52%/);
+  assert.match(wordReveal, /33\.99%/);
+  assert.match(wordReveal, /52%/);
+  assert.match(wordReveal, /73\.4%/);
 });
 
 test("links every team portrait and portfolio logo to its destination", async () => {
