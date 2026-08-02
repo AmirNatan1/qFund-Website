@@ -498,191 +498,155 @@ body:has(a:hover, button:hover) .qf-cursor span {
   padding: 8vh 1vw 9vh 2vw;
 }
 
-.qf-logo-field {
+.qf-frontier-field {
+  --frontier-x: 50%;
+  --frontier-y: 50%;
   position: relative;
   isolation: isolate;
   aspect-ratio: 0.98;
   width: min(100%, 42rem);
   overflow: hidden;
-  border: 1px solid var(--qf-line);
+  border: 1px solid rgba(12, 111, 105, 0.18);
   border-radius: 2.4rem;
   background:
-    radial-gradient(circle at 19% 21%, rgba(34, 199, 203, 0.15), transparent 25%),
-    radial-gradient(circle at 82% 78%, rgba(12, 111, 105, 0.1), transparent 29%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(225, 241, 239, 0.92));
+    radial-gradient(circle at var(--frontier-x) var(--frontier-y), rgba(34, 199, 203, 0.16), transparent 25%),
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.94), transparent 31%),
+    linear-gradient(145deg, #f5f8f5, #dcefeb 72%, #edf6f4);
   box-shadow: 0 2rem 6rem rgba(6, 43, 47, 0.11);
   transform: translate(var(--field-shift-x), var(--field-shift-y)) rotateX(var(--field-rotate-x)) rotateY(var(--field-rotate-y));
   transform-style: preserve-3d;
-  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 420ms ease;
+  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 420ms ease, background 600ms ease;
   will-change: transform;
 }
 
-.qf-logo-field::before {
+.qf-frontier-field::before {
   position: absolute;
-  inset: 8%;
-  border: 1px solid rgba(12, 111, 105, 0.1);
-  border-radius: 1.8rem;
+  inset: 0;
+  z-index: 0;
   content: "";
   background-image:
     linear-gradient(rgba(12, 111, 105, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(12, 111, 105, 0.045) 1px, transparent 1px);
-  background-size: 2.8rem 2.8rem;
-  mask-image: linear-gradient(135deg, transparent, black 24% 76%, transparent);
+  background-size: 3.15rem 3.15rem;
+  mask-image: radial-gradient(circle at center, black 8%, rgba(0, 0, 0, 0.72) 49%, transparent 86%);
 }
 
-.qf-assembly-core {
+.qf-frontier-field::after {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: 88%;
-  height: 70%;
-  overflow: hidden;
-  border: 1px solid rgba(12, 111, 105, 0.15);
-  border-radius: 2.25rem;
-  background:
-    radial-gradient(circle at 14% 24%, rgba(34, 199, 203, 0.22), transparent 26%),
-    radial-gradient(circle at 86% 78%, rgba(12, 111, 105, 0.12), transparent 24%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(220, 241, 238, 0.68));
-  box-shadow:
-    0 1.7rem 4.2rem rgba(6, 43, 47, 0.12),
-    inset 0 1px rgba(255, 255, 255, 0.82);
-  transform: translate(-50%, -50%);
-  transition: box-shadow 420ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.qf-logo-orbit {
-  position: absolute;
-  z-index: 1;
-  display: block;
-  aspect-ratio: 1;
-  border: 1px solid rgba(12, 111, 105, 0.16);
-  border-radius: 50%;
-  animation: qf-logo-orbit 9s ease-in-out infinite;
-}
-
-.qf-logo-orbit::before {
-  position: absolute;
-  inset: 12%;
-  border: 1px dashed rgba(34, 199, 203, 0.26);
-  border-radius: inherit;
+  inset: 1rem;
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 1.75rem;
   content: "";
+  pointer-events: none;
+  box-shadow: inset 0 0 4rem rgba(255, 255, 255, 0.22);
 }
 
-.qf-logo-orbit i {
-  position: absolute;
-  top: 17%;
-  right: 8%;
-  width: 0.55rem;
-  aspect-ratio: 1;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  background: var(--qf-coral);
-  box-shadow: 0 0 0 0.45rem rgba(34, 199, 203, 0.1);
-}
-
-.qf-logo-orbit.orbit-one {
-  top: -43%;
-  left: -17%;
-  width: 62%;
-}
-
-.qf-logo-orbit.orbit-two {
-  right: -12%;
-  bottom: -38%;
-  width: 48%;
-  animation-delay: -4.5s;
-}
-
-.qf-lockup-track {
-  position: relative;
-  z-index: 4;
-  display: block;
-  aspect-ratio: 259 / 84;
-  width: 78%;
-  animation: qf-lockup-cycle 8.8s linear infinite;
-}
-
-.qf-q-base,
-.qf-q-arrow,
-.qf-fund-word,
-.qf-fund-reveal,
-.qf-final-arrow-mask,
-.qf-q-arrow-flight {
+.qf-frontier-canvas {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.qf-q-base,
-.qf-q-arrow,
-.qf-fund-word {
-  pointer-events: none;
-  user-select: none;
-}
-
-.qf-q-base {
-  z-index: 4;
-  background: var(--qf-ink-strong);
-  -webkit-mask: url("/qfund-q-base-vector.svg") center / contain no-repeat;
-  mask: url("/qfund-q-base-vector.svg") center / contain no-repeat;
-  animation: qf-q-settle 8.8s linear infinite;
-}
-
-.qf-q-arrow {
-  transform-origin: 13.3% 36.3%;
-}
-
-.qf-q-arrow-flight {
-  z-index: 7;
-  transform-origin: 13.3% 36.3%;
-  will-change: transform;
-  animation: qf-arrow-flight 8.8s linear infinite;
-}
-
-.qf-q-arrow-flight i {
+.qf-frontier-core {
   position: absolute;
-  top: 18.75%;
-  left: 7.63%;
-  display: block;
-  width: 11.4%;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: clamp(7.4rem, 20%, 9.4rem);
   aspect-ratio: 1;
-  background: #00c8e8;
-  clip-path: polygon(0 50%, 50% 0, 100% 0, 100% 50%, 50% 100%, 50% 50%);
-  filter: drop-shadow(0 0.18rem 0.2rem rgba(3, 36, 38, 0.18));
+  border: 1px solid rgba(12, 111, 105, 0.24);
+  border-radius: 50%;
+  background: rgba(245, 248, 245, 0.82);
+  box-shadow:
+    0 1.5rem 3.5rem rgba(6, 43, 47, 0.16),
+    inset 0 1px rgba(255, 255, 255, 0.94),
+    0 0 0 0.8rem rgba(201, 236, 232, 0.28);
+  transform: translate(-50%, -50%);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  animation: qf-frontier-core 5.4s ease-in-out infinite;
 }
 
-.qf-fund-reveal {
-  z-index: 3;
-  overflow: hidden;
-  clip-path: inset(0 100% 0 0);
-  animation: qf-fund-uncover 8.8s linear infinite;
+.qf-frontier-core::before,
+.qf-frontier-core::after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
 }
 
-.qf-fund-word {
+.qf-frontier-core::before {
+  inset: -31%;
+  border: 1px solid rgba(12, 111, 105, 0.18);
+}
+
+.qf-frontier-core::after {
+  inset: -62%;
+  border: 1px dashed rgba(34, 199, 203, 0.3);
+  animation: qf-frontier-orbit 28s linear infinite;
+}
+
+.qf-frontier-mark {
+  position: relative;
+  display: block;
+  width: 3.75rem;
+  aspect-ratio: 49 / 84;
+}
+
+.qf-frontier-q,
+.qf-frontier-arrow {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.qf-frontier-q {
   background: var(--qf-ink-strong);
-  -webkit-mask: url("/qfund-fund-vector.svg") center / contain no-repeat;
-  mask: url("/qfund-fund-vector.svg") center / contain no-repeat;
+  -webkit-mask: url("/qfund-q-base-vector.svg") left center / 528.58% 100% no-repeat;
+  mask: url("/qfund-q-base-vector.svg") left center / 528.58% 100% no-repeat;
 }
 
-.qf-q-arrow-final {
+.qf-frontier-arrow {
   background: var(--qf-coral);
-  -webkit-mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
-  mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
+  -webkit-mask: url("/qfund-q-arrow-vector.svg") left center / 528.58% 100% no-repeat;
+  mask: url("/qfund-q-arrow-vector.svg") left center / 528.58% 100% no-repeat;
+  animation: qf-frontier-arrow 3.6s ease-in-out infinite;
 }
 
-.qf-final-arrow-mask {
-  z-index: 8;
-  opacity: 0;
-  animation: qf-final-arrow 8.8s linear infinite;
+.qf-frontier-depth {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: block;
+  border: 1px solid rgba(12, 111, 105, 0.11);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.qf-hero:hover .qf-logo-field { box-shadow: 0 2.4rem 7rem rgba(6, 43, 47, 0.15); }
-.qf-hero:hover .qf-assembly-core { box-shadow: 0 2rem 4.8rem rgba(6, 43, 47, 0.16), inset 0 1px rgba(255, 255, 255, 0.82); transform: translate(-50%, -50%) scale(1.012); }
+.qf-frontier-depth.depth-one {
+  width: 78%;
+  height: 39%;
+  transform: translate(-50%, -50%) rotate(13deg);
+}
+
+.qf-frontier-depth.depth-two {
+  width: 55%;
+  height: 68%;
+  border-style: dashed;
+  border-color: rgba(34, 199, 203, 0.16);
+  transform: translate(-50%, -50%) rotate(-19deg);
+}
+
+.qf-hero:hover .qf-frontier-field {
+  box-shadow: 0 2.5rem 7rem rgba(6, 43, 47, 0.15);
+}
 
 .qf-hero-foot {
   position: absolute;
@@ -1379,42 +1343,24 @@ body:has(a:hover, button:hover) .qf-cursor span {
   50% { transform: scale(1); box-shadow: 0 0 0 0.55rem rgba(34, 199, 203, 0); }
 }
 
-@keyframes qf-lockup-cycle {
-  0%, 82% { opacity: 1; }
-  86%, 91% { opacity: 0; }
-  96%, 100% { opacity: 1; }
+@keyframes qf-frontier-core {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.985);
+    box-shadow: 0 1.5rem 3.5rem rgba(6, 43, 47, 0.14), inset 0 1px rgba(255, 255, 255, 0.94), 0 0 0 0.8rem rgba(201, 236, 232, 0.24);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.018);
+    box-shadow: 0 1.8rem 4.4rem rgba(6, 43, 47, 0.18), inset 0 1px rgba(255, 255, 255, 0.98), 0 0 0 1.08rem rgba(201, 236, 232, 0.31);
+  }
 }
 
-@keyframes qf-q-settle {
-  0%, 34% { transform: translateX(-2.2%); }
-  53%, 86% { transform: translateX(0); }
-  91%, 100% { transform: translateX(-2.2%); }
+@keyframes qf-frontier-orbit {
+  to { transform: rotate(360deg); }
 }
 
-@keyframes qf-arrow-flight {
-  0%, 13% { opacity: 1; transform: translateX(-2.2%) rotate(0deg) scaleX(1); }
-  23% { opacity: 1; transform: translateX(18%) rotate(45deg) scaleX(1); }
-  34% { opacity: 1; transform: translateX(18%) rotate(45deg) scaleX(1.7); }
-  52% { opacity: 1; transform: translateX(87%) rotate(45deg) scaleX(1.7); }
-  55%, 86% { opacity: 0; transform: translateX(99%) rotate(45deg) scaleX(1.7); }
-  91%, 100% { opacity: 1; transform: translateX(-2.2%) rotate(0deg) scaleX(1); }
-}
-
-@keyframes qf-fund-uncover {
-  0%, 33.99% { clip-path: inset(0 73.4% 0 0); }
-  52%, 86% { clip-path: inset(0 0 0 0); }
-  91%, 100% { clip-path: inset(0 73.4% 0 0); }
-}
-
-@keyframes qf-final-arrow {
-  0%, 50% { opacity: 0; }
-  55%, 84% { opacity: 1; }
-  88%, 100% { opacity: 0; }
-}
-
-@keyframes qf-logo-orbit {
-  0%, 100% { opacity: 0.58; transform: rotate(-4deg) scale(0.98); }
-  50% { opacity: 0.92; transform: rotate(4deg) scale(1.025); }
+@keyframes qf-frontier-arrow {
+  0%, 100% { opacity: 0.82; transform: translate(0, 0); }
+  50% { opacity: 1; transform: translate(0.08rem, -0.08rem); }
 }
 
 @keyframes qf-scroll-cue {
@@ -1500,7 +1446,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   .qf-hero-copy { min-height: 78svh; padding-bottom: 4rem; }
   .qf-hero h1 { font-size: clamp(4rem, 11vw, 7rem); }
   .qf-hero-visual { min-height: 70svh; padding: 2rem 7vw 7rem; }
-  .qf-logo-field { justify-self: center; width: min(34rem, 100%); }
+  .qf-frontier-field { justify-self: center; width: min(34rem, 100%); }
   .qf-about { grid-template-columns: 1fr; gap: 4rem; }
   .qf-about-body { align-content: start; }
   .qf-section-heading,
@@ -1609,15 +1555,12 @@ body:has(a:hover, button:hover) .qf-cursor span {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .qf-reveal { opacity: 1; transform: none; transition: none; }
-  .qf-logo-field,
+  .qf-frontier-field,
   .qf-industry-card figure img,
   .qf-team-image img { transition: none; }
-  .qf-lockup-track,
-  .qf-logo-orbit,
-  .qf-q-base,
-  .qf-q-arrow-flight,
-  .qf-fund-reveal,
-  .qf-final-arrow-mask,
+  .qf-frontier-core,
+  .qf-frontier-core::after,
+  .qf-frontier-arrow,
   .qf-hero-foot i,
   .qf-approach-graphic *,
   .qf-chip::after,
@@ -1625,8 +1568,4 @@ body:has(a:hover, button:hover) .qf-cursor span {
   .qf-archive-orbit,
   .qf-archive-orbit i,
   .qf-hero-copy > .qf-kicker > span { animation: none; }
-  .qf-q-base { transform: none; }
-  .qf-q-arrow-flight { opacity: 0; }
-  .qf-fund-reveal { clip-path: inset(0); }
-  .qf-final-arrow-mask { opacity: 1; }
 }

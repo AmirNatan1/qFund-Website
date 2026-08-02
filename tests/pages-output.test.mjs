@@ -29,9 +29,11 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Quantum computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
-  assert.match(html, /class="qf-q-arrow-flight"/);
-  assert.match(html, /class="qf-fund-reveal"/);
-  assert.doesNotMatch(html, /qf-arrow-speed-line/);
+  assert.match(html, /class="qf-frontier-field"/);
+  assert.match(html, /class="qf-frontier-canvas"/);
+  assert.match(html, /class="qf-frontier-core"/);
+  assert.match(html, /class="qf-frontier-q"/);
+  assert.doesNotMatch(html, /qf-logo-field|qf-assembly-core|qf-lockup-track|qf-q-arrow-flight|qf-fund-reveal|qf-final-arrow-mask/);
   assert.doesNotMatch(html, /qfund-(?:q-base|q-arrow|fund)-hd\.png/);
   assert.equal((html.match(/class="qf-paper-person"/g) ?? []).length, 3);
   assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm/);
@@ -115,27 +117,20 @@ test("renders the right-side section rail and three latest news stories", async 
   assert.match(home, />View all news/);
 });
 
-test("keeps the logo turn and word reveal synchronized", async () => {
-  const css = await readFile(new URL("../app/revamp.css", import.meta.url), "utf8");
-  const arrowMotion = css.match(/@keyframes qf-arrow-flight\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
-  const wordReveal = css.match(/@keyframes qf-fund-uncover\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
-  const qMotion = css.match(/@keyframes qf-q-settle\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
-  const cycle = css.match(/@keyframes qf-lockup-cycle\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+test("ships the interactive frontier field without the discarded logo assembly", async () => {
+  const [html, css] = await Promise.all([
+    readHome(),
+    readFile(new URL("../app/revamp.css", import.meta.url), "utf8"),
+  ]);
 
-  assert.match(arrowMotion, /rotate\(45deg\)/);
-  assert.doesNotMatch(arrowMotion, /rotateX\(/);
-  assert.doesNotMatch(arrowMotion, /rotateY\(/);
-  assert.doesNotMatch(arrowMotion, /rotateZ\(/);
-  assert.match(arrowMotion, /52%/);
-  assert.match(wordReveal, /33\.99%/);
-  assert.match(wordReveal, /52%/);
-  assert.match(wordReveal, /73\.4%/);
-  assert.match(qMotion, /91%, 100% \{ transform: translateX\(-2\.2%\)/);
-  assert.match(arrowMotion, /91%, 100% \{ opacity: 1; transform: translateX\(-2\.2%\) rotate\(0deg\)/);
-  assert.match(cycle, /86%, 91% \{ opacity: 0/);
-  assert.doesNotMatch(css, /\.qf-assembly-core::before/);
-  assert.doesNotMatch(css, /@keyframes qf-speed-line/);
-  assert.match(css, /mask: url\("\/qfund-fund-vector\.svg"\)/);
+  assert.match(html, /class="qf-frontier-field"/);
+  assert.match(html, /class="qf-frontier-canvas"/);
+  assert.equal((html.match(/class="qf-frontier-depth/g) ?? []).length, 2);
+  assert.match(css, /@keyframes qf-frontier-core/);
+  assert.match(css, /@keyframes qf-frontier-orbit/);
+  assert.match(css, /qfund-q-base-vector\.svg/);
+  assert.doesNotMatch(css, /@keyframes qf-(?:lockup-cycle|q-settle|arrow-flight|fund-uncover|final-arrow|logo-orbit)/);
+  assert.doesNotMatch(css, /\.qf-(?:logo-field|assembly-core|lockup-track|q-arrow-flight|fund-reveal|final-arrow-mask)/);
 });
 
 test("links every team portrait and portfolio logo to its destination", async () => {
