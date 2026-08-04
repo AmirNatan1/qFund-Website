@@ -843,84 +843,37 @@ body:has(a:hover, button:hover) .qf-cursor span {
   letter-spacing: 0.08em;
 }
 
-/* Team — two people moving in unison and joining hands. */
-.qf-paper-chain {
+/* Team — an outlined handshake, drawn in a single line weight so it reads
+   as a schematic rather than an illustration. */
+.qf-handshake {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: min(80%, 26rem);
-  height: 68%;
-  filter: drop-shadow(0 0.8rem 0.72rem rgba(6, 43, 47, 0.12));
-  animation: qf-paper-chain 5.6s ease-in-out infinite;
+  display: grid;
+  box-sizing: border-box;
+  place-items: center;
+  width: min(62%, 18rem);
+  height: 74%;
+  padding-bottom: 1.25rem;
+  color: var(--qf-green);
 }
 
-.qf-paper-chain::before {
-  position: absolute;
-  top: 16%;
-  left: 8%;
-  width: 84%;
-  height: 64%;
-  border: 1px solid rgba(12, 111, 105, 0.13);
-  border-radius: 50%;
-  content: "";
-  transform: rotate(-3deg);
+.qf-handshake svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0.55rem 0.6rem rgba(6, 43, 47, 0.1));
 }
 
-.qf-paper-person {
-  position: relative;
-  z-index: 2;
-  flex: 0 0 33.333%;
-  height: 75%;
-  margin-inline: -0.4%;
-  transform-origin: 50% 46%;
+.qf-handshake path {
+  stroke-width: 2.6px;
+  vector-effect: non-scaling-stroke;
 }
 
-.qf-paper-person::before {
-  position: absolute;
-  top: 7%;
-  left: 50%;
-  z-index: 2;
-  width: 34%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  content: "";
-  background: var(--qf-green);
-  box-shadow:
-    inset 0.18rem 0.12rem rgba(255, 255, 255, 0.1),
-    inset -0.13rem -0.13rem rgba(3, 72, 69, 0.14);
-  transform: translateX(-50%);
+.qf-handshake-hands {
+  transform-origin: 50% 58%;
+  animation: qf-handshake 5.6s ease-in-out infinite;
 }
 
-.qf-paper-person::after {
-  position: absolute;
-  top: 29%;
-  right: 0;
-  bottom: 1%;
-  left: 0;
-  content: "";
-  background: var(--qf-green);
-  clip-path: polygon(
-    0 17%, 31% 30%, 37% 9%, 63% 9%, 69% 30%, 100% 17%,
-    100% 30%, 72% 44%, 66% 100%, 53% 100%, 50% 68%,
-    47% 100%, 34% 100%, 28% 44%, 0 30%
-  );
-  box-shadow: inset 0.12rem 0.1rem rgba(255, 255, 255, 0.09);
-}
-
-.qf-paper-person i {
-  position: absolute;
-  top: 35%;
-  bottom: 8%;
-  left: 50%;
-  z-index: 3;
-  width: 1px;
-  opacity: 0.16;
-  background: linear-gradient(transparent, var(--qf-white) 18% 82%, transparent);
-  transform: rotate(1deg);
-}
-
-.qf-paper-chain > b { position: absolute; right: 0; bottom: -0.15rem; left: 0; color: var(--qf-green); font-size: 0.58rem; font-weight: 780; letter-spacing: 0.14em; text-align: center; }
+.qf-handshake > b { position: absolute; right: 0; bottom: 0; left: 0; color: var(--qf-green); font-size: 0.58rem; font-weight: 780; letter-spacing: 0.14em; text-align: center; }
 
 /* Technology — the core and its measurable performance traces. */
 .qf-technology-symbol { position: relative; width: 74%; height: 74%; }
@@ -1250,9 +1203,9 @@ body:has(a:hover, button:hover) .qf-cursor span {
   to { transform: rotate(360deg); }
 }
 
-@keyframes qf-paper-chain {
-  0%, 100% { transform: translateY(0) scaleX(0.985); }
-  50% { transform: translateY(-0.24rem) scaleX(1.012); }
+@keyframes qf-handshake {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-0.26rem) rotate(-1.3deg); }
 }
 
 @keyframes qf-chip-breathe {

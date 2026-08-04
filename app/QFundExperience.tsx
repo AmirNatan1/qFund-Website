@@ -59,10 +59,19 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
     <div className={`qf-approach-graphic is-${variant}`} aria-hidden="true">
       <span className="qf-approach-grid" />
       {variant === "team" ? (
-        <div className="qf-paper-chain">
-          {[0, 1, 2].map((person) => (
-            <span className="qf-paper-person" key={person}><i /></span>
-          ))}
+        <div className="qf-handshake">
+          <svg viewBox="0 0 24 22" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+            <g className="qf-handshake-hands">
+              <path d="M3 1 2 12l6.5 6.5a1 1 0 1 0 3-3" vectorEffect="non-scaling-stroke" />
+              <path d="M3 2h8" vectorEffect="non-scaling-stroke" />
+              <path d="m11 15 2 2a1 1 0 1 0 3-3" vectorEffect="non-scaling-stroke" />
+              <path
+                d="m14 12 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 2"
+                vectorEffect="non-scaling-stroke"
+              />
+              <path d="m21 1 1 11h-2" vectorEffect="non-scaling-stroke" />
+            </g>
+          </svg>
           <b>DOMAIN / FOUNDER FIT</b>
         </div>
       ) : null}
@@ -246,7 +255,7 @@ export default function QFundExperience() {
         <div className="qf-section-label qf-reveal"><span>01</span><p>About us</p></div>
         <div className="qf-about-heading qf-reveal">
           <p className="qf-kicker">EARLY-STAGE VENTURE CAPITAL</p>
-          <h2 id="about-title">Built for technologies that have to work <em>in the real world.</em></h2>
+          <h2 id="about-title">What we invest in, and what we bring <em>beyond capital.</em></h2>
         </div>
         <div className="qf-about-body">
           <div className="qf-about-copy qf-reveal">
@@ -265,7 +274,7 @@ export default function QFundExperience() {
         <div className="qf-section-label qf-reveal"><span>02</span><p>Industries</p></div>
         <div className="qf-section-heading qf-reveal">
           <p className="qf-kicker">SIX STRATEGIC FOCUS AREAS</p>
-          <h2 id="industries-title">Where scientific advantage becomes <em>industrial consequence.</em></h2>
+          <h2 id="industries-title">Six sectors, and what we look for inside <em>each one.</em></h2>
         </div>
         <div className="qf-industry-grid">
           {focusAreas.map((item, index) => (
@@ -295,7 +304,7 @@ export default function QFundExperience() {
         <div className="qf-section-label qf-reveal"><span>03</span><p>Our approach</p></div>
         <div className="qf-approach-heading qf-reveal">
           <p className="qf-kicker">CONVICTION, THEN COMPANY BUILDING</p>
-          <h2 id="approach-title">A disciplined route from technical truth to <em>commercial scale.</em></h2>
+          <h2 id="approach-title">How we choose companies, and what we do <em>after we invest.</em></h2>
         </div>
         <div className="qf-approach-instrument qf-reveal">
           <div className="qf-approach-controls" role="list" aria-label="Investment evaluation pillars">
