@@ -2,11 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import BackToTop from "./components/BackToTop";
 import BrandMark from "./components/BrandMark";
 import NewsArtwork from "./components/NewsArtwork";
-import StrataField from "./components/StrataField";
 import { formatNewsDate, newsItems } from "./newsData";
 import { evaluationPillars, focusAreas, portfolio, team, valueCreation } from "./siteData";
 
@@ -105,6 +110,207 @@ function ApproachGraphic({ index, code }: { index: number; code: string }) {
   );
 }
 
+function FrontierField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fieldRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const field = fieldRef.current;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !field || !context) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const pointer = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5, inside: false };
+    let width = 1;
+    let height = 1;
+    let frame = 0;
+
+    const render = (time: number) => {
+      const seconds = time / 1000;
+      pointer.x += (pointer.targetX - pointer.x) * 0.055;
+      pointer.y += (pointer.targetY - pointer.y) * 0.055;
+
+      context.clearRect(0, 0, width, height);
+      context.lineCap = "round";
+      context.lineJoin = "round";
+
+      const centerX = width * 0.5;
+      const centerY = height * 0.5;
+      const pointerX = pointer.x * width;
+      const pointerY = pointer.y * height;
+      const fieldRadius = Math.max(width, height) * 0.32;
+
+      const lens = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, fieldRadius);
+      lens.addColorStop(0, "rgba(34, 199, 203, 0.15)");
+      lens.addColorStop(0.42, "rgba(12, 111, 105, 0.055)");
+      lens.addColorStop(1, "rgba(12, 111, 105, 0)");
+      context.fillStyle = lens;
+      context.fillRect(0, 0, width, height);
+
+      const rows = 15;
+      const horizontalSteps = 64;
+      for (let row = 0; row < rows; row += 1) {
+        const rowRatio = row / (rows - 1);
+        const baseY = height * (0.16 + rowRatio * 0.68);
+        context.beginPath();
+        for (let step = 0; step <= horizontalSteps; step += 1) {
+          const ratio = step / horizontalSteps;
+          const x = ratio * width;
+          const centerPull = Math.exp(-Math.pow((ratio - 0.5) / 0.23, 2));
+          const wave = Math.sin(ratio * 10 + row * 0.48 + seconds * 0.52) * (1.5 + centerPull * 5.5);
+          const depth = (rowRatio - 0.5) * Math.sin((ratio - 0.5) * Math.PI) * 9;
+          const dx = x - pointerX;
+          const dy = baseY - pointerY;
+          const pointerPull = pointer.inside
+            ? (pointerY - baseY) * Math.exp(-(dx * dx + dy * dy) / (fieldRadius * fieldRadius)) * 0.13
+            : 0;
+          const y = baseY + wave + depth + pointerPull;
+          if (step === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        const rowDistance = Math.abs(rowRatio - 0.5);
+        context.strokeStyle = `rgba(12, 111, 105, ${0.07 + (0.5 - rowDistance) * 0.16})`;
+        context.lineWidth = row === 7 ? 1.15 : 0.72;
+        context.stroke();
+      }
+
+      const columns = 13;
+      const verticalSteps = 48;
+      for (let column = 0; column < columns; column += 1) {
+        const columnRatio = column / (columns - 1);
+        const baseX = width * (0.12 + columnRatio * 0.76);
+        context.beginPath();
+        for (let step = 0; step <= verticalSteps; step += 1) {
+          const ratio = step / verticalSteps;
+          const y = ratio * height;
+          const centerPull = Math.exp(-Math.pow((ratio - 0.5) / 0.27, 2));
+          const wave = Math.cos(ratio * 8 + column * 0.42 - seconds * 0.42) * (1.2 + centerPull * 4);
+          const dx = baseX - pointerX;
+          const dy = y - pointerY;
+          const pointerPull = pointer.inside
+            ? (pointerX - baseX) * Math.exp(-(dx * dx + dy * dy) / (fieldRadius * fieldRadius)) * 0.11
+            : 0;
+          const x = baseX + wave + pointerPull;
+          if (step === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        context.strokeStyle = "rgba(12, 111, 105, 0.085)";
+        context.lineWidth = 0.7;
+        context.stroke();
+      }
+
+      for (let anchor = 0; anchor < 6; anchor += 1) {
+        const angle = -Math.PI / 2 + (anchor / 6) * Math.PI * 2 + seconds * 0.025;
+        const radiusX = width * 0.33;
+        const radiusY = height * 0.29;
+        const x = centerX + Math.cos(angle) * radiusX;
+        const y = centerY + Math.sin(angle) * radiusY;
+        const pulse = 0.5 + Math.sin(seconds * 1.2 + anchor * 1.4) * 0.5;
+        context.beginPath();
+        context.arc(x, y, 2.3 + pulse * 1.2, 0, Math.PI * 2);
+        context.fillStyle = `rgba(34, 199, 203, ${0.55 + pulse * 0.35})`;
+        context.fill();
+        context.beginPath();
+        context.arc(x, y, 7 + pulse * 4, 0, Math.PI * 2);
+        context.strokeStyle = `rgba(34, 199, 203, ${0.08 + pulse * 0.12})`;
+        context.lineWidth = 1;
+        context.stroke();
+      }
+
+      const particles = 18;
+      for (let particle = 0; particle < particles; particle += 1) {
+        const progress = (seconds * 0.055 + particle / particles) % 1;
+        const fromLeft = particle % 2 === 0;
+        const startX = fromLeft ? -12 : width + 12;
+        const startY = height * (0.17 + ((particle * 37) % 66) / 100);
+        const controlX = centerX + (fromLeft ? -1 : 1) * width * 0.12;
+        const controlY = centerY + Math.sin(particle * 2.1) * height * 0.2;
+        const inverse = 1 - progress;
+        const x = inverse * inverse * startX + 2 * inverse * progress * controlX + progress * progress * centerX;
+        const y = inverse * inverse * startY + 2 * inverse * progress * controlY + progress * progress * centerY;
+        const opacity = Math.sin(progress * Math.PI) * 0.72;
+        context.beginPath();
+        context.arc(x, y, 1.15 + progress * 1.25, 0, Math.PI * 2);
+        context.fillStyle = `rgba(34, 199, 203, ${opacity})`;
+        context.fill();
+      }
+
+      const emission = (seconds % 5.4) / 5.4;
+      context.beginPath();
+      context.arc(centerX, centerY, 54 + emission * Math.min(width, height) * 0.28, 0, Math.PI * 2);
+      context.strokeStyle = `rgba(12, 111, 105, ${Math.pow(1 - emission, 2) * 0.2})`;
+      context.lineWidth = 1;
+      context.stroke();
+    };
+
+    const resize = () => {
+      const bounds = field.getBoundingClientRect();
+      width = Math.max(1, bounds.width);
+      height = Math.max(1, bounds.height);
+      const density = Math.min(window.devicePixelRatio || 1, 1.75);
+      canvas.width = Math.round(width * density);
+      canvas.height = Math.round(height * density);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      context.setTransform(density, 0, 0, density, 0, 0);
+      render(0);
+    };
+
+    const animate = (time: number) => {
+      render(time);
+      frame = window.requestAnimationFrame(animate);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      const bounds = field.getBoundingClientRect();
+      pointer.targetX = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+      pointer.targetY = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
+      pointer.inside = true;
+      field.style.setProperty("--frontier-x", `${(pointer.targetX * 100).toFixed(1)}%`);
+      field.style.setProperty("--frontier-y", `${(pointer.targetY * 100).toFixed(1)}%`);
+      if (reduced) render(0);
+    };
+
+    const onPointerLeave = () => {
+      pointer.targetX = 0.5;
+      pointer.targetY = 0.5;
+      pointer.inside = false;
+      field.style.setProperty("--frontier-x", "50%");
+      field.style.setProperty("--frontier-y", "50%");
+      if (reduced) render(0);
+    };
+
+    const observer = new ResizeObserver(resize);
+    observer.observe(field);
+    field.addEventListener("pointermove", onPointerMove, { passive: true });
+    field.addEventListener("pointerleave", onPointerLeave, { passive: true });
+    resize();
+    if (!reduced) frame = window.requestAnimationFrame(animate);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+      field.removeEventListener("pointermove", onPointerMove);
+      field.removeEventListener("pointerleave", onPointerLeave);
+    };
+  }, []);
+
+  return (
+    <div className="qf-frontier-field" ref={fieldRef} aria-hidden="true">
+      <canvas className="qf-frontier-canvas" ref={canvasRef} />
+      <span className="qf-frontier-core">
+        <span className="qf-frontier-mark">
+          <i className="qf-frontier-q" />
+          <i className="qf-frontier-arrow" />
+        </span>
+      </span>
+      <span className="qf-frontier-depth depth-one" />
+      <span className="qf-frontier-depth depth-two" />
+    </div>
+  );
+}
+
 export default function QFundExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
@@ -181,6 +387,23 @@ export default function QFundExperience() {
     };
   }, []);
 
+  const moveFutureField = (event: ReactPointerEvent<HTMLElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    event.currentTarget.style.setProperty("--field-shift-x", `${(x * 14).toFixed(2)}px`);
+    event.currentTarget.style.setProperty("--field-shift-y", `${(y * 12).toFixed(2)}px`);
+    event.currentTarget.style.setProperty("--field-rotate-x", `${(y * -3).toFixed(2)}deg`);
+    event.currentTarget.style.setProperty("--field-rotate-y", `${(x * 4).toFixed(2)}deg`);
+  };
+
+  const resetFutureField = (event: ReactPointerEvent<HTMLElement>) => {
+    event.currentTarget.style.setProperty("--field-shift-x", "0px");
+    event.currentTarget.style.setProperty("--field-shift-y", "0px");
+    event.currentTarget.style.setProperty("--field-rotate-x", "0deg");
+    event.currentTarget.style.setProperty("--field-rotate-y", "0deg");
+  };
+
   const approach = evaluationPillars[activeApproach];
   const company = portfolio[activeCompany];
 
@@ -227,8 +450,9 @@ export default function QFundExperience() {
         id="top"
         data-qf-section
         aria-labelledby="qf-hero-title"
+        onPointerMove={moveFutureField}
+        onPointerLeave={resetFutureField}
       >
-        <StrataField />
         <span className="qf-hero-grid" aria-hidden="true" />
         <div className="qf-hero-copy">
           <p className="qf-kicker qf-reveal is-visible"><span /> DEEP TECH VENTURE CAPITAL · ISRAEL</p>
@@ -245,6 +469,7 @@ export default function QFundExperience() {
             <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
           </div>
         </div>
+        <div className="qf-hero-visual"><FrontierField /></div>
         <div className="qf-hero-foot">
           <span>HERZLIYA · ISRAEL</span>
           <a href="#about">SCROLL TO EXPLORE <i>↓</i></a>

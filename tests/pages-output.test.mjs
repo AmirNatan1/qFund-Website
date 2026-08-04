@@ -35,8 +35,8 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /class="qf-frontier-q"/);
   assert.doesNotMatch(html, /qf-logo-field|qf-assembly-core|qf-lockup-track|qf-q-arrow-flight|qf-fund-reveal|qf-final-arrow-mask/);
   assert.doesNotMatch(html, /qfund-(?:q-base|q-arrow|fund)-hd\.png/);
-  assert.equal((html.match(/class="qf-paper-person"/g) ?? []).length, 3);
-  assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm/);
+  assert.equal((html.match(/class="qf-handshake"/g) ?? []).length, 1);
+  assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm|qf-paper-chain|qf-paper-person/);
   assert.doesNotMatch(html, /class="qf-team-link"/);
   assert.match(html, /href="\/news\/"/);
   assert.match(html, /href="\/contact\/"/);

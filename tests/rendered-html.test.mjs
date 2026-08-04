@@ -30,8 +30,8 @@ test("server-renders the unified qFund experience", async () => {
   assert.match(html, /class="qf-frontier-canvas"/);
   assert.match(html, /class="qf-frontier-core"/);
   assert.doesNotMatch(html, /qf-logo-field|qf-q-arrow-flight|qf-fund-reveal/);
-  assert.equal((html.match(/class="qf-paper-person"/g) ?? []).length, 3);
-  assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm/);
+  assert.equal((html.match(/class="qf-handshake"/g) ?? []).length, 1);
+  assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm|qf-paper-chain|qf-paper-person/);
   assert.doesNotMatch(html, /board member|board observer|sits on the boards/i);
   assert.doesNotMatch(html, /href=["']\/(?:thesis|companies|founders)\/["']/i);
 });
