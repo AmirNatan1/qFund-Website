@@ -1062,7 +1062,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   min-width: 0;
   min-height: 8.6rem;
   place-items: center;
-  padding: 1rem 0.7rem 1.65rem;
+  padding: 0.9rem;
   overflow: hidden;
   border: 0;
   border-right: 1px solid var(--qf-line-soft);
@@ -1087,8 +1087,8 @@ body:has(a:hover, button:hover) .qf-cursor span {
 }
 .qf-company-tabs > button.is-active::after { transform: scaleX(1); }
 .qf-company-tabs img {
-  width: min(100%, 7.5rem);
-  height: 3.7rem;
+  width: min(90%, 10rem);
+  height: 5.8rem;
   object-fit: contain;
   filter: none;
   opacity: 1;
@@ -1097,20 +1097,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
 }
 .qf-company-tabs > button:hover img,
 .qf-company-tabs > button:focus-visible img,
-.qf-company-tabs > button.is-active img { transform: scale(1.055); }
-.qf-company-tabs > button > span {
-  position: absolute;
-  right: 0.35rem;
-  bottom: 0.58rem;
-  left: 0.35rem;
-  overflow: hidden;
-  font-size: 0.55rem;
-  font-weight: 740;
-  letter-spacing: 0.045em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.qf-company-tabs > button > i { display: none; }
+.qf-company-tabs > button.is-active img { transform: scale(1.075); }
 
 .qf-company-feature {
   min-height: 43rem;
@@ -1515,7 +1502,8 @@ body:has(a:hover, button:hover) .qf-cursor span {
   .qf-value-card { min-height: 17rem; }
   .qf-portfolio-console { min-height: auto; }
   .qf-company-tabs { grid-auto-columns: minmax(7.5rem, 1fr); }
-  .qf-company-tabs > button { min-height: 7.7rem; }
+  .qf-company-tabs > button { min-height: 7.7rem; padding: 0.7rem; }
+  .qf-company-tabs img { height: 5.5rem; }
   .qf-company-feature-brand { min-height: 18rem; padding: 1.5rem; }
   .qf-company-feature-logo { min-height: 11rem; }
   .qf-company-feature-logo img { max-height: 7.5rem; }

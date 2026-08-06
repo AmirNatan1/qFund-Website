@@ -609,7 +609,6 @@ export default function QFundExperience() {
                 key={item.name}
               >
                 <Image src={item.logo} alt={`${item.name} logo`} width={220} height={90} unoptimized />
-                <span>{item.name}</span><i aria-hidden="true" />
               </button>
             ))}
           </div>
