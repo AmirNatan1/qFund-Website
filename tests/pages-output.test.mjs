@@ -107,9 +107,9 @@ test("publishes only the intended secondary pages", async () => {
   }
 });
 
-test("renders the right-side section rail and three latest news stories", async () => {
+test("renders the header section ruler and three latest news stories", async () => {
   const home = await readHome();
-  assert.match(home, /class="qf-section-rail"/);
+  assert.match(home, /class="qf-section-ruler"/);
   assert.match(home, /aria-label="Go to About"/);
   assert.match(home, /aria-label="Go to Industries"/);
   assert.match(home, /aria-label="Go to Our approach"/);
@@ -133,7 +133,7 @@ test("ships the interactive frontier field without the discarded logo assembly",
   assert.doesNotMatch(css, /\.qf-(?:logo-field|assembly-core|lockup-track|q-arrow-flight|fund-reveal|final-arrow-mask)/);
 });
 
-test("links every team portrait and portfolio logo to its destination", async () => {
+test("links every team portrait and renders the portfolio company selector", async () => {
   const home = await readHome();
   for (const linkedin of [
     "https://www.linkedin.com/in/liav-ben-rubi/",
@@ -143,20 +143,11 @@ test("links every team portrait and portfolio logo to its destination", async ()
     assert.match(home, new RegExp(`href="${linkedin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
   }
 
-  for (const website of [
-    "https://element.security/",
-    "https://www.commcrete.com/",
-    "https://www.skapion.com/",
-    "https://www.oraqon.com/",
-    "https://www.qedma.com/",
-    "https://www.actasysinc.com/",
-    "https://particle-lab.com/",
-    "https://signal-edge.com/",
-    "https://litevision-eo.com/",
-    "https://www.quamcore.com/",
-  ]) {
-    assert.match(home, new RegExp(`href="${website.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
-  }
+  assert.equal((home.match(/role="tab"/g) ?? []).length, 10);
+  assert.match(home, /id="portfolio-company-panel"/);
+  assert.match(home, /Meet the founders/);
+  assert.match(home, /src="\/founders\/daniel-lublin-portrait\.webp"/);
+  assert.match(home, /href="https:\/\/element\.security\/"/);
 });
 
 test("uses direct image URLs and one back-to-top control per page", async () => {

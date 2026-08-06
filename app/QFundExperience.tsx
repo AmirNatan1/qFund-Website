@@ -29,7 +29,7 @@ function imagePath(title: string) {
   return `/focus/${title.toLowerCase().replaceAll(" ", "-")}.jpg`;
 }
 
-function SectionRail({ active }: { active: string }) {
+function SectionRuler({ active }: { active: string }) {
   const goToSection = (id: string) => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.getElementById(id)?.scrollIntoView({
@@ -39,7 +39,7 @@ function SectionRail({ active }: { active: string }) {
   };
 
   return (
-    <nav className="qf-section-rail" aria-label="Page sections">
+    <nav className="qf-section-ruler" aria-label="Page sections">
       {sections.map(([id, label]) => (
         <button
           className={active === id ? "is-active" : ""}
@@ -49,8 +49,8 @@ function SectionRail({ active }: { active: string }) {
           onClick={() => goToSection(id)}
           key={id}
         >
-          <span>{label}</span>
           <i aria-hidden="true" />
+          <span>{label}</span>
         </button>
       ))}
     </nav>
@@ -317,6 +317,7 @@ export default function QFundExperience() {
   const [activeApproach, setActiveApproach] = useState(0);
   const [activeCompany, setActiveCompany] = useState(0);
   const cursorRef = useRef<HTMLDivElement>(null);
+  const companyTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -407,6 +408,12 @@ export default function QFundExperience() {
   const approach = evaluationPillars[activeApproach];
   const company = portfolio[activeCompany];
 
+  const selectCompanyFromKeyboard = (index: number) => {
+    const nextIndex = (index + portfolio.length) % portfolio.length;
+    setActiveCompany(nextIndex);
+    companyTabRefs.current[nextIndex]?.focus();
+  };
+
   return (
     <main className="qf-site">
       <a className="qf-skip-link" href="#about">Skip to content</a>
@@ -415,7 +422,7 @@ export default function QFundExperience() {
 
       <header className="qf-header">
         <a className="qf-logo" href="#top" aria-label="qFund home"><BrandMark /></a>
-        <p className="qf-header-stage">Pre-seed <span /> Series A</p>
+        <SectionRuler active={activeSection} />
         <nav className="qf-header-actions" aria-label="Secondary navigation">
           <Link href="/news/">News</Link>
           <Link className="qf-button qf-button-small" href="/contact/">Contact qFund <span>↗</span></Link>
@@ -442,8 +449,6 @@ export default function QFundExperience() {
           <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>08</span>Contact</Link>
         </nav>
       </div>
-
-      <SectionRail active={activeSection} />
 
       <section
         className="qf-hero qf-scroll-section"
@@ -573,33 +578,80 @@ export default function QFundExperience() {
           <h2 id="portfolio-title">Built around technologies with <em>consequence.</em></h2>
         </div>
         <div className="qf-portfolio-console qf-reveal">
-          <div className="qf-company-feature" key={company.name}>
-            <div className="qf-company-feature-logo">
-              <Image src={company.logo} alt={`${company.name} logo`} width={360} height={150} unoptimized />
-            </div>
-            <span>{company.category}</span>
-            <h3>{company.name}</h3>
-            <p>{company.description}</p>
-            {company.validation ? <small>{company.validation}</small> : null}
-            <a href={company.website} target="_blank" rel="noreferrer">Visit company <i>↗</i></a>
-          </div>
-          <div className="qf-company-matrix" aria-label="Portfolio companies">
+          <div className="qf-company-tabs" role="tablist" aria-label="Portfolio companies">
             {portfolio.map((item, index) => (
-              <a
+              <button
+                ref={(node) => { companyTabRefs.current[index] = node; }}
                 className={activeCompany === index ? "is-active" : ""}
-                href={item.website}
-                target="_blank"
-                rel="noreferrer"
-                onMouseEnter={() => setActiveCompany(index)}
-                onFocus={() => setActiveCompany(index)}
-                aria-label={`${item.name} website`}
+                type="button"
+                role="tab"
+                id={`portfolio-tab-${index}`}
+                aria-controls="portfolio-company-panel"
+                aria-selected={activeCompany === index}
+                tabIndex={activeCompany === index ? 0 : -1}
+                onClick={() => setActiveCompany(index)}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                    event.preventDefault();
+                    selectCompanyFromKeyboard(index + 1);
+                  } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                    event.preventDefault();
+                    selectCompanyFromKeyboard(index - 1);
+                  } else if (event.key === "Home") {
+                    event.preventDefault();
+                    selectCompanyFromKeyboard(0);
+                  } else if (event.key === "End") {
+                    event.preventDefault();
+                    selectCompanyFromKeyboard(portfolio.length - 1);
+                  }
+                }}
+                aria-label={`Show ${item.name}`}
                 key={item.name}
               >
                 <Image src={item.logo} alt={`${item.name} logo`} width={220} height={90} unoptimized />
-                <span>{item.name}</span><i aria-hidden="true">↗</i>
-              </a>
+                <span>{item.name}</span><i aria-hidden="true" />
+              </button>
             ))}
           </div>
+          <article
+            className="qf-company-feature"
+            id="portfolio-company-panel"
+            role="tabpanel"
+            aria-labelledby={`portfolio-tab-${activeCompany}`}
+            tabIndex={0}
+          >
+            <div className="qf-company-feature-inner" key={company.name}>
+              <div className="qf-company-feature-brand">
+                <div className="qf-company-feature-logo">
+                  <Image src={company.logo} alt={`${company.name} logo`} width={460} height={190} unoptimized />
+                </div>
+                <p><span>{String(activeCompany + 1).padStart(2, "0")}</span> / {String(portfolio.length).padStart(2, "0")}</p>
+              </div>
+              <div className="qf-company-feature-copy">
+                <span>Portfolio company</span>
+                <h3>{company.name}</h3>
+                <p>{company.description}</p>
+                <ul className="qf-company-facts">
+                  <li><span>Industry</span><strong>{company.category}</strong></li>
+                  <li><span>Founders</span><strong>{company.founders.map((founder) => founder.name).join(", ")}</strong></li>
+                </ul>
+                {company.validation ? <small><span>Momentum</span>{company.validation}</small> : null}
+                <a href={company.website} target="_blank" rel="noreferrer">Visit company <i>↗</i></a>
+              </div>
+              <div className="qf-company-founders" aria-label={`${company.name} founders`}>
+                <p>Meet the founders</p>
+                <div>
+                  {company.founders.map((founder) => (
+                    <a href={founder.linkedin} target="_blank" rel="noreferrer" aria-label={`${founder.name} on LinkedIn`} key={founder.name}>
+                      <span><Image src={founder.image} alt={founder.name} fill sizes="96px" unoptimized /></span>
+                      <strong>{founder.name}</strong>
+                      <i aria-hidden="true">↗</i>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
