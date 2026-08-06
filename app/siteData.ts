@@ -46,6 +46,7 @@ export const portfolio = [
       "Proactive security for the external attack surface, identifying and eliminating high-impact exposures before attackers can exploit them.",
     website: "https://element.security/",
     logo: "/portfolio/element-security.webp",
+    logoScale: 1.7,
     founders: [
       { name: "Daniel Lublin", image: "/founders/daniel-lublin-portrait.webp", linkedin: "https://www.linkedin.com/in/daniel-lublin-/" },
     ],
@@ -59,6 +60,7 @@ export const portfolio = [
       "Ultra-compact satellite communication solutions for critical-tactical users, providing reliable connectivity across defense, public safety, automotive, and commercial sectors—even in remote or hostile environments.",
     website: "https://www.commcrete.com/",
     logo: "/portfolio/commcrete.webp",
+    logoScale: 2.05,
     founders: [
       { name: "Itzik Daniel Michaeli", image: "/founders/itzik-michaeli.webp", linkedin: "https://www.linkedin.com/in/itzik-daniel-michaeli-6bb52020b" },
       { name: "Joshua Yedidya", image: "/founders/joshua-yedidya.webp", linkedin: "https://www.linkedin.com/in/josh-yedidia-550400280" },
@@ -74,6 +76,7 @@ export const portfolio = [
       "A swarm-native kinetic defense platform designed for simultaneous, cost-efficient, multi-target interception of UAS swarm threats.",
     website: "https://www.skapion.com/",
     logo: "/portfolio/skapion.webp",
+    logoScale: 2.4,
     founders: [
       { name: "Ido Bar-On", image: "/founders/ido-bar-on.webp", linkedin: "https://il.linkedin.com/in/ido-baron" },
       { name: "Gal Goren", image: "/founders/gal-goren.webp", linkedin: "https://il.linkedin.com/in/galgoren" },
@@ -89,6 +92,7 @@ export const portfolio = [
       "A quantum-sensor solution for rapid, precise, and reliable detection of laser threats, including in challenging battlefield conditions.",
     website: "https://www.oraqon.com/",
     logo: "/portfolio/oraqon.webp",
+    logoScale: 2.6,
     founders: [
       { name: "Liav Georgy", image: "/founders/liav-georgy.webp", linkedin: "https://il.linkedin.com/in/liav-georgy-b57209318" },
       { name: "Avihood Ben Ari", image: "/founders/avihood-ben-ari.webp", linkedin: "https://il.linkedin.com/in/avihood-ben-ari-5403b52b5" },
@@ -104,6 +108,7 @@ export const portfolio = [
       "Software solutions that enhance quantum-computer performance and pursue quantum algorithmic advantage across quantum platforms.",
     website: "https://www.qedma.com/",
     logo: "/portfolio/qedma.webp",
+    logoScale: 2.6,
     founders: [
       { name: "Asif Sinay", image: "/founders/asif-sinay.webp", linkedin: "https://www.linkedin.com/in/asif-sinay-20928920" },
       { name: "Prof. Netanel Lindner", image: "/founders/netanel-lindner.webp", linkedin: "https://www.linkedin.com/in/netanel-lindner-34522214" },
@@ -119,6 +124,7 @@ export const portfolio = [
       "Thermal and air-actuation technology for compact, space-constrained systems across automotive, AI infrastructure, semiconductors, and defense.",
     website: "https://www.actasysinc.com/",
     logo: "/portfolio/actasys.webp",
+    logoScale: 2.3,
     founders: [
       { name: "David Menicovich", image: "/founders/david-menicovich.webp", linkedin: "https://www.linkedin.com/in/davidmenicovich" },
     ],
@@ -132,6 +138,7 @@ export const portfolio = [
       "A compact particle-accelerator system for instant interception of missile, rocket, and UAV swarms, delivering high-energy impact in milliseconds.",
     website: "https://particle-lab.com/",
     logo: "/portfolio/particle.webp",
+    logoScale: 2.6,
     founders: [
       { name: "Omri Cherni", image: "/founders/omri-cherni.webp", linkedin: "https://www.linkedin.com/in/omri-cherni-a2602828" },
       { name: "Prof. Aharon Friedman", image: "/founders/aharon-friedman.webp", linkedin: "https://www.linkedin.com/in/aharon-friedman-0b0230" },
@@ -146,6 +153,7 @@ export const portfolio = [
       "A high-performance, low-SWaP RF core combining ISR, homing, electronic warfare, and radar in a software-reconfigurable hardware unit.",
     website: "https://signal-edge.com/",
     logo: "/portfolio/signal-edge.webp",
+    logoScale: 2.4,
     founders: [
       { name: "Udi Raviv", image: "/founders/udi-raviv.webp", linkedin: "https://il.linkedin.com/in/udi-raviv-50125734b" },
     ],
@@ -159,6 +167,7 @@ export const portfolio = [
       "A compact, high-resolution wide-area surveillance system integrating MWIR and HD visual sensors with onboard processing.",
     website: "https://litevision-eo.com/",
     logo: "/portfolio/litevision.webp",
+    logoScale: 2.9,
     founders: [
       { name: "Tamar Harary", image: "/founders/tamar-harary.webp", linkedin: "https://www.linkedin.com/in/tamar-harary-222525276" },
       { name: "Guy Moshel", image: "/founders/guy-moshel.webp", linkedin: "https://il.linkedin.com/in/guy-moshel-380067151" },
@@ -174,6 +183,7 @@ export const portfolio = [
       "An integrated cryostat architecture designed to address the scaling bottleneck in quantum computing and target million-qubit machines.",
     website: "https://www.quamcore.com/",
     logo: "/portfolio/quamcore.webp",
+    logoScale: 2.45,
     founders: [
       { name: "Alon Cohen", image: "/founders/alon-cohen.webp", linkedin: "https://www.linkedin.com/in/alon-cohen" },
       { name: "Prof. Shay Hacohen-Gourgy", image: "/founders/shay-hacohen-gourgy.webp", linkedin: "https://www.linkedin.com/in/shay-hacohen-gourgy-904912297" },

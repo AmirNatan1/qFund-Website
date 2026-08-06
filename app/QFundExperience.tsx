@@ -489,8 +489,9 @@ export default function QFundExperience() {
         </div>
         <div className="qf-about-body">
           <div className="qf-about-copy qf-reveal">
-            <p>We invest in Israeli-related startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.</p>
-            <p>Our approach combines financial investment with technical validation, commercialization support, and strategic access.</p>
+            <div className="qf-about-copy-label"><span aria-hidden="true" />How we think</div>
+            <p><span aria-hidden="true">01</span><span>We invest in Israeli-related startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.</span></p>
+            <p><span aria-hidden="true">02</span><span>Our approach combines financial investment with technical validation, commercialization support, and strategic access.</span></p>
           </div>
           <div className="qf-about-facts qf-reveal" aria-label="qFund at a glance">
             <article><strong>Deep Tech</strong><span>Investment focus</span></article>
@@ -608,7 +609,16 @@ export default function QFundExperience() {
                 aria-label={`Show ${item.name}`}
                 key={item.name}
               >
-                <Image src={item.logo} alt={`${item.name} logo`} width={220} height={90} unoptimized />
+                <span className="qf-company-tab-logo">
+                  <Image
+                    src={item.logo}
+                    alt={`${item.name} logo`}
+                    width={220}
+                    height={90}
+                    style={{ "--logo-scale": item.logoScale } as CSSProperties}
+                    unoptimized
+                  />
+                </span>
               </button>
             ))}
           </div>

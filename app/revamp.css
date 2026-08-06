@@ -690,21 +690,51 @@ body:has(a:hover, button:hover) .qf-cursor span {
 
 .qf-about-body {
   display: grid;
-  align-content: end;
-  gap: 3.2rem;
+  align-content: center;
+  gap: 2rem;
 }
 
 .qf-about-copy {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.2rem;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: clamp(1.4rem, 2.4vw, 2.4rem);
+  border: 1px solid var(--qf-line);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.34)),
+    var(--qf-sage);
+  box-shadow: inset 0.25rem 0 0 var(--qf-coral);
 }
 
-.qf-about-copy p {
-  margin: 0;
-  font-size: clamp(1.05rem, 1.25vw, 1.3rem);
-  line-height: 1.55;
+.qf-about-copy-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: clamp(1.6rem, 2.5vw, 2.5rem);
+  color: var(--qf-green);
+  font-size: 0.68rem;
+  font-weight: 780;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
+
+.qf-about-copy-label span { width: 2.25rem; height: 1px; background: var(--qf-coral); }
+
+.qf-about-copy p {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 1.35rem 0;
+  border-top: 1px solid var(--qf-line-soft);
+  font-size: clamp(1rem, 1.1vw, 1.16rem);
+  line-height: 1.58;
+}
+
+.qf-about-copy p > span:first-child { padding-top: 0.25rem; color: var(--qf-coral); font-size: 0.66rem; font-weight: 780; letter-spacing: 0.08em; }
+.qf-about-copy p:first-of-type > span:last-child { font-family: var(--qf-serif); font-size: clamp(1.28rem, 1.65vw, 1.75rem); letter-spacing: -0.018em; line-height: 1.42; }
+.qf-about-copy p:last-child { padding-bottom: 0.25rem; }
 
 .qf-about-facts {
   display: grid;
@@ -1062,7 +1092,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   min-width: 0;
   min-height: 8.6rem;
   place-items: center;
-  padding: 0.9rem;
+  padding: 0.3rem;
   overflow: hidden;
   border: 0;
   border-right: 1px solid var(--qf-line-soft);
@@ -1086,18 +1116,26 @@ body:has(a:hover, button:hover) .qf-cursor span {
   transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .qf-company-tabs > button.is-active::after { transform: scaleX(1); }
-.qf-company-tabs img {
-  width: min(90%, 10rem);
-  height: 5.8rem;
+.qf-company-tab-logo {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  transition: transform 240ms ease;
+}
+.qf-company-tab-logo img {
+  width: 100%;
+  height: auto;
+  max-width: none;
   object-fit: contain;
   filter: none;
   opacity: 1;
   mix-blend-mode: multiply;
-  transition: transform 240ms ease;
+  transform: scale(var(--logo-scale));
 }
-.qf-company-tabs > button:hover img,
-.qf-company-tabs > button:focus-visible img,
-.qf-company-tabs > button.is-active img { transform: scale(1.075); }
+.qf-company-tabs > button:hover .qf-company-tab-logo,
+.qf-company-tabs > button:focus-visible .qf-company-tab-logo,
+.qf-company-tabs > button.is-active .qf-company-tab-logo { transform: scale(1.045); }
 
 .qf-company-feature {
   min-height: 43rem;
@@ -1502,8 +1540,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   .qf-value-card { min-height: 17rem; }
   .qf-portfolio-console { min-height: auto; }
   .qf-company-tabs { grid-auto-columns: minmax(7.5rem, 1fr); }
-  .qf-company-tabs > button { min-height: 7.7rem; padding: 0.7rem; }
-  .qf-company-tabs img { height: 5.5rem; }
+  .qf-company-tabs > button { min-height: 7.7rem; padding: 0.25rem; }
   .qf-company-feature-brand { min-height: 18rem; padding: 1.5rem; }
   .qf-company-feature-logo { min-height: 11rem; }
   .qf-company-feature-logo img { max-height: 7.5rem; }
