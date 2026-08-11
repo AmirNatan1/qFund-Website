@@ -1,6 +1,6 @@
 # qFund Website
 
-The redesigned website for qFund, a deep-technology venture capital firm based in Herzliya, Israel.
+The redesigned website for qFund, a deep-technology venture capital firm based in Herzliya.
 
 ## Experience
 

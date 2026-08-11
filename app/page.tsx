@@ -4,11 +4,10 @@ import QFundExperience from "./QFundExperience";
 export const metadata: Metadata = {
   title: "qFund | Early-Stage Deep Tech Venture Capital",
   description:
-    "qFund invests from Pre-seed to Series A in Israeli-related Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
+    "qFund invests from Pre-seed to Series A in Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
   alternates: { canonical: "/" },
   keywords: [
     "Deep Tech venture capital",
-    "Israel VC",
     "quantum computing",
     "defense technology",
     "semiconductors",
@@ -17,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund invests from Pre-seed to Series A in Israeli-related Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
+      "qFund invests from Pre-seed to Series A in Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
     url: "/",
     type: "website",
     siteName: "qFund",
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund invests from Pre-seed to Series A in Israeli-related Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
+      "qFund invests from Pre-seed to Series A in Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
     images: ["/og-motion.png"],
   },
 };
@@ -52,7 +51,6 @@ export default function Home() {
       "@type": "PostalAddress",
       streetAddress: "Arik Einstein 3",
       addressLocality: "Herzliya",
-      addressCountry: "IL",
     },
   };
 

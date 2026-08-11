@@ -29,6 +29,16 @@ function imagePath(title: string) {
   return `/focus/${title.toLowerCase().replaceAll(" ", "-")}.jpg`;
 }
 
+function parseHexColor(value: string): [number, number, number] {
+  const match = value.trim().match(/^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
+  if (!match) return [0, 0, 0];
+  return [Number.parseInt(match[1], 16), Number.parseInt(match[2], 16), Number.parseInt(match[3], 16)];
+}
+
+function rgba([red, green, blue]: [number, number, number], alpha: number) {
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
 function SectionRuler({ active }: { active: string }) {
   const goToSection = (id: string) => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -120,6 +130,9 @@ function FrontierField() {
     const context = canvas?.getContext("2d");
     if (!canvas || !field || !context) return;
 
+    const rootStyles = getComputedStyle(document.documentElement);
+    const brandRgb = parseHexColor(rootStyles.getPropertyValue("--color-brand"));
+    const accentRgb = parseHexColor(rootStyles.getPropertyValue("--qf-coral"));
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const pointer = { x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5, inside: false };
     let width = 1;
@@ -142,9 +155,9 @@ function FrontierField() {
       const fieldRadius = Math.max(width, height) * 0.32;
 
       const lens = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, fieldRadius);
-      lens.addColorStop(0, "rgba(34, 199, 203, 0.15)");
-      lens.addColorStop(0.42, "rgba(12, 111, 105, 0.055)");
-      lens.addColorStop(1, "rgba(12, 111, 105, 0)");
+      lens.addColorStop(0, rgba(accentRgb, 0.15));
+      lens.addColorStop(0.42, rgba(brandRgb, 0.055));
+      lens.addColorStop(1, rgba(brandRgb, 0));
       context.fillStyle = lens;
       context.fillRect(0, 0, width, height);
 
@@ -170,7 +183,7 @@ function FrontierField() {
           else context.lineTo(x, y);
         }
         const rowDistance = Math.abs(rowRatio - 0.5);
-        context.strokeStyle = `rgba(12, 111, 105, ${0.07 + (0.5 - rowDistance) * 0.16})`;
+        context.strokeStyle = rgba(brandRgb, 0.07 + (0.5 - rowDistance) * 0.16);
         context.lineWidth = row === 7 ? 1.15 : 0.72;
         context.stroke();
       }
@@ -195,7 +208,7 @@ function FrontierField() {
           if (step === 0) context.moveTo(x, y);
           else context.lineTo(x, y);
         }
-        context.strokeStyle = "rgba(12, 111, 105, 0.085)";
+        context.strokeStyle = rgba(brandRgb, 0.085);
         context.lineWidth = 0.7;
         context.stroke();
       }
@@ -209,11 +222,11 @@ function FrontierField() {
         const pulse = 0.5 + Math.sin(seconds * 1.2 + anchor * 1.4) * 0.5;
         context.beginPath();
         context.arc(x, y, 2.3 + pulse * 1.2, 0, Math.PI * 2);
-        context.fillStyle = `rgba(34, 199, 203, ${0.55 + pulse * 0.35})`;
+        context.fillStyle = rgba(accentRgb, 0.55 + pulse * 0.35);
         context.fill();
         context.beginPath();
         context.arc(x, y, 7 + pulse * 4, 0, Math.PI * 2);
-        context.strokeStyle = `rgba(34, 199, 203, ${0.08 + pulse * 0.12})`;
+        context.strokeStyle = rgba(accentRgb, 0.08 + pulse * 0.12);
         context.lineWidth = 1;
         context.stroke();
       }
@@ -232,14 +245,14 @@ function FrontierField() {
         const opacity = Math.sin(progress * Math.PI) * 0.72;
         context.beginPath();
         context.arc(x, y, 1.15 + progress * 1.25, 0, Math.PI * 2);
-        context.fillStyle = `rgba(34, 199, 203, ${opacity})`;
+        context.fillStyle = rgba(accentRgb, opacity);
         context.fill();
       }
 
       const emission = (seconds % 5.4) / 5.4;
       context.beginPath();
       context.arc(centerX, centerY, 54 + emission * Math.min(width, height) * 0.28, 0, Math.PI * 2);
-      context.strokeStyle = `rgba(12, 111, 105, ${Math.pow(1 - emission, 2) * 0.2})`;
+      context.strokeStyle = rgba(brandRgb, Math.pow(1 - emission, 2) * 0.2);
       context.lineWidth = 1;
       context.stroke();
     };
@@ -315,9 +328,7 @@ export default function QFundExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
   const [activeApproach, setActiveApproach] = useState(0);
-  const [activeCompany, setActiveCompany] = useState(0);
   const cursorRef = useRef<HTMLDivElement>(null);
-  const companyTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -406,13 +417,6 @@ export default function QFundExperience() {
   };
 
   const approach = evaluationPillars[activeApproach];
-  const company = portfolio[activeCompany];
-
-  const selectCompanyFromKeyboard = (index: number) => {
-    const nextIndex = (index + portfolio.length) % portfolio.length;
-    setActiveCompany(nextIndex);
-    companyTabRefs.current[nextIndex]?.focus();
-  };
 
   return (
     <main className="qf-site">
@@ -460,14 +464,14 @@ export default function QFundExperience() {
       >
         <span className="qf-hero-grid" aria-hidden="true" />
         <div className="qf-hero-copy">
-          <p className="qf-kicker qf-reveal is-visible"><span /> DEEP TECH VENTURE CAPITAL · ISRAEL</p>
+          <p className="qf-kicker qf-reveal is-visible"><span /> DEEP TECH VENTURE CAPITAL</p>
           <h1 id="qf-hero-title" className="qf-reveal is-visible">
             <span>Funding the</span>
             <span className="qf-serif">deep future</span>
             <span>of technology.</span>
           </h1>
           <p className="qf-hero-deck qf-reveal is-visible">
-            qFund invests in Israeli-related startups developing core infrastructure, hardware, and enabling technologies.
+            qFund invests in startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
           </p>
           <div className="qf-hero-actions qf-reveal is-visible">
             <a className="qf-button" href="#approach">Our approach <span>↓</span></a>
@@ -476,7 +480,7 @@ export default function QFundExperience() {
         </div>
         <div className="qf-hero-visual"><FrontierField /></div>
         <div className="qf-hero-foot">
-          <span>HERZLIYA · ISRAEL</span>
+          <span>HERZLIYA</span>
           <a href="#about">SCROLL TO EXPLORE <i>↓</i></a>
         </div>
       </section>
@@ -490,13 +494,13 @@ export default function QFundExperience() {
         <div className="qf-about-body">
           <div className="qf-about-copy qf-reveal">
             <div className="qf-about-copy-label"><span aria-hidden="true" />How we think</div>
-            <p><span aria-hidden="true">01</span><span>We invest in Israeli-related startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.</span></p>
+            <p><span aria-hidden="true">01</span><span>We invest in startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.</span></p>
             <p><span aria-hidden="true">02</span><span>Our approach combines financial investment with technical validation, commercialization support, and strategic access.</span></p>
           </div>
           <div className="qf-about-facts qf-reveal" aria-label="qFund at a glance">
             <article><strong>Deep Tech</strong><span>Investment focus</span></article>
             <article><strong>Pre-seed to Series A</strong><span>Investment horizon</span></article>
-            <article><strong>Israel</strong><span>Israeli-related startups</span></article>
+            <article><strong>Israeli-related startups</strong><span>Geography</span></article>
           </div>
         </div>
       </section>
@@ -575,92 +579,48 @@ export default function QFundExperience() {
       <section className="qf-portfolio qf-scroll-section" id="portfolio" data-qf-section aria-labelledby="portfolio-title">
         <div className="qf-section-label qf-reveal"><span>04</span><p>Our portfolio</p></div>
         <div className="qf-portfolio-heading qf-reveal">
-          <p className="qf-kicker">TEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
+          <p className="qf-kicker">ELEVEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
           <h2 id="portfolio-title">Built around technologies with <em>consequence.</em></h2>
         </div>
-        <div className="qf-portfolio-console qf-reveal">
-          <div className="qf-company-tabs" role="tablist" aria-label="Portfolio companies">
-            {portfolio.map((item, index) => (
-              <button
-                ref={(node) => { companyTabRefs.current[index] = node; }}
-                className={activeCompany === index ? "is-active" : ""}
-                type="button"
-                role="tab"
-                id={`portfolio-tab-${index}`}
-                aria-controls="portfolio-company-panel"
-                aria-selected={activeCompany === index}
-                tabIndex={activeCompany === index ? 0 : -1}
-                onClick={() => setActiveCompany(index)}
-                onKeyDown={(event) => {
-                  if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-                    event.preventDefault();
-                    selectCompanyFromKeyboard(index + 1);
-                  } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-                    event.preventDefault();
-                    selectCompanyFromKeyboard(index - 1);
-                  } else if (event.key === "Home") {
-                    event.preventDefault();
-                    selectCompanyFromKeyboard(0);
-                  } else if (event.key === "End") {
-                    event.preventDefault();
-                    selectCompanyFromKeyboard(portfolio.length - 1);
-                  }
-                }}
-                aria-label={`Show ${item.name}`}
+        <div className="qf-portfolio-grid qf-reveal" aria-label="Portfolio companies">
+          {portfolio.map((item) => {
+            const content = (
+              <>
+                <span className="qf-portfolio-logo">
+                  <object data={item.logo} type="image/webp" aria-label={`${item.name} logo`} tabIndex={-1}>
+                    <span className="qf-portfolio-logo-fallback">{item.name}</span>
+                  </object>
+                </span>
+                <span className="qf-portfolio-description">
+                  <strong>{item.name}</strong>
+                  <span>{item.description}</span>
+                  {item.url ? <i aria-hidden="true">↗</i> : null}
+                </span>
+              </>
+            );
+
+            return item.url ? (
+              <a
+                className="qf-portfolio-card"
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${item.name}: ${item.description}`}
                 key={item.name}
               >
-                <span className="qf-company-tab-logo">
-                  <Image
-                    src={item.logo}
-                    alt={`${item.name} logo`}
-                    width={220}
-                    height={90}
-                    style={{ "--logo-scale": item.logoScale } as CSSProperties}
-                    unoptimized
-                  />
-                </span>
-              </button>
-            ))}
-          </div>
-          <article
-            className="qf-company-feature"
-            id="portfolio-company-panel"
-            role="tabpanel"
-            aria-labelledby={`portfolio-tab-${activeCompany}`}
-            tabIndex={0}
-          >
-            <div className="qf-company-feature-inner" key={company.name}>
-              <div className="qf-company-feature-brand">
-                <div className="qf-company-feature-logo">
-                  <Image src={company.logo} alt={`${company.name} logo`} width={460} height={190} unoptimized />
-                </div>
-                <p><span>{String(activeCompany + 1).padStart(2, "0")}</span> / {String(portfolio.length).padStart(2, "0")}</p>
-              </div>
-              <div className="qf-company-feature-copy">
-                <span>Portfolio company</span>
-                <h3>{company.name}</h3>
-                <p>{company.description}</p>
-                <ul className="qf-company-facts">
-                  <li><span>Industry</span><strong>{company.category}</strong></li>
-                  <li><span>Founders</span><strong>{company.founders.map((founder) => founder.name).join(", ")}</strong></li>
-                </ul>
-                {company.validation ? <small><span>Momentum</span>{company.validation}</small> : null}
-                <a href={company.website} target="_blank" rel="noreferrer">Visit company <i>↗</i></a>
-              </div>
-              <div className="qf-company-founders" aria-label={`${company.name} founders`}>
-                <p>Meet the founders</p>
-                <div>
-                  {company.founders.map((founder) => (
-                    <a href={founder.linkedin} target="_blank" rel="noreferrer" aria-label={`${founder.name} on LinkedIn`} key={founder.name}>
-                      <span><Image src={founder.image} alt={founder.name} fill sizes="96px" unoptimized /></span>
-                      <strong>{founder.name}</strong>
-                      <i aria-hidden="true">↗</i>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </article>
+                {content}
+              </a>
+            ) : (
+              <article
+                className="qf-portfolio-card"
+                tabIndex={0}
+                aria-label={`${item.name}: ${item.description}`}
+                key={item.name}
+              >
+                {content}
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -710,7 +670,7 @@ export default function QFundExperience() {
         <div className="qf-footer-bar">
           <a href="#top" aria-label="qFund home"><BrandMark /></a>
           <BackToTop />
-          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>Arik Einstein 3 · Herzliya, Israel · © {new Date().getFullYear()} qFund</span></div>
+          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>Arik Einstein 3 · Herzliya · © {new Date().getFullYear()} qFund</span></div>
         </div>
       </footer>
     </main>

@@ -40,8 +40,7 @@ All portraits are stored under `public/founders/` so the live page does not depe
 | Udi Raviv | <https://il.linkedin.com/in/udi-raviv-50125734b> |
 | Tamar Harary | <https://www.linkedin.com/in/tamar-harary-222525276> |
 | Guy Moshel | <https://il.linkedin.com/in/guy-moshel-380067151> |
-| Uriya Harary | <https://il.linkedin.com/pub/dir/%2B/Harary/il-0-Israel> — LinkedIn's public Israel directory result identifies Uriya Harary in Yokneam Ilit; LinkedIn does not expose his direct vanity URL publicly. |
+| Uriya Harary | LinkedIn's public directory identifies Uriya Harary in Yokneam Ilit; LinkedIn does not expose his direct vanity URL publicly. |
 | Alon Cohen | <https://www.linkedin.com/in/alon-cohen> |
 | Prof. Shay Hacohen-Gourgy | <https://www.linkedin.com/in/shay-hacohen-gourgy-904912297> |
 | Serge Rosenblum | <https://www.linkedin.com/in/serge-rosenblum-70791915> |
-

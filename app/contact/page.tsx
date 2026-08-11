@@ -5,11 +5,11 @@ import ContactForm from "./ContactForm";
 export const metadata: Metadata = {
   title: "Contact qFund | Deep Tech Venture Capital",
   description:
-    "Contact qFund in Herzliya about Israeli-related Deep Tech startups from Pre-seed to Series A.",
+    "Contact qFund in Herzliya about Deep Tech startups from Pre-seed to Series A.",
   alternates: { canonical: "/contact/" },
   openGraph: {
     title: "Contact qFund | Deep Tech Venture Capital",
-    description: "Contact qFund in Herzliya about Israeli-related Deep Tech startups from Pre-seed to Series A.",
+    description: "Contact qFund in Herzliya about Deep Tech startups from Pre-seed to Series A.",
     url: "/contact/",
     type: "website",
     images: ["/og.png"],
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Contact qFund | Deep Tech Venture Capital",
-    description: "Contact qFund in Herzliya about Israeli-related Deep Tech startups from Pre-seed to Series A.",
+    description: "Contact qFund in Herzliya about Deep Tech startups from Pre-seed to Series A.",
     images: ["/og.png"],
   },
 };
@@ -30,7 +30,7 @@ export default function ContactPage() {
         <div className="qf-contact-intro qf-reveal is-visible">
           <p className="qf-kicker">CONTACT QFUND · HERZLIYA</p>
           <h1 id="contact-title">Tell us what you are <em>building.</em></h1>
-          <p>We invest from Pre-seed to Series A in Israeli-related Deep Tech startups.</p>
+          <p>We invest from Pre-seed to Series A in Deep Tech startups.</p>
         </div>
         <div className="qf-contact-layout">
           <ContactForm />
@@ -38,7 +38,7 @@ export default function ContactPage() {
             <span>Direct channels</span>
             <div><small>Email</small><a href="mailto:info@qfund.io">info@qfund.io ↗</a></div>
             <div><small>LinkedIn</small><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">qFund ↗</a></div>
-            <div><small>Office</small><p>Arik Einstein 3<br />Herzliya, Israel</p></div>
+            <div><small>Office</small><p>Arik Einstein 3 · Herzliya, Israel</p></div>
           </aside>
         </div>
       </section>

@@ -26,8 +26,10 @@ test("server-renders the unified qFund experience", async () => {
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-section-ruler"/);
-  assert.match(html, /id="portfolio-company-panel"/);
-  assert.equal((html.match(/role="tab"/g) ?? []).length, 10);
+  assert.match(html, /class="qf-portfolio-grid qf-reveal/);
+  assert.equal((html.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
+  assert.doesNotMatch(html, /role="tab"|portfolio-company-panel/);
+  assert.match(html, /Eshtech/);
   assert.match(html, /class="qf-frontier-field"/);
   assert.match(html, /class="qf-frontier-canvas"/);
   assert.match(html, /class="qf-frontier-core"/);

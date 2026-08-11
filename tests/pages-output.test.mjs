@@ -133,7 +133,7 @@ test("ships the interactive frontier field without the discarded logo assembly",
   assert.doesNotMatch(css, /\.qf-(?:logo-field|assembly-core|lockup-track|q-arrow-flight|fund-reveal|final-arrow-mask)/);
 });
 
-test("links every team portrait and renders the portfolio company selector", async () => {
+test("links every team portrait and renders the accessible portfolio grid", async () => {
   const home = await readHome();
   for (const linkedin of [
     "https://www.linkedin.com/in/liav-ben-rubi/",
@@ -143,10 +143,10 @@ test("links every team portrait and renders the portfolio company selector", asy
     assert.match(home, new RegExp(`href="${linkedin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
   }
 
-  assert.equal((home.match(/role="tab"/g) ?? []).length, 10);
-  assert.match(home, /id="portfolio-company-panel"/);
-  assert.match(home, /Meet the founders/);
-  assert.match(home, /src="\/founders\/daniel-lublin-portrait\.webp"/);
+  assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
+  assert.doesNotMatch(home, /role="tab"|portfolio-company-panel/);
+  assert.match(home, /data="\/portfolio\/eshtech\.webp"/);
+  assert.match(home, /Pulsed-laser hard-kill effector/);
   assert.match(home, /href="https:\/\/element\.security\/"/);
 });
 
@@ -158,7 +158,7 @@ test("uses direct image URLs and one back-to-top control per page", async () => 
 
   assert.doesNotMatch(rendered, /\/_next\/image\//);
   assert.match(pages[0], /src="\/team\/liav-ben-rubi-hd\.webp"/);
-  assert.match(pages[0], /src="\/portfolio\/element-security\.webp"/);
+  assert.match(pages[0], /data="\/portfolio\/element-security\.webp"/);
   assert.match(pages[0], /src="\/focus\/advanced-electronics\.jpg"/);
 
   for (const html of pages) {

@@ -9,7 +9,7 @@ This release replaces the previous provisional website copy. Visible investment,
 1. `_qFund Overview - May 26 (For Gal).pdf` — title slide dated June 2026; used as the newest internal source.
 2. `_qFund - VC Delegation to Japan Nov 2025.pdf` — used for qFund II, strategic focus, and deal-flow statements.
 3. `Q Fund Portfolio.pdf` — used to corroborate the portfolio roster and company descriptions.
-4. Official company websites, the Israel Innovation Authority, Startup Nation Central, the Embassy of Israel in Japan, qFund’s public pages, and the supplied LinkedIn profiles.
+4. Official company websites, public innovation and ecosystem sources, qFund’s public pages, and the supplied LinkedIn profiles.
 
 ## Claim map
 
@@ -42,8 +42,8 @@ Every portfolio logo links directly to the best verified public company URL avai
 | Qedma | [Official website](https://www.qedma.com/) |
 | Actasys | [Official website](https://www.actasysinc.com/) |
 | Particle | [Official holding page](https://particle-lab.com/) |
-| Signal Edge | [Official website](https://signal-edge.com/); [Israel Innovation Authority](https://innovationisrael.org.il/importWinner/516999810/) |
-| LiteVision | [Official website](https://litevision-eo.com/); [Israel Innovation Authority](https://innovationisrael.org.il/en/importWinner/517155560/) |
+| Signal Edge | [Official website](https://signal-edge.com/) |
+| LiteVision | [Official website](https://litevision-eo.com/) |
 | QuamCore | [Official website](https://www.quamcore.com/) |
 
 ## Team image and profile links

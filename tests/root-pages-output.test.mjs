@@ -56,7 +56,8 @@ test("repository-root snapshot uses the new one-page experience", async () => {
   const home = await readFile(new URL("index.html", rootUrl), "utf8");
   assert.match(home, /Funding the/);
   assert.match(home, /class="qf-section-ruler"/);
-  assert.match(home, /src="\/portfolio\/element-security\.webp"/);
+  assert.match(home, /data="\/portfolio\/element-security\.webp"/);
+  assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
   assert.match(home, /src="\/team\/liav-ben-rubi-hd\.webp"/);
   assert.doesNotMatch(home, /href="\/(?:thesis|companies|founders)\/"/);
 });

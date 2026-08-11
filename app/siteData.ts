@@ -37,161 +37,71 @@ export const focusAreas = [
   },
 ] as const;
 
-export const portfolio = [
+export type PortfolioCompany = {
+  name: string;
+  logo: string;
+  description: string;
+  url?: string;
+};
+
+export const portfolio: readonly PortfolioCompany[] = [
   {
     name: "Element Security",
-    category: "Cybersecurity",
-    group: "infrastructure",
-    description:
-      "Proactive security for the external attack surface, identifying and eliminating high-impact exposures before attackers can exploit them.",
-    website: "https://element.security/",
     logo: "/portfolio/element-security.webp",
-    logoScale: 1.7,
-    founders: [
-      { name: "Daniel Lublin", image: "/founders/daniel-lublin-portrait.webp", linkedin: "https://www.linkedin.com/in/daniel-lublin-/" },
-    ],
-    validation: null,
+    description: "Maps internet-facing assets and proves which flaws are actually exploitable",
+    url: "https://element.security/",
   },
   {
     name: "Commcrete",
-    category: "Satellite communications",
-    group: "defense",
-    description:
-      "Ultra-compact satellite communication solutions for critical-tactical users, providing reliable connectivity across defense, public safety, automotive, and commercial sectors—even in remote or hostile environments.",
-    website: "https://www.commcrete.com/",
     logo: "/portfolio/commcrete.webp",
-    logoScale: 2.05,
-    founders: [
-      { name: "Itzik Daniel Michaeli", image: "/founders/itzik-michaeli.webp", linkedin: "https://www.linkedin.com/in/itzik-daniel-michaeli-6bb52020b" },
-      { name: "Joshua Yedidya", image: "/founders/joshua-yedidya.webp", linkedin: "https://www.linkedin.com/in/josh-yedidia-550400280" },
-      { name: "Michael Mor", image: "/founders/michael-mor.webp", linkedin: "https://www.linkedin.com/in/michael-mor-859732220" },
-    ],
-    validation: null,
+    description: "Compact satellite radios and converters for tactical voice and data comms",
   },
   {
     name: "Skapion",
-    category: "Counter-swarm defense",
-    group: "defense",
-    description:
-      "A swarm-native kinetic defense platform designed for simultaneous, cost-efficient, multi-target interception of UAS swarm threats.",
-    website: "https://www.skapion.com/",
     logo: "/portfolio/skapion.webp",
-    logoScale: 2.4,
-    founders: [
-      { name: "Ido Bar-On", image: "/founders/ido-bar-on.webp", linkedin: "https://il.linkedin.com/in/ido-baron" },
-      { name: "Gal Goren", image: "/founders/gal-goren.webp", linkedin: "https://il.linkedin.com/in/galgoren" },
-      { name: "Pini Yungman", image: "/founders/pini-yungman.webp", linkedin: "https://il.linkedin.com/in/pini-yungman" },
-    ],
-    validation: "EMI secured as the company's largest customer.",
+    description: "Native counter-swarm defense system against attacking drone swarms",
   },
   {
     name: "Oraqon",
-    category: "Quantum sensing",
-    group: "quantum",
-    description:
-      "A quantum-sensor solution for rapid, precise, and reliable detection of laser threats, including in challenging battlefield conditions.",
-    website: "https://www.oraqon.com/",
     logo: "/portfolio/oraqon.webp",
-    logoScale: 2.6,
-    founders: [
-      { name: "Liav Georgy", image: "/founders/liav-georgy.webp", linkedin: "https://il.linkedin.com/in/liav-georgy-b57209318" },
-      { name: "Avihood Ben Ari", image: "/founders/avihood-ben-ari.webp", linkedin: "https://il.linkedin.com/in/avihood-ben-ari-5403b52b5" },
-      { name: "Prof. Hagai Eisenberg", image: "/founders/hagai-eisenberg.webp", linkedin: "https://www.linkedin.com/in/hagai-eisenberg" },
-    ],
-    validation: "Presented at AUSA with General Dynamics within five months of founding.",
+    description: "TODO: description",
   },
   {
     name: "Qedma",
-    category: "Quantum computing",
-    group: "quantum",
-    description:
-      "Software solutions that enhance quantum-computer performance and pursue quantum algorithmic advantage across quantum platforms.",
-    website: "https://www.qedma.com/",
     logo: "/portfolio/qedma.webp",
-    logoScale: 2.6,
-    founders: [
-      { name: "Asif Sinay", image: "/founders/asif-sinay.webp", linkedin: "https://www.linkedin.com/in/asif-sinay-20928920" },
-      { name: "Prof. Netanel Lindner", image: "/founders/netanel-lindner.webp", linkedin: "https://www.linkedin.com/in/netanel-lindner-34522214" },
-      { name: "Prof. Dorit Aharonov", image: "/founders/dorit-aharonov.webp", linkedin: "https://www.linkedin.com/in/dorit-aharonov-05a76747" },
-    ],
-    validation: "Strategic investment from IBM. A proof-of-concept engagement with Hyundai is underway.",
+    description: "Error-suppression software that extends what today's quantum computers can compute",
   },
   {
     name: "Actasys",
-    category: "Thermal management",
-    group: "infrastructure",
-    description:
-      "Thermal and air-actuation technology for compact, space-constrained systems across automotive, AI infrastructure, semiconductors, and defense.",
-    website: "https://www.actasysinc.com/",
     logo: "/portfolio/actasys.webp",
-    logoScale: 2.3,
-    founders: [
-      { name: "David Menicovich", image: "/founders/david-menicovich.webp", linkedin: "https://www.linkedin.com/in/davidmenicovich" },
-    ],
-    validation: "Strategic investor participation from Ineffable Ventures.",
+    description: "Thermal management for high-density data-center racks and networking silicon",
   },
   {
     name: "Particle",
-    category: "Particle acceleration",
-    group: "defense",
-    description:
-      "A compact particle-accelerator system for instant interception of missile, rocket, and UAV swarms, delivering high-energy impact in milliseconds.",
-    website: "https://particle-lab.com/",
     logo: "/portfolio/particle.webp",
-    logoScale: 2.6,
-    founders: [
-      { name: "Omri Cherni", image: "/founders/omri-cherni.webp", linkedin: "https://www.linkedin.com/in/omri-cherni-a2602828" },
-      { name: "Prof. Aharon Friedman", image: "/founders/aharon-friedman.webp", linkedin: "https://www.linkedin.com/in/aharon-friedman-0b0230" },
-    ],
-    validation: "VDL is a manufacturing and co-development partner.",
+    description: "TODO: description",
   },
   {
     name: "Signal Edge",
-    category: "RF systems",
-    group: "defense",
-    description:
-      "A high-performance, low-SWaP RF core combining ISR, homing, electronic warfare, and radar in a software-reconfigurable hardware unit.",
-    website: "https://signal-edge.com/",
     logo: "/portfolio/signal-edge.webp",
-    logoScale: 2.4,
-    founders: [
-      { name: "Udi Raviv", image: "/founders/udi-raviv.webp", linkedin: "https://il.linkedin.com/in/udi-raviv-50125734b" },
-    ],
-    validation: "qFund led the round. Early adoption by leading defense contractors.",
+    description: "Low-SWaP RF sensors and radar for electromagnetic ISR and targeting",
   },
   {
     name: "LiteVision",
-    category: "Electro-optics",
-    group: "defense",
-    description:
-      "A compact, high-resolution wide-area surveillance system integrating MWIR and HD visual sensors with onboard processing.",
-    website: "https://litevision-eo.com/",
     logo: "/portfolio/litevision.webp",
-    logoScale: 2.9,
-    founders: [
-      { name: "Tamar Harary", image: "/founders/tamar-harary.webp", linkedin: "https://www.linkedin.com/in/tamar-harary-222525276" },
-      { name: "Guy Moshel", image: "/founders/guy-moshel.webp", linkedin: "https://il.linkedin.com/in/guy-moshel-380067151" },
-      { name: "Uriya Harary", image: "/founders/uriya-harary.webp", linkedin: "https://il.linkedin.com/pub/dir/%2B/Harary/il-0-Israel" },
-    ],
-    validation: "qFund led the seed round, joined by Kinetika, 10D, and 8VC.",
+    description: "TODO: description",
   },
   {
     name: "QuamCore",
-    category: "Quantum computing",
-    group: "quantum",
-    description:
-      "An integrated cryostat architecture designed to address the scaling bottleneck in quantum computing and target million-qubit machines.",
-    website: "https://www.quamcore.com/",
     logo: "/portfolio/quamcore.webp",
-    logoScale: 2.45,
-    founders: [
-      { name: "Alon Cohen", image: "/founders/alon-cohen.webp", linkedin: "https://www.linkedin.com/in/alon-cohen" },
-      { name: "Prof. Shay Hacohen-Gourgy", image: "/founders/shay-hacohen-gourgy.webp", linkedin: "https://www.linkedin.com/in/shay-hacohen-gourgy-904912297" },
-      { name: "Serge Rosenblum", image: "/founders/serge-rosenblum.webp", linkedin: "https://www.linkedin.com/in/serge-rosenblum-70791915" },
-    ],
-    validation: "Korean market entry supported through a strategic introduction to LG.",
+    description: "Superconducting quantum processors architected to scale beyond one million qubits",
   },
-] as const;
+  {
+    name: "Eshtech",
+    logo: "/portfolio/eshtech.webp",
+    description: "Pulsed-laser hard-kill effector for short-range counter-drone defense",
+  },
+];
 
 export const team = [
   {

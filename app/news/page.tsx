@@ -7,11 +7,11 @@ import { formatNewsDate, newsItems } from "../newsData";
 export const metadata: Metadata = {
   title: "News and Activity | qFund",
   description:
-    "Follow qFund activity connecting Israeli-related Deep Tech startups with investors and strategic partners.",
+    "Follow qFund activity connecting Deep Tech startups with investors and strategic partners.",
   alternates: { canonical: "/news/" },
   openGraph: {
     title: "News and Activity | qFund",
-    description: "Follow qFund activity connecting Israeli-related Deep Tech startups with investors and strategic partners.",
+    description: "Follow qFund activity connecting Deep Tech startups with investors and strategic partners.",
     url: "/news/",
     type: "website",
     images: ["/og.png"],
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "News and Activity | qFund",
-    description: "Follow qFund activity connecting Israeli-related Deep Tech startups with investors and strategic partners.",
+    description: "Follow qFund activity connecting Deep Tech startups with investors and strategic partners.",
     images: ["/og.png"],
   },
 };
