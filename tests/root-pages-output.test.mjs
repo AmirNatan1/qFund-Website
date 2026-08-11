@@ -31,6 +31,9 @@ test("repository-root snapshot includes every required public asset", async () =
     access(new URL("qfund-q-arrow-vector.svg", rootUrl)),
     access(new URL("qfund-fund-vector.svg", rootUrl)),
     access(new URL("team/liron-ben-zaken-hd.webp", rootUrl)),
+    access(new URL("portfolio/skapion-color.jpg", rootUrl)),
+    access(new URL("portfolio/oraqon-color.jpg", rootUrl)),
+    access(new URL("portfolio/particle-color.jpg", rootUrl)),
     access(new URL("portfolio/quamcore-color.svg", rootUrl)),
     access(new URL("portfolio/eshtech-color.svg", rootUrl)),
     access(new URL("focus/quantum-computing.jpg", rootUrl)),
@@ -58,6 +61,10 @@ test("repository-root snapshot uses the new one-page experience", async () => {
   assert.match(home, /Funding the/);
   assert.match(home, /class="qf-section-ruler"/);
   assert.match(home, /src="\/portfolio\/element-security-color\.svg"/);
+  assert.match(home, /src="\/portfolio\/skapion-color\.jpg"/);
+  assert.match(home, /src="\/portfolio\/oraqon-color\.jpg"/);
+  assert.match(home, /src="\/portfolio\/actasys\.webp"/);
+  assert.match(home, /src="\/portfolio\/particle-color\.jpg"/);
   assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
   assert.match(home, /src="\/team\/liav-ben-rubi-hd\.webp"/);
   assert.doesNotMatch(home, /href="\/(?:thesis|companies|founders)\/"/);

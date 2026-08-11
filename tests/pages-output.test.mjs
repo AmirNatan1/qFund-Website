@@ -61,6 +61,9 @@ test("publishes the required static assets", async () => {
     access(new URL("team/dana-taigman-koren-hd.webp", outputUrl)),
     access(new URL("team/liron-ben-zaken-hd.webp", outputUrl)),
     access(new URL("portfolio/qedma-color.png", outputUrl)),
+    access(new URL("portfolio/skapion-color.jpg", outputUrl)),
+    access(new URL("portfolio/oraqon-color.jpg", outputUrl)),
+    access(new URL("portfolio/particle-color.jpg", outputUrl)),
     access(new URL("portfolio/eshtech-color.svg", outputUrl)),
     access(new URL("focus/quantum-computing.jpg", outputUrl)),
     access(new URL("focus/defense.jpg", outputUrl)),
@@ -147,6 +150,10 @@ test("links every team portrait and renders the accessible portfolio grid", asyn
   assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
   assert.equal((home.match(/class="qf-portfolio-card"[^>]*href=/g) ?? []).length, 11);
   assert.doesNotMatch(home, /role="tab"|portfolio-company-panel/);
+  assert.match(home, /src="\/portfolio\/skapion-color\.jpg"/);
+  assert.match(home, /src="\/portfolio\/oraqon-color\.jpg"/);
+  assert.match(home, /src="\/portfolio\/actasys\.webp"/);
+  assert.match(home, /src="\/portfolio\/particle-color\.jpg"/);
   assert.match(home, /src="\/portfolio\/eshtech-color\.svg"/);
   assert.match(home, /Pulsed-laser hard-kill effector/);
   for (const companyUrl of [

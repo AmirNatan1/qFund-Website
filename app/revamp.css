@@ -1147,15 +1147,13 @@ body:has(a:hover, button:hover) .qf-cursor span {
   mix-blend-mode: multiply;
 }
 
-.qf-portfolio-logo--actasys-crop,
+.qf-portfolio-logo--full-bleed,
 .qf-portfolio-logo--litevision-crop { padding: 0; }
 
-.qf-portfolio-logo--actasys-crop img {
-  position: absolute;
-  top: -108%;
-  left: -34%;
-  width: 220%;
-  height: auto;
+.qf-portfolio-logo--full-bleed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transform: none;
 }
 
@@ -1609,7 +1607,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
     aspect-ratio: 1;
     padding: clamp(1.5rem, 7vw, 3rem);
   }
-  .qf-portfolio-logo--actasys-crop,
+  .qf-portfolio-logo--full-bleed,
   .qf-portfolio-logo--litevision-crop { padding: 0; }
   .qf-portfolio-description {
     position: relative;

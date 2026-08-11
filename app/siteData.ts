@@ -43,7 +43,7 @@ export type PortfolioCompany = {
   description: string;
   url: string;
   background: string;
-  logoMode?: "multiply" | "actasys-crop" | "litevision-crop";
+  logoMode?: "multiply" | "full-bleed" | "litevision-crop";
   logoScale?: number;
 };
 
@@ -66,21 +66,19 @@ export const portfolio: readonly PortfolioCompany[] = [
   },
   {
     name: "Skapion",
-    logo: "/portfolio/skapion.webp",
+    logo: "/portfolio/skapion-color.jpg",
     description: "Native counter-swarm defense system against attacking drone swarms",
     url: "https://www.skapion.com/",
-    background: "#dfe7ec",
-    logoMode: "multiply",
-    logoScale: 1.06,
+    background: "#293137",
+    logoMode: "full-bleed",
   },
   {
     name: "Oraqon",
-    logo: "/portfolio/oraqon.webp",
+    logo: "/portfolio/oraqon-color.jpg",
     description: "Develops Cosmic, a future-ready technology platform for advanced computing",
     url: "https://www.oraqon.com/",
-    background: "linear-gradient(145deg, #efe6ff 0%, #faefff 48%, #dcecff 100%)",
-    logoMode: "multiply",
-    logoScale: 1.06,
+    background: "#ffffff",
+    logoMode: "full-bleed",
   },
   {
     name: "Qedma",
@@ -92,20 +90,19 @@ export const portfolio: readonly PortfolioCompany[] = [
   },
   {
     name: "Actasys",
-    logo: "/portfolio/actasys-color.png",
+    logo: "/portfolio/actasys.webp",
     description: "Thermal management for high-density data-center racks and networking silicon",
     url: "https://www.actasysinc.com/",
-    background: "#4bb9ec",
-    logoMode: "actasys-crop",
+    background: "#ffffff",
+    logoScale: 1.16,
   },
   {
     name: "Particle",
-    logo: "/portfolio/particle.webp",
+    logo: "/portfolio/particle-color.jpg",
     description: "Particle-physics and advanced-propulsion systems for aerospace and defense",
     url: "https://particle-lab.com/",
-    background: "linear-gradient(145deg, #eee6ef 0%, #d7e1ea 100%)",
-    logoMode: "multiply",
-    logoScale: 1.08,
+    background: "#ffffff",
+    logoMode: "full-bleed",
   },
   {
     name: "Signal Edge",
