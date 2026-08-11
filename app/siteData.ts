@@ -43,7 +43,7 @@ export type PortfolioCompany = {
   description: string;
   url: string;
   background: string;
-  logoMode?: "multiply" | "full-bleed" | "litevision-crop";
+  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "litevision-crop";
   logoScale?: number;
 };
 
@@ -66,7 +66,7 @@ export const portfolio: readonly PortfolioCompany[] = [
   },
   {
     name: "Skapion",
-    logo: "/portfolio/skapion-color.jpg",
+    logo: "/portfolio/skapion-hd.svg",
     description: "Native counter-swarm defense system against attacking drone swarms",
     url: "https://www.skapion.com/",
     background: "#293137",
@@ -74,19 +74,19 @@ export const portfolio: readonly PortfolioCompany[] = [
   },
   {
     name: "Oraqon",
-    logo: "/portfolio/oraqon-color.jpg",
+    logo: "/portfolio/oraqon-hd.png",
     description: "Develops Cosmic, a future-ready technology platform for advanced computing",
     url: "https://www.oraqon.com/",
-    background: "#ffffff",
-    logoMode: "full-bleed",
+    background: "linear-gradient(135deg, #123b67 0%, #117fa1 55%, #25bcb5 100%)",
+    logoScale: 1.12,
   },
   {
     name: "Qedma",
-    logo: "/portfolio/qedma-color.png",
+    logo: "/portfolio/qedma-hd.jpg",
     description: "Error-suppression software that extends what today's quantum computers can compute",
     url: "https://www.qedma.com/",
-    background: "#0b0026",
-    logoScale: 1.08,
+    background: "#ffffff",
+    logoMode: "flush-contain",
   },
   {
     name: "Actasys",
@@ -94,15 +94,15 @@ export const portfolio: readonly PortfolioCompany[] = [
     description: "Thermal management for high-density data-center racks and networking silicon",
     url: "https://www.actasysinc.com/",
     background: "#ffffff",
-    logoScale: 1.16,
+    logoScale: 1.06,
   },
   {
     name: "Particle",
-    logo: "/portfolio/particle-color.jpg",
+    logo: "/portfolio/particle-hd.svg",
     description: "Particle-physics and advanced-propulsion systems for aerospace and defense",
     url: "https://particle-lab.com/",
     background: "#ffffff",
-    logoMode: "full-bleed",
+    logoScale: 1.22,
   },
   {
     name: "Signal Edge",
@@ -110,7 +110,7 @@ export const portfolio: readonly PortfolioCompany[] = [
     description: "Low-SWaP RF sensors and radar for electromagnetic ISR and targeting",
     url: "https://signal-edge.com/",
     background: "#100f0f",
-    logoScale: 1.03,
+    logoScale: 1,
   },
   {
     name: "LiteVision",
