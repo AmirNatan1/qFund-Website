@@ -41,65 +41,103 @@ export type PortfolioCompany = {
   name: string;
   logo: string;
   description: string;
-  url?: string;
+  url: string;
+  background: string;
+  logoMode?: "multiply" | "actasys-crop" | "litevision-crop";
+  logoScale?: number;
 };
 
 export const portfolio: readonly PortfolioCompany[] = [
   {
     name: "Element Security",
-    logo: "/portfolio/element-security.webp",
+    logo: "/portfolio/element-security-color.svg",
     description: "Maps internet-facing assets and proves which flaws are actually exploitable",
     url: "https://element.security/",
+    background: "#111111",
+    logoScale: 1.06,
   },
   {
     name: "Commcrete",
-    logo: "/portfolio/commcrete.webp",
+    logo: "/portfolio/commcrete-color.svg",
     description: "Compact satellite radios and converters for tactical voice and data comms",
+    url: "https://www.commcrete.com/",
+    background: "#f2eee9",
+    logoScale: 1.05,
   },
   {
     name: "Skapion",
     logo: "/portfolio/skapion.webp",
     description: "Native counter-swarm defense system against attacking drone swarms",
+    url: "https://www.skapion.com/",
+    background: "#dfe7ec",
+    logoMode: "multiply",
+    logoScale: 1.06,
   },
   {
     name: "Oraqon",
     logo: "/portfolio/oraqon.webp",
-    description: "TODO: description",
+    description: "Develops Cosmic, a future-ready technology platform for advanced computing",
+    url: "https://www.oraqon.com/",
+    background: "linear-gradient(145deg, #efe6ff 0%, #faefff 48%, #dcecff 100%)",
+    logoMode: "multiply",
+    logoScale: 1.06,
   },
   {
     name: "Qedma",
-    logo: "/portfolio/qedma.webp",
+    logo: "/portfolio/qedma-color.png",
     description: "Error-suppression software that extends what today's quantum computers can compute",
+    url: "https://www.qedma.com/",
+    background: "#0b0026",
+    logoScale: 1.08,
   },
   {
     name: "Actasys",
-    logo: "/portfolio/actasys.webp",
+    logo: "/portfolio/actasys-color.png",
     description: "Thermal management for high-density data-center racks and networking silicon",
+    url: "https://www.actasysinc.com/",
+    background: "#4bb9ec",
+    logoMode: "actasys-crop",
   },
   {
     name: "Particle",
     logo: "/portfolio/particle.webp",
-    description: "TODO: description",
+    description: "Particle-physics and advanced-propulsion systems for aerospace and defense",
+    url: "https://particle-lab.com/",
+    background: "linear-gradient(145deg, #eee6ef 0%, #d7e1ea 100%)",
+    logoMode: "multiply",
+    logoScale: 1.08,
   },
   {
     name: "Signal Edge",
-    logo: "/portfolio/signal-edge.webp",
+    logo: "/portfolio/signal-edge-color.png",
     description: "Low-SWaP RF sensors and radar for electromagnetic ISR and targeting",
+    url: "https://signal-edge.com/",
+    background: "#100f0f",
+    logoScale: 1.03,
   },
   {
     name: "LiteVision",
-    logo: "/portfolio/litevision.webp",
-    description: "TODO: description",
+    logo: "/portfolio/litevision-color.png",
+    description: "Miniaturized electro-optical imaging systems for defense and civilian platforms",
+    url: "https://litevision-eo.com/",
+    background: "#f3f1eb",
+    logoMode: "litevision-crop",
   },
   {
     name: "QuamCore",
-    logo: "/portfolio/quamcore.webp",
+    logo: "/portfolio/quamcore-color.svg",
     description: "Superconducting quantum processors architected to scale beyond one million qubits",
+    url: "https://www.quamcore.com/",
+    background: "linear-gradient(135deg, #203678 0%, #5477b6 100%)",
+    logoScale: 1.04,
   },
   {
-    name: "Eshtech",
-    logo: "/portfolio/eshtech.webp",
+    name: "Esh-Tech",
+    logo: "/portfolio/eshtech-color.svg",
     description: "Pulsed-laser hard-kill effector for short-range counter-drone defense",
+    url: "https://www.esh-tech.com/",
+    background: "#22235f",
+    logoScale: 1.08,
   },
 ];
 

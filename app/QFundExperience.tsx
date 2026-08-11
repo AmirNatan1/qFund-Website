@@ -583,44 +583,29 @@ export default function QFundExperience() {
           <h2 id="portfolio-title">Built around technologies with <em>consequence.</em></h2>
         </div>
         <div className="qf-portfolio-grid qf-reveal" aria-label="Portfolio companies">
-          {portfolio.map((item) => {
-            const content = (
-              <>
-                <span className="qf-portfolio-logo">
-                  <object data={item.logo} type="image/webp" aria-label={`${item.name} logo`} tabIndex={-1}>
-                    <span className="qf-portfolio-logo-fallback">{item.name}</span>
-                  </object>
-                </span>
-                <span className="qf-portfolio-description">
-                  <strong>{item.name}</strong>
-                  <span>{item.description}</span>
-                  {item.url ? <i aria-hidden="true">↗</i> : null}
-                </span>
-              </>
-            );
-
-            return item.url ? (
-              <a
-                className="qf-portfolio-card"
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${item.name}: ${item.description}`}
-                key={item.name}
-              >
-                {content}
-              </a>
-            ) : (
-              <article
-                className="qf-portfolio-card"
-                tabIndex={0}
-                aria-label={`${item.name}: ${item.description}`}
-                key={item.name}
-              >
-                {content}
-              </article>
-            );
-          })}
+          {portfolio.map((item) => (
+            <a
+              className="qf-portfolio-card"
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${item.name}: ${item.description}`}
+              style={{
+                "--qf-portfolio-bg": item.background,
+                "--qf-portfolio-logo-scale": item.logoScale ?? 1,
+              } as CSSProperties}
+              key={item.name}
+            >
+              <span className={`qf-portfolio-logo qf-portfolio-logo--${item.logoMode ?? "source"}`}>
+                <img src={item.logo} alt={`${item.name} logo`} loading="lazy" />
+              </span>
+              <span className="qf-portfolio-description">
+                <strong>{item.name}</strong>
+                <span>{item.description}</span>
+                <i aria-hidden="true">↗</i>
+              </span>
+            </a>
+          ))}
         </div>
       </section>
 

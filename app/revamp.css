@@ -1100,15 +1100,13 @@ body:has(a:hover, button:hover) .qf-cursor span {
   isolation: isolate;
   display: grid;
   grid-column: span 2;
-  aspect-ratio: 1.35;
+  aspect-ratio: 1;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--qf-line);
   outline: 0;
   color: var(--qf-ink-strong);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.48)),
-    var(--qf-sage);
+  background: var(--qf-portfolio-bg, var(--qf-sage));
   box-shadow: 0 0.75rem 2rem rgba(6, 43, 47, 0.055);
   transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
@@ -1129,30 +1127,55 @@ body:has(a:hover, button:hover) .qf-cursor span {
   z-index: 1;
   display: grid;
   place-items: center;
-  padding: clamp(2.25rem, 4vw, 4.5rem);
+  overflow: hidden;
+  padding: clamp(1.5rem, 3.2vw, 3.4rem);
+  background: var(--qf-portfolio-bg, var(--qf-sage));
   transition: filter 200ms ease, opacity 200ms ease, transform 200ms ease;
 }
 
-.qf-portfolio-logo object {
+.qf-portfolio-logo img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 88%;
+  height: 72%;
+  max-width: none;
   object-fit: contain;
   pointer-events: none;
+  transform: scale(var(--qf-portfolio-logo-scale, 1));
+}
+
+.qf-portfolio-logo--multiply img {
   mix-blend-mode: multiply;
 }
 
-.qf-portfolio-logo-fallback {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  place-items: center;
-  color: var(--color-brand-deep);
-  font-family: var(--qf-display);
-  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
-  font-weight: 620;
-  letter-spacing: -0.045em;
-  text-align: center;
+.qf-portfolio-logo--actasys-crop,
+.qf-portfolio-logo--litevision-crop { padding: 0; }
+
+.qf-portfolio-logo--actasys-crop img {
+  position: absolute;
+  top: -108%;
+  left: -34%;
+  width: 220%;
+  height: auto;
+  transform: none;
+}
+
+.qf-portfolio-logo--litevision-crop img {
+  position: absolute;
+  top: -7%;
+  left: -25%;
+  width: 150%;
+  height: auto;
+  transform: none;
+}
+
+.qf-portfolio-logo--litevision-crop::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 23%;
+  content: "";
+  background: var(--qf-portfolio-bg, #f3f1eb);
 }
 
 .qf-portfolio-description {
@@ -1575,16 +1598,19 @@ body:has(a:hover, button:hover) .qf-cursor span {
   a { cursor: auto; }
   .qf-cursor { display: none; }
   .qf-portfolio-card {
-    grid-template-rows: minmax(11rem, 1fr) auto;
+    grid-template-rows: auto auto;
     aspect-ratio: auto;
-    height: 22rem;
+    height: auto;
   }
   .qf-portfolio-logo {
     position: relative;
     inset: auto;
-    min-height: 11rem;
-    padding: clamp(1.75rem, 7vw, 3rem);
+    min-height: 0;
+    aspect-ratio: 1;
+    padding: clamp(1.5rem, 7vw, 3rem);
   }
+  .qf-portfolio-logo--actasys-crop,
+  .qf-portfolio-logo--litevision-crop { padding: 0; }
   .qf-portfolio-description {
     position: relative;
     inset: auto;

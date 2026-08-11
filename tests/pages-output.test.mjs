@@ -60,7 +60,8 @@ test("publishes the required static assets", async () => {
     access(new URL("team/liav-ben-rubi-hd.webp", outputUrl)),
     access(new URL("team/dana-taigman-koren-hd.webp", outputUrl)),
     access(new URL("team/liron-ben-zaken-hd.webp", outputUrl)),
-    access(new URL("portfolio/qedma.webp", outputUrl)),
+    access(new URL("portfolio/qedma-color.png", outputUrl)),
+    access(new URL("portfolio/eshtech-color.svg", outputUrl)),
     access(new URL("focus/quantum-computing.jpg", outputUrl)),
     access(new URL("focus/defense.jpg", outputUrl)),
     access(new URL("focus/energy.jpg", outputUrl)),
@@ -144,10 +145,25 @@ test("links every team portrait and renders the accessible portfolio grid", asyn
   }
 
   assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
+  assert.equal((home.match(/class="qf-portfolio-card"[^>]*href=/g) ?? []).length, 11);
   assert.doesNotMatch(home, /role="tab"|portfolio-company-panel/);
-  assert.match(home, /data="\/portfolio\/eshtech\.webp"/);
+  assert.match(home, /src="\/portfolio\/eshtech-color\.svg"/);
   assert.match(home, /Pulsed-laser hard-kill effector/);
-  assert.match(home, /href="https:\/\/element\.security\/"/);
+  for (const companyUrl of [
+    "https://element.security/",
+    "https://www.commcrete.com/",
+    "https://www.skapion.com/",
+    "https://www.oraqon.com/",
+    "https://www.qedma.com/",
+    "https://www.actasysinc.com/",
+    "https://particle-lab.com/",
+    "https://signal-edge.com/",
+    "https://litevision-eo.com/",
+    "https://www.quamcore.com/",
+    "https://www.esh-tech.com/",
+  ]) {
+    assert.match(home, new RegExp(`href="${companyUrl.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}"`));
+  }
 });
 
 test("uses direct image URLs and one back-to-top control per page", async () => {
@@ -158,7 +174,7 @@ test("uses direct image URLs and one back-to-top control per page", async () => 
 
   assert.doesNotMatch(rendered, /\/_next\/image\//);
   assert.match(pages[0], /src="\/team\/liav-ben-rubi-hd\.webp"/);
-  assert.match(pages[0], /data="\/portfolio\/element-security\.webp"/);
+  assert.match(pages[0], /src="\/portfolio\/element-security-color\.svg"/);
   assert.match(pages[0], /src="\/focus\/advanced-electronics\.jpg"/);
 
   for (const html of pages) {
