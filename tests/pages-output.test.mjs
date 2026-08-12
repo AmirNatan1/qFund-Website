@@ -26,7 +26,7 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /id="portfolio"/);
   assert.match(html, /id="team"/);
   assert.match(html, /id="news"/);
-  assert.match(html, /Quantum computing/);
+  assert.match(html, /Quantum Computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-frontier-field"/);
@@ -119,6 +119,34 @@ test("renders the header section ruler and three latest news stories", async () 
   assert.match(home, /aria-label="Go to Our approach"/);
   assert.equal((home.match(/class="qf-news-card qf-reveal"/g) ?? []).length, 3);
   assert.match(home, />View all news/);
+});
+
+test("renders all eight industry chapters with six supplied models and two prepared fallbacks", async () => {
+  const home = await readHome();
+
+  assert.match(home, /data-industry-chapters="8"/);
+  assert.match(home, /data-industry-models-supplied="6"/);
+  assert.match(home, /data-industry-models-pending="2"/);
+  assert.equal((home.match(/data-industry-chapter="true"/g) ?? []).length, 8);
+  assert.equal((home.match(/data-model-status="supplied"/g) ?? []).length, 6);
+  assert.equal((home.match(/data-model-status="pending"/g) ?? []).length, 2);
+
+  for (const title of [
+    "Quantum Computing",
+    "Robotics and Drones",
+    "Data Centers",
+    "Space",
+    "Particle Accelerators",
+    "Cyber &amp; Attack Surfaces",
+    "Sensing, RF, Optics &amp; Quantum Intelligence",
+    "Geothermal &amp; Nuclear Energy",
+  ]) {
+    assert.match(home, new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+
+  assert.match(home, /id="industry-cyber-and-attack-surfaces"[\s\S]*?data-model-status="pending"/);
+  assert.match(home, /id="industry-sensing-rf-optics-and-quantum-intelligence"[\s\S]*?data-model-status="pending"/);
+  assert.doesNotMatch(home, /MODEL MISSING|TODO|Asset not found/i);
 });
 
 test("ships the interactive frontier field without the discarded logo assembly", async () => {

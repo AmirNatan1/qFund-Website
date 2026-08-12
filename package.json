@@ -6,24 +6,33 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "sync:3d": "node scripts/sync-3d-assets.mjs",
+    "predev": "npm run sync:3d",
     "dev": "vinext dev",
+    "prebuild": "npm run sync:3d",
     "build": "next build && node scripts/mirror-pages-output.mjs",
     "release:pages-root": "npm run build && node scripts/publish-root-pages.mjs",
+    "prebuild:worker": "npm run sync:3d",
     "build:worker": "node scripts/build-worker.mjs",
     "start": "vinext start",
     "deploy": "npm run build:worker && wrangler deploy",
     "preview": "npm run build:worker && wrangler dev",
     "test": "npm run test:pages && npm run test:worker",
-    "test:pages": "npm run release:pages-root && node --test tests/pages-output.test.mjs tests/root-pages-output.test.mjs",
+    "test:pages": "npm run release:pages-root && node --test tests/industries.test.mjs tests/pages-output.test.mjs tests/root-pages-output.test.mjs",
     "test:worker": "npm run build:worker && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@react-three/drei": "10.7.6",
+    "@react-three/fiber": "9.3.0",
+    "@react-three/postprocessing": "3.0.4",
     "drizzle-orm": "0.45.2",
     "next": "16.2.6",
+    "postprocessing": "6.37.8",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "three": "0.180.0"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
@@ -31,6 +40,7 @@
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "@types/three": "0.180.0",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
     "drizzle-kit": "0.31.10",

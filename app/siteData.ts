@@ -1,41 +1,4 @@
-export const focusAreas = [
-  {
-    code: "01",
-    title: "Quantum computing",
-    short: "Quantum",
-    text: "From software that makes today's noisy machines useful, to cryostat architecture built to break the qubit scaling bottleneck.",
-  },
-  {
-    code: "02",
-    title: "Defense",
-    short: "Defense",
-    text: "Interception, detection, and electronic warfare — counter-swarm systems, directed-energy interception, laser threat detection, and software-reconfigurable RF cores.",
-  },
-  {
-    code: "03",
-    title: "Energy",
-    short: "Energy",
-    text: "Generation, storage, and the physical infrastructure of the energy transition.",
-  },
-  {
-    code: "04",
-    title: "Advanced industry",
-    short: "Industry",
-    text: "Actuation, cooling, and sensing for the systems that industry actually runs on — automotive, manufacturing, and AI infrastructure.",
-  },
-  {
-    code: "05",
-    title: "Semiconductors",
-    short: "Semiconductors",
-    text: "The materials, components, and process technologies underneath advanced compute.",
-  },
-  {
-    code: "06",
-    title: "Advanced electronics",
-    short: "Electronics",
-    text: "Compact, high-performance RF and electro-optical systems where size, weight, and power decide whether a technology ships.",
-  },
-] as const;
+export { industryChapters as focusAreas } from "./industries/industryConfig";
 
 export type PortfolioCompany = {
   name: string;

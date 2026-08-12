@@ -12,8 +12,9 @@ import {
 import BackToTop from "./components/BackToTop";
 import BrandMark from "./components/BrandMark";
 import NewsArtwork from "./components/NewsArtwork";
+import IndustriesExperience from "./industries/IndustriesExperience";
 import { formatNewsDate, newsItems } from "./newsData";
-import { evaluationPillars, focusAreas, portfolio, team, valueCreation } from "./siteData";
+import { evaluationPillars, portfolio, team, valueCreation } from "./siteData";
 
 const sections = [
   ["top", "Home"],
@@ -24,10 +25,6 @@ const sections = [
   ["team", "Team"],
   ["news", "News"],
 ] as const;
-
-function imagePath(title: string) {
-  return `/focus/${title.toLowerCase().replaceAll(" ", "-")}.jpg`;
-}
 
 function parseHexColor(value: string): [number, number, number] {
   const match = value.trim().match(/^#([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i);
@@ -505,35 +502,7 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="qf-industries qf-scroll-section" id="industries" data-qf-section aria-labelledby="industries-title">
-        <div className="qf-section-label qf-reveal"><span>02</span><p>Industries</p></div>
-        <div className="qf-section-heading qf-reveal">
-          <p className="qf-kicker">SIX STRATEGIC FOCUS AREAS</p>
-          <h2 id="industries-title">Six sectors, and what we look for inside <em>each one.</em></h2>
-        </div>
-        <div className="qf-industry-grid">
-          {focusAreas.map((item, index) => (
-            <article className="qf-industry-card qf-reveal" style={{ "--card-index": index } as CSSProperties} key={item.title}>
-              <figure>
-                <Image
-                  src={imagePath(item.title)}
-                  alt={`${item.title} technical system`}
-                  fill
-                  sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                  unoptimized
-                />
-                <span className="qf-image-wash" aria-hidden="true" />
-                <span className="qf-image-scan" aria-hidden="true" />
-              </figure>
-              <div>
-                <span>{item.code}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      <IndustriesExperience />
 
       <section className="qf-approach qf-scroll-section" id="approach" data-qf-section aria-labelledby="approach-title">
         <div className="qf-section-label qf-reveal"><span>03</span><p>Our approach</p></div>

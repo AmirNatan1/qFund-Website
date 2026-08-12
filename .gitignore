@@ -39,7 +39,11 @@ yarn-error.log*
 
 # typescript
 next-env.d.ts
+*.tsbuildinfo
 /dist/
 /.wrangler/
 /outputs/
 /work/
+
+# generated from the root-level 3D Objects source library
+/public/3d/

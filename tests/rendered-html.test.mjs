@@ -22,7 +22,7 @@ test("server-renders the unified qFund experience", async () => {
   assert.match(html, /Pre-seed/);
   assert.match(html, /Pre-seed to Series A/);
   assert.match(html, /Deep Tech/);
-  assert.match(html, /Quantum computing/);
+  assert.match(html, /Quantum Computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-section-ruler"/);
@@ -33,6 +33,9 @@ test("server-renders the unified qFund experience", async () => {
   assert.equal((html.match(/class="qf-portfolio-card"[^>]*href=/g) ?? []).length, 11);
   assert.match(html, /class="qf-frontier-field"/);
   assert.match(html, /class="qf-frontier-canvas"/);
+  assert.match(html, /data-industry-chapters="8"/);
+  assert.equal((html.match(/data-model-status="supplied"/g) ?? []).length, 6);
+  assert.equal((html.match(/data-model-status="pending"/g) ?? []).length, 2);
   assert.match(html, /class="qf-frontier-core"/);
   assert.doesNotMatch(html, /qf-logo-field|qf-q-arrow-flight|qf-fund-reveal/);
   assert.equal((html.match(/class="qf-handshake"/g) ?? []).length, 1);
