@@ -99,7 +99,7 @@ test("blends every supplied scene into the industry canvas while retaining space
   assert.match(scenes[2], /<Stars[\s\S]*?factor=\{3\.2\}/);
 });
 
-test("preloads scenes while limiting live rendering to the current industry chapter", async () => {
+test("preloads scenes while keeping the visible industry animation live during scroll", async () => {
   const [experience, stage, homepage, nuclear, drone, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
@@ -113,7 +113,8 @@ test("preloads scenes while limiting live rendering to the current industry chap
   assert.match(experience, /storyIsNearViewport/);
   assert.match(experience, /scheduleIndustryAssetPreload/);
   assert.match(experience, /start: Math\.max\(0, nextIndex - 1\)/);
-  assert.match(experience, /paused=\{isScrolling \|\| !isImmersive \|\| activeIndex !== index\}/);
+  assert.match(experience, /paused=\{!isImmersive \|\| activeIndex !== index\}/);
+  assert.doesNotMatch(experience, /isScrolling|scrollEndTimerRef/);
   assert.match(experience, /metricsRef/);
   assert.match(experience, /classList\.toggle\("qf-industries-immersive", immersive\)/);
   assert.match(stage, /useGLTF\.preload\("\/3d\/quantum-computer\.glb"\)/);

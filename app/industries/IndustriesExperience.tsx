@@ -18,15 +18,12 @@ type StoryMetrics = {
 export default function IndustriesExperience() {
   const storyRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const scrollEndTimerRef = useRef<number>(0);
-  const scrollingRef = useRef(false);
   const immersiveRef = useRef(false);
   const metricsRef = useRef<StoryMetrics | null>(null);
   const activeIndexRef = useRef(0);
   const renderWindowRef = useRef(EMPTY_RENDER_WINDOW);
   const [activeIndex, setActiveIndex] = useState(0);
   const [renderWindow, setRenderWindow] = useState(EMPTY_RENDER_WINDOW);
-  const [isScrolling, setIsScrolling] = useState(false);
   const [isImmersive, setIsImmersive] = useState(false);
 
   const measureStory = useCallback(() => {
@@ -98,18 +95,7 @@ export default function IndustriesExperience() {
       });
     };
 
-    const onScroll = () => {
-      if (!scrollingRef.current) {
-        scrollingRef.current = true;
-        setIsScrolling(true);
-      }
-      window.clearTimeout(scrollEndTimerRef.current);
-      scrollEndTimerRef.current = window.setTimeout(() => {
-        scrollingRef.current = false;
-        setIsScrolling(false);
-      }, 140);
-      requestUpdate();
-    };
+    const onScroll = () => requestUpdate();
 
     const refreshMetrics = () => {
       measureStory();
@@ -128,7 +114,6 @@ export default function IndustriesExperience() {
     return () => {
       cancelPreload();
       window.cancelAnimationFrame(frame);
-      window.clearTimeout(scrollEndTimerRef.current);
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", refreshMetrics);
@@ -183,7 +168,7 @@ export default function IndustriesExperience() {
                 <IndustryModelStage
                   chapter={chapter}
                   shouldRender={index >= renderWindow.start && index <= renderWindow.end}
-                  paused={isScrolling || !isImmersive || activeIndex !== index}
+                  paused={!isImmersive || activeIndex !== index}
                 />
                 <div className="qf-industry-copy">
                   <div className="qf-industry-copy-meta">
