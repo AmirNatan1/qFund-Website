@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import IndustryModelStage, { scheduleIndustryAssetPreload } from "./IndustryModelStage";
+import IndustryModelStage, { IndustrySharedCanvas, scheduleIndustryAssetPreload } from "./IndustryModelStage";
 import {
   industryChapters,
   pendingIndustryModelCount,
@@ -30,6 +30,7 @@ export default function IndustriesExperience() {
     () => new Set(["quantum-computer"]),
   );
   const [isImmersive, setIsImmersive] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const markModelRenderReady = useCallback((modelId: IndustryModelId) => {
     setMountedModelIds((current) => {
@@ -38,6 +39,27 @@ export default function IndustriesExperience() {
       next.add(modelId);
       return next;
     });
+  }, []);
+
+  useEffect(() => {
+    let scrollEndTimer = 0;
+    let scrolling = false;
+    const onScroll = () => {
+      if (!scrolling) {
+        scrolling = true;
+        setIsScrolling(true);
+      }
+      window.clearTimeout(scrollEndTimer);
+      scrollEndTimer = window.setTimeout(() => {
+        scrolling = false;
+        setIsScrolling(false);
+      }, 140);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(scrollEndTimer);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   const measureStory = useCallback(() => {
@@ -67,7 +89,7 @@ export default function IndustriesExperience() {
     const progress = Math.min(1, Math.max(0, (scrollY - metrics.storyTop) / metrics.travel));
     const x = Math.round(-progress * LAST_CHAPTER_INDEX * metrics.viewportWidth * 2) / 2;
     const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, Math.round(progress * LAST_CHAPTER_INDEX)));
-    const immersive = scrollY >= metrics.storyTop && scrollY <= metrics.storyTop + metrics.travel;
+    const immersive = scrollY >= metrics.storyTop && scrollY < metrics.storyTop + metrics.storyHeight;
 
     track.style.transform = `translate3d(${x}px, 0, 0)`;
     story.style.setProperty("--qf-industry-progress", String(progress));
@@ -164,11 +186,7 @@ export default function IndustriesExperience() {
               >
                 <IndustryModelStage
                   chapter={chapter}
-                  shouldRender={Boolean(
-                    chapter.model
-                    && (mountedModelIds.has(chapter.model.id) || activeIndex === index)
-                  )}
-                  paused={!isImmersive || activeIndex !== index}
+                  readyModelIds={mountedModelIds}
                 />
                 <div className="qf-industry-copy">
                   <div className="qf-industry-copy-meta">
@@ -181,6 +199,13 @@ export default function IndustriesExperience() {
               </article>
             ))}
           </div>
+
+          <IndustrySharedCanvas
+            chapter={industryChapters[activeIndex]}
+            readyModelIds={mountedModelIds}
+            paused={!isImmersive}
+            moving={isScrolling}
+          />
 
           <div className="qf-industry-chrome">
             <span className="qf-industry-chrome-label">INDUSTRIES / EXPLORE</span>

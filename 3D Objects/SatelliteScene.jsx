@@ -18,9 +18,9 @@
 
 import * as THREE from 'three';
 import React, { useMemo, useRef, useEffect, Suspense } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
+import { useActiveFrame as useFrame } from './SceneActivity.jsx';
 import { OrbitControls, Environment, Lightformer, Stars } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    0 · PALETTE
@@ -971,8 +971,7 @@ export default function SatelliteScene({
     <Canvas
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
-      shadows
-      dpr={1}
+      dpr={0.8}
       frameloop={frameloop}
       camera={{ position: [5.6, 2.6, 9.9], fov: 34, near: 0.1, far: 400 }}
       gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
@@ -1002,16 +1001,6 @@ export default function SatelliteScene({
         maxPolarAngle={Math.PI - 0.25}
       />
 
-      <EffectComposer multisampling={2}>
-        <Bloom
-          intensity={bloom}
-          luminanceThreshold={0.8}
-          luminanceSmoothing={0.28}
-          mipmapBlur
-          radius={0.72}
-        />
-        <Vignette eskil={false} offset={0.22} darkness={0.72} />
-      </EffectComposer>
     </Canvas>
   );
 }

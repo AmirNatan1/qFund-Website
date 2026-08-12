@@ -6,22 +6,24 @@ const rootUrl = new URL("../", import.meta.url);
 const sourceUrl = new URL("../3D Objects/", import.meta.url);
 const configUrl = new URL("../app/industries/industryConfig.ts", import.meta.url);
 
-test("maps the six supplied object sets into the canonical eight-industry configuration", async () => {
+test("maps all eight supplied object sets into the canonical industry configuration", async () => {
   const [files, config] = await Promise.all([
     readdir(sourceUrl),
     readFile(configUrl, "utf8"),
   ]);
 
   const suppliedObjectSets = [
+    "CyberSecurityHologram.jsx",
     "DatacenterScene.jsx",
     "Drone.jsx",
     "NuclearPlantComplex.jsx",
     "ParticleAccelerator.jsx",
     "SatelliteScene.jsx",
+    "SensorArray.jsx",
     "quantum-computer.glb",
   ];
 
-  assert.equal(suppliedObjectSets.length, 6);
+  assert.equal(suppliedObjectSets.length, 8);
   for (const file of suppliedObjectSets) {
     assert.ok(files.includes(file), `${file} should be present in 3D Objects`);
     assert.match(config, new RegExp(file.replaceAll(".", "\\.")));
@@ -45,9 +47,9 @@ test("maps the six supplied object sets into the canonical eight-industry config
     previousIndex = index;
   }
 
-  assert.equal((config.match(/model: null/g) ?? []).length, 2);
-  assert.match(config, /slug: "cyber-and-attack-surfaces"[\s\S]*?model: null/);
-  assert.match(config, /slug: "sensing-rf-optics-and-quantum-intelligence"[\s\S]*?model: null/);
+  assert.equal((config.match(/model: null/g) ?? []).length, 0);
+  assert.match(config, /slug: "cyber-and-attack-surfaces"[\s\S]*?source: "3D Objects\/CyberSecurityHologram\.jsx"/);
+  assert.match(config, /slug: "sensing-rf-optics-and-quantum-intelligence"[\s\S]*?source: "3D Objects\/SensorArray\.jsx"/);
 });
 
 test("publishes the supplied binary model through the static 3D asset path", async () => {
@@ -59,11 +61,13 @@ test("publishes the supplied binary model through the static 3D asset path", asy
 
 test("keeps wheel scrolling available while preserving drag rotation on every supplied scene", async () => {
   const sceneFiles = [
+    "CyberSecurityHologram.jsx",
     "Drone.jsx",
     "DatacenterScene.jsx",
     "SatelliteScene.jsx",
     "ParticleAccelerator.jsx",
     "NuclearPlantComplex.jsx",
+    "SensorArray.jsx",
   ];
   const [stage, ...scenes] = await Promise.all([
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
@@ -72,7 +76,7 @@ test("keeps wheel scrolling available while preserving drag rotation on every su
 
   assert.match(stage, /enableZoom=\{false\}/);
   assert.match(stage, /enableRotate/);
-  assert.match(stage, /controls/);
+  assert.match(stage, /OrbitControls/);
   for (const [index, scene] of scenes.entries()) {
     assert.match(scene, /enableZoom=\{false\}/, `${sceneFiles[index]} should not capture the wheel to zoom`);
     assert.match(scene, /OrbitControls/, `${sceneFiles[index]} should retain drag rotation`);
@@ -99,7 +103,7 @@ test("blends every supplied scene into the industry canvas while retaining space
   assert.match(scenes[2], /<Stars[\s\S]*?factor=\{3\.2\}/);
 });
 
-test("prewarms complete WebGL scenes before the industry scroll begins", async () => {
+test("preloads every scene into one warmed WebGL renderer before industry scrolling", async () => {
   const [experience, stage, homepage, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
@@ -113,21 +117,20 @@ test("prewarms complete WebGL scenes before the industry scroll begins", async (
   ]);
 
   assert.match(experience, /scheduleIndustryAssetPreload/);
-  assert.match(experience, /mountedModelIds\.has\(chapter\.model\.id\)/);
+  assert.match(experience, /readyModelIds=\{mountedModelIds\}/);
+  assert.match(experience, /<IndustrySharedCanvas/);
   assert.doesNotMatch(experience, /renderWindow|storyIsNearViewport/);
-  assert.match(experience, /paused=\{!isImmersive \|\| activeIndex !== index\}/);
-  assert.doesNotMatch(experience, /isScrolling|scrollEndTimerRef/);
+  assert.match(experience, /moving=\{isScrolling\}/);
   assert.match(experience, /metricsRef/);
   assert.match(experience, /classList\.toggle\("qf-industries-immersive", immersive\)/);
   assert.match(stage, /useGLTF\.preload\("\/3d\/quantum-computer\.glb"\)/);
   assert.match(stage, /requestIdleCallback/);
-  assert.match(stage, /const moduleLoads = scenePreloadTasks\.map/);
-  assert.match(stage, /announceRenderReady\(modelId\)/);
-  assert.match(stage, /frameloop=\{paused \? "demand" : "always"\}/);
-  assert.match(stage, /dpr=\{1\}/);
-  for (const scene of [nuclear, drone, datacenter, satellite, particle]) {
-    assert.match(scene, /dpr=\{1\}/);
-  }
+  assert.match(stage, /announceRenderReady\(task\.id\)/);
+  assert.equal((stage.match(/<Canvas/g) ?? []).length, 1);
+  assert.match(stage, /dpr=\{0\.9\}/);
+  assert.match(stage, /setDpr\(moving \? 0\.65 : 0\.9\)/);
+  assert.match(stage, /gl\.compileAsync/);
+  assert.match(stage, /<RenderBudget moving=\{moving\}/);
   assert.match(homepage, /visibilityObserver/);
   assert.match(nuclear, /frames=\{1\}/);
   assert.match(nuclear, /backgroundTop = '#04090c'/);

@@ -14,7 +14,8 @@
 
 import React, { useRef, useMemo } from 'react';
 import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
+import { useActiveFrame as useFrame } from './SceneActivity.jsx';
 import {
   Environment,
   Lightformer,
@@ -23,7 +24,6 @@ import {
   RoundedBox,
   Grid,
 } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette, ChromaticAberration } from '@react-three/postprocessing';
 
 /* ═══════════════════════════════════════════════════════════════════════
    1. MATERIAL LIBRARY
@@ -723,14 +723,11 @@ export default function DroneScene({
   className,
   style,
 }) {
-  const aberration = useMemo(() => new THREE.Vector2(0.0006, 0.0009), []);
-
   return (
     <Canvas
       className={className}
       style={{ width: '100%', height: '100%', ...style }}
-      shadows
-      dpr={1}
+      dpr={0.8}
       frameloop={frameloop}
       onCreated={onCreated}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
@@ -762,6 +759,7 @@ export default function DroneScene({
         blur={2.6}
         far={4.5}
         color="#000308"
+        frames={1}
       />
       {grid && (
         <Grid
@@ -793,17 +791,6 @@ export default function DroneScene({
         />
       )}
 
-      <EffectComposer multisampling={2}>
-        <Bloom
-          intensity={bloom}
-          luminanceThreshold={0.8}
-          luminanceSmoothing={0.28}
-          mipmapBlur
-          radius={0.58}
-        />
-        <ChromaticAberration offset={aberration} radialModulation modulationOffset={0.4} />
-        <Vignette eskil={false} offset={0.22} darkness={0.85} />
-      </EffectComposer>
     </Canvas>
   );
 }

@@ -28,9 +28,9 @@
 import React, { useMemo, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 import * as THREE from 'three'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
+import { useActiveFrame as useFrame } from './SceneActivity.jsx'
 import { OrbitControls, Environment, Lightformer, Grid } from '@react-three/drei'
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 
 /* ═══════════════════════════════ palette ═══════════════════════════════ */
 
@@ -764,8 +764,7 @@ export function ParticleAcceleratorScene({
     <Canvas
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
-      shadows
-      dpr={1}
+      dpr={0.8}
       frameloop={frameloop}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
       camera={{ position: [12, 4.6, 16.2], fov: 44, near: 0.1, far: 260 }}
@@ -811,10 +810,6 @@ export function ParticleAcceleratorScene({
         target={[0, 0.4, 0]}
       />
 
-      <EffectComposer disableNormalPass multisampling={2}>
-        <Bloom intensity={bloomIntensity} luminanceThreshold={0.7} luminanceSmoothing={0.28} mipmapBlur radius={0.82} />
-        <Vignette offset={0.28} darkness={0.82} eskil={false} />
-      </EffectComposer>
     </Canvas>
   )
 }

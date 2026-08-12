@@ -972,6 +972,34 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
     #04090c;
 }
 
+.qf-industry-shared-stage {
+  position: absolute;
+  top: 0;
+  right: 38%;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  overflow: hidden;
+  background: #04090c;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease-out;
+}
+
+.qf-industry-shared-stage.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.qf-industry-shared-stage > canvas {
+  width: 100% !important;
+  height: 100% !important;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.qf-industry-shared-stage > canvas:active { cursor: grabbing; }
+
 .qf-industry-model-shell {
   position: absolute;
   inset: 0;
@@ -1893,6 +1921,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
     background: linear-gradient(0deg, #04090c 22%, rgba(4, 9, 12, 0.94) 64%, transparent);
   }
   .qf-industry-stage { position: absolute; inset: 0 0 34%; }
+  .qf-industry-shared-stage { right: 0; bottom: 34%; }
   .qf-industry-stage-vignette {
     background:
       linear-gradient(0deg, rgba(4, 9, 12, 0.94), transparent 42%),
@@ -1954,6 +1983,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-industries-intro { padding-inline: 1rem 2.4rem; }
   .qf-industry-story { margin-top: 4rem; }
   .qf-industry-stage { bottom: 42%; }
+  .qf-industry-shared-stage { bottom: 42%; }
   .qf-industry-copy { min-height: 55%; padding: 2rem 2.4rem 5.4rem 1rem; }
   .qf-industry-copy-meta { margin-bottom: 0.9rem; }
   .qf-industry-copy-meta span:first-child { width: 2.2rem; }

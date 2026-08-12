@@ -16,7 +16,8 @@
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react'
 import * as THREE from 'three'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
+import { useActiveFrame as useFrame } from './SceneActivity.jsx'
 import {
   OrbitControls,
   Environment,
@@ -25,7 +26,6 @@ import {
   MeshReflectorMaterial,
   RoundedBox,
 } from '@react-three/drei'
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 
 /* ------------------------------------------------------------------ tokens */
 
@@ -75,6 +75,7 @@ export function ServerBlades({ seed = 1, count = BLADES_PER_RACK }) {
   const vents = useRef()
   const bays = useRef()
   const leds = useRef()
+  const lastLedUpdate = useRef(-Infinity)
 
   const pitch = (BAY.top - BAY.bottom) / count
   const VENTS_PER_BLADE = 3
@@ -192,6 +193,8 @@ export function ServerBlades({ seed = 1, count = BLADES_PER_RACK }) {
     const mesh = leds.current
     if (!mesh || !mesh.instanceColor) return
     const t = clock.elapsedTime
+    if (t - lastLedUpdate.current < 1 / 12) return
+    lastLedUpdate.current = t
     const list = spec.ledList
 
     for (let i = 0; i < list.length; i++) {
@@ -893,10 +896,6 @@ export function Scene({ spin = 0.075 }) {
         maxPolarAngle={86 * DEG}
       />
 
-      <EffectComposer multisampling={2} disableNormalPass>
-        <Bloom intensity={2} luminanceThreshold={0.6} luminanceSmoothing={0.28} mipmapBlur radius={0.75} />
-        <Vignette offset={0.3} darkness={0.62} eskil={false} />
-      </EffectComposer>
     </>
   )
 }
@@ -906,7 +905,7 @@ export default function DatacenterScene({ className, style, spin = 0.075, framel
     <Canvas
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
-      dpr={1}
+      dpr={0.8}
       frameloop={frameloop}
       shadows={false}
       gl={{ antialias: false, powerPreference: 'high-performance', alpha: false }}

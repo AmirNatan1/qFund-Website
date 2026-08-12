@@ -4,6 +4,8 @@ export type IndustryModelId =
   | "datacenter"
   | "satellite"
   | "particle-accelerator"
+  | "cyber-security"
+  | "sensor-array"
   | "nuclear-plant";
 
 export type IndustryModelConfig = {
@@ -134,7 +136,13 @@ export const industryChapters = [
     short: "Cyber",
     text: "As the digital threat surface expands, we invest in platforms securing infrastructure, devices, and networks across civilian and defense domains.",
     accent: "#83d1bb",
-    model: null,
+    model: {
+      id: "cyber-security",
+      source: "3D Objects/CyberSecurityHologram.jsx",
+      presentation: { scale: 0.94, offset: ["0%", "0%"] },
+      framing: { camera: { position: [0, 0.15, 10.2], fov: 40 } },
+      renderOptions: { spin: 0.055, showStreams: true, showIcons: true },
+    },
     fallback: { mode: "field" },
   },
   {
@@ -144,7 +152,13 @@ export const industryChapters = [
     short: "Sensing & RF",
     text: "From RF to quantum, sensors are foundational to autonomy, defense, and scientific discovery. We invest in sensing platforms enabling high-resolution, real-time intelligence across domains.",
     accent: "#4f7dff",
-    model: null,
+    model: {
+      id: "sensor-array",
+      source: "3D Objects/SensorArray.jsx",
+      presentation: { scale: 0.95, offset: ["0%", "0%"] },
+      framing: { camera: { position: [6.4, 3.3, 7.2], fov: 36 } },
+      renderOptions: { spin: 0.085, showGrid: false },
+    },
     fallback: {
       mode: "approved-image",
       approvedStaticImage: "/focus/advanced-electronics.jpg",

@@ -33,9 +33,9 @@ import React, {
   Suspense,
 } from 'react';
 import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
+import { useActiveFrame as useFrame } from './SceneActivity.jsx';
 import { OrbitControls, Environment, ContactShadows } from '@react-three/drei';
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 
 /* ===========================================================================
    0 · Palette + deterministic randomness
@@ -1240,7 +1240,7 @@ function Terrain() {
    10 · Composition + scene
    =========================================================================== */
 
-function PlantComplex({ rotationSpeed = 0.08, steam = true }) {
+export function PlantComplex({ rotationSpeed = 0.08, steam = true }) {
   const spin = useRef();
   useFrame((_, dt) => {
     if (spin.current) spin.current.rotation.y += dt * rotationSpeed;
@@ -1391,16 +1391,6 @@ function Scene({
         frames={1}
       />
 
-      <EffectComposer disableNormalPass multisampling={2}>
-        <Bloom
-          intensity={bloomIntensity}
-          luminanceThreshold={0.92}
-          luminanceSmoothing={0.2}
-          mipmapBlur
-          radius={0.72}
-        />
-        <Vignette offset={0.28} darkness={0.62} />
-      </EffectComposer>
     </>
   );
 }
@@ -1427,8 +1417,7 @@ export default function NuclearPlantComplex({
       style={{ position: 'absolute', inset: 0, background: backgroundBottom, ...style }}
     >
       <Canvas
-        shadows
-        dpr={1}
+        dpr={0.8}
         frameloop={frameloop}
         resize={{ scroll: false, debounce: { scroll: 0, resize: 0 } }}
         gl={{ antialias: false, powerPreference: 'high-performance' }}
