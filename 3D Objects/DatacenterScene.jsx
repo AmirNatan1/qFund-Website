@@ -30,7 +30,7 @@ import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 /* ------------------------------------------------------------------ tokens */
 
 export const PALETTE = {
-  void: '#04060B',
+  void: '#04090C',
   obsidian: '#090C12',
   charcoal: '#12161E',
   gunmetal: '#1B212B',
@@ -727,7 +727,7 @@ export function Floor({ width = 5.6, depth = 5.4, height = 0.3, reflective = tru
       {/* void plane below the platform for depth */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -height - 0.001, 0]}>
         <planeGeometry args={[70, 70]} />
-        <meshStandardMaterial color="#04060B" roughness={1} metalness={0} />
+        <meshStandardMaterial color="#04090C" roughness={1} metalness={0} />
       </mesh>
     </group>
   )
@@ -871,7 +871,7 @@ export function Scene({ spin = 0.075 }) {
       {/* Dark studio env — swap for <Environment preset="night" /> if you'd
           rather pull the pmndrs HDRI. Lightformers keep it offline + tunable. */}
       <Environment resolution={256} frames={1}>
-        <color attach="background" args={['#05070C']} />
+        <color attach="background" args={['#04090C']} />
         <Lightformer intensity={4.2} rotation-x={Math.PI / 2} position={[0, 6, -2]} scale={[12, 6, 1]} color="#8FC2D8" />
         <Lightformer intensity={6} rotation-y={Math.PI / 2} position={[-7, 2, 0]} scale={[10, 3, 1]} color="#00C8E8" />
         <Lightformer intensity={3.4} rotation-y={-Math.PI / 2} position={[7, 2, 0]} scale={[10, 3, 1]} color="#2F6BFF" />

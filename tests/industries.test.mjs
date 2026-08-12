@@ -79,26 +79,54 @@ test("keeps wheel scrolling available while preserving drag rotation on every su
   }
 });
 
-test("limits live rendering to visible chapters and pauses animation during scroll", async () => {
-  const [experience, stage, homepage, nuclear, styles] = await Promise.all([
+test("blends every supplied scene into the industry canvas while retaining space stars", async () => {
+  const sceneFiles = [
+    "Drone.jsx",
+    "DatacenterScene.jsx",
+    "SatelliteScene.jsx",
+    "ParticleAccelerator.jsx",
+    "NuclearPlantComplex.jsx",
+  ];
+  const [stage, ...scenes] = await Promise.all([
+    readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
+    ...sceneFiles.map((file) => readFile(new URL(file, sourceUrl), "utf8")),
+  ]);
+
+  assert.match(stage, /<color attach="background" args=\{\["#04090c"\]\}/);
+  for (const [index, scene] of scenes.entries()) {
+    assert.match(scene, /#04090c/i, `${sceneFiles[index]} should use the shared pitch-black canvas`);
+  }
+  assert.match(scenes[2], /<Stars[\s\S]*?factor=\{3\.2\}/);
+});
+
+test("preloads scenes while limiting live rendering to the current industry chapter", async () => {
+  const [experience, stage, homepage, nuclear, drone, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("NuclearPlantComplex.jsx", sourceUrl), "utf8"),
+    readFile(new URL("Drone.jsx", sourceUrl), "utf8"),
     readFile(new URL("../app/revamp.css", import.meta.url), "utf8"),
   ]);
 
   assert.match(experience, /renderWindow/);
   assert.match(experience, /storyIsNearViewport/);
-  assert.match(experience, /paused=\{isScrolling\}/);
+  assert.match(experience, /scheduleIndustryAssetPreload/);
+  assert.match(experience, /start: Math\.max\(0, nextIndex - 1\)/);
+  assert.match(experience, /paused=\{isScrolling \|\| !isImmersive \|\| activeIndex !== index\}/);
   assert.match(experience, /metricsRef/);
-  assert.match(experience, /if \(!scrollingRef\.current\) commitRenderWindow\(\)/);
   assert.match(experience, /classList\.toggle\("qf-industries-immersive", immersive\)/);
+  assert.match(stage, /useGLTF\.preload\("\/3d\/quantum-computer\.glb"\)/);
+  assert.match(stage, /requestIdleCallback/);
+  assert.match(stage, /sceneModuleLoaders/);
   assert.match(stage, /frameloop=\{paused \? "demand" : "always"\}/);
   assert.match(homepage, /visibilityObserver/);
   assert.match(nuclear, /frames=\{1\}/);
-  assert.match(nuclear, /backgroundTop = '#102638'/);
+  assert.match(nuclear, /backgroundTop = '#04090c'/);
+  assert.match(nuclear, /fog attach="fog" args=\{\[fogColor, 220, 600\]\}/);
+  assert.match(drone, /cameraPosition = \[3\.8, 2\.55, 5\.9\]/);
   assert.match(styles, /html\.qf-industries-immersive \.qf-header/);
   assert.match(styles, /translate3d\(0, -105%, 0\)/);
   assert.match(styles, /contain: layout paint style/);
+  assert.match(styles, /translate3d\(0, 2\.15rem, 0\) scale\(0\.992\)/);
 });

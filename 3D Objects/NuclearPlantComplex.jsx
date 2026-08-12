@@ -47,7 +47,7 @@ const C = {
   concreteStain: '#9aa0a4',
   pad: '#6a7077',
   gravel: '#4c525a',
-  ground: '#171c22',
+  ground: '#070c0f',
   gunmetal: '#39404a',
   steel: '#616a75',
   steelPale: '#8e98a4',
@@ -1365,7 +1365,7 @@ function Scene({
   return (
     <>
       <GradientSky top={backgroundTop} bottom={backgroundBottom} />
-      <fog attach="fog" args={[fogColor, 300, 860]} />
+      <fog attach="fog" args={[fogColor, 220, 600]} />
 
       <hemisphereLight args={['#8fb6cc', '#020407', 0.82]} />
       <directionalLight
@@ -1414,9 +1414,9 @@ export default function NuclearPlantComplex({
   steam = true,
   bloomIntensity = 1.0,
   environmentPreset = 'city',
-  backgroundTop = '#102638',
-  backgroundBottom = '#03070b',
-  fogColor = '#071019',
+  backgroundTop = '#04090c',
+  backgroundBottom = '#04090c',
+  fogColor = '#04090c',
   frameloop = 'always',
   className,
   style,

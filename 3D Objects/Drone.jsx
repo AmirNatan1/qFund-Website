@@ -690,7 +690,7 @@ export function Drone({ accent = '#00c8e8', spin = true, ...props }) {
 function StudioEnvironment({ accent }) {
   return (
     <Environment resolution={256} frames={1}>
-      <color attach="background" args={['#05070d']} />
+      <color attach="background" args={['#04090c']} />
       {/* overhead key */}
       <Lightformer form="rect" intensity={3.4} position={[0, 5, 1]} scale={[10, 5, 1]} rotation={[Math.PI / 2, 0, 0]} />
       {/* cool cyan rim from behind-left */}
@@ -716,6 +716,8 @@ export default function DroneScene({
   bloom = 1.5,
   grid = true,
   controls = true,
+  cameraPosition = [3.8, 2.55, 5.9],
+  cameraFov = 37,
   frameloop = 'always',
   onCreated,
   className,
@@ -732,10 +734,10 @@ export default function DroneScene({
       frameloop={frameloop}
       onCreated={onCreated}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
-      camera={{ position: [3.0, 2.05, 4.7], fov: 35, near: 0.1, far: 60 }}
+      camera={{ position: cameraPosition, fov: cameraFov, near: 0.1, far: 60 }}
     >
-      <color attach="background" args={['#05070d']} />
-      <fog attach="fog" args={['#05070d', 11, 26]} />
+      <color attach="background" args={['#04090c']} />
+      <fog attach="fog" args={['#04090c', 11, 26]} />
 
       {/* scene lighting — the environment does the heavy lifting */}
       <ambientLight intensity={0.22} />

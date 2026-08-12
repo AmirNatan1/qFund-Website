@@ -1667,11 +1667,13 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 
 .qf-reveal {
   opacity: 0;
-  transform: translateY(1.6rem);
-  transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translate3d(0, 2.15rem, 0) scale(0.992);
+  transition:
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 880ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.qf-reveal.is-visible { opacity: 1; transform: translateY(0); }
+.qf-reveal.is-visible { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 .qf-industry-card.qf-reveal,
 .qf-team-card.qf-reveal { transition-delay: calc(var(--card-index) * 65ms); }
 

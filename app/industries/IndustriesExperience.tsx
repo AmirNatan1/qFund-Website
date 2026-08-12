@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import IndustryModelStage from "./IndustryModelStage";
+import IndustryModelStage, { scheduleIndustryAssetPreload } from "./IndustryModelStage";
 import { industryChapters, pendingIndustryModelCount, suppliedIndustryModelCount } from "./industryConfig";
 
 const LAST_CHAPTER_INDEX = industryChapters.length - 1;
@@ -22,10 +22,12 @@ export default function IndustriesExperience() {
   const scrollingRef = useRef(false);
   const immersiveRef = useRef(false);
   const metricsRef = useRef<StoryMetrics | null>(null);
-  const targetRenderWindowRef = useRef(EMPTY_RENDER_WINDOW);
+  const activeIndexRef = useRef(0);
+  const renderWindowRef = useRef(EMPTY_RENDER_WINDOW);
   const [activeIndex, setActiveIndex] = useState(0);
   const [renderWindow, setRenderWindow] = useState(EMPTY_RENDER_WINDOW);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [isImmersive, setIsImmersive] = useState(false);
 
   const measureStory = useCallback(() => {
     const story = storyRef.current;
@@ -43,13 +45,6 @@ export default function IndustriesExperience() {
     return metrics;
   }, []);
 
-  const commitRenderWindow = useCallback(() => {
-    const next = targetRenderWindowRef.current;
-    setRenderWindow((current) => (
-      current.start === next.start && current.end === next.end ? current : next
-    ));
-  }, []);
-
   const updatePosition = useCallback(() => {
     const story = storyRef.current;
     const track = trackRef.current;
@@ -64,28 +59,34 @@ export default function IndustriesExperience() {
     const viewportTop = metrics.storyTop - scrollY;
     const viewportBottom = viewportTop + metrics.storyHeight;
     const storyIsNearViewport = viewportBottom > -metrics.viewportHeight * 0.25
-      && viewportTop < metrics.viewportHeight * 1.75;
+      && viewportTop < metrics.viewportHeight * 3.25;
     const immersive = scrollY >= metrics.storyTop && scrollY <= metrics.storyTop + metrics.travel;
-    const chapterPosition = progress * LAST_CHAPTER_INDEX;
-    const nearestChapter = Math.round(chapterPosition);
-    const renderPosition = Math.abs(chapterPosition - nearestChapter) < 0.025 ? nearestChapter : chapterPosition;
     const nextRenderWindow = storyIsNearViewport
       ? {
-          start: Math.max(0, Math.floor(renderPosition)),
-          end: Math.min(LAST_CHAPTER_INDEX, Math.ceil(renderPosition)),
+          start: Math.max(0, nextIndex - 1),
+          end: Math.min(LAST_CHAPTER_INDEX, nextIndex + 1),
         }
       : { start: -1, end: -1 };
 
     track.style.transform = `translate3d(${x}px, 0, 0)`;
     story.style.setProperty("--qf-industry-progress", String(progress));
-    targetRenderWindowRef.current = nextRenderWindow;
     if (immersiveRef.current !== immersive) {
       immersiveRef.current = immersive;
+      setIsImmersive(immersive);
       document.documentElement.classList.toggle("qf-industries-immersive", immersive);
     }
-    setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
-    if (!scrollingRef.current) commitRenderWindow();
-  }, [commitRenderWindow, measureStory]);
+    if (activeIndexRef.current !== nextIndex) {
+      activeIndexRef.current = nextIndex;
+      setActiveIndex(nextIndex);
+    }
+    if (
+      renderWindowRef.current.start !== nextRenderWindow.start
+      || renderWindowRef.current.end !== nextRenderWindow.end
+    ) {
+      renderWindowRef.current = nextRenderWindow;
+      setRenderWindow(nextRenderWindow);
+    }
+  }, [measureStory]);
 
   useEffect(() => {
     let frame = 0;
@@ -106,7 +107,6 @@ export default function IndustriesExperience() {
       scrollEndTimerRef.current = window.setTimeout(() => {
         scrollingRef.current = false;
         setIsScrolling(false);
-        commitRenderWindow();
       }, 140);
       requestUpdate();
     };
@@ -123,8 +123,10 @@ export default function IndustriesExperience() {
     window.addEventListener("load", refreshMetrics, { once: true });
     measureStory();
     updatePosition();
+    const cancelPreload = scheduleIndustryAssetPreload();
 
     return () => {
+      cancelPreload();
       window.cancelAnimationFrame(frame);
       window.clearTimeout(scrollEndTimerRef.current);
       observer.disconnect();
@@ -133,7 +135,7 @@ export default function IndustriesExperience() {
       window.removeEventListener("load", refreshMetrics);
       document.documentElement.classList.remove("qf-industries-immersive");
     };
-  }, [commitRenderWindow, measureStory, updatePosition]);
+  }, [measureStory, updatePosition]);
 
   const goToChapter = (index: number) => {
     const story = storyRef.current;
@@ -181,7 +183,7 @@ export default function IndustriesExperience() {
                 <IndustryModelStage
                   chapter={chapter}
                   shouldRender={index >= renderWindow.start && index <= renderWindow.end}
-                  paused={isScrolling}
+                  paused={isScrolling || !isImmersive || activeIndex !== index}
                 />
                 <div className="qf-industry-copy">
                   <div className="qf-industry-copy-meta">

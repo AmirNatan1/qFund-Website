@@ -16,11 +16,67 @@ import * as THREE from "three";
 import type { Group } from "three";
 import type { IndustryChapter, IndustryModelConfig, IndustryModelId } from "./industryConfig";
 
-const DatacenterScene = dynamic(() => import("../../3D Objects/DatacenterScene.jsx"), { ssr: false });
-const DroneScene = dynamic(() => import("../../3D Objects/Drone.jsx"), { ssr: false });
-const NuclearPlantComplex = dynamic(() => import("../../3D Objects/NuclearPlantComplex.jsx"), { ssr: false });
-const ParticleAcceleratorScene = dynamic(() => import("../../3D Objects/ParticleAccelerator.jsx"), { ssr: false });
-const SatelliteScene = dynamic(() => import("../../3D Objects/SatelliteScene.jsx"), { ssr: false });
+const loadDatacenterScene = () => import("../../3D Objects/DatacenterScene.jsx");
+const loadDroneScene = () => import("../../3D Objects/Drone.jsx");
+const loadNuclearPlant = () => import("../../3D Objects/NuclearPlantComplex.jsx");
+const loadParticleAccelerator = () => import("../../3D Objects/ParticleAccelerator.jsx");
+const loadSatelliteScene = () => import("../../3D Objects/SatelliteScene.jsx");
+
+const DatacenterScene = dynamic(loadDatacenterScene, { ssr: false });
+const DroneScene = dynamic(loadDroneScene, { ssr: false });
+const NuclearPlantComplex = dynamic(loadNuclearPlant, { ssr: false });
+const ParticleAcceleratorScene = dynamic(loadParticleAccelerator, { ssr: false });
+const SatelliteScene = dynamic(loadSatelliteScene, { ssr: false });
+
+const sceneModuleLoaders = [
+  loadDroneScene,
+  loadDatacenterScene,
+  loadSatelliteScene,
+  loadParticleAccelerator,
+  loadNuclearPlant,
+];
+
+let assetPreloadStarted = false;
+
+/**
+ * Warm each scene during separate browser-idle windows. This keeps the industry
+ * chapter transition instant without turning initial hydration into one long task.
+ */
+export function scheduleIndustryAssetPreload() {
+  if (typeof window === "undefined" || assetPreloadStarted) return () => undefined;
+  assetPreloadStarted = true;
+
+  useGLTF.preload("/3d/quantum-computer.glb");
+
+  let cancelled = false;
+  let loaderIndex = 0;
+  let idleHandle = 0;
+  let timeoutHandle: ReturnType<typeof globalThis.setTimeout> | undefined;
+
+  const runNext = () => {
+    if (cancelled || loaderIndex >= sceneModuleLoaders.length) return;
+    void sceneModuleLoaders[loaderIndex++]().catch(() => undefined);
+    scheduleNext();
+  };
+
+  const scheduleNext = () => {
+    if (cancelled || loaderIndex >= sceneModuleLoaders.length) return;
+    if ("requestIdleCallback" in window) {
+      idleHandle = window.requestIdleCallback(runNext, { timeout: 2400 });
+    } else {
+      timeoutHandle = globalThis.setTimeout(runNext, 120);
+    }
+  };
+
+  scheduleNext();
+
+  return () => {
+    cancelled = true;
+    if (loaderIndex < sceneModuleLoaders.length) assetPreloadStarted = false;
+    if (idleHandle) window.cancelIdleCallback(idleHandle);
+    if (timeoutHandle) globalThis.clearTimeout(timeoutHandle);
+  };
+}
 
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -90,7 +146,7 @@ function QuantumComputerScene({
         gl.toneMappingExposure = 1.08;
       }}
     >
-      <color attach="background" args={["#04090d"]} />
+      <color attach="background" args={["#04090c"]} />
       <ambientLight intensity={0.46} color="#8bbbc4" />
       <directionalLight position={[5, 7, 4]} intensity={2.6} color="#e1fbff" />
       <directionalLight position={[-5, 1, -4]} intensity={1.4} color="#258bbd" />
@@ -133,6 +189,7 @@ function ModelRenderer({
     case "quantum-computer":
       return <QuantumComputerScene model={model} reducedMotion={reducedMotion} paused={paused} />;
     case "drone":
+      const droneCamera = model.framing.camera ?? { position: [3.8, 2.55, 5.9] as const, fov: 37 };
       return (
         <DroneScene
           accent="#22c7cb"
@@ -140,6 +197,8 @@ function ModelRenderer({
           bloom={Number(model.renderOptions.bloom ?? 1.25)}
           grid={Boolean(model.renderOptions.grid)}
           controls
+          cameraPosition={[...droneCamera.position]}
+          cameraFov={droneCamera.fov}
           frameloop={paused ? "demand" : "always"}
           onCreated={undefined}
           className={undefined}
@@ -185,9 +244,9 @@ function ModelRenderer({
           steam={!reducedMotion && !paused && Boolean(model.renderOptions.steam)}
           bloomIntensity={Number(model.renderOptions.bloomIntensity ?? 0.85)}
           environmentPreset={undefined}
-          backgroundTop={String(model.renderOptions.backgroundTop ?? "#102638")}
-          backgroundBottom={String(model.renderOptions.backgroundBottom ?? "#03070b")}
-          fogColor={String(model.renderOptions.fogColor ?? "#071019")}
+          backgroundTop={String(model.renderOptions.backgroundTop ?? "#04090c")}
+          backgroundBottom={String(model.renderOptions.backgroundBottom ?? "#04090c")}
+          fogColor={String(model.renderOptions.fogColor ?? "#04090c")}
           frameloop={paused ? "demand" : "always"}
           className={undefined}
           style={undefined}

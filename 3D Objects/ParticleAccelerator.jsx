@@ -46,7 +46,7 @@ const C = {
   beamHot: '#c9f7ff',
   magenta: '#ff2fa0',
   violet: '#7d5cff',
-  void: '#04060b',
+  void: '#04090c',
 }
 
 /* shared materials — one instance, reused across hundreds of meshes */
