@@ -5,28 +5,67 @@ import IndustryModelStage from "./IndustryModelStage";
 import { industryChapters, pendingIndustryModelCount, suppliedIndustryModelCount } from "./industryConfig";
 
 const LAST_CHAPTER_INDEX = industryChapters.length - 1;
+const EMPTY_RENDER_WINDOW = { start: -1, end: -1 };
+
+type StoryMetrics = {
+  storyTop: number;
+  storyHeight: number;
+  travel: number;
+  viewportWidth: number;
+  viewportHeight: number;
+};
 
 export default function IndustriesExperience() {
   const storyRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const scrollEndTimerRef = useRef<number>(0);
   const scrollingRef = useRef(false);
+  const immersiveRef = useRef(false);
+  const metricsRef = useRef<StoryMetrics | null>(null);
+  const targetRenderWindowRef = useRef(EMPTY_RENDER_WINDOW);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [renderWindow, setRenderWindow] = useState({ start: -1, end: -1 });
+  const [renderWindow, setRenderWindow] = useState(EMPTY_RENDER_WINDOW);
   const [isScrolling, setIsScrolling] = useState(false);
+
+  const measureStory = useCallback(() => {
+    const story = storyRef.current;
+    if (!story) return null;
+    const bounds = story.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const metrics = {
+      storyTop: window.scrollY + bounds.top,
+      storyHeight: story.offsetHeight,
+      travel: Math.max(1, story.offsetHeight - viewportHeight),
+      viewportWidth: window.innerWidth,
+      viewportHeight,
+    };
+    metricsRef.current = metrics;
+    return metrics;
+  }, []);
+
+  const commitRenderWindow = useCallback(() => {
+    const next = targetRenderWindowRef.current;
+    setRenderWindow((current) => (
+      current.start === next.start && current.end === next.end ? current : next
+    ));
+  }, []);
 
   const updatePosition = useCallback(() => {
     const story = storyRef.current;
     const track = trackRef.current;
     if (!story || !track) return;
 
-    const bounds = story.getBoundingClientRect();
-    const storyTop = window.scrollY + bounds.top;
-    const travel = Math.max(1, story.offsetHeight - window.innerHeight);
-    const progress = Math.min(1, Math.max(0, (window.scrollY - storyTop) / travel));
-    const x = -progress * LAST_CHAPTER_INDEX * window.innerWidth;
+    const metrics = metricsRef.current ?? measureStory();
+    if (!metrics) return;
+    const scrollY = window.scrollY;
+    const progress = Math.min(1, Math.max(0, (scrollY - metrics.storyTop) / metrics.travel));
+    const x = Math.round(-progress * LAST_CHAPTER_INDEX * metrics.viewportWidth * 2) / 2;
     const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, Math.round(progress * LAST_CHAPTER_INDEX)));
-    const storyIsNearViewport = bounds.bottom > -window.innerHeight * 0.25 && bounds.top < window.innerHeight * 1.75;
+    const viewportTop = metrics.storyTop - scrollY;
+    const viewportBottom = viewportTop + metrics.storyHeight;
+    const storyIsNearViewport = viewportBottom > -metrics.viewportHeight * 0.25
+      && viewportTop < metrics.viewportHeight * 1.75;
+    const immersive = scrollY >= metrics.storyTop && scrollY <= metrics.storyTop + metrics.travel;
     const chapterPosition = progress * LAST_CHAPTER_INDEX;
     const nearestChapter = Math.round(chapterPosition);
     const renderPosition = Math.abs(chapterPosition - nearestChapter) < 0.025 ? nearestChapter : chapterPosition;
@@ -39,13 +78,14 @@ export default function IndustriesExperience() {
 
     track.style.transform = `translate3d(${x}px, 0, 0)`;
     story.style.setProperty("--qf-industry-progress", String(progress));
+    targetRenderWindowRef.current = nextRenderWindow;
+    if (immersiveRef.current !== immersive) {
+      immersiveRef.current = immersive;
+      document.documentElement.classList.toggle("qf-industries-immersive", immersive);
+    }
     setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
-    setRenderWindow((current) => (
-      current.start === nextRenderWindow.start && current.end === nextRenderWindow.end
-        ? current
-        : nextRenderWindow
-    ));
-  }, []);
+    if (!scrollingRef.current) commitRenderWindow();
+  }, [commitRenderWindow, measureStory]);
 
   useEffect(() => {
     let frame = 0;
@@ -66,14 +106,22 @@ export default function IndustriesExperience() {
       scrollEndTimerRef.current = window.setTimeout(() => {
         scrollingRef.current = false;
         setIsScrolling(false);
+        commitRenderWindow();
       }, 140);
       requestUpdate();
     };
 
-    const observer = new ResizeObserver(requestUpdate);
+    const refreshMetrics = () => {
+      measureStory();
+      requestUpdate();
+    };
+
+    const observer = new ResizeObserver(refreshMetrics);
     if (storyRef.current) observer.observe(storyRef.current);
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", requestUpdate, { passive: true });
+    window.addEventListener("resize", refreshMetrics, { passive: true });
+    window.addEventListener("load", refreshMetrics, { once: true });
+    measureStory();
     updatePosition();
 
     return () => {
@@ -81,18 +129,20 @@ export default function IndustriesExperience() {
       window.clearTimeout(scrollEndTimerRef.current);
       observer.disconnect();
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", requestUpdate);
+      window.removeEventListener("resize", refreshMetrics);
+      window.removeEventListener("load", refreshMetrics);
+      document.documentElement.classList.remove("qf-industries-immersive");
     };
-  }, [updatePosition]);
+  }, [commitRenderWindow, measureStory, updatePosition]);
 
   const goToChapter = (index: number) => {
     const story = storyRef.current;
     if (!story) return;
-    const storyTop = window.scrollY + story.getBoundingClientRect().top;
-    const travel = Math.max(1, story.offsetHeight - window.innerHeight);
+    const metrics = metricsRef.current ?? measureStory();
+    if (!metrics) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({
-      top: storyTop + (index / LAST_CHAPTER_INDEX) * travel,
+      top: metrics.storyTop + (index / LAST_CHAPTER_INDEX) * metrics.travel,
       behavior: reduced ? "auto" : "smooth",
     });
   };

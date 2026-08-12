@@ -82,7 +82,7 @@ function QuantumComputerScene({
   return (
     <Canvas
       camera={{ position: [...camera.position], fov: camera.fov, near: 0.05, far: 300 }}
-      dpr={[1, 1.35]}
+      dpr={[1, 1.25]}
       frameloop={paused ? "demand" : "always"}
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {

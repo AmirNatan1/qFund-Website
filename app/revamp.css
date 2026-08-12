@@ -152,6 +152,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   transform: scaleX(var(--page-progress));
   transform-origin: left;
   will-change: transform;
+  transition: opacity 160ms ease;
 }
 
 .qf-header {
@@ -166,7 +167,24 @@ body:has(a:hover, button:hover) .qf-cursor span {
   padding: 0 3.5vw;
   border-bottom: 1px solid rgba(6, 43, 47, 0.13);
   background: rgba(245, 248, 245, 0.97);
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 160ms ease,
+    visibility 0s linear;
 }
+
+html.qf-industries-immersive .qf-header {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, -105%, 0);
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 160ms ease,
+    visibility 0s linear 240ms;
+}
+
+html.qf-industries-immersive .qf-progress { opacity: 0; }
 
 .qf-logo {
   justify-self: start;
@@ -913,6 +931,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   display: flex;
   width: max-content;
   height: 100%;
+  backface-visibility: hidden;
   will-change: transform;
 }
 
@@ -924,6 +943,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   grid-template-columns: minmax(0, 1.45fr) minmax(24rem, 0.85fr);
   width: 100vw;
   height: 100%;
+  contain: layout paint style;
   overflow: hidden;
   background:
     radial-gradient(circle at 40% 50%, color-mix(in srgb, var(--qf-industry-accent) 13%, transparent), transparent 36%),

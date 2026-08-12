@@ -906,7 +906,7 @@ export default function DatacenterScene({ className, style, spin = 0.075, framel
     <Canvas
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
-      dpr={[1, 1.35]}
+      dpr={[1, 1.25]}
       frameloop={frameloop}
       shadows={false}
       gl={{ antialias: false, powerPreference: 'high-performance', alpha: false }}

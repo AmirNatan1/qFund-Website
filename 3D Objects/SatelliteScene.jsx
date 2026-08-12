@@ -972,7 +972,7 @@ export default function SatelliteScene({
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
       shadows
-      dpr={[1, 1.35]}
+      dpr={[1, 1.25]}
       frameloop={frameloop}
       camera={{ position: [5.6, 2.6, 9.9], fov: 34, near: 0.1, far: 400 }}
       gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}

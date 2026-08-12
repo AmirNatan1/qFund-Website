@@ -80,18 +80,25 @@ test("keeps wheel scrolling available while preserving drag rotation on every su
 });
 
 test("limits live rendering to visible chapters and pauses animation during scroll", async () => {
-  const [experience, stage, homepage, nuclear] = await Promise.all([
+  const [experience, stage, homepage, nuclear, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("NuclearPlantComplex.jsx", sourceUrl), "utf8"),
+    readFile(new URL("../app/revamp.css", import.meta.url), "utf8"),
   ]);
 
   assert.match(experience, /renderWindow/);
   assert.match(experience, /storyIsNearViewport/);
   assert.match(experience, /paused=\{isScrolling\}/);
+  assert.match(experience, /metricsRef/);
+  assert.match(experience, /if \(!scrollingRef\.current\) commitRenderWindow\(\)/);
+  assert.match(experience, /classList\.toggle\("qf-industries-immersive", immersive\)/);
   assert.match(stage, /frameloop=\{paused \? "demand" : "always"\}/);
   assert.match(homepage, /visibilityObserver/);
   assert.match(nuclear, /frames=\{1\}/);
   assert.match(nuclear, /backgroundTop = '#102638'/);
+  assert.match(styles, /html\.qf-industries-immersive \.qf-header/);
+  assert.match(styles, /translate3d\(0, -105%, 0\)/);
+  assert.match(styles, /contain: layout paint style/);
 });
