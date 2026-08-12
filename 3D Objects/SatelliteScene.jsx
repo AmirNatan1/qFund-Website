@@ -963,6 +963,7 @@ export default function SatelliteScene({
   bloom = 1.5,
   spin = 0.12,
   stars = true,
+  frameloop = 'always',
   style,
   className,
 }) {
@@ -971,7 +972,8 @@ export default function SatelliteScene({
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
       shadows
-      dpr={[1, 1.8]}
+      dpr={[1, 1.35]}
+      frameloop={frameloop}
       camera={{ position: [5.6, 2.6, 9.9], fov: 34, near: 0.1, far: 400 }}
       gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
       onCreated={({ gl, scene }) => {
@@ -993,13 +995,14 @@ export default function SatelliteScene({
         enableDamping
         dampingFactor={0.06}
         enablePan={false}
+        enableZoom={false}
         minDistance={5}
         maxDistance={26}
         minPolarAngle={0.25}
         maxPolarAngle={Math.PI - 0.25}
       />
 
-      <EffectComposer multisampling={4}>
+      <EffectComposer multisampling={2}>
         <Bloom
           intensity={bloom}
           luminanceThreshold={0.8}

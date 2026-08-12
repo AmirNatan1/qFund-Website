@@ -165,8 +165,7 @@ body:has(a:hover, button:hover) .qf-cursor span {
   height: 5.6rem;
   padding: 0 3.5vw;
   border-bottom: 1px solid rgba(6, 43, 47, 0.13);
-  background: rgba(245, 248, 245, 0.9);
-  backdrop-filter: blur(14px);
+  background: rgba(245, 248, 245, 0.97);
 }
 
 .qf-logo {
@@ -968,9 +967,12 @@ body:has(a:hover, button:hover) .qf-cursor span {
 }
 
 .qf-industry-stage canvas {
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: grab;
   touch-action: pan-y;
 }
+
+.qf-industry-stage canvas:active { cursor: grabbing; }
 
 .qf-industry-stage-vignette {
   position: absolute;

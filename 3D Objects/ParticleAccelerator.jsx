@@ -756,6 +756,7 @@ export function ParticleAcceleratorScene({
   accentColor = C.magenta,
   bloomIntensity = 2.0,
   showGrid = true,
+  frameloop = 'always',
   className,
   style,
 }) {
@@ -764,8 +765,9 @@ export function ParticleAcceleratorScene({
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
       shadows
-      dpr={[1, 1.75]}
-      gl={{ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: true }}
+      dpr={[1, 1.35]}
+      frameloop={frameloop}
+      gl={{ antialias: true, powerPreference: 'high-performance' }}
       camera={{ position: [12, 4.6, 16.2], fov: 44, near: 0.1, far: 260 }}
     >
       <color attach="background" args={[C.void]} />
@@ -801,6 +803,8 @@ export function ParticleAcceleratorScene({
       <OrbitControls
         enableDamping
         dampingFactor={0.06}
+        enablePan={false}
+        enableZoom={false}
         minDistance={9}
         maxDistance={70}
         maxPolarAngle={Math.PI / 2.05}

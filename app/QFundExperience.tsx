@@ -135,6 +135,8 @@ function FrontierField() {
     let width = 1;
     let height = 1;
     let frame = 0;
+    let fieldVisible = false;
+    let pageVisible = !document.hidden;
 
     const render = (time: number) => {
       const seconds = time / 1000;
@@ -258,7 +260,7 @@ function FrontierField() {
       const bounds = field.getBoundingClientRect();
       width = Math.max(1, bounds.width);
       height = Math.max(1, bounds.height);
-      const density = Math.min(window.devicePixelRatio || 1, 1.75);
+      const density = Math.min(window.devicePixelRatio || 1, 1.4);
       canvas.width = Math.round(width * density);
       canvas.height = Math.round(height * density);
       canvas.style.width = `${width}px`;
@@ -268,8 +270,21 @@ function FrontierField() {
     };
 
     const animate = (time: number) => {
+      frame = 0;
+      if (reduced || !fieldVisible || !pageVisible) return;
       render(time);
       frame = window.requestAnimationFrame(animate);
+    };
+
+    const startAnimation = () => {
+      if (!reduced && fieldVisible && pageVisible && !frame) {
+        frame = window.requestAnimationFrame(animate);
+      }
+    };
+
+    const stopAnimation = () => {
+      window.cancelAnimationFrame(frame);
+      frame = 0;
     };
 
     const onPointerMove = (event: PointerEvent) => {
@@ -292,15 +307,31 @@ function FrontierField() {
     };
 
     const observer = new ResizeObserver(resize);
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        fieldVisible = entry.isIntersecting;
+        if (fieldVisible) startAnimation();
+        else stopAnimation();
+      },
+      { rootMargin: "12%" },
+    );
+    const onVisibilityChange = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) startAnimation();
+      else stopAnimation();
+    };
     observer.observe(field);
+    visibilityObserver.observe(field);
+    document.addEventListener("visibilitychange", onVisibilityChange);
     field.addEventListener("pointermove", onPointerMove, { passive: true });
     field.addEventListener("pointerleave", onPointerLeave, { passive: true });
     resize();
-    if (!reduced) frame = window.requestAnimationFrame(animate);
 
     return () => {
-      window.cancelAnimationFrame(frame);
+      stopAnimation();
       observer.disconnect();
+      visibilityObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       field.removeEventListener("pointermove", onPointerMove);
       field.removeEventListener("pointerleave", onPointerLeave);
     };

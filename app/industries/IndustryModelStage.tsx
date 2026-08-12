@@ -36,14 +36,22 @@ function useReducedMotion() {
   return reduced;
 }
 
-function QuantumComputerObject({ model, reducedMotion }: { model: IndustryModelConfig; reducedMotion: boolean }) {
+function QuantumComputerObject({
+  model,
+  reducedMotion,
+  paused,
+}: {
+  model: IndustryModelConfig;
+  reducedMotion: boolean;
+  paused: boolean;
+}) {
   const group = useRef<Group>(null);
   const { scene } = useGLTF(model.publicPath ?? "/3d/quantum-computer.glb");
   const clonedScene = useMemo(() => scene.clone(true), [scene]);
   const rotation = model.framing.rotation ?? [0, 0, 0];
 
   useFrame((_, delta) => {
-    if (!reducedMotion && group.current) {
+    if (!reducedMotion && !paused && group.current) {
       group.current.rotation.y += delta * Number(model.renderOptions.autoRotateSpeed ?? 0.18);
     }
   });
@@ -60,13 +68,22 @@ function QuantumComputerObject({ model, reducedMotion }: { model: IndustryModelC
   );
 }
 
-function QuantumComputerScene({ model, reducedMotion }: { model: IndustryModelConfig; reducedMotion: boolean }) {
+function QuantumComputerScene({
+  model,
+  reducedMotion,
+  paused,
+}: {
+  model: IndustryModelConfig;
+  reducedMotion: boolean;
+  paused: boolean;
+}) {
   const camera = model.framing.camera ?? { position: [4.8, 3.1, 6.4] as const, fov: 34 };
 
   return (
     <Canvas
       camera={{ position: [...camera.position], fov: camera.fov, near: 0.05, far: 300 }}
-      dpr={[1, 1.7]}
+      dpr={[1, 1.35]}
+      frameloop={paused ? "demand" : "always"}
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
@@ -84,30 +101,46 @@ function QuantumComputerScene({ model, reducedMotion }: { model: IndustryModelCo
       <Suspense fallback={null}>
         <Bounds fit clip observe margin={1.18}>
           <Center>
-            <QuantumComputerObject model={model} reducedMotion={reducedMotion} />
+            <QuantumComputerObject model={model} reducedMotion={reducedMotion} paused={paused} />
           </Center>
         </Bounds>
       </Suspense>
       <ContactShadows position={[0, -1.6, 0]} opacity={0.48} scale={11} blur={2.4} far={4} color="#000407" />
-      <OrbitControls makeDefault enablePan={false} enableZoom={false} enableRotate={false} />
+      <OrbitControls
+        makeDefault
+        enablePan={false}
+        enableZoom={false}
+        enableRotate
+        enableDamping
+        dampingFactor={0.06}
+      />
     </Canvas>
   );
 }
 
-function ModelRenderer({ model, reducedMotion }: { model: IndustryModelConfig; reducedMotion: boolean }) {
+function ModelRenderer({
+  model,
+  reducedMotion,
+  paused,
+}: {
+  model: IndustryModelConfig;
+  reducedMotion: boolean;
+  paused: boolean;
+}) {
   const id: IndustryModelId = model.id;
 
   switch (id) {
     case "quantum-computer":
-      return <QuantumComputerScene model={model} reducedMotion={reducedMotion} />;
+      return <QuantumComputerScene model={model} reducedMotion={reducedMotion} paused={paused} />;
     case "drone":
       return (
         <DroneScene
           accent="#22c7cb"
-          spin={!reducedMotion && Boolean(model.renderOptions.spin)}
+          spin={!reducedMotion && !paused && Boolean(model.renderOptions.spin)}
           bloom={Number(model.renderOptions.bloom ?? 1.25)}
           grid={Boolean(model.renderOptions.grid)}
-          controls={false}
+          controls
+          frameloop={paused ? "demand" : "always"}
           onCreated={undefined}
           className={undefined}
           style={undefined}
@@ -116,7 +149,8 @@ function ModelRenderer({ model, reducedMotion }: { model: IndustryModelConfig; r
     case "datacenter":
       return (
         <DatacenterScene
-          spin={reducedMotion ? 0 : Number(model.renderOptions.spin ?? 0.075)}
+          spin={reducedMotion || paused ? 0 : Number(model.renderOptions.spin ?? 0.075)}
+          frameloop={paused ? "demand" : "always"}
           className={undefined}
           style={undefined}
         />
@@ -125,8 +159,9 @@ function ModelRenderer({ model, reducedMotion }: { model: IndustryModelConfig; r
       return (
         <SatelliteScene
           bloom={Number(model.renderOptions.bloom ?? 1.25)}
-          spin={reducedMotion ? 0 : Number(model.renderOptions.spin ?? 0.1)}
+          spin={reducedMotion || paused ? 0 : Number(model.renderOptions.spin ?? 0.1)}
           stars={Boolean(model.renderOptions.stars)}
+          frameloop={paused ? "demand" : "always"}
           className={undefined}
           style={undefined}
         />
@@ -134,10 +169,11 @@ function ModelRenderer({ model, reducedMotion }: { model: IndustryModelConfig; r
     case "particle-accelerator":
       return (
         <ParticleAcceleratorScene
-          autoRotate={!reducedMotion && Boolean(model.renderOptions.autoRotate)}
+          autoRotate={!reducedMotion && !paused && Boolean(model.renderOptions.autoRotate)}
           bloomIntensity={Number(model.renderOptions.bloomIntensity ?? 1.55)}
           showGrid={Boolean(model.renderOptions.showGrid)}
           envPreset={null}
+          frameloop={paused ? "demand" : "always"}
           className={undefined}
           style={undefined}
         />
@@ -145,10 +181,14 @@ function ModelRenderer({ model, reducedMotion }: { model: IndustryModelConfig; r
     case "nuclear-plant":
       return (
         <NuclearPlantComplex
-          rotationSpeed={reducedMotion ? 0 : Number(model.renderOptions.rotationSpeed ?? 0.055)}
-          steam={!reducedMotion && Boolean(model.renderOptions.steam)}
+          rotationSpeed={reducedMotion || paused ? 0 : Number(model.renderOptions.rotationSpeed ?? 0.055)}
+          steam={!reducedMotion && !paused && Boolean(model.renderOptions.steam)}
           bloomIntensity={Number(model.renderOptions.bloomIntensity ?? 0.85)}
           environmentPreset={undefined}
+          backgroundTop={String(model.renderOptions.backgroundTop ?? "#102638")}
+          backgroundBottom={String(model.renderOptions.backgroundBottom ?? "#03070b")}
+          fogColor={String(model.renderOptions.fogColor ?? "#071019")}
+          frameloop={paused ? "demand" : "always"}
           className={undefined}
           style={undefined}
         />
@@ -175,7 +215,15 @@ function AtmosphericFallback({ chapter, waiting }: { chapter: IndustryChapter; w
   );
 }
 
-export default function IndustryModelStage({ chapter, shouldRender }: { chapter: IndustryChapter; shouldRender: boolean }) {
+export default function IndustryModelStage({
+  chapter,
+  shouldRender,
+  paused,
+}: {
+  chapter: IndustryChapter;
+  shouldRender: boolean;
+  paused: boolean;
+}) {
   const reducedMotion = useReducedMotion();
   const model = chapter.model;
   const presentation = model?.presentation;
@@ -190,7 +238,7 @@ export default function IndustryModelStage({ chapter, shouldRender }: { chapter:
       {model && shouldRender ? (
         <div className="qf-industry-model-shell" style={style}>
           <Suspense fallback={<AtmosphericFallback chapter={chapter} waiting />}>
-            <ModelRenderer model={model} reducedMotion={reducedMotion} />
+            <ModelRenderer model={model} reducedMotion={reducedMotion} paused={paused} />
           </Suspense>
         </div>
       ) : (

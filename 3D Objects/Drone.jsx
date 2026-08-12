@@ -716,6 +716,7 @@ export default function DroneScene({
   bloom = 1.5,
   grid = true,
   controls = true,
+  frameloop = 'always',
   onCreated,
   className,
   style,
@@ -727,9 +728,10 @@ export default function DroneScene({
       className={className}
       style={{ width: '100%', height: '100%', ...style }}
       shadows
-      dpr={[1, 2]}
+      dpr={[1, 1.35]}
+      frameloop={frameloop}
       onCreated={onCreated}
-      gl={{ antialias: true, powerPreference: 'high-performance', preserveDrawingBuffer: true }}
+      gl={{ antialias: true, powerPreference: 'high-performance' }}
       camera={{ position: [3.0, 2.05, 4.7], fov: 35, near: 0.1, far: 60 }}
     >
       <color attach="background" args={['#05070d']} />
@@ -741,7 +743,7 @@ export default function DroneScene({
         position={[5, 8, 4]}
         intensity={1.5}
         castShadow
-        shadow-mapSize={[2048, 2048]}
+        shadow-mapSize={[1024, 1024]}
         shadow-bias={-0.0004}
       />
       <spotLight position={[-6, 4, -6]} angle={0.5} penumbra={1} intensity={28} color={accent} />
@@ -778,6 +780,7 @@ export default function DroneScene({
       {controls && (
         <OrbitControls
           enablePan={false}
+          enableZoom={false}
           enableDamping
           dampingFactor={0.06}
           minDistance={3.4}
@@ -788,7 +791,7 @@ export default function DroneScene({
         />
       )}
 
-      <EffectComposer multisampling={4}>
+      <EffectComposer multisampling={2}>
         <Bloom
           intensity={bloom}
           luminanceThreshold={0.8}

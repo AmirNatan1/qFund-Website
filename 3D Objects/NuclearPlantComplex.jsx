@@ -47,7 +47,7 @@ const C = {
   concreteStain: '#9aa0a4',
   pad: '#6a7077',
   gravel: '#4c525a',
-  ground: '#3c4149',
+  ground: '#171c22',
   gunmetal: '#39404a',
   steel: '#616a75',
   steelPale: '#8e98a4',
@@ -1295,7 +1295,7 @@ class SoftFail extends React.Component {
   }
 }
 
-function GradientSky({ top = '#5f7d9c', bottom = '#cfd9e2' }) {
+function GradientSky({ top = '#102638', bottom = '#03070b' }) {
   const mat = useMemo(
     () =>
       new THREE.ShaderMaterial({
@@ -1340,12 +1340,20 @@ function LazyEnvironment({ preset }) {
   );
 }
 
-function Scene({ rotationSpeed, steam, bloomIntensity, environmentPreset }) {
+function Scene({
+  rotationSpeed,
+  steam,
+  bloomIntensity,
+  environmentPreset,
+  backgroundTop,
+  backgroundBottom,
+  fogColor,
+}) {
   const sun = useRef();
   useLayoutEffect(() => {
     const l = sun.current;
     if (!l) return;
-    l.shadow.mapSize.set(2048, 2048);
+    l.shadow.mapSize.set(1024, 1024);
     const c = l.shadow.camera;
     c.left = -150; c.right = 150; c.top = 150; c.bottom = -150;
     c.near = 1; c.far = 460;
@@ -1356,16 +1364,16 @@ function Scene({ rotationSpeed, steam, bloomIntensity, environmentPreset }) {
 
   return (
     <>
-      <GradientSky />
-      <fog attach="fog" args={['#b8c6d3', 320, 900]} />
+      <GradientSky top={backgroundTop} bottom={backgroundBottom} />
+      <fog attach="fog" args={[fogColor, 300, 860]} />
 
-      <hemisphereLight args={['#cfe0f0', '#2b3038', 1.15]} />
+      <hemisphereLight args={['#8fb6cc', '#020407', 0.82]} />
       <directionalLight
         ref={sun}
         castShadow
         position={[120, 155, 80]}
-        intensity={2.5}
-        color="#fff4e2"
+        intensity={2.15}
+        color="#e4f3ff"
       />
       <directionalLight position={[-90, 60, -120]} intensity={0.55} color="#8fb6ff" />
 
@@ -1376,14 +1384,14 @@ function Scene({ rotationSpeed, steam, bloomIntensity, environmentPreset }) {
       <ContactShadows
         position={[0, 0.02, 0]}
         scale={340}
-        resolution={1024}
+        resolution={512}
         blur={3.4}
         opacity={0.28}
         far={40}
-        frames={Infinity}
+        frames={1}
       />
 
-      <EffectComposer disableNormalPass multisampling={4}>
+      <EffectComposer disableNormalPass multisampling={2}>
         <Bloom
           intensity={bloomIntensity}
           luminanceThreshold={0.92}
@@ -1406,37 +1414,24 @@ export default function NuclearPlantComplex({
   steam = true,
   bloomIntensity = 1.0,
   environmentPreset = 'city',
+  backgroundTop = '#102638',
+  backgroundBottom = '#03070b',
+  fogColor = '#071019',
+  frameloop = 'always',
   className,
   style,
 }) {
-  const shell = useRef();
-
-  // Some hosts (iframes, late-laid-out flex parents) swallow the first
-  // ResizeObserver tick, leaving the canvas at its 300x150 default. Nudge it.
-  useEffect(() => {
-    const kick = () => window.dispatchEvent(new Event('resize'));
-    const ro = new ResizeObserver(kick);
-    if (shell.current) ro.observe(shell.current);
-    const r1 = requestAnimationFrame(kick);
-    const t1 = setTimeout(kick, 120);
-    return () => {
-      ro.disconnect();
-      cancelAnimationFrame(r1);
-      clearTimeout(t1);
-    };
-  }, []);
-
   return (
     <div
-      ref={shell}
       className={className}
-      style={{ position: 'absolute', inset: 0, background: '#0b0f1a', ...style }}
+      style={{ position: 'absolute', inset: 0, background: backgroundBottom, ...style }}
     >
       <Canvas
         shadows
-        dpr={[1, 1.75]}
+        dpr={[1, 1.25]}
+        frameloop={frameloop}
         resize={{ scroll: false, debounce: { scroll: 0, resize: 0 } }}
-        gl={{ antialias: false, powerPreference: 'high-performance', preserveDrawingBuffer: true }}
+        gl={{ antialias: false, powerPreference: 'high-performance' }}
         camera={{ position: [206, 108, 226], fov: 26, near: 1, far: 2200 }}
         onCreated={({ gl, scene }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
@@ -1450,12 +1445,16 @@ export default function NuclearPlantComplex({
             steam={steam}
             bloomIntensity={bloomIntensity}
             environmentPreset={environmentPreset}
+            backgroundTop={backgroundTop}
+            backgroundBottom={backgroundBottom}
+            fogColor={fogColor}
           />
         </Suspense>
         <OrbitControls
           makeDefault
           target={[0, 15, 0]}
-          enablePan
+          enablePan={false}
+          enableZoom={false}
           enableDamping
           dampingFactor={0.06}
           minDistance={95}

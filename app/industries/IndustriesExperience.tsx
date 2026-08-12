@@ -9,7 +9,11 @@ const LAST_CHAPTER_INDEX = industryChapters.length - 1;
 export default function IndustriesExperience() {
   const storyRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const scrollEndTimerRef = useRef<number>(0);
+  const scrollingRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [renderWindow, setRenderWindow] = useState({ start: -1, end: -1 });
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const updatePosition = useCallback(() => {
     const story = storyRef.current;
@@ -22,10 +26,25 @@ export default function IndustriesExperience() {
     const progress = Math.min(1, Math.max(0, (window.scrollY - storyTop) / travel));
     const x = -progress * LAST_CHAPTER_INDEX * window.innerWidth;
     const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, Math.round(progress * LAST_CHAPTER_INDEX)));
+    const storyIsNearViewport = bounds.bottom > -window.innerHeight * 0.25 && bounds.top < window.innerHeight * 1.75;
+    const chapterPosition = progress * LAST_CHAPTER_INDEX;
+    const nearestChapter = Math.round(chapterPosition);
+    const renderPosition = Math.abs(chapterPosition - nearestChapter) < 0.025 ? nearestChapter : chapterPosition;
+    const nextRenderWindow = storyIsNearViewport
+      ? {
+          start: Math.max(0, Math.floor(renderPosition)),
+          end: Math.min(LAST_CHAPTER_INDEX, Math.ceil(renderPosition)),
+        }
+      : { start: -1, end: -1 };
 
     track.style.transform = `translate3d(${x}px, 0, 0)`;
     story.style.setProperty("--qf-industry-progress", String(progress));
     setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
+    setRenderWindow((current) => (
+      current.start === nextRenderWindow.start && current.end === nextRenderWindow.end
+        ? current
+        : nextRenderWindow
+    ));
   }, []);
 
   useEffect(() => {
@@ -38,16 +57,30 @@ export default function IndustriesExperience() {
       });
     };
 
+    const onScroll = () => {
+      if (!scrollingRef.current) {
+        scrollingRef.current = true;
+        setIsScrolling(true);
+      }
+      window.clearTimeout(scrollEndTimerRef.current);
+      scrollEndTimerRef.current = window.setTimeout(() => {
+        scrollingRef.current = false;
+        setIsScrolling(false);
+      }, 140);
+      requestUpdate();
+    };
+
     const observer = new ResizeObserver(requestUpdate);
     if (storyRef.current) observer.observe(storyRef.current);
-    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", requestUpdate, { passive: true });
     updatePosition();
 
     return () => {
       window.cancelAnimationFrame(frame);
+      window.clearTimeout(scrollEndTimerRef.current);
       observer.disconnect();
-      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", requestUpdate);
     };
   }, [updatePosition]);
@@ -95,7 +128,11 @@ export default function IndustriesExperience() {
                 aria-labelledby={`industry-title-${chapter.slug}`}
                 key={chapter.slug}
               >
-                <IndustryModelStage chapter={chapter} shouldRender={Math.abs(activeIndex - index) <= 1} />
+                <IndustryModelStage
+                  chapter={chapter}
+                  shouldRender={index >= renderWindow.start && index <= renderWindow.end}
+                  paused={isScrolling}
+                />
                 <div className="qf-industry-copy">
                   <div className="qf-industry-copy-meta">
                     <span>{chapter.code}</span>

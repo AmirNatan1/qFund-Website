@@ -56,3 +56,42 @@ test("publishes the supplied binary model through the static 3D asset path", asy
     access(new URL("dist/3d/quantum-computer.glb", rootUrl)),
   ]);
 });
+
+test("keeps wheel scrolling available while preserving drag rotation on every supplied scene", async () => {
+  const sceneFiles = [
+    "Drone.jsx",
+    "DatacenterScene.jsx",
+    "SatelliteScene.jsx",
+    "ParticleAccelerator.jsx",
+    "NuclearPlantComplex.jsx",
+  ];
+  const [stage, ...scenes] = await Promise.all([
+    readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
+    ...sceneFiles.map((file) => readFile(new URL(file, sourceUrl), "utf8")),
+  ]);
+
+  assert.match(stage, /enableZoom=\{false\}/);
+  assert.match(stage, /enableRotate/);
+  assert.match(stage, /controls/);
+  for (const [index, scene] of scenes.entries()) {
+    assert.match(scene, /enableZoom=\{false\}/, `${sceneFiles[index]} should not capture the wheel to zoom`);
+    assert.match(scene, /OrbitControls/, `${sceneFiles[index]} should retain drag rotation`);
+  }
+});
+
+test("limits live rendering to visible chapters and pauses animation during scroll", async () => {
+  const [experience, stage, homepage, nuclear] = await Promise.all([
+    readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8"),
+    readFile(new URL("NuclearPlantComplex.jsx", sourceUrl), "utf8"),
+  ]);
+
+  assert.match(experience, /renderWindow/);
+  assert.match(experience, /storyIsNearViewport/);
+  assert.match(experience, /paused=\{isScrolling\}/);
+  assert.match(stage, /frameloop=\{paused \? "demand" : "always"\}/);
+  assert.match(homepage, /visibilityObserver/);
+  assert.match(nuclear, /frames=\{1\}/);
+  assert.match(nuclear, /backgroundTop = '#102638'/);
+});
