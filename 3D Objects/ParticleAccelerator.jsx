@@ -765,7 +765,7 @@ export function ParticleAcceleratorScene({
       className={className}
       style={{ width: '100%', height: '100%', display: 'block', ...style }}
       shadows
-      dpr={[1, 1.25]}
+      dpr={1}
       frameloop={frameloop}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
       camera={{ position: [12, 4.6, 16.2], fov: 44, near: 0.1, far: 260 }}

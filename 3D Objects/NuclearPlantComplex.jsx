@@ -1428,7 +1428,7 @@ export default function NuclearPlantComplex({
     >
       <Canvas
         shadows
-        dpr={[1, 1.15]}
+        dpr={1}
         frameloop={frameloop}
         resize={{ scroll: false, debounce: { scroll: 0, resize: 0 } }}
         gl={{ antialias: false, powerPreference: 'high-performance' }}

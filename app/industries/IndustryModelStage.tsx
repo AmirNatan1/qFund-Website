@@ -28,54 +28,75 @@ const NuclearPlantComplex = dynamic(loadNuclearPlant, { ssr: false });
 const ParticleAcceleratorScene = dynamic(loadParticleAccelerator, { ssr: false });
 const SatelliteScene = dynamic(loadSatelliteScene, { ssr: false });
 
-const sceneModuleLoaders = [
-  loadDroneScene,
-  loadDatacenterScene,
-  loadSatelliteScene,
-  loadParticleAccelerator,
-  loadNuclearPlant,
+const scenePreloadTasks: ReadonlyArray<{
+  id: IndustryModelId;
+  load: () => Promise<unknown>;
+}> = [
+  { id: "drone", load: loadDroneScene },
+  { id: "datacenter", load: loadDatacenterScene },
+  { id: "satellite", load: loadSatelliteScene },
+  { id: "particle-accelerator", load: loadParticleAccelerator },
+  { id: "nuclear-plant", load: loadNuclearPlant },
 ];
 
+const renderReadyModelIds = new Set<IndustryModelId>();
+const preloadListeners = new Set<(modelId: IndustryModelId) => void>();
 let assetPreloadStarted = false;
 
+function announceRenderReady(modelId: IndustryModelId) {
+  renderReadyModelIds.add(modelId);
+  preloadListeners.forEach((listener) => listener(modelId));
+}
+
 /**
- * Warm each scene during separate browser-idle windows. This keeps the industry
- * chapter transition instant without turning initial hydration into one long task.
+ * Fetch every scene module immediately after hydration, then mount each scene
+ * during a separate browser-idle window. Mounting is what creates its WebGL
+ * context, procedural geometry, materials and first compiled frame; downloading
+ * the module alone is not enough to prevent a hitch during the horizontal story.
  */
-export function scheduleIndustryAssetPreload() {
-  if (typeof window === "undefined" || assetPreloadStarted) return () => undefined;
-  assetPreloadStarted = true;
+export function scheduleIndustryAssetPreload(onRenderReady: (modelId: IndustryModelId) => void) {
+  if (typeof window === "undefined") return () => undefined;
 
-  useGLTF.preload("/3d/quantum-computer.glb");
+  renderReadyModelIds.forEach(onRenderReady);
+  preloadListeners.add(onRenderReady);
 
-  let cancelled = false;
-  let loaderIndex = 0;
-  let idleHandle = 0;
-  let timeoutHandle: ReturnType<typeof globalThis.setTimeout> | undefined;
+  if (!assetPreloadStarted) {
+    assetPreloadStarted = true;
+    useGLTF.preload("/3d/quantum-computer.glb");
+    announceRenderReady("quantum-computer");
 
-  const runNext = () => {
-    if (cancelled || loaderIndex >= sceneModuleLoaders.length) return;
-    void sceneModuleLoaders[loaderIndex++]().catch(() => undefined);
+    // Start network fetch and module parsing now, before the visitor can reach
+    // Industries. The expensive scene mounts below remain staggered.
+    const moduleLoads = scenePreloadTasks.map(async (task) => {
+      try {
+        await task.load();
+        return task.id;
+      } catch {
+        return null;
+      }
+    });
+    let taskIndex = 0;
+
+    const runNext = async () => {
+      if (taskIndex >= moduleLoads.length) return;
+      const modelId = await moduleLoads[taskIndex++];
+      if (modelId) announceRenderReady(modelId);
+      scheduleNext();
+    };
+
+    const scheduleNext = () => {
+      if (taskIndex >= moduleLoads.length) return;
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(() => void runNext(), { timeout: 450 });
+      } else {
+        globalThis.setTimeout(() => void runNext(), 80);
+      }
+    };
+
     scheduleNext();
-  };
+  }
 
-  const scheduleNext = () => {
-    if (cancelled || loaderIndex >= sceneModuleLoaders.length) return;
-    if ("requestIdleCallback" in window) {
-      idleHandle = window.requestIdleCallback(runNext, { timeout: 2400 });
-    } else {
-      timeoutHandle = globalThis.setTimeout(runNext, 120);
-    }
-  };
-
-  scheduleNext();
-
-  return () => {
-    cancelled = true;
-    if (loaderIndex < sceneModuleLoaders.length) assetPreloadStarted = false;
-    if (idleHandle) window.cancelIdleCallback(idleHandle);
-    if (timeoutHandle) globalThis.clearTimeout(timeoutHandle);
-  };
+  return () => preloadListeners.delete(onRenderReady);
 }
 
 function useReducedMotion() {
@@ -138,7 +159,7 @@ function QuantumComputerScene({
   return (
     <Canvas
       camera={{ position: [...camera.position], fov: camera.fov, near: 0.05, far: 300 }}
-      dpr={[1, 1.25]}
+      dpr={1}
       frameloop={paused ? "demand" : "always"}
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {

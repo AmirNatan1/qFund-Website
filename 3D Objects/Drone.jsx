@@ -730,7 +730,7 @@ export default function DroneScene({
       className={className}
       style={{ width: '100%', height: '100%', ...style }}
       shadows
-      dpr={[1, 1.25]}
+      dpr={1}
       frameloop={frameloop}
       onCreated={onCreated}
       gl={{ antialias: true, powerPreference: 'high-performance' }}

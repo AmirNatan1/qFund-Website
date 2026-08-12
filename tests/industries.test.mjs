@@ -99,28 +99,35 @@ test("blends every supplied scene into the industry canvas while retaining space
   assert.match(scenes[2], /<Stars[\s\S]*?factor=\{3\.2\}/);
 });
 
-test("preloads scenes while keeping the visible industry animation live during scroll", async () => {
-  const [experience, stage, homepage, nuclear, drone, styles] = await Promise.all([
+test("prewarms complete WebGL scenes before the industry scroll begins", async () => {
+  const [experience, stage, homepage, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("NuclearPlantComplex.jsx", sourceUrl), "utf8"),
     readFile(new URL("Drone.jsx", sourceUrl), "utf8"),
+    readFile(new URL("DatacenterScene.jsx", sourceUrl), "utf8"),
+    readFile(new URL("SatelliteScene.jsx", sourceUrl), "utf8"),
+    readFile(new URL("ParticleAccelerator.jsx", sourceUrl), "utf8"),
     readFile(new URL("../app/revamp.css", import.meta.url), "utf8"),
   ]);
 
-  assert.match(experience, /renderWindow/);
-  assert.match(experience, /storyIsNearViewport/);
   assert.match(experience, /scheduleIndustryAssetPreload/);
-  assert.match(experience, /start: Math\.max\(0, nextIndex - 1\)/);
+  assert.match(experience, /mountedModelIds\.has\(chapter\.model\.id\)/);
+  assert.doesNotMatch(experience, /renderWindow|storyIsNearViewport/);
   assert.match(experience, /paused=\{!isImmersive \|\| activeIndex !== index\}/);
   assert.doesNotMatch(experience, /isScrolling|scrollEndTimerRef/);
   assert.match(experience, /metricsRef/);
   assert.match(experience, /classList\.toggle\("qf-industries-immersive", immersive\)/);
   assert.match(stage, /useGLTF\.preload\("\/3d\/quantum-computer\.glb"\)/);
   assert.match(stage, /requestIdleCallback/);
-  assert.match(stage, /sceneModuleLoaders/);
+  assert.match(stage, /const moduleLoads = scenePreloadTasks\.map/);
+  assert.match(stage, /announceRenderReady\(modelId\)/);
   assert.match(stage, /frameloop=\{paused \? "demand" : "always"\}/);
+  assert.match(stage, /dpr=\{1\}/);
+  for (const scene of [nuclear, drone, datacenter, satellite, particle]) {
+    assert.match(scene, /dpr=\{1\}/);
+  }
   assert.match(homepage, /visibilityObserver/);
   assert.match(nuclear, /frames=\{1\}/);
   assert.match(nuclear, /backgroundTop = '#04090c'/);

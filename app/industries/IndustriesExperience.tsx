@@ -2,10 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import IndustryModelStage, { scheduleIndustryAssetPreload } from "./IndustryModelStage";
-import { industryChapters, pendingIndustryModelCount, suppliedIndustryModelCount } from "./industryConfig";
+import {
+  industryChapters,
+  pendingIndustryModelCount,
+  suppliedIndustryModelCount,
+  type IndustryModelId,
+} from "./industryConfig";
 
 const LAST_CHAPTER_INDEX = industryChapters.length - 1;
-const EMPTY_RENDER_WINDOW = { start: -1, end: -1 };
 
 type StoryMetrics = {
   storyTop: number;
@@ -21,10 +25,20 @@ export default function IndustriesExperience() {
   const immersiveRef = useRef(false);
   const metricsRef = useRef<StoryMetrics | null>(null);
   const activeIndexRef = useRef(0);
-  const renderWindowRef = useRef(EMPTY_RENDER_WINDOW);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [renderWindow, setRenderWindow] = useState(EMPTY_RENDER_WINDOW);
+  const [mountedModelIds, setMountedModelIds] = useState<ReadonlySet<IndustryModelId>>(
+    () => new Set(["quantum-computer"]),
+  );
   const [isImmersive, setIsImmersive] = useState(false);
+
+  const markModelRenderReady = useCallback((modelId: IndustryModelId) => {
+    setMountedModelIds((current) => {
+      if (current.has(modelId)) return current;
+      const next = new Set(current);
+      next.add(modelId);
+      return next;
+    });
+  }, []);
 
   const measureStory = useCallback(() => {
     const story = storyRef.current;
@@ -53,17 +67,7 @@ export default function IndustriesExperience() {
     const progress = Math.min(1, Math.max(0, (scrollY - metrics.storyTop) / metrics.travel));
     const x = Math.round(-progress * LAST_CHAPTER_INDEX * metrics.viewportWidth * 2) / 2;
     const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, Math.round(progress * LAST_CHAPTER_INDEX)));
-    const viewportTop = metrics.storyTop - scrollY;
-    const viewportBottom = viewportTop + metrics.storyHeight;
-    const storyIsNearViewport = viewportBottom > -metrics.viewportHeight * 0.25
-      && viewportTop < metrics.viewportHeight * 3.25;
     const immersive = scrollY >= metrics.storyTop && scrollY <= metrics.storyTop + metrics.travel;
-    const nextRenderWindow = storyIsNearViewport
-      ? {
-          start: Math.max(0, nextIndex - 1),
-          end: Math.min(LAST_CHAPTER_INDEX, nextIndex + 1),
-        }
-      : { start: -1, end: -1 };
 
     track.style.transform = `translate3d(${x}px, 0, 0)`;
     story.style.setProperty("--qf-industry-progress", String(progress));
@@ -75,13 +79,6 @@ export default function IndustriesExperience() {
     if (activeIndexRef.current !== nextIndex) {
       activeIndexRef.current = nextIndex;
       setActiveIndex(nextIndex);
-    }
-    if (
-      renderWindowRef.current.start !== nextRenderWindow.start
-      || renderWindowRef.current.end !== nextRenderWindow.end
-    ) {
-      renderWindowRef.current = nextRenderWindow;
-      setRenderWindow(nextRenderWindow);
     }
   }, [measureStory]);
 
@@ -109,7 +106,7 @@ export default function IndustriesExperience() {
     window.addEventListener("load", refreshMetrics, { once: true });
     measureStory();
     updatePosition();
-    const cancelPreload = scheduleIndustryAssetPreload();
+    const cancelPreload = scheduleIndustryAssetPreload(markModelRenderReady);
 
     return () => {
       cancelPreload();
@@ -120,7 +117,7 @@ export default function IndustriesExperience() {
       window.removeEventListener("load", refreshMetrics);
       document.documentElement.classList.remove("qf-industries-immersive");
     };
-  }, [measureStory, updatePosition]);
+  }, [markModelRenderReady, measureStory, updatePosition]);
 
   const goToChapter = (index: number) => {
     const story = storyRef.current;
@@ -167,7 +164,10 @@ export default function IndustriesExperience() {
               >
                 <IndustryModelStage
                   chapter={chapter}
-                  shouldRender={index >= renderWindow.start && index <= renderWindow.end}
+                  shouldRender={Boolean(
+                    chapter.model
+                    && (mountedModelIds.has(chapter.model.id) || activeIndex === index)
+                  )}
                   paused={!isImmersive || activeIndex !== index}
                 />
                 <div className="qf-industry-copy">
