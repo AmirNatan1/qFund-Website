@@ -41,7 +41,6 @@ export default function IndustriesExperience() {
     () => new Set(["quantum-computer"]),
   );
   const [isImmersive, setIsImmersive] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   const markModelRenderReady = useCallback((modelId: IndustryModelId) => {
     setMountedModelIds((current) => {
@@ -86,7 +85,6 @@ export default function IndustriesExperience() {
     const track = trackRef.current;
     window.clearTimeout(transitionTimerRef.current);
     track?.classList.remove("is-resetting");
-    setIsScrolling(true);
     visualIndexRef.current = wrapsForward ? industryChapters.length : nextIndex;
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
@@ -99,7 +97,6 @@ export default function IndustriesExperience() {
           window.requestAnimationFrame(() => trackRef.current?.classList.remove("is-resetting"));
         });
       }
-      setIsScrolling(false);
     }, 1050);
   }, [updateTrackPosition]);
 
@@ -334,7 +331,6 @@ export default function IndustriesExperience() {
               chapter={industryChapters[activeIndex]}
               readyModelIds={mountedModelIds}
               paused={!isImmersive}
-              moving={isScrolling}
             />
           </div>
 

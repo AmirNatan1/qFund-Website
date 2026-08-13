@@ -3,11 +3,13 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
+import type { RootState } from "@react-three/fiber";
 import { Center, Environment, Lightformer, OrbitControls, Stars, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import type { Group, PerspectiveCamera } from "three";
-import { SceneActivity } from "../../3D Objects/SceneActivity.jsx";
+import { SceneActivity, useActiveFrame } from "../../3D Objects/SceneActivity.jsx";
 import {
   industryChapters,
   type IndustryChapter,
@@ -118,28 +120,55 @@ function QuantumComputerObject({
 }) {
   const group = useRef<Group>(null);
   const { scene } = useGLTF(model.publicPath ?? "/3d/quantum-computer.glb");
-  const clonedScene = useMemo(() => {
-    const clone = scene.clone(true);
-    clone.traverse((object) => {
-      if (!(object instanceof THREE.Mesh)) return;
-      object.frustumCulled = false;
-      const sourceMaterials = Array.isArray(object.material) ? object.material : [object.material];
-      const materials = sourceMaterials.map((sourceMaterial) => {
-        const material = sourceMaterial.clone();
-        material.side = THREE.DoubleSide;
-        if ("envMapIntensity" in material) {
-          (material as THREE.MeshStandardMaterial).envMapIntensity = 1.35;
-        }
-        material.needsUpdate = true;
-        return material;
-      });
-      object.material = Array.isArray(object.material) ? materials : materials[0];
+  const optimizedScene = useMemo(() => {
+    scene.updateWorldMatrix(true, true);
+    const buckets = new Map<string, { material: THREE.Material; geometries: THREE.BufferGeometry[] }>();
+
+    scene.traverse((object) => {
+      if (!(object instanceof THREE.Mesh) || !(object.geometry instanceof THREE.BufferGeometry)) return;
+      const sourceMaterial = Array.isArray(object.material) ? object.material[0] : object.material;
+      if (!sourceMaterial) return;
+      let bucket = buckets.get(sourceMaterial.uuid);
+      if (!bucket) {
+        bucket = { material: sourceMaterial, geometries: [] };
+        buckets.set(sourceMaterial.uuid, bucket);
+      }
+      const geometry = object.geometry.clone();
+      geometry.applyMatrix4(object.matrixWorld);
+      bucket.geometries.push(geometry);
     });
-    return clone;
+
+    const root = new THREE.Group();
+    root.name = "qf-optimized-quantum-computer";
+    buckets.forEach(({ material: sourceMaterial, geometries }) => {
+      const geometry = mergeGeometries(geometries, false);
+      geometries.forEach((sourceGeometry) => sourceGeometry.dispose());
+      if (!geometry) return;
+      geometry.computeBoundingBox();
+      geometry.computeBoundingSphere();
+
+      const material = sourceMaterial.clone();
+      material.side = THREE.FrontSide;
+      material.depthTest = true;
+      material.depthWrite = true;
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.name = `qf-quantum-${sourceMaterial.name || sourceMaterial.uuid}`;
+      root.add(mesh);
+    });
+    return root;
   }, [scene]);
   const rotation = model.framing.rotation ?? [0, 0, 0];
 
-  useFrame((_, delta) => {
+  useEffect(() => () => {
+    optimizedScene.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      object.geometry.dispose();
+      if (Array.isArray(object.material)) object.material.forEach((material) => material.dispose());
+      else object.material.dispose();
+    });
+  }, [optimizedScene]);
+
+  useActiveFrame((_: RootState, delta: number) => {
     if (!reducedMotion && !paused && group.current) {
       group.current.rotation.y += delta * Number(model.renderOptions.autoRotateSpeed ?? 0.18);
     }
@@ -152,7 +181,7 @@ function QuantumComputerObject({
       rotation={rotation}
       scale={model.framing.modelScale ?? 1}
     >
-      <primitive object={clonedScene} />
+      <primitive object={optimizedScene} />
     </group>
   );
 }
@@ -195,19 +224,17 @@ function SharedCamera({ activeModelId }: { activeModelId: IndustryModelId | null
 function ModelGroup({
   id,
   activeModelId,
-  moving,
   children,
 }: {
   id: IndustryModelId;
   activeModelId: IndustryModelId | null;
-  moving: boolean;
   children: React.ReactNode;
 }) {
   const active = activeModelId === id;
   const presentationScale = modelChapters.get(id)?.model?.presentation.scale ?? 1;
 
   return (
-    <SceneActivity active={active} maxFps={moving ? 30 : 60}>
+    <SceneActivity active={active} maxFps={60}>
       <group
         name={`qf-industry-scene-${id}`}
         visible={active}
@@ -274,86 +301,59 @@ function SceneWarmup({ readyModelIds }: { readyModelIds: ReadonlySet<IndustryMod
   return null;
 }
 
-function RenderBudget({ moving }: { moving: boolean }) {
-  const elapsed = useRef(0);
-
-  useFrame((state, delta) => {
-    const frameInterval = 1 / (moving ? 30 : 60);
-    elapsed.current += delta;
-    if (elapsed.current < frameInterval) return;
-    elapsed.current %= frameInterval;
-    state.gl.render(state.scene, state.camera);
-  }, 1);
-
-  return null;
-}
-
-function AdaptiveResolution({ moving }: { moving: boolean }) {
-  const setDpr = useThree((state) => state.setDpr);
-
-  useEffect(() => {
-    const deviceDpr = window.devicePixelRatio || 1;
-    setDpr(Math.min(deviceDpr, moving ? 1.5 : 2));
-  }, [moving, setDpr]);
-
-  return null;
-}
-
 function PreloadedIndustryModels({
   activeModelId,
   readyModelIds,
   reducedMotion,
-  moving,
 }: {
   activeModelId: IndustryModelId | null;
   readyModelIds: ReadonlySet<IndustryModelId>;
   reducedMotion: boolean;
-  moving: boolean;
 }) {
   const quantum = modelChapters.get("quantum-computer")?.model;
 
   return (
     <Suspense fallback={null}>
       {quantum && readyModelIds.has("quantum-computer") ? (
-        <ModelGroup id="quantum-computer" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="quantum-computer" activeModelId={activeModelId}>
           <Center>
             <QuantumComputerObject model={quantum} reducedMotion={reducedMotion} paused={activeModelId !== "quantum-computer"} />
           </Center>
         </ModelGroup>
       ) : null}
       {readyModelIds.has("drone") ? (
-        <ModelGroup id="drone" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="drone" activeModelId={activeModelId}>
           <group position={[0, 0.35, 0]}><DroneModel accent="#22c7cb" spin={!reducedMotion} /></group>
         </ModelGroup>
       ) : null}
       {readyModelIds.has("datacenter") ? (
-        <ModelGroup id="datacenter" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="datacenter" activeModelId={activeModelId}>
           <DatacenterModel spin={reducedMotion ? 0 : 0.075} />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("satellite") ? (
-        <ModelGroup id="satellite" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="satellite" activeModelId={activeModelId}>
           <Stars radius={80} depth={50} count={1600} factor={3} saturation={0} fade speed={0.25} />
           <SatelliteModel spin={reducedMotion ? 0 : 0.1} />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("particle-accelerator") ? (
-        <ModelGroup id="particle-accelerator" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="particle-accelerator" activeModelId={activeModelId}>
           <ParticleAcceleratorModel autoRotate={!reducedMotion} beamColor="#00e5ff" accentColor="#ff2fa0" />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("cyber-security") ? (
-        <ModelGroup id="cyber-security" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="cyber-security" activeModelId={activeModelId}>
           <CyberSecurityModel spin={reducedMotion ? 0 : 0.055} showStreams showIcons />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("sensor-array") ? (
-        <ModelGroup id="sensor-array" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="sensor-array" activeModelId={activeModelId}>
           <SensorArrayModel spin={reducedMotion ? 0 : 0.085} colors={undefined} />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("nuclear-plant") ? (
-        <ModelGroup id="nuclear-plant" activeModelId={activeModelId} moving={moving}>
+        <ModelGroup id="nuclear-plant" activeModelId={activeModelId}>
           <NuclearPlantModel rotationSpeed={reducedMotion ? 0 : 0.055} steam={!reducedMotion} />
         </ModelGroup>
       ) : null}
@@ -365,12 +365,10 @@ export function IndustrySharedCanvas({
   chapter,
   readyModelIds,
   paused,
-  moving,
 }: {
   chapter: IndustryChapter;
   readyModelIds: ReadonlySet<IndustryModelId>;
   paused: boolean;
-  moving: boolean;
 }) {
   const reducedMotion = useReducedMotion();
   const activeModelId = chapter.model?.id ?? null;
@@ -406,10 +404,7 @@ export function IndustrySharedCanvas({
           activeModelId={ready ? activeModelId : null}
           readyModelIds={readyModelIds}
           reducedMotion={reducedMotion}
-          moving={moving}
         />
-        <AdaptiveResolution moving={moving} />
-        <RenderBudget moving={moving} />
         <OrbitControls
           makeDefault
           target={[target[0], target[1], target[2]]}

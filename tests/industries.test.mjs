@@ -120,7 +120,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(experience, /readyModelIds=\{mountedModelIds\}/);
   assert.match(experience, /<IndustrySharedCanvas/);
   assert.doesNotMatch(experience, /renderWindow|storyIsNearViewport/);
-  assert.match(experience, /moving=\{isScrolling\}/);
+  assert.doesNotMatch(experience, /moving=\{isScrolling\}/);
   assert.match(experience, /CAROUSEL_INTERVAL_MS = 4000/);
   assert.match(experience, /setInterval/);
   assert.match(experience, /visualIndexRef/);
@@ -138,11 +138,16 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(stage, /announceRenderReady\(task\.id\)/);
   assert.equal((stage.match(/<Canvas/g) ?? []).length, 1);
   assert.match(stage, /dpr=\{\[1, 2\]\}/);
-  assert.match(stage, /Math\.min\(deviceDpr, moving \? 1\.5 : 2\)/);
   assert.match(stage, /antialias: true/);
   assert.match(stage, /precision: "highp"/);
   assert.match(stage, /gl\.compileAsync/);
-  assert.match(stage, /<RenderBudget moving=\{moving\}/);
+  assert.match(stage, /mergeGeometries/);
+  assert.match(stage, /qf-optimized-quantum-computer/);
+  assert.match(stage, /maxFps=\{60\}/);
+  assert.doesNotMatch(stage, /THREE\.DoubleSide/);
+  assert.doesNotMatch(stage, /frustumCulled = false/);
+  assert.doesNotMatch(stage, /function RenderBudget/);
+  assert.doesNotMatch(stage, /function AdaptiveResolution/);
   assert.match(homepage, /visibilityObserver/);
   assert.match(nuclear, /frames=\{1\}/);
   assert.match(nuclear, /backgroundTop = '#04090c'/);
