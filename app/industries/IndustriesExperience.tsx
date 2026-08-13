@@ -10,6 +10,13 @@ import {
 } from "./industryConfig";
 
 const LAST_CHAPTER_INDEX = industryChapters.length - 1;
+const PORTAL_PROGRESS = 1 / 16;
+
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+const smoothstep = (value: number) => {
+  const clamped = clamp01(value);
+  return clamped * clamped * (3 - 2 * clamped);
+};
 
 type StoryMetrics = {
   storyTop: number;
@@ -86,13 +93,30 @@ export default function IndustriesExperience() {
     const metrics = metricsRef.current ?? measureStory();
     if (!metrics) return;
     const scrollY = window.scrollY;
-    const progress = Math.min(1, Math.max(0, (scrollY - metrics.storyTop) / metrics.travel));
-    const x = Math.round(-progress * LAST_CHAPTER_INDEX * metrics.viewportWidth * 2) / 2;
-    const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, Math.round(progress * LAST_CHAPTER_INDEX)));
+    const rawProgress = clamp01((scrollY - metrics.storyTop) / metrics.travel);
+    const progress = clamp01((rawProgress - PORTAL_PROGRESS) / (1 - PORTAL_PROGRESS * 2));
+    const chapterPosition = progress * LAST_CHAPTER_INDEX;
+    const x = Math.round(-chapterPosition * metrics.viewportWidth * 2) / 2;
+    const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, Math.round(chapterPosition)));
+    const activeChapterX = Math.round((nextIndex - chapterPosition) * metrics.viewportWidth * 2) / 2;
+    const entered = smoothstep(rawProgress / PORTAL_PROGRESS);
+    const exited = smoothstep((rawProgress - (1 - PORTAL_PROGRESS)) / PORTAL_PROGRESS);
+    const portalPresence = Math.min(entered, 1 - exited);
+    const portalScale = 0.94 + portalPresence * 0.06;
+    const portalOpacity = 0.78 + portalPresence * 0.22;
+    const portalRadius = (1 - portalPresence) * 32;
+    const portalY = ((1 - entered) - exited) * metrics.viewportHeight * 0.022;
     const immersive = scrollY >= metrics.storyTop && scrollY < metrics.storyTop + metrics.storyHeight;
 
     track.style.transform = `translate3d(${x}px, 0, 0)`;
     story.style.setProperty("--qf-industry-progress", String(progress));
+    // Keep the single high-performance WebGL surface physically attached to
+    // the active slide so the model and copy travel as one complete page.
+    story.style.setProperty("--qf-industry-active-shift", `${activeChapterX}px`);
+    story.style.setProperty("--qf-industry-portal-scale", portalScale.toFixed(4));
+    story.style.setProperty("--qf-industry-portal-opacity", portalOpacity.toFixed(4));
+    story.style.setProperty("--qf-industry-portal-radius", `${portalRadius.toFixed(2)}px`);
+    story.style.setProperty("--qf-industry-portal-y", `${portalY.toFixed(2)}px`);
     if (immersiveRef.current !== immersive) {
       immersiveRef.current = immersive;
       setIsImmersive(immersive);
@@ -147,8 +171,10 @@ export default function IndustriesExperience() {
     const metrics = metricsRef.current ?? measureStory();
     if (!metrics) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const journeyProgress = PORTAL_PROGRESS
+      + (index / LAST_CHAPTER_INDEX) * (1 - PORTAL_PROGRESS * 2);
     window.scrollTo({
-      top: metrics.storyTop + (index / LAST_CHAPTER_INDEX) * metrics.travel,
+      top: metrics.storyTop + journeyProgress * metrics.travel,
       behavior: reduced ? "auto" : "smooth",
     });
   };

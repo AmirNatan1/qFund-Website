@@ -189,7 +189,7 @@ function ModelGroup({
   const presentationScale = modelChapters.get(id)?.model?.presentation.scale ?? 1;
 
   return (
-    <SceneActivity active={active} maxFps={moving ? 20 : 30}>
+    <SceneActivity active={active} maxFps={moving ? 30 : 60}>
       <group
         name={`qf-industry-scene-${id}`}
         visible={active}
@@ -260,7 +260,7 @@ function RenderBudget({ moving }: { moving: boolean }) {
   const elapsed = useRef(0);
 
   useFrame((state, delta) => {
-    const frameInterval = 1 / (moving ? 20 : 30);
+    const frameInterval = 1 / (moving ? 30 : 60);
     elapsed.current += delta;
     if (elapsed.current < frameInterval) return;
     elapsed.current %= frameInterval;
@@ -274,7 +274,8 @@ function AdaptiveResolution({ moving }: { moving: boolean }) {
   const setDpr = useThree((state) => state.setDpr);
 
   useEffect(() => {
-    setDpr(moving ? 0.65 : 0.9);
+    const deviceDpr = window.devicePixelRatio || 1;
+    setDpr(Math.min(deviceDpr, moving ? 1.5 : 2));
   }, [moving, setDpr]);
 
   return null;
@@ -363,10 +364,10 @@ export function IndustrySharedCanvas({
   return (
     <div className={`qf-industry-shared-stage${ready ? " is-visible" : ""}`} aria-hidden="true">
       <Canvas
-        dpr={0.9}
+        dpr={[1, 2]}
         frameloop={paused || !ready ? "demand" : "always"}
         camera={{ position: [4.8, 3.1, 6.4], fov: 34, near: 0.05, far: 2200 }}
-        gl={{ antialias: false, alpha: false, powerPreference: "high-performance" }}
+        gl={{ antialias: true, alpha: false, powerPreference: "high-performance", precision: "highp" }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.08;
@@ -377,7 +378,7 @@ export function IndustrySharedCanvas({
         <hemisphereLight args={["#9fc6d8", "#020407", 0.75]} />
         <directionalLight position={[8, 12, 7]} intensity={2.8} color="#e1fbff" />
         <directionalLight position={[-7, 3, -6]} intensity={1.2} color="#258bbd" />
-        <Environment resolution={64} frames={1}>
+        <Environment resolution={128} frames={1}>
           <Lightformer intensity={4} color="#dffcff" position={[5, 7, 4]} scale={[10, 6, 1]} />
           <Lightformer intensity={3} color="#22c7cb" position={[-6, 2, -4]} scale={[8, 5, 1]} />
         </Environment>

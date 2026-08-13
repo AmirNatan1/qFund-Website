@@ -900,8 +900,13 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 
 .qf-industry-story {
   --qf-industry-progress: 0;
+  --qf-industry-active-shift: 0px;
+  --qf-industry-portal-scale: 0.94;
+  --qf-industry-portal-opacity: 0.78;
+  --qf-industry-portal-radius: 32px;
+  --qf-industry-portal-y: 2.2vh;
   position: relative;
-  height: calc(var(--qf-industry-count) * 100svh);
+  height: calc(var(--qf-industry-count) * 100svh + 100svh);
   margin-top: clamp(5rem, 8vw, 8rem);
   background: #04090c;
 }
@@ -916,6 +921,11 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
     radial-gradient(circle at 38% 45%, rgba(34, 199, 203, 0.08), transparent 34%),
     #04090c;
   isolation: isolate;
+  border-radius: var(--qf-industry-portal-radius);
+  opacity: var(--qf-industry-portal-opacity);
+  transform: translate3d(0, var(--qf-industry-portal-y), 0) scale(var(--qf-industry-portal-scale));
+  transform-origin: center center;
+  will-change: transform, opacity, border-radius;
 }
 
 .qf-industry-sticky::before {
@@ -983,7 +993,9 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   background: #04090c;
   opacity: 0;
   pointer-events: none;
+  transform: translate3d(var(--qf-industry-active-shift), 0, 0);
   transition: opacity 160ms ease-out;
+  will-change: transform;
 }
 
 .qf-industry-shared-stage.is-visible {
@@ -2078,6 +2090,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-frontier-field,
   .qf-industry-card figure img,
   .qf-team-image img { transition: none; }
+  .qf-industry-sticky { border-radius: 0; opacity: 1; transform: none; }
   .qf-frontier-core,
   .qf-frontier-core::after,
   .qf-frontier-arrow,
