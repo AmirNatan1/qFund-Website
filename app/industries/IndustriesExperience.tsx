@@ -28,6 +28,7 @@ export default function IndustriesExperience() {
   const immersiveRef = useRef(false);
   const metricsRef = useRef<StoryMetrics | null>(null);
   const activeIndexRef = useRef(0);
+  const visualIndexRef = useRef(0);
   const exitArmedRef = useRef(false);
   const releasingRef = useRef(false);
   const gestureIdleTimerRef = useRef(0);
@@ -74,19 +75,33 @@ export default function IndustriesExperience() {
 
     const metrics = metricsRef.current ?? measureStory();
     if (!metrics) return;
-    const x = Math.round(-activeIndexRef.current * metrics.viewportWidth * 2) / 2;
+    const x = Math.round(-visualIndexRef.current * metrics.viewportWidth * 2) / 2;
     track.style.transform = `translate3d(${x}px, 0, 0)`;
-    story.style.setProperty("--qf-industry-active-index", String(activeIndexRef.current));
+    story.style.setProperty("--qf-industry-active-index", String(visualIndexRef.current));
   }, [measureStory]);
 
-  const selectChapter = useCallback((index: number) => {
+  const selectChapter = useCallback((index: number, forward = false) => {
     const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, index));
+    const wrapsForward = forward && activeIndexRef.current === LAST_CHAPTER_INDEX && nextIndex === 0;
+    const track = trackRef.current;
     window.clearTimeout(transitionTimerRef.current);
+    track?.classList.remove("is-resetting");
     setIsScrolling(true);
+    visualIndexRef.current = wrapsForward ? industryChapters.length : nextIndex;
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
-    transitionTimerRef.current = window.setTimeout(() => setIsScrolling(false), 1050);
-  }, []);
+    transitionTimerRef.current = window.setTimeout(() => {
+      if (wrapsForward && trackRef.current) {
+        trackRef.current.classList.add("is-resetting");
+        visualIndexRef.current = 0;
+        updateTrackPosition();
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => trackRef.current?.classList.remove("is-resetting"));
+        });
+      }
+      setIsScrolling(false);
+    }, 1050);
+  }, [updateTrackPosition]);
 
   useEffect(() => {
     const refreshMetrics = () => {
@@ -118,7 +133,7 @@ export default function IndustriesExperience() {
   useEffect(() => {
     if (!isImmersive) return;
     const timer = window.setInterval(() => {
-      selectChapter((activeIndexRef.current + 1) % industryChapters.length);
+      selectChapter((activeIndexRef.current + 1) % industryChapters.length, true);
     }, CAROUSEL_INTERVAL_MS);
     return () => window.clearInterval(timer);
   }, [isImmersive, selectChapter]);
@@ -252,7 +267,7 @@ export default function IndustriesExperience() {
   }, [measureStory]);
 
   const goToChapter = (index: number) => {
-    selectChapter(index);
+    selectChapter(index, activeIndexRef.current === LAST_CHAPTER_INDEX && index === 0);
   };
 
   return (
@@ -300,6 +315,21 @@ export default function IndustriesExperience() {
                 </div>
               </article>
             ))}
+            <article
+              className="qf-industry-chapter qf-industry-chapter-clone"
+              style={{ "--qf-industry-accent": industryChapters[0].accent } as CSSProperties}
+              aria-hidden="true"
+            >
+              <div className="qf-industry-stage" />
+              <div className="qf-industry-copy">
+                <div className="qf-industry-copy-meta">
+                  <span>{industryChapters[0].code}</span>
+                  <span>{industryChapters[0].short}</span>
+                </div>
+                <h3>{industryChapters[0].title}</h3>
+                <p>{industryChapters[0].text}</p>
+              </div>
+            </article>
             <IndustrySharedCanvas
               chapter={industryChapters[activeIndex]}
               readyModelIds={mountedModelIds}

@@ -958,6 +958,8 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   will-change: transform;
 }
 
+.qf-industry-track.is-resetting { transition: none; }
+
 .qf-industry-chapter {
   --qf-industry-accent: #22c7cb;
   position: relative;

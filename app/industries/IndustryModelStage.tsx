@@ -118,7 +118,25 @@ function QuantumComputerObject({
 }) {
   const group = useRef<Group>(null);
   const { scene } = useGLTF(model.publicPath ?? "/3d/quantum-computer.glb");
-  const clonedScene = useMemo(() => scene.clone(true), [scene]);
+  const clonedScene = useMemo(() => {
+    const clone = scene.clone(true);
+    clone.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      object.frustumCulled = false;
+      const sourceMaterials = Array.isArray(object.material) ? object.material : [object.material];
+      const materials = sourceMaterials.map((sourceMaterial) => {
+        const material = sourceMaterial.clone();
+        material.side = THREE.DoubleSide;
+        if ("envMapIntensity" in material) {
+          (material as THREE.MeshStandardMaterial).envMapIntensity = 1.35;
+        }
+        material.needsUpdate = true;
+        return material;
+      });
+      object.material = Array.isArray(object.material) ? materials : materials[0];
+    });
+    return clone;
+  }, [scene]);
   const rotation = model.framing.rotation ?? [0, 0, 0];
 
   useFrame((_, delta) => {

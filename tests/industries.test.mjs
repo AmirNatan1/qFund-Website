@@ -123,6 +123,10 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(experience, /moving=\{isScrolling\}/);
   assert.match(experience, /CAROUSEL_INTERVAL_MS = 4000/);
   assert.match(experience, /setInterval/);
+  assert.match(experience, /visualIndexRef/);
+  assert.match(experience, /wrapsForward/);
+  assert.match(experience, /qf-industry-chapter-clone/);
+  assert.match(experience, /classList\.add\("is-resetting"\)/);
   assert.match(experience, /exitArmedRef/);
   assert.match(experience, /GESTURE_IDLE_MS/);
   assert.match(experience, /event\.preventDefault\(\)/);
@@ -151,6 +155,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /left: calc\(var\(--qf-industry-active-index\) \* 100vw\)/);
   assert.match(styles, /\.qf-industry-story\.is-immersive/);
   assert.match(styles, /transition: transform 1000ms/);
+  assert.match(styles, /\.qf-industry-track\.is-resetting \{ transition: none; \}/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
   assert.match(styles, /translate3d\(0, 2\.15rem, 0\) scale\(0\.992\)/);
 });
