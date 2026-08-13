@@ -766,7 +766,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 }
 
 .qf-about-copy p > span:first-child { padding-top: 0.25rem; color: var(--qf-coral); font-size: 0.66rem; font-weight: 780; letter-spacing: 0.08em; }
-.qf-about-copy p:first-of-type > span:last-child { font-family: var(--qf-serif); font-size: clamp(1.28rem, 1.65vw, 1.75rem); letter-spacing: -0.018em; line-height: 1.42; }
+.qf-about-copy p > span:last-child { font-family: var(--qf-serif); font-size: clamp(1.28rem, 1.65vw, 1.75rem); letter-spacing: -0.018em; line-height: 1.42; }
 .qf-about-copy p:last-child { padding-bottom: 0.25rem; }
 
 .qf-about-facts {
@@ -1265,6 +1265,72 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 
 .qf-industry-chapter-nav button:is(:hover, :focus-visible, .is-active) { color: #f2fbf9; }
 .qf-industry-chapter-nav button.is-active i::after { transform: scaleX(1); }
+
+.qf-industry-status {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 1.5vw, 1.5rem);
+  pointer-events: auto;
+}
+
+.qf-industry-autoplay {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(232, 243, 241, 0.24);
+  border-radius: 999px;
+  color: rgba(232, 243, 241, 0.66);
+  background: rgba(4, 9, 12, 0.34);
+  cursor: pointer;
+  font-size: 0.55rem;
+  font-weight: 760;
+  letter-spacing: 0.12em;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.qf-industry-autoplay:is(:hover, :focus-visible),
+.qf-industry-autoplay.is-paused {
+  border-color: rgba(232, 243, 241, 0.62);
+  color: #f2fbf9;
+  background: rgba(232, 243, 241, 0.08);
+}
+
+.qf-industry-autoplay-icon {
+  position: relative;
+  display: block;
+  width: 0.62rem;
+  height: 0.62rem;
+}
+
+.qf-industry-autoplay-icon::before,
+.qf-industry-autoplay-icon::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: currentColor;
+  content: "";
+}
+
+.qf-industry-autoplay-icon::before { left: 0.08rem; }
+.qf-industry-autoplay-icon::after { right: 0.08rem; }
+
+.qf-industry-autoplay.is-paused .qf-industry-autoplay-icon::before {
+  top: 0;
+  bottom: auto;
+  left: 0.12rem;
+  width: 0;
+  height: 0;
+  border-top: 0.31rem solid transparent;
+  border-bottom: 0.31rem solid transparent;
+  border-left: 0.48rem solid currentColor;
+  background: transparent;
+}
+
+.qf-industry-autoplay.is-paused .qf-industry-autoplay-icon::after { display: none; }
 
 .qf-industry-counter {
   display: flex;
@@ -2019,6 +2085,9 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-industry-chrome { right: 1rem; bottom: 1rem; left: 1rem; gap: 0.65rem; }
   .qf-industry-chapter-nav button { width: min(2.25rem, calc((100vw - 6.5rem) / 8)); font-size: 0.5rem; }
   .qf-industry-chapter-nav button i { margin-bottom: 0.35rem; }
+  .qf-industry-status { gap: 0.5rem; }
+  .qf-industry-autoplay { min-width: 2.2rem; min-height: 2.2rem; justify-content: center; padding: 0.4rem; }
+  .qf-industry-autoplay > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .qf-industry-counter { gap: 0.25rem; }
   .qf-industry-counter strong { font-size: 1.45rem; }
   .qf-industry-counter span { font-size: 0.58rem; }

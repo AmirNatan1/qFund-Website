@@ -41,6 +41,7 @@ export default function IndustriesExperience() {
     () => new Set(["quantum-computer"]),
   );
   const [isImmersive, setIsImmersive] = useState(false);
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
 
   const markModelRenderReady = useCallback((modelId: IndustryModelId) => {
     setMountedModelIds((current) => {
@@ -128,12 +129,12 @@ export default function IndustriesExperience() {
   }, [activeIndex, updateTrackPosition]);
 
   useEffect(() => {
-    if (!isImmersive) return;
+    if (!isImmersive || isAutoplayPaused) return;
     const timer = window.setInterval(() => {
       selectChapter((activeIndexRef.current + 1) % industryChapters.length, true);
     }, CAROUSEL_INTERVAL_MS);
     return () => window.clearInterval(timer);
-  }, [isImmersive, selectChapter]);
+  }, [isAutoplayPaused, isImmersive, selectChapter]);
 
   useEffect(() => {
     const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -227,6 +228,7 @@ export default function IndustriesExperience() {
       if (immersiveRef.current) armAfterGesture();
     };
     const onKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLElement && event.target.closest("button, a, input, textarea, select")) return;
       const downKeys = ["ArrowDown", "PageDown", " ", "End"];
       const upKeys = ["ArrowUp", "PageUp", "Home"];
       const direction: 1 | -1 | null = downKeys.includes(event.key)
@@ -351,10 +353,22 @@ export default function IndustriesExperience() {
                 </button>
               ))}
             </nav>
-            <p className="qf-industry-counter" aria-hidden="true">
-              <strong>{String(activeIndex + 1).padStart(2, "0")}</strong>
-              <span>/ {String(industryChapters.length).padStart(2, "0")}</span>
-            </p>
+            <div className="qf-industry-status">
+              <button
+                type="button"
+                className={`qf-industry-autoplay${isAutoplayPaused ? " is-paused" : ""}`}
+                aria-label={isAutoplayPaused ? "Resume automatic industry slides" : "Pause automatic industry slides"}
+                aria-pressed={isAutoplayPaused}
+                onClick={() => setIsAutoplayPaused((paused) => !paused)}
+              >
+                <span className="qf-industry-autoplay-icon" aria-hidden="true" />
+                <span>{isAutoplayPaused ? "RESUME" : "PAUSE"}</span>
+              </button>
+              <p className="qf-industry-counter" aria-hidden="true">
+                <strong>{String(activeIndex + 1).padStart(2, "0")}</strong>
+                <span>/ {String(industryChapters.length).padStart(2, "0")}</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

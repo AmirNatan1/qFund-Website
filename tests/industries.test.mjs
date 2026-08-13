@@ -123,6 +123,11 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.doesNotMatch(experience, /moving=\{isScrolling\}/);
   assert.match(experience, /CAROUSEL_INTERVAL_MS = 4000/);
   assert.match(experience, /setInterval/);
+  assert.match(experience, /isAutoplayPaused/);
+  assert.match(experience, /Pause automatic industry slides/);
+  assert.match(experience, /Resume automatic industry slides/);
+  assert.match(experience, /aria-pressed=\{isAutoplayPaused\}/);
+  assert.match(experience, /event\.target\.closest\("button, a, input, textarea, select"\)/);
   assert.match(experience, /visualIndexRef/);
   assert.match(experience, /wrapsForward/);
   assert.match(experience, /qf-industry-chapter-clone/);
@@ -161,6 +166,8 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /\.qf-industry-story\.is-immersive/);
   assert.match(styles, /transition: transform 1000ms/);
   assert.match(styles, /\.qf-industry-track\.is-resetting \{ transition: none; \}/);
+  assert.match(styles, /\.qf-industry-autoplay/);
+  assert.match(styles, /\.qf-about-copy p > span:last-child/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
   assert.match(styles, /translate3d\(0, 2\.15rem, 0\) scale\(0\.992\)/);
 });
