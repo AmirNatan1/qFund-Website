@@ -26,6 +26,7 @@ export default function IndustriesExperience() {
   const storyRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const immersiveRef = useRef(false);
+  const modelInteractingRef = useRef(false);
   const metricsRef = useRef<StoryMetrics | null>(null);
   const activeIndexRef = useRef(0);
   const visualIndexRef = useRef(0);
@@ -42,6 +43,7 @@ export default function IndustriesExperience() {
   );
   const [isImmersive, setIsImmersive] = useState(false);
   const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
+  const [isModelInteracting, setIsModelInteracting] = useState(false);
 
   const markModelRenderReady = useCallback((modelId: IndustryModelId) => {
     setMountedModelIds((current) => {
@@ -50,6 +52,16 @@ export default function IndustriesExperience() {
       next.add(modelId);
       return next;
     });
+  }, []);
+
+  const startModelInteraction = useCallback(() => {
+    modelInteractingRef.current = true;
+    setIsModelInteracting(true);
+  }, []);
+
+  const endModelInteraction = useCallback(() => {
+    modelInteractingRef.current = false;
+    setIsModelInteracting(false);
   }, []);
 
   const measureStory = useCallback(() => {
@@ -129,12 +141,26 @@ export default function IndustriesExperience() {
   }, [activeIndex, updateTrackPosition]);
 
   useEffect(() => {
-    if (!isImmersive || isAutoplayPaused) return;
+    if (!isImmersive || isAutoplayPaused || isModelInteracting) return;
     const timer = window.setInterval(() => {
+      if (modelInteractingRef.current) return;
       selectChapter((activeIndexRef.current + 1) % industryChapters.length, true);
     }, CAROUSEL_INTERVAL_MS);
     return () => window.clearInterval(timer);
-  }, [isAutoplayPaused, isImmersive, selectChapter]);
+  }, [isAutoplayPaused, isImmersive, isModelInteracting, selectChapter]);
+
+  useEffect(() => {
+    if (!isModelInteracting) return;
+    const releaseInteraction = () => endModelInteraction();
+    window.addEventListener("pointerup", releaseInteraction);
+    window.addEventListener("pointercancel", releaseInteraction);
+    window.addEventListener("blur", releaseInteraction);
+    return () => {
+      window.removeEventListener("pointerup", releaseInteraction);
+      window.removeEventListener("pointercancel", releaseInteraction);
+      window.removeEventListener("blur", releaseInteraction);
+    };
+  }, [endModelInteraction, isModelInteracting]);
 
   useEffect(() => {
     const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -333,6 +359,8 @@ export default function IndustriesExperience() {
               chapter={industryChapters[activeIndex]}
               readyModelIds={mountedModelIds}
               paused={!isImmersive}
+              onInteractionStart={startModelInteraction}
+              onInteractionEnd={endModelInteraction}
             />
           </div>
 

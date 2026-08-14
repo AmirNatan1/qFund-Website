@@ -365,10 +365,14 @@ export function IndustrySharedCanvas({
   chapter,
   readyModelIds,
   paused,
+  onInteractionStart,
+  onInteractionEnd,
 }: {
   chapter: IndustryChapter;
   readyModelIds: ReadonlySet<IndustryModelId>;
   paused: boolean;
+  onInteractionStart: () => void;
+  onInteractionEnd: () => void;
 }) {
   const reducedMotion = useReducedMotion();
   const activeModelId = chapter.model?.id ?? null;
@@ -378,7 +382,14 @@ export function IndustrySharedCanvas({
     : [0, 0, 0];
 
   return (
-    <div className={`qf-industry-shared-stage${ready ? " is-visible" : ""}`} aria-hidden="true">
+    <div
+      className={`qf-industry-shared-stage${ready ? " is-visible" : ""}`}
+      aria-hidden="true"
+      onPointerDownCapture={onInteractionStart}
+      onPointerUpCapture={onInteractionEnd}
+      onPointerCancelCapture={onInteractionEnd}
+      onLostPointerCapture={onInteractionEnd}
+    >
       <Canvas
         dpr={[1, 2]}
         frameloop={paused || !ready ? "demand" : "always"}

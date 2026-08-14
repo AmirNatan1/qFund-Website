@@ -901,8 +901,8 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 .qf-industry-story {
   --qf-industry-progress: 0;
   --qf-industry-active-index: 0;
-  --qf-industry-portal-scale: 0.94;
-  --qf-industry-portal-opacity: 0.78;
+  --qf-industry-portal-scale: 0.975;
+  --qf-industry-portal-opacity: 0.84;
   --qf-industry-portal-radius: 32px;
   --qf-industry-portal-y: 2.2vh;
   position: relative;
@@ -933,7 +933,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 }
 
 .qf-industry-story.is-immersive {
-  --qf-industry-portal-scale: 1;
+  --qf-industry-portal-scale: 1.012;
   --qf-industry-portal-opacity: 1;
   --qf-industry-portal-radius: 0px;
   --qf-industry-portal-y: 0px;

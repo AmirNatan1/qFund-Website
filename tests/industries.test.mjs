@@ -124,6 +124,10 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(experience, /CAROUSEL_INTERVAL_MS = 4000/);
   assert.match(experience, /setInterval/);
   assert.match(experience, /isAutoplayPaused/);
+  assert.match(experience, /isModelInteracting/);
+  assert.match(experience, /modelInteractingRef\.current/);
+  assert.match(experience, /onInteractionStart=\{startModelInteraction\}/);
+  assert.match(experience, /onInteractionEnd=\{endModelInteraction\}/);
   assert.match(experience, /Pause automatic industry slides/);
   assert.match(experience, /Resume automatic industry slides/);
   assert.match(experience, /aria-pressed=\{isAutoplayPaused\}/);
@@ -149,6 +153,8 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(stage, /mergeGeometries/);
   assert.match(stage, /qf-optimized-quantum-computer/);
   assert.match(stage, /maxFps=\{60\}/);
+  assert.match(stage, /onPointerDownCapture=\{onInteractionStart\}/);
+  assert.match(stage, /onPointerUpCapture=\{onInteractionEnd\}/);
   assert.doesNotMatch(stage, /THREE\.DoubleSide/);
   assert.doesNotMatch(stage, /frustumCulled = false/);
   assert.doesNotMatch(stage, /function RenderBudget/);
@@ -169,5 +175,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /\.qf-industry-autoplay/);
   assert.match(styles, /\.qf-about-copy p > span:last-child/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
+  assert.match(styles, /--qf-industry-portal-scale: 0\.975/);
+  assert.match(styles, /--qf-industry-portal-scale: 1\.012/);
   assert.match(styles, /translate3d\(0, 2\.15rem, 0\) scale\(0\.992\)/);
 });
