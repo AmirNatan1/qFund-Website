@@ -1367,7 +1367,7 @@ function Scene({
       <GradientSky top={backgroundTop} bottom={backgroundBottom} />
       <fog attach="fog" args={[fogColor, 220, 600]} />
 
-      <hemisphereLight args={['#8fb6cc', '#020407', 0.82]} />
+      <hemisphereLight args={['#8fb6cc', '#030a12', 0.82]} />
       <directionalLight
         ref={sun}
         castShadow
@@ -1404,9 +1404,9 @@ export default function NuclearPlantComplex({
   steam = true,
   bloomIntensity = 1.0,
   environmentPreset = 'city',
-  backgroundTop = '#04090c',
-  backgroundBottom = '#04090c',
-  fogColor = '#04090c',
+  backgroundTop = '#071522',
+  backgroundBottom = '#071522',
+  fogColor = '#071522',
   frameloop = 'always',
   className,
   style,

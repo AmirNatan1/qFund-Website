@@ -30,7 +30,7 @@ import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 /* ═══════════════════════════════════════════════════════ palette + helpers ═ */
 
 const P = {
-  void: '#04060B',
+  void: '#071522',
   hot: '#E8FEFF', // white-hot core highlight
   cyan: '#00C8E8', // brand hero hue
   cyanMid: '#0A93AE',

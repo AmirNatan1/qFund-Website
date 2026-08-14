@@ -13,6 +13,7 @@
   --qf-paper-warm: color-mix(in srgb, var(--color-brand) 6%, var(--qf-white));
   --qf-white: #ffffff;
   --qf-coral: #22c7cb;
+  --qf-industry-night: #071522;
   --qf-line: rgba(6, 43, 47, 0.2);
   --qf-line-soft: rgba(6, 43, 47, 0.11);
   --qf-display: "Avenir Next", "Segoe UI Variable Display", "Segoe UI", Helvetica, Arial, sans-serif;
@@ -905,7 +906,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   position: relative;
   height: 100svh;
   margin-top: clamp(5rem, 8vw, 8rem);
-  background: #04090c;
+  background: var(--qf-industry-night);
 }
 
 .qf-industry-sticky {
@@ -915,8 +916,9 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   overflow: hidden;
   color: #f4f8f7;
   background:
+    radial-gradient(circle at 76% 18%, rgb(from var(--color-brand) r g b / 14%), transparent 46%),
     radial-gradient(circle at 38% 45%, rgba(34, 199, 203, 0.08), transparent 34%),
-    #04090c;
+    var(--qf-industry-night);
   isolation: isolate;
   border-radius: var(--qf-industry-portal-radius);
   opacity: var(--qf-industry-portal-opacity);
@@ -969,7 +971,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   overflow: hidden;
   background:
     radial-gradient(circle at 40% 50%, color-mix(in srgb, var(--qf-industry-accent) 13%, transparent), transparent 36%),
-    #04090c;
+    var(--qf-industry-night);
 }
 
 .qf-industry-chapter::after {
@@ -980,7 +982,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   z-index: 2;
   width: 43%;
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(4, 9, 12, 0.94) 24%, #04090c 58%);
+  background: linear-gradient(90deg, transparent, rgb(from var(--qf-industry-night) r g b / 94%) 24%, var(--qf-industry-night) 58%);
   content: "";
 }
 
@@ -991,7 +993,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   overflow: hidden;
   background:
     radial-gradient(circle at 52% 48%, color-mix(in srgb, var(--qf-industry-accent) 12%, transparent), transparent 43%),
-    #04090c;
+    var(--qf-industry-night);
 }
 
 .qf-industry-shared-stage {
@@ -1003,7 +1005,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   z-index: 5;
   width: 62vw;
   overflow: hidden;
-  background: #04090c;
+  background: var(--qf-industry-night);
   opacity: 0;
   pointer-events: none;
   transition: opacity 160ms ease-out;
@@ -1051,8 +1053,8 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   z-index: 3;
   pointer-events: none;
   background:
-    linear-gradient(90deg, rgba(4, 9, 12, 0.22), transparent 16% 74%, rgba(4, 9, 12, 0.92)),
-    linear-gradient(0deg, rgba(4, 9, 12, 0.72), transparent 24% 78%, rgba(4, 9, 12, 0.52));
+    linear-gradient(90deg, rgb(from var(--qf-industry-night) r g b / 22%), transparent 16% 74%, rgb(from var(--qf-industry-night) r g b / 92%)),
+    linear-gradient(0deg, rgb(from var(--qf-industry-night) r g b / 72%), transparent 24% 78%, rgb(from var(--qf-industry-night) r g b / 52%));
 }
 
 .qf-industry-copy {
@@ -1129,7 +1131,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   overflow: hidden;
   background:
     radial-gradient(circle at 48% 48%, color-mix(in srgb, var(--qf-industry-accent) 20%, transparent), transparent 34%),
-    linear-gradient(140deg, #071216, #030709 72%);
+    linear-gradient(140deg, #0b2236, var(--qf-industry-night) 72%);
 }
 
 .qf-industry-fallback.has-approved-image img {
@@ -1143,8 +1145,8 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(4, 9, 12, 0.16), rgba(4, 9, 12, 0.34)),
-    radial-gradient(circle at 50% 50%, transparent 14%, rgba(4, 9, 12, 0.62) 74%);
+    linear-gradient(90deg, rgb(from var(--qf-industry-night) r g b / 16%), rgb(from var(--qf-industry-night) r g b / 34%)),
+    radial-gradient(circle at 50% 50%, transparent 14%, rgb(from var(--qf-industry-night) r g b / 62%) 74%);
   content: "";
 }
 
@@ -1280,7 +1282,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   border: 1px solid rgba(232, 243, 241, 0.24);
   border-radius: 999px;
   color: rgba(232, 243, 241, 0.66);
-  background: rgba(4, 9, 12, 0.34);
+  background: rgb(from var(--qf-industry-night) r g b / 34%);
   cursor: pointer;
   font-size: 0.55rem;
   font-weight: 760;
@@ -1750,14 +1752,14 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-industry-chapter::after {
     top: 40%;
     width: 100%;
-    background: linear-gradient(0deg, #04090c 22%, rgba(4, 9, 12, 0.94) 64%, transparent);
+    background: linear-gradient(0deg, var(--qf-industry-night) 22%, rgb(from var(--qf-industry-night) r g b / 94%) 64%, transparent);
   }
   .qf-industry-stage { position: absolute; inset: 0 0 34%; }
   .qf-industry-shared-stage { right: auto; bottom: 34%; width: 100vw; }
   .qf-industry-stage-vignette {
     background:
-      linear-gradient(0deg, rgba(4, 9, 12, 0.94), transparent 42%),
-      linear-gradient(90deg, rgba(4, 9, 12, 0.18), transparent 16% 84%, rgba(4, 9, 12, 0.2));
+      linear-gradient(0deg, rgb(from var(--qf-industry-night) r g b / 94%), transparent 42%),
+      linear-gradient(90deg, rgb(from var(--qf-industry-night) r g b / 18%), transparent 16% 84%, rgb(from var(--qf-industry-night) r g b / 20%));
   }
   .qf-industry-copy {
     position: absolute;

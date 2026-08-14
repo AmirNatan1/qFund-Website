@@ -400,9 +400,9 @@ export function IndustrySharedCanvas({
           gl.toneMappingExposure = 1.08;
         }}
       >
-        <color attach="background" args={["#04090c"]} />
+        <color attach="background" args={["#071522"]} />
         <ambientLight intensity={0.48} color="#8bbbc4" />
-        <hemisphereLight args={["#9fc6d8", "#020407", 0.75]} />
+        <hemisphereLight args={["#9fc6d8", "#030a12", 0.75]} />
         <directionalLight position={[8, 12, 7]} intensity={2.8} color="#e1fbff" />
         <directionalLight position={[-7, 3, -6]} intensity={1.2} color="#258bbd" />
         <Environment resolution={128} frames={1}>

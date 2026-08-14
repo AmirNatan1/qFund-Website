@@ -945,7 +945,7 @@ function OrbitalLighting() {
       {/* self-contained studio env for metal reflections.
           Swap for <Environment preset="night" /> if you want the pmndrs HDRI. */}
       <Environment resolution={256} frames={1}>
-        <color attach="background" args={['#04090c']} />
+        <color attach="background" args={['#071522']} />
         <Lightformer intensity={9} color="#fff6e6" position={[10, 6, 4]} scale={[12, 12, 1]} target={[0, 0, 0]} />
         <Lightformer intensity={1.1} color="#1e7be8" position={[-8, -3, -6]} scale={[16, 16, 1]} target={[0, 0, 0]} />
         <Lightformer form="ring" intensity={2.2} color="#00c8e8" position={[-5, 3, -8]} scale={5} target={[0, 0, 0]} />
@@ -978,7 +978,7 @@ export default function SatelliteScene({
       onCreated={({ gl, scene }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
         gl.toneMappingExposure = 1.05;
-        scene.background = new THREE.Color('#04090c');
+        scene.background = new THREE.Color('#071522');
       }}
     >
       <OrbitalLighting />

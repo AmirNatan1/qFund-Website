@@ -1179,11 +1179,11 @@ export function SensorArrayScene({
       camera={{ position: [6.4, 3.3, 7.2], fov: 36, near: 0.1, far: 120 }}
       {...rest}
     >
-      <color attach="background" args={['#05070c']} />
-      <fog attach="fog" args={['#05070c', 16, 44]} />
+      <color attach="background" args={['#071522']} />
+      <fog attach="fog" args={['#071522', 16, 44]} />
 
       {/* key + rim + fill */}
-      <hemisphereLight args={['#7fb2d8', '#05070c', 0.35]} />
+      <hemisphereLight args={['#7fb2d8', '#071522', 0.35]} />
       <directionalLight
         position={[7, 9, 5]}
         intensity={1.5}

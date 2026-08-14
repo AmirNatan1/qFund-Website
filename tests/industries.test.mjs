@@ -90,15 +90,17 @@ test("blends every supplied scene into the industry canvas while retaining space
     "SatelliteScene.jsx",
     "ParticleAccelerator.jsx",
     "NuclearPlantComplex.jsx",
+    "CyberSecurityHologram.jsx",
+    "SensorArray.jsx",
   ];
   const [stage, ...scenes] = await Promise.all([
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
     ...sceneFiles.map((file) => readFile(new URL(file, sourceUrl), "utf8")),
   ]);
 
-  assert.match(stage, /<color attach="background" args=\{\["#04090c"\]\}/);
+  assert.match(stage, /<color attach="background" args=\{\["#071522"\]\}/);
   for (const [index, scene] of scenes.entries()) {
-    assert.match(scene, /#04090c/i, `${sceneFiles[index]} should use the shared pitch-black canvas`);
+    assert.match(scene, /#071522/i, `${sceneFiles[index]} should use the shared deep brand-blue canvas`);
   }
   assert.match(scenes[2], /<Stars[\s\S]*?factor=\{3\.2\}/);
 });
@@ -161,7 +163,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.doesNotMatch(stage, /function AdaptiveResolution/);
   assert.match(homepage, /visibilityObserver/);
   assert.match(nuclear, /frames=\{1\}/);
-  assert.match(nuclear, /backgroundTop = '#04090c'/);
+  assert.match(nuclear, /backgroundTop = '#071522'/);
   assert.match(nuclear, /fog attach="fog" args=\{\[fogColor, 220, 600\]\}/);
   assert.match(drone, /cameraPosition = \[3\.8, 2\.55, 5\.9\]/);
   assert.match(styles, /html\.qf-industries-immersive \.qf-header/);
