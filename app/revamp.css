@@ -687,7 +687,6 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 
 .qf-about,
 .qf-industries,
-.qf-approach,
 .qf-portfolio,
 .qf-team,
 .qf-news {
@@ -704,7 +703,6 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 
 .qf-about-heading h2,
 .qf-section-heading h2,
-.qf-approach-heading h2,
 .qf-portfolio-heading h2,
 .qf-news-heading h2 {
   padding-bottom: 0.08em;
@@ -714,7 +712,6 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 
 .qf-about-heading h2 em,
 .qf-section-heading h2 em,
-.qf-approach-heading h2 em,
 .qf-portfolio-heading h2 em,
 .qf-news-heading h2 em {
   display: block;
@@ -1348,240 +1345,6 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   50% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
 }
 
-.qf-approach { min-height: 100svh; background: var(--qf-mint); }
-
-.qf-approach-heading {
-  display: grid;
-  grid-template-columns: minmax(12rem, 0.45fr) minmax(30rem, 1.55fr);
-  gap: 4vw;
-  margin-bottom: 5rem;
-}
-
-.qf-approach-heading h2 {
-  font-weight: 470;
-  letter-spacing: -0.055em;
-}
-
-.qf-approach-heading-after {
-  align-items: start;
-  margin: clamp(7rem, 11vw, 11rem) 0 3rem;
-  padding-top: clamp(2rem, 3.5vw, 3.5rem);
-  border-top: 1px solid var(--qf-line);
-}
-
-.qf-approach-after-copy > p {
-  max-width: 46rem;
-  margin: 2rem 0 0;
-  font-size: clamp(1rem, 1.35vw, 1.22rem);
-  line-height: 1.62;
-}
-
-.qf-approach-instrument {
-  display: grid;
-  grid-template-columns: minmax(18rem, 0.72fr) minmax(30rem, 1.28fr);
-  min-height: 39rem;
-  border: 1px solid rgba(18, 53, 45, 0.28);
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.qf-approach-controls { border-right: 1px solid var(--qf-line); }
-
-.qf-approach-controls button {
-  display: grid;
-  grid-template-columns: 2.2rem 1fr auto;
-  align-items: center;
-  width: 100%;
-  min-height: 9.7rem;
-  padding: 1.4rem;
-  border: 0;
-  border-bottom: 1px solid var(--qf-line);
-  color: var(--qf-ink);
-  text-align: left;
-  background: transparent;
-  transition: background 220ms ease, padding 220ms ease;
-}
-
-.qf-approach-controls button:last-child { border-bottom: 0; }
-.qf-approach-controls button:hover,
-.qf-approach-controls button:focus-visible,
-.qf-approach-controls button.is-active { padding-left: 2rem; background: var(--qf-white); }
-.qf-approach-controls button > span { color: var(--qf-coral); font-size: 0.7rem; font-weight: 760; }
-.qf-approach-controls button > strong { font-size: clamp(1.2rem, 1.55vw, 1.7rem); font-weight: 590; letter-spacing: -0.025em; }
-.qf-approach-controls button > i { width: 1.5rem; height: 2px; background: var(--qf-line); transition: width 220ms ease, background 220ms ease; }
-.qf-approach-controls button.is-active > i { width: 3rem; background: var(--qf-green); }
-
-.qf-approach-readout {
-  display: grid;
-  grid-template-rows: minmax(18rem, 1fr) auto;
-  min-width: 0;
-  padding: clamp(2rem, 4vw, 4.5rem);
-  overflow: hidden;
-  animation: qf-readout-in 480ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.qf-approach-graphic {
-  position: relative;
-  display: grid;
-  place-items: center;
-  align-self: center;
-  justify-self: center;
-  aspect-ratio: 1.48;
-  width: min(100%, 38rem);
-  min-height: 0;
-  max-height: 25rem;
-  overflow: hidden;
-  border: 1px solid rgba(6, 43, 47, 0.18);
-  border-radius: 1.35rem;
-  background:
-    radial-gradient(circle at 50% 52%, rgba(34, 199, 203, 0.14), transparent 46%),
-    rgba(255, 255, 255, 0.54);
-  isolation: isolate;
-}
-
-.qf-approach-grid {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(rgba(6, 43, 47, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 43, 47, 0.055) 1px, transparent 1px);
-  background-size: 10% 15%;
-  mask-image: linear-gradient(135deg, transparent, black 18% 82%, transparent);
-}
-
-.qf-approach-code {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  display: grid;
-  place-items: center;
-  width: 2.35rem;
-  aspect-ratio: 1;
-  border: 1px solid var(--qf-green);
-  border-radius: 50%;
-  color: var(--qf-green);
-  background: rgba(255, 255, 255, 0.76);
-  font-size: 0.64rem;
-  font-weight: 780;
-  letter-spacing: 0.08em;
-}
-
-/* Team — an outlined handshake, drawn in a single line weight so it reads
-   as a schematic rather than an illustration. */
-.qf-handshake {
-  position: relative;
-  display: grid;
-  box-sizing: border-box;
-  place-items: center;
-  width: min(62%, 18rem);
-  height: 74%;
-  padding-bottom: 1.25rem;
-  color: var(--qf-green);
-}
-
-.qf-handshake svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  filter: drop-shadow(0 0.55rem 0.6rem rgba(6, 43, 47, 0.1));
-}
-
-.qf-handshake path {
-  stroke-width: 2.6px;
-  vector-effect: non-scaling-stroke;
-}
-
-.qf-handshake-hands {
-  transform-origin: 50% 58%;
-  animation: qf-handshake 5.6s ease-in-out infinite;
-}
-
-.qf-handshake > b { position: absolute; right: 0; bottom: 0; left: 0; color: var(--qf-green); font-size: 0.58rem; font-weight: 780; letter-spacing: 0.14em; text-align: center; }
-
-/* Technology — the core and its measurable performance traces. */
-.qf-technology-symbol { position: relative; width: 74%; height: 74%; }
-.qf-chip { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 9.6rem; aspect-ratio: 1; border: 2px solid var(--qf-green); background: rgba(255, 255, 255, 0.82); box-shadow: 0 0 0 1.05rem rgb(from var(--color-brand) r g b / 8%); transform: translate(-50%, -50%) rotate(2deg); animation: qf-chip-breathe 5.2s ease-in-out infinite; }
-.qf-chip::before { position: absolute; inset: 1.05rem; border: 1px solid rgb(from var(--color-brand) r g b / 42%); content: ""; }
-.qf-chip::after { position: absolute; inset: 2rem; border: 1px dashed rgba(34, 199, 203, 0.72); content: ""; animation: qf-approach-spin 18s linear infinite; }
-.qf-chip b { position: relative; z-index: 2; color: var(--qf-green); font-size: 2rem; font-weight: 620; letter-spacing: -0.04em; }
-.qf-chip i { position: absolute; inset: -1.35rem; background: repeating-linear-gradient(90deg, transparent 0 0.65rem, var(--qf-green) 0.65rem 0.75rem, transparent 0.75rem 1.4rem) top/100% 1.35rem no-repeat, repeating-linear-gradient(90deg, transparent 0 0.65rem, var(--qf-green) 0.65rem 0.75rem, transparent 0.75rem 1.4rem) bottom/100% 1.35rem no-repeat; opacity: 0.42; }
-.qf-trace { position: absolute; display: block; height: 1px; background: var(--qf-green); }
-.qf-trace::after { position: absolute; top: 50%; width: 0.48rem; aspect-ratio: 1; border-radius: 50%; content: ""; background: var(--qf-coral); animation: qf-trace-pulse 2.5s ease-in-out infinite; }
-.qf-trace.trace-one { top: 25%; left: 0; width: 31%; }
-.qf-trace.trace-two { top: 38%; right: 0; width: 28%; }
-.qf-trace.trace-three { right: 8%; bottom: 25%; width: 30%; }
-.qf-trace.trace-four { bottom: 34%; left: 4%; width: 28%; }
-.qf-trace.trace-one::after,
-.qf-trace.trace-four::after { right: 0; }
-.qf-trace.trace-two::after,
-.qf-trace.trace-three::after { left: 0; }
-.qf-trace.trace-two::after { animation-delay: -0.6s; }
-.qf-trace.trace-three::after { animation-delay: -1.2s; }
-.qf-trace.trace-four::after { animation-delay: -1.8s; }
-
-/* Market — expanding reach with a clear direction of travel. */
-.qf-market-symbol { position: relative; width: 78%; height: 76%; overflow: hidden; }
-.qf-market-ring { position: absolute; bottom: -26%; left: -8%; aspect-ratio: 1; border: 1px solid rgb(from var(--color-brand) r g b / 46%); border-radius: 50%; animation: qf-market-expand 5.8s ease-in-out infinite; }
-.qf-market-ring.ring-one { width: 42%; }
-.qf-market-ring.ring-two { width: 72%; animation-delay: -1.4s; }
-.qf-market-ring.ring-three { width: 102%; border-color: rgba(34, 199, 203, 0.5); animation-delay: -2.8s; }
-.qf-market-vector { position: absolute; top: 56%; left: 18%; width: 70%; height: 2px; background: linear-gradient(90deg, var(--qf-green), var(--qf-coral)); transform: rotate(-28deg); transform-origin: left; }
-.qf-market-vector::after { position: absolute; top: 50%; right: -0.1rem; width: 1.2rem; height: 1.2rem; border-top: 2px solid var(--qf-coral); border-right: 2px solid var(--qf-coral); content: ""; transform: translateY(-50%) rotate(45deg); }
-.qf-market-vector i,
-.qf-market-vector b { position: absolute; top: 50%; width: 0.75rem; aspect-ratio: 1; border: 2px solid var(--qf-white); border-radius: 50%; background: var(--qf-green); transform: translateY(-50%); animation: qf-node-beat 2.8s ease-in-out infinite; }
-.qf-market-vector i { left: 31%; }
-.qf-market-vector b { left: 67%; background: var(--qf-coral); animation-delay: -1.4s; }
-
-/* Defensibility — nested barriers protecting a compounding core. */
-.qf-defensibility-symbol { position: relative; width: min(68%, 20rem); aspect-ratio: 1.35; }
-.qf-barrier { position: absolute; top: 50%; left: 50%; border: 1px solid var(--qf-green); border-radius: 1.25rem; transform: translate(-50%, -50%); animation: qf-barrier-hold 4.8s ease-in-out infinite; }
-.qf-barrier.barrier-one { width: 100%; height: 100%; border-color: rgb(from var(--color-brand) r g b / 34%); }
-.qf-barrier.barrier-two { width: 72%; height: 72%; border-style: dashed; animation-delay: -1.2s; }
-.qf-barrier.barrier-three { width: 45%; height: 45%; border-color: var(--qf-coral); animation-delay: -2.4s; }
-.qf-lock { position: absolute; top: 54%; left: 50%; display: grid; place-items: center; width: 3.4rem; height: 2.8rem; border-radius: 0.5rem; background: var(--qf-green); transform: translate(-50%, -50%); }
-.qf-lock::before { position: absolute; bottom: 82%; left: 50%; width: 1.65rem; height: 1.7rem; border: 0.42rem solid var(--qf-green); border-bottom: 0; border-radius: 1.2rem 1.2rem 0 0; content: ""; transform: translateX(-50%); }
-.qf-lock i { width: 0.42rem; height: 1rem; border-radius: 999px; background: var(--qf-white); }
-
-.qf-approach-copy {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.35rem 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--qf-line);
-}
-
-.qf-approach-copy > span { color: var(--qf-coral); font-size: 0.69rem; font-weight: 780; letter-spacing: 0.09em; }
-.qf-approach-copy h3 { grid-column: 1; font-size: clamp(2.2rem, 3.5vw, 4.25rem); }
-.qf-approach-copy p { grid-column: 1; max-width: 44rem; margin: 0.8rem 0 0; font-size: 1.07rem; line-height: 1.55; }
-.qf-approach-copy small { grid-column: 2; grid-row: 1 / 4; align-self: end; font-size: 0.73rem; font-weight: 740; letter-spacing: 0.08em; }
-
-.qf-value-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--qf-line);
-  border-left: 1px solid var(--qf-line);
-}
-
-.qf-value-card {
-  position: relative;
-  min-height: 20rem;
-  padding: 1.5rem;
-  border-right: 1px solid var(--qf-line);
-  border-bottom: 1px solid var(--qf-line);
-  background: rgba(255, 255, 255, 0.36);
-  transition: background 220ms ease;
-}
-
-.qf-value-card:hover { background: var(--qf-white); }
-.qf-value-card > span { color: var(--qf-coral); font-size: 0.7rem; font-weight: 760; }
-.qf-value-card h3 { margin-top: 4rem; font-family: var(--qf-serif); font-size: clamp(1.7rem, 2.2vw, 2.5rem); font-weight: 400; letter-spacing: -0.035em; line-height: 1.02; }
-.qf-value-card p { margin: 1rem 0 0; line-height: 1.5; }
-.qf-value-card i { position: absolute; top: 1.5rem; right: 1.5rem; width: 2rem; height: 2rem; border: 1px solid var(--qf-green); border-radius: 50%; }
-.qf-value-card i::before,
-.qf-value-card i::after { position: absolute; top: 50%; left: 50%; width: 45%; height: 1px; content: ""; background: var(--qf-green); transform: translate(-50%, -50%); }
-.qf-value-card i::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform 260ms ease; }
-.qf-value-card:hover i::after { transform: translate(-50%, -50%) rotate(270deg); }
-
 .qf-portfolio { min-height: 100svh; background: var(--qf-paper-warm); }
 .qf-portfolio-heading { display: grid; grid-template-columns: minmax(12rem, 0.45fr) minmax(30rem, 1.55fr); gap: 4vw; margin-bottom: 5rem; }
 
@@ -1836,7 +1599,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
 .qf-news-archive-hero h1 em { color: var(--color-brand); }
 .qf-news-archive-hero .qf-text-link { margin-top: 2.5rem; }
 .qf-archive-orbit { position: absolute; top: 50%; right: 7vw; width: min(44vw, 38rem); aspect-ratio: 1; border: 1px solid rgba(22, 116, 94, 0.25); border-radius: 50%; transform: translateY(-45%); animation: qf-archive-breathe 8s ease-in-out infinite; }
-.qf-archive-orbit i { position: absolute; inset: 16%; border: 1px dashed rgba(22, 116, 94, 0.35); border-radius: 50%; animation: qf-approach-spin 26s linear infinite; }
+.qf-archive-orbit i { position: absolute; inset: 16%; border: 1px dashed rgba(22, 116, 94, 0.35); border-radius: 50%; animation: qf-orbit-spin 26s linear infinite; }
 .qf-archive-orbit i:nth-child(2) { inset: 32%; border-style: solid; animation-direction: reverse; }
 .qf-archive-orbit i:nth-child(3) { inset: 46%; background: var(--qf-coral); border: 0; }
 
@@ -1928,42 +1691,8 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   to { left: 112%; }
 }
 
-@keyframes qf-approach-spin {
+@keyframes qf-orbit-spin {
   to { transform: rotate(360deg); }
-}
-
-@keyframes qf-handshake {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-0.26rem) rotate(-1.3deg); }
-}
-
-@keyframes qf-chip-breathe {
-  0%, 100% { box-shadow: 0 0 0 1.05rem rgb(from var(--color-brand) r g b / 8%); }
-  50% { box-shadow: 0 0 0 1.45rem rgba(34, 199, 203, 0.1); }
-}
-
-@keyframes qf-trace-pulse {
-  0%, 100% { opacity: 0.55; transform: translateY(-50%) scale(0.72); }
-  50% { opacity: 1; transform: translateY(-50%) scale(1.18); }
-}
-
-@keyframes qf-market-expand {
-  0%, 100% { opacity: 0.54; transform: scale(0.985); }
-  50% { opacity: 1; transform: scale(1.025); }
-}
-
-@keyframes qf-node-beat {
-  0%, 100% { transform: translateY(-50%) scale(0.82); }
-  50% { transform: translateY(-50%) scale(1.15); }
-}
-
-@keyframes qf-barrier-hold {
-  0%, 100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.985); }
-  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.018); }
-}
-
-@keyframes qf-readout-in {
-  from { opacity: 0; transform: translateY(1rem); }
 }
 
 @keyframes qf-route-travel {
@@ -1979,7 +1708,6 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-hero { grid-template-columns: minmax(0, 1.08fr) minmax(23rem, 0.92fr); }
   .qf-hero h1 { font-size: clamp(4rem, 7.5vw, 7rem); }
   .qf-industry-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .qf-value-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .qf-news-archive { grid-template-columns: 1fr; }
 }
 
@@ -2009,13 +1737,7 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-about { grid-template-columns: 1fr; gap: 4rem; }
   .qf-about-body { align-content: start; }
   .qf-section-heading,
-  .qf-approach-heading,
   .qf-portfolio-heading { grid-template-columns: 1fr; gap: 0.5rem; }
-  .qf-approach-instrument { grid-template-columns: 1fr; }
-  .qf-approach-controls { display: grid; grid-template-columns: repeat(4, 1fr); border-right: 0; border-bottom: 1px solid var(--qf-line); }
-  .qf-approach-controls button { grid-template-columns: 1fr; min-height: 7.5rem; justify-items: start; gap: 0.4rem; border-right: 1px solid var(--qf-line); border-bottom: 0; }
-  .qf-approach-controls button:last-child { border-right: 0; }
-  .qf-approach-controls button > i { display: none; }
   .qf-team-grid,
   .qf-news-grid { grid-template-columns: 1fr; }
   .qf-team-card { display: grid; grid-template-columns: minmax(15rem, 0.85fr) minmax(17rem, 1.15fr); }
@@ -2073,14 +1795,12 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-hero-foot > span { display: none; }
   .qf-hero-foot { justify-content: flex-end; }
   .qf-about,
-  .qf-approach,
   .qf-portfolio,
   .qf-team,
   .qf-news { padding: 6rem 2.4rem 6rem 1rem; }
   .qf-section-label { margin-bottom: 3.5rem; }
   .qf-about-heading h2,
   .qf-section-heading h2,
-  .qf-approach-heading h2,
   .qf-portfolio-heading h2,
   .qf-news-heading h2 { font-size: clamp(2.75rem, 12vw, 4.5rem); line-height: 0.98; }
   .qf-about-copy { grid-template-columns: 1fr; }
@@ -2109,16 +1829,6 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-industry-counter { gap: 0.25rem; }
   .qf-industry-counter strong { font-size: 1.45rem; }
   .qf-industry-counter span { font-size: 0.58rem; }
-  .qf-approach-controls { grid-template-columns: 1fr 1fr; }
-  .qf-approach-controls button { min-height: 6.5rem; border-right: 1px solid var(--qf-line); border-bottom: 1px solid var(--qf-line); }
-  .qf-approach-controls button:nth-child(even) { border-right: 0; }
-  .qf-approach-controls button:nth-last-child(-n + 2) { border-bottom: 0; }
-  .qf-approach-readout { padding: 1.2rem; }
-  .qf-approach-graphic { width: 100%; min-height: 0; }
-  .qf-approach-copy { grid-template-columns: 1fr; }
-  .qf-approach-copy small { grid-column: 1; grid-row: auto; margin-top: 1rem; }
-  .qf-value-grid { grid-template-columns: 1fr; }
-  .qf-value-card { min-height: 17rem; }
   .qf-portfolio-grid { grid-template-columns: 1fr; }
   .qf-portfolio-card,
   .qf-portfolio-card:nth-child(10),
@@ -2198,8 +1908,6 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-frontier-core::after,
   .qf-frontier-arrow,
   .qf-hero-foot i,
-  .qf-approach-graphic *,
-  .qf-chip::after,
   .qf-news-drawing .qf-route,
   .qf-archive-orbit,
   .qf-archive-orbit i,

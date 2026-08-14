@@ -14,13 +14,12 @@ import BrandMark from "./components/BrandMark";
 import NewsArtwork from "./components/NewsArtwork";
 import IndustriesExperience from "./industries/IndustriesExperience";
 import { formatNewsDate, newsItems } from "./newsData";
-import { evaluationPillars, portfolio, team, valueCreation } from "./siteData";
+import { portfolio, team } from "./siteData";
 
 const sections = [
   ["top", "Home"],
   ["about", "About"],
   ["industries", "Industries"],
-  ["approach", "Our approach"],
   ["portfolio", "Portfolio"],
   ["team", "Team"],
   ["news", "News"],
@@ -61,59 +60,6 @@ function SectionRuler({ active }: { active: string }) {
         </button>
       ))}
     </nav>
-  );
-}
-
-function ApproachGraphic({ index, code }: { index: number; code: string }) {
-  const variant = ["team", "technology", "market", "defensibility"][index];
-
-  return (
-    <div className={`qf-approach-graphic is-${variant}`} aria-hidden="true">
-      <span className="qf-approach-grid" />
-      {variant === "team" ? (
-        <div className="qf-handshake">
-          <svg viewBox="0 0 24 22" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" focusable="false">
-            <g className="qf-handshake-hands">
-              <path d="M3 1 2 12l6.5 6.5a1 1 0 1 0 3-3" vectorEffect="non-scaling-stroke" />
-              <path d="M3 2h8" vectorEffect="non-scaling-stroke" />
-              <path d="m11 15 2 2a1 1 0 1 0 3-3" vectorEffect="non-scaling-stroke" />
-              <path
-                d="m14 12 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 2"
-                vectorEffect="non-scaling-stroke"
-              />
-              <path d="m21 1 1 11h-2" vectorEffect="non-scaling-stroke" />
-            </g>
-          </svg>
-          <b>DOMAIN / FOUNDER FIT</b>
-        </div>
-      ) : null}
-      {variant === "technology" ? (
-        <div className="qf-technology-symbol">
-          <span className="qf-chip"><b>10×</b><i /></span>
-          <span className="qf-trace trace-one" />
-          <span className="qf-trace trace-two" />
-          <span className="qf-trace trace-three" />
-          <span className="qf-trace trace-four" />
-        </div>
-      ) : null}
-      {variant === "market" ? (
-        <div className="qf-market-symbol">
-          <span className="qf-market-ring ring-one" />
-          <span className="qf-market-ring ring-two" />
-          <span className="qf-market-ring ring-three" />
-          <span className="qf-market-vector"><i /><b /></span>
-        </div>
-      ) : null}
-      {variant === "defensibility" ? (
-        <div className="qf-defensibility-symbol">
-          <span className="qf-barrier barrier-one" />
-          <span className="qf-barrier barrier-two" />
-          <span className="qf-barrier barrier-three" />
-          <span className="qf-lock"><i /></span>
-        </div>
-      ) : null}
-      <span className="qf-approach-code">{code}</span>
-    </div>
   );
 }
 
@@ -355,7 +301,6 @@ function FrontierField() {
 export default function QFundExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
-  const [activeApproach, setActiveApproach] = useState(0);
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -444,8 +389,6 @@ export default function QFundExperience() {
     event.currentTarget.style.setProperty("--field-rotate-y", "0deg");
   };
 
-  const approach = evaluationPillars[activeApproach];
-
   return (
     <main className="qf-site">
       <a className="qf-skip-link" href="#about">Skip to content</a>
@@ -477,8 +420,8 @@ export default function QFundExperience() {
               <span>{String(index + 1).padStart(2, "0")}</span>{label}
             </a>
           ))}
-          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>07</span>All news</Link>
-          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>08</span>Contact</Link>
+          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>06</span>All news</Link>
+          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>07</span>Contact</Link>
         </nav>
       </div>
 
@@ -502,7 +445,6 @@ export default function QFundExperience() {
             qFund invests in startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
           </p>
           <div className="qf-hero-actions qf-reveal is-visible">
-            <a className="qf-button" href="#approach">Our approach <span>↓</span></a>
             <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
           </div>
         </div>
@@ -523,7 +465,6 @@ export default function QFundExperience() {
           <div className="qf-about-copy qf-reveal">
             <div className="qf-about-copy-label"><span aria-hidden="true" />How we think</div>
             <p><span aria-hidden="true">01</span><span>We invest in startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.</span></p>
-            <p><span aria-hidden="true">02</span><span>Our approach combines financial investment with technical validation, commercialization support, and strategic access.</span></p>
           </div>
           <div className="qf-about-facts qf-reveal" aria-label="qFund at a glance">
             <article><strong>Deep Tech</strong><span>Investment focus</span></article>
@@ -535,56 +476,8 @@ export default function QFundExperience() {
 
       <IndustriesExperience />
 
-      <section className="qf-approach qf-scroll-section" id="approach" data-qf-section aria-labelledby="approach-title">
-        <div className="qf-section-label qf-reveal"><span>03</span><p>Our approach</p></div>
-        <div className="qf-approach-heading qf-reveal">
-          <p className="qf-kicker">HOW WE CHOOSE</p>
-          <h2 id="approach-title">Four signals turn potential into <em>conviction.</em></h2>
-        </div>
-        <div className="qf-approach-instrument qf-reveal">
-          <div className="qf-approach-controls" role="list" aria-label="Investment evaluation pillars">
-            {evaluationPillars.map((item, index) => (
-              <button
-                type="button"
-                className={activeApproach === index ? "is-active" : ""}
-                onMouseEnter={() => setActiveApproach(index)}
-                onFocus={() => setActiveApproach(index)}
-                onClick={() => setActiveApproach(index)}
-                aria-pressed={activeApproach === index}
-                key={item.code}
-              >
-                <span>{item.code}</span><strong>{item.title}</strong><i aria-hidden="true" />
-              </button>
-            ))}
-          </div>
-          <div className="qf-approach-readout" key={approach.code}>
-            <ApproachGraphic index={activeApproach} code={approach.code} />
-            <div className="qf-approach-copy">
-              <span>{approach.signal}</span>
-              <h3>{approach.title}</h3>
-              <p>{approach.text}</p>
-              <small>{String(activeApproach + 1).padStart(2, "0")} / {String(evaluationPillars.length).padStart(2, "0")}</small>
-            </div>
-          </div>
-        </div>
-        <div className="qf-approach-heading qf-approach-heading-after qf-reveal">
-          <p className="qf-kicker">WHAT WE DO AFTER</p>
-          <div className="qf-approach-after-copy">
-            <h2 id="approach-after-title">Capital opens the door. <em>We stay in the room.</em></h2>
-            <p>From first proof to commercial momentum, we work beside founders where technical ambition meets the realities of building a category-defining company.</p>
-          </div>
-        </div>
-        <div className="qf-value-grid" aria-labelledby="approach-after-title">
-          {valueCreation.map((item) => (
-            <article className="qf-value-card qf-reveal" key={item.code}>
-              <span>{item.code}</span><h3>{item.title}</h3><p>{item.text}</p><i aria-hidden="true" />
-            </article>
-          ))}
-        </div>
-      </section>
-
       <section className="qf-portfolio qf-scroll-section" id="portfolio" data-qf-section aria-labelledby="portfolio-title">
-        <div className="qf-section-label qf-reveal"><span>04</span><p>Our portfolio</p></div>
+        <div className="qf-section-label qf-reveal"><span>03</span><p>Our portfolio</p></div>
         <div className="qf-portfolio-heading qf-reveal">
           <p className="qf-kicker">ELEVEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
           <h2 id="portfolio-title">Built around technologies with <em>consequence.</em></h2>
@@ -617,7 +510,7 @@ export default function QFundExperience() {
       </section>
 
       <section className="qf-team qf-scroll-section" id="team" data-qf-section aria-labelledby="team-title">
-        <div className="qf-section-label qf-reveal"><span>05</span><p>Investment team</p></div>
+        <div className="qf-section-label qf-reveal"><span>04</span><p>Investment team</p></div>
         <div className="qf-section-heading qf-reveal">
           <p className="qf-kicker">QFUND · HERZLIYA</p>
           <h2 id="team-title">Experience across R&amp;D, industry, investment, and <em>global partnerships.</em></h2>
@@ -636,7 +529,7 @@ export default function QFundExperience() {
       </section>
 
       <section className="qf-news qf-scroll-section" id="news" data-qf-section aria-labelledby="news-title">
-        <div className="qf-section-label qf-reveal"><span>06</span><p>News</p></div>
+        <div className="qf-section-label qf-reveal"><span>05</span><p>News</p></div>
         <div className="qf-news-heading qf-reveal">
           <div><p className="qf-kicker">LATEST ACTIVITY</p><h2 id="news-title">qFund <em>in motion.</em></h2></div>
           <Link className="qf-text-link" href="/news/">View all news <span>↗</span></Link>

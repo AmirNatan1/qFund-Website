@@ -22,7 +22,7 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Pre-seed to Series A/);
   assert.match(html, /id="about"/);
   assert.match(html, /id="industries"/);
-  assert.match(html, /id="approach"/);
+  assert.doesNotMatch(html, /Our approach|id="approach"|href="#approach"/i);
   assert.match(html, /id="portfolio"/);
   assert.match(html, /id="team"/);
   assert.match(html, /id="news"/);
@@ -35,7 +35,7 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /class="qf-frontier-q"/);
   assert.doesNotMatch(html, /qf-logo-field|qf-assembly-core|qf-lockup-track|qf-q-arrow-flight|qf-fund-reveal|qf-final-arrow-mask/);
   assert.doesNotMatch(html, /qfund-(?:q-base|q-arrow|fund)-hd\.png/);
-  assert.equal((html.match(/class="qf-handshake"/g) ?? []).length, 1);
+  assert.doesNotMatch(html, /class="qf-handshake"/);
   assert.doesNotMatch(html, /qf-joined-hands|qf-person-arm|qf-paper-chain|qf-paper-person/);
   assert.doesNotMatch(html, /class="qf-team-link"/);
   assert.match(html, /href="\/news\/"/);
@@ -111,12 +111,12 @@ test("publishes only the intended secondary pages", async () => {
   }
 });
 
-test("renders the header section ruler and three latest news stories", async () => {
+test("renders the header section ruler without the approach section and three latest news stories", async () => {
   const home = await readHome();
   assert.match(home, /class="qf-section-ruler"/);
   assert.match(home, /aria-label="Go to About"/);
   assert.match(home, /aria-label="Go to Industries"/);
-  assert.match(home, /aria-label="Go to Our approach"/);
+  assert.doesNotMatch(home, /Our approach|id="approach"|href="#approach"/i);
   assert.equal((home.match(/class="qf-news-card qf-reveal"/g) ?? []).length, 3);
   assert.match(home, />View all news/);
 });
