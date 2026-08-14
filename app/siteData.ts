@@ -153,49 +153,49 @@ export const investmentCriteria = [
 export const evaluationPillars = [
   {
     code: "01",
-    title: "Team",
-    text: "Domain authority with deep, proven expertise concentrated in the team solving the problem.",
-    signal: "DOMAIN AUTHORITY",
+    title: "Founder-problem fit",
+    text: "Rare technical depth, real operating instinct, and a team built to outlearn the market.",
+    signal: "EARNED INSIGHT",
   },
   {
     code: "02",
-    title: "Technology",
-    text: "10× performance improvement in a critical dimension. Proprietary, defensible, and not replicable for two to three years.",
-    signal: "10× PERFORMANCE",
+    title: "Step-change technology",
+    text: "A leap in performance, not an incremental edge—with protection that keeps it hard to follow.",
+    signal: "A TRUE LEAP FORWARD",
   },
   {
     code: "03",
-    title: "Market",
-    text: "Massive markets undergoing transformation. A real-world problem with a clear path to market dominance.",
-    signal: "MARKET TRANSFORMATION",
+    title: "A market in motion",
+    text: "An urgent, expanding market where a painful real-world problem leaves room for category leadership.",
+    signal: "PULL, NOT PROMISE",
   },
   {
     code: "04",
-    title: "Defensibility",
-    text: "Strong IP position: patents, trade secrets, and years of hard R&D. A technology barrier that compounds over time.",
-    signal: "COMPOUNDING BARRIER",
+    title: "A widening moat",
+    text: "IP, trade secrets, and hard-won know-how that widen the lead with every milestone.",
+    signal: "BUILT TO COMPOUND",
   },
 ] as const;
 
 export const valueCreation = [
   {
     code: "V/01",
-    title: "Technical validation",
-    text: "We run technology evaluations, proof-of-concept projects, and partner assessments, with access to test vehicles and beta sites.",
+    title: "Prove the edge",
+    text: "We pressure-test the science, run proofs of concept, and connect teams with test vehicles and beta sites.",
   },
   {
     code: "V/02",
-    title: "Strategic access",
-    text: "We open doors to customers, industrial partners, defense organizations, manufacturers, and co-investors.",
+    title: "Open the right doors",
+    text: "We bring customers, industrial partners, defense organizations, manufacturers, and co-investors into the room.",
   },
   {
     code: "V/03",
-    title: "Commercialization",
-    text: "We support go-to-market, product feasibility, market entry, fundraising, and resolving value-chain constraints.",
+    title: "Find the route to market",
+    text: "We sharpen the path from feasibility to market entry, fundraising, and the value-chain decisions in between.",
   },
   {
     code: "V/04",
-    title: "Company building",
-    text: "We structure investment frameworks, take board-level roles, and work on market strategy.",
+    title: "Build for the long run",
+    text: "We work at board level on investment structure, market strategy, and the decisions that turn progress into momentum.",
   },
 ] as const;

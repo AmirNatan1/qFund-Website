@@ -538,8 +538,8 @@ export default function QFundExperience() {
       <section className="qf-approach qf-scroll-section" id="approach" data-qf-section aria-labelledby="approach-title">
         <div className="qf-section-label qf-reveal"><span>03</span><p>Our approach</p></div>
         <div className="qf-approach-heading qf-reveal">
-          <p className="qf-kicker">CONVICTION, THEN COMPANY BUILDING</p>
-          <h2 id="approach-title">How we choose companies, and what we do <em>after we invest.</em></h2>
+          <p className="qf-kicker">HOW WE CHOOSE</p>
+          <h2 id="approach-title">Four signals turn potential into <em>conviction.</em></h2>
         </div>
         <div className="qf-approach-instrument qf-reveal">
           <div className="qf-approach-controls" role="list" aria-label="Investment evaluation pillars">
@@ -567,7 +567,14 @@ export default function QFundExperience() {
             </div>
           </div>
         </div>
-        <div className="qf-value-grid">
+        <div className="qf-approach-heading qf-approach-heading-after qf-reveal">
+          <p className="qf-kicker">WHAT WE DO AFTER</p>
+          <div className="qf-approach-after-copy">
+            <h2 id="approach-after-title">Capital opens the door. <em>We stay in the room.</em></h2>
+            <p>From first proof to commercial momentum, we work beside founders where technical ambition meets the realities of building a category-defining company.</p>
+          </div>
+        </div>
+        <div className="qf-value-grid" aria-labelledby="approach-after-title">
           {valueCreation.map((item) => (
             <article className="qf-value-card qf-reveal" key={item.code}>
               <span>{item.code}</span><h3>{item.title}</h3><p>{item.text}</p><i aria-hidden="true" />
