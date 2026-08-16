@@ -176,6 +176,9 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /\.qf-industry-track\.is-resetting \{ transition: none; \}/);
   assert.match(styles, /\.qf-industry-autoplay/);
   assert.match(styles, /\.qf-check-written/);
+  assert.match(styles, /@keyframes qf-handwrite-reveal/);
+  assert.match(homepage, /Backing the builders/);
+  assert.doesNotMatch(homepage, /SCROLL TO WRITE|PAY TO THE|AUTHORIZED SIGNATURE/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
   assert.match(styles, /--qf-industry-portal-scale: 0\.975/);
   assert.match(styles, /--qf-industry-portal-scale: 1\.012/);

@@ -101,7 +101,7 @@ function FrontierField() {
 
       const lens = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, fieldRadius);
       lens.addColorStop(0, rgba(accentRgb, 0.15));
-      lens.addColorStop(0.42, rgba(brandRgb, 0.055));
+      lens.addColorStop(0.42, rgba(brandRgb, 0.09));
       lens.addColorStop(1, rgba(brandRgb, 0));
       context.fillStyle = lens;
       context.fillRect(0, 0, width, height);
@@ -128,8 +128,8 @@ function FrontierField() {
           else context.lineTo(x, y);
         }
         const rowDistance = Math.abs(rowRatio - 0.5);
-        context.strokeStyle = rgba(brandRgb, 0.07 + (0.5 - rowDistance) * 0.16);
-        context.lineWidth = row === 7 ? 1.15 : 0.72;
+        context.strokeStyle = rgba(brandRgb, 0.12 + (0.5 - rowDistance) * 0.27);
+        context.lineWidth = row === 7 ? 1.35 : 0.86;
         context.stroke();
       }
 
@@ -153,8 +153,8 @@ function FrontierField() {
           if (step === 0) context.moveTo(x, y);
           else context.lineTo(x, y);
         }
-        context.strokeStyle = rgba(brandRgb, 0.085);
-        context.lineWidth = 0.7;
+        context.strokeStyle = rgba(brandRgb, 0.16);
+        context.lineWidth = 0.82;
         context.stroke();
       }
 
@@ -197,7 +197,7 @@ function FrontierField() {
       const emission = (seconds % 5.4) / 5.4;
       context.beginPath();
       context.arc(centerX, centerY, 54 + emission * Math.min(width, height) * 0.28, 0, Math.PI * 2);
-      context.strokeStyle = rgba(brandRgb, Math.pow(1 - emission, 2) * 0.2);
+      context.strokeStyle = rgba(brandRgb, Math.pow(1 - emission, 2) * 0.32);
       context.lineWidth = 1;
       context.stroke();
     };
@@ -302,7 +302,6 @@ export default function QFundExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
   const cursorRef = useRef<HTMLDivElement>(null);
-  const aboutRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -311,32 +310,13 @@ export default function QFundExperience() {
     let pointerFrame = 0;
     let pointerX = 0;
     let pointerY = 0;
-    const checkWriters = Array.from(document.querySelectorAll<HTMLElement>("[data-check-write]"));
-
-    const updateCheckWriting = () => {
-      const about = aboutRef.current;
-      const check = about?.querySelector<HTMLElement>(".qf-check");
-      if (!about || !check) return;
-
-      const bounds = check.getBoundingClientRect();
-      const writingDistance = Math.max(window.innerHeight * 0.72, Math.min(bounds.height, window.innerHeight) * 0.82);
-      const rawProgress = reduced ? 1 : (window.innerHeight * 0.9 - bounds.top) / writingDistance;
-      const progress = Math.min(1, Math.max(0, rawProgress));
-      about.style.setProperty("--check-progress", String(progress));
-      about.style.setProperty("--check-progress-width", `${(progress * 100).toFixed(2)}%`);
-
-      checkWriters.forEach((writer, index) => {
-        const start = index * 0.075;
-        const localProgress = Math.min(1, Math.max(0, (progress - start) / 0.34));
-        writer.style.setProperty("--write-hidden", `${((1 - localProgress) * 100).toFixed(2)}%`);
-        writer.style.setProperty("--write-opacity", String(0.08 + localProgress * 0.92));
-      });
-    };
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("is-visible");
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          if (entry.target.classList.contains("qf-check")) entry.target.classList.add("is-writing");
         });
       },
       { threshold: 0.12, rootMargin: "0px 0px -5%" },
@@ -364,7 +344,6 @@ export default function QFundExperience() {
       scrollFrame = window.requestAnimationFrame(() => {
         const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         root.style.setProperty("--page-progress", String(window.scrollY / max));
-        updateCheckWriting();
         scrollFrame = 0;
       });
     };
@@ -384,7 +363,6 @@ export default function QFundExperience() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("pointermove", onPointer, { passive: true });
     onScroll();
-    updateCheckWriting();
 
     return () => {
       window.cancelAnimationFrame(scrollFrame);
@@ -479,7 +457,7 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="qf-about qf-scroll-section" id="about" data-qf-section aria-labelledby="about-title" ref={aboutRef}>
+      <section className="qf-about qf-scroll-section" id="about" data-qf-section aria-labelledby="about-title">
         <div className="qf-section-label qf-reveal"><span>01</span><p>About us</p></div>
         <div className="qf-about-heading qf-reveal">
           <p className="qf-kicker">EARLY-STAGE VENTURE CAPITAL</p>
@@ -487,46 +465,35 @@ export default function QFundExperience() {
         </div>
         <div className="qf-check-stage">
           <span className="qf-check-stage-grid" aria-hidden="true" />
-          <div className="qf-check qf-reveal" aria-label="qFund investment check">
+          <div className="qf-check qf-reveal" aria-label="qFund backs the builders of the deep future, from pre-seed to Series A">
             <div className="qf-check-top">
               <div className="qf-check-bank">
                 <span className="qf-check-monogram" aria-hidden="true">q</span>
-                <div><strong>qFund</strong><small>DEEP TECH VENTURE CAPITAL / HERZLIYA</small></div>
+                <div><strong>qFund</strong><small>DEEP TECH VENTURE CAPITAL</small></div>
               </div>
-              <div className="qf-check-number"><span>CHECK</span><strong>0001</strong></div>
+              <span className="qf-check-corner-mark">QF / 01</span>
             </div>
 
-            <div className="qf-check-date"><span>DATE</span><strong className="qf-check-written" data-check-write>THE DEEP FUTURE</strong></div>
-
-            <div className="qf-check-payee">
-              <span>PAY TO THE<br />ORDER OF</span>
-              <strong className="qf-check-written" data-check-write>Deep Tech builders</strong>
-              <div className="qf-check-amount"><span>INVESTMENT STAGE</span><strong className="qf-check-written" data-check-write>Pre-seed to Series A</strong></div>
+            <div className="qf-check-statement" aria-hidden="true">
+              <span className="qf-check-script-line" style={{ "--write-order": 0 } as CSSProperties}>
+                <span className="qf-check-written">Backing the builders</span>
+              </span>
+              <span className="qf-check-script-line" style={{ "--write-order": 1 } as CSSProperties}>
+                <span className="qf-check-written">of the deep future.</span>
+              </span>
             </div>
-
-            <div className="qf-check-words">
-              <strong className="qf-check-written" data-check-write>Core infrastructure, hardware &amp; enabling technologies</strong>
-              <span>VENTURE CAPITAL</span>
-            </div>
-
-            <p className="qf-check-note qf-check-written" data-check-write>
-              Across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
-            </p>
 
             <div className="qf-check-bottom">
-              <div className="qf-check-memo"><span>MEMO</span><strong className="qf-check-written" data-check-write>Conviction beyond capital</strong></div>
-              <div className="qf-check-signature"><strong className="qf-check-written" data-check-write>qFund</strong><span>AUTHORIZED SIGNATURE</span></div>
+              <span className="qf-check-script-line qf-check-stage-line" style={{ "--write-order": 2 } as CSSProperties}>
+                <span className="qf-check-written">Pre-seed to Series A</span>
+              </span>
+              <span className="qf-check-script-line qf-check-signature-line" style={{ "--write-order": 3 } as CSSProperties}>
+                <span className="qf-check-written">qFund</span>
+              </span>
             </div>
 
-            <div className="qf-check-facts" aria-label="qFund at a glance">
-              <article><span>FOCUS</span><strong>Deep Tech</strong></article>
-              <article><span>HORIZON</span><strong>Pre-seed to Series A</strong></article>
-              <article><span>GEOGRAPHY</span><strong>Israeli-related startups</strong></article>
-            </div>
-
-            <div className="qf-check-routing" aria-hidden="true">⑆ 081 0001 00001 ⑆ QF DEEP TECH 01</div>
+            <div className="qf-check-security" aria-hidden="true"><i /><i /><i /></div>
           </div>
-          <div className="qf-check-scroll-progress" aria-hidden="true"><span>SCROLL TO WRITE</span><i /></div>
         </div>
       </section>
 

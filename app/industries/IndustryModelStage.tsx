@@ -113,7 +113,7 @@ function shiftBlueToTiffany(color: THREE.Color) {
   const hsl = { h: 0, s: 0, l: 0 };
   color.getHSL(hsl);
   if (hsl.h < 0.45 || hsl.h > 0.72 || hsl.s < 0.14) return false;
-  color.setHSL(0.489, Math.min(0.62, Math.max(0.28, hsl.s * 0.78)), hsl.l);
+  color.setHSL(0.489, Math.min(0.36, Math.max(0.16, hsl.s * 0.46)), hsl.l);
   return true;
 }
 
@@ -356,7 +356,7 @@ function PreloadedIndustryModels({
       ) : null}
       {readyModelIds.has("drone") ? (
         <ModelGroup id="drone" activeModelId={activeModelId}>
-          <group position={[0, 0.35, 0]}><DroneModel accent="#81d8d0" spin={!reducedMotion} /></group>
+          <group position={[0, 0.35, 0]}><DroneModel accent="#62bdb4" spin={!reducedMotion} /></group>
         </ModelGroup>
       ) : null}
       {readyModelIds.has("datacenter") ? (
@@ -372,7 +372,7 @@ function PreloadedIndustryModels({
       ) : null}
       {readyModelIds.has("particle-accelerator") ? (
         <ModelGroup id="particle-accelerator" activeModelId={activeModelId}>
-          <ParticleAcceleratorModel autoRotate={!reducedMotion} beamColor="#81d8d0" accentColor="#57bdb4" />
+          <ParticleAcceleratorModel autoRotate={!reducedMotion} beamColor="#73c8c0" accentColor="#4f9f98" />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("cyber-security") ? (
@@ -430,17 +430,17 @@ export function IndustrySharedCanvas({
         gl={{ antialias: true, alpha: false, powerPreference: "high-performance", precision: "highp" }}
         onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.08;
+          gl.toneMappingExposure = 1.02;
         }}
       >
         <color attach="background" args={["#042925"]} />
-        <ambientLight intensity={0.48} color="#81bdb7" />
-        <hemisphereLight args={["#bcebe6", "#020b0a", 0.75]} />
+        <ambientLight intensity={0.42} color="#a7c2bf" />
+        <hemisphereLight args={["#d7ece9", "#020b0a", 0.66]} />
         <directionalLight position={[8, 12, 7]} intensity={2.8} color="#e6fffc" />
-        <directionalLight position={[-7, 3, -6]} intensity={1.2} color="#4fbab0" />
+        <directionalLight position={[-7, 3, -6]} intensity={0.68} color="#6f9e99" />
         <Environment resolution={128} frames={1}>
           <Lightformer intensity={4} color="#e6fffc" position={[5, 7, 4]} scale={[10, 6, 1]} />
-          <Lightformer intensity={3} color="#81d8d0" position={[-6, 2, -4]} scale={[8, 5, 1]} />
+          <Lightformer intensity={1.35} color="#79b7b1" position={[-6, 2, -4]} scale={[8, 5, 1]} />
         </Environment>
         <SharedCamera activeModelId={ready ? activeModelId : null} />
         <SceneWarmup readyModelIds={readyModelIds} />
