@@ -123,7 +123,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(experience, /<IndustrySharedCanvas/);
   assert.doesNotMatch(experience, /renderWindow|storyIsNearViewport/);
   assert.doesNotMatch(experience, /moving=\{isScrolling\}/);
-  assert.match(experience, /CAROUSEL_INTERVAL_MS = 3000/);
+  assert.match(experience, /CAROUSEL_INTERVAL_MS = 4500/);
   assert.match(experience, /setInterval/);
   assert.match(experience, /isAutoplayPaused/);
   assert.match(experience, /isModelInteracting/);
@@ -177,7 +177,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /\.qf-industry-autoplay/);
   assert.match(styles, /\.qf-check-written/);
   assert.match(styles, /@keyframes qf-handwrite-reveal/);
-  assert.match(homepage, /Backing the builders/);
+  assert.match(homepage, /Builders of the deep future/);
   assert.doesNotMatch(homepage, /SCROLL TO WRITE|PAY TO THE|AUTHORIZED SIGNATURE/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
   assert.match(styles, /--qf-industry-portal-scale: 0\.975/);

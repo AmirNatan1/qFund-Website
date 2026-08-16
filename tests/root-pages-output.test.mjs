@@ -38,6 +38,7 @@ test("repository-root snapshot includes every required public asset", async () =
     access(new URL("portfolio/quamcore-color.svg", rootUrl)),
     access(new URL("portfolio/eshtech-color.svg", rootUrl)),
     access(new URL("focus/quantum-computing.jpg", rootUrl)),
+    access(new URL("news/skapion-drone-swarm.webp", rootUrl)),
     ...stylesheets.map((href) => access(new URL(href.replace(/^\//, ""), rootUrl))),
     access(new URL(script.replace(/^\//, ""), rootUrl)),
   ]);

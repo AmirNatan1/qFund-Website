@@ -71,6 +71,11 @@ test("publishes the required static assets", async () => {
     access(new URL("focus/advanced-industry.jpg", outputUrl)),
     access(new URL("focus/semiconductors.jpg", outputUrl)),
     access(new URL("focus/advanced-electronics.jpg", outputUrl)),
+    access(new URL("news/skapion-drone-swarm.webp", outputUrl)),
+    access(new URL("news/esh-tech-dronelight.webp", outputUrl)),
+    access(new URL("news/litevision-drone-imaging.webp", outputUrl)),
+    access(new URL("news/commcrete-stardust-flipper.webp", outputUrl)),
+    access(new URL("news/qedma-quantum-computing.webp", outputUrl)),
   ]);
 
   const html = await readHome();
@@ -97,8 +102,12 @@ test("publishes only the intended secondary pages", async () => {
   ]);
 
   assert.match(news, /<title>News and Activity \| qFund<\/title>/i);
-  assert.match(news, /qFund in New York/);
-  assert.match(news, /VC delegation to Japan/);
+  assert.match(news, /Skapion/);
+  assert.match(news, /Esh-Tech/);
+  assert.match(news, /LiteVision-EO/);
+  assert.match(news, /Commcrete/);
+  assert.match(news, /QEDMA/);
+  assert.equal((news.match(/class="qf-news-archive-card qf-reveal"/g) ?? []).length, 5);
   assert.match(news, /class="qf-news-art/);
   assert.match(contact, /<title>Contact qFund \| Deep Tech Venture Capital<\/title>/i);
   assert.match(contact, /Tell us what you are/);
@@ -108,6 +117,24 @@ test("publishes only the intended secondary pages", async () => {
 
   for (const route of ["thesis", "companies", "founders"]) {
     await assert.rejects(access(new URL(`${route}/index.html`, outputUrl)));
+  }
+});
+
+test("exports all five verified qFund news articles with their approved images", async () => {
+  const records = [
+    ["qfund-participates-skapion-36m-seed", "Skapion", "skapion-drone-swarm.webp"],
+    ["qfund-participates-esh-tech-18m-round", "Esh-Tech", "esh-tech-dronelight.webp"],
+    ["qfund-invests-litevision-8m-seed", "LiteVision-EO", "litevision-drone-imaging.webp"],
+    ["qfund-backed-commcrete-29m-funding", "Commcrete", "commcrete-stardust-flipper.webp"],
+    ["qfund-qedma-26m-series-a", "QEDMA", "qedma-quantum-computing.webp"],
+  ];
+
+  for (const [slug, company, image] of records) {
+    const article = await readFile(new URL(`news/${slug}/index.html`, outputUrl), "utf8");
+    assert.match(article, new RegExp(company));
+    assert.match(article, new RegExp(`/news/${image}`));
+    assert.match(article, /class="qf-news-article-body"/);
+    assert.doesNotMatch(article, /Quantum Hub/i);
   }
 });
 
@@ -212,6 +239,8 @@ test("uses direct image URLs and one back-to-top control per page", async () => 
   assert.match(pages[0], /src="\/team\/liav-ben-rubi-hd\.webp"/);
   assert.match(pages[0], /src="\/portfolio\/element-security-color\.svg"/);
   assert.match(pages[0], /src="\/focus\/advanced-electronics\.jpg"/);
+  assert.match(pages[0], /src="\/news\/skapion-drone-swarm\.webp"/);
+  assert.match(pages[1], /src="\/news\/qedma-quantum-computing\.webp"/);
 
   for (const html of pages) {
     assert.equal((html.match(/aria-label="Back to the top"/g) ?? []).length, 1);

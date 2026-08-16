@@ -474,25 +474,42 @@ export default function QFundExperience() {
               <span className="qf-check-corner-mark">QF / 01</span>
             </div>
 
-            <div className="qf-check-statement" aria-hidden="true">
+            <div className="qf-check-focus" aria-hidden="true">
+              <span className="qf-check-field-label">OUR FOCUS</span>
               <span className="qf-check-script-line" style={{ "--write-order": 0 } as CSSProperties}>
-                <span className="qf-check-written">Backing the builders</span>
+                <span className="qf-check-written">Deep Tech</span>
               </span>
-              <span className="qf-check-script-line" style={{ "--write-order": 1 } as CSSProperties}>
-                <span className="qf-check-written">of the deep future.</span>
+            </div>
+
+            <div className="qf-check-main" aria-hidden="true">
+              <span className="qf-check-field-label">WE BACK</span>
+              <span className="qf-check-script-line qf-check-builder-line" style={{ "--write-order": 1 } as CSSProperties}>
+                <span className="qf-check-written">Builders of the deep future</span>
+              </span>
+              <div className="qf-check-stage-box">
+                <span className="qf-check-field-label">ENTRY STAGE</span>
+                <span className="qf-check-script-line" style={{ "--write-order": 2 } as CSSProperties}>
+                  <span className="qf-check-written">Pre-seed to Series A</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="qf-check-words" aria-hidden="true">
+              <span className="qf-check-field-label">WITH</span>
+              <span className="qf-check-script-line" style={{ "--write-order": 3 } as CSSProperties}>
+                <span className="qf-check-written">Conviction beyond capital</span>
               </span>
             </div>
 
             <div className="qf-check-bottom">
-              <span className="qf-check-script-line qf-check-stage-line" style={{ "--write-order": 2 } as CSSProperties}>
-                <span className="qf-check-written">Pre-seed to Series A</span>
-              </span>
-              <span className="qf-check-script-line qf-check-signature-line" style={{ "--write-order": 3 } as CSSProperties}>
+              <span className="qf-check-origin">HERZLIYA / ISRAEL</span>
+              <span className="qf-check-script-line qf-check-signature-line" style={{ "--write-order": 4 } as CSSProperties}>
                 <span className="qf-check-written">qFund</span>
               </span>
             </div>
 
             <div className="qf-check-security" aria-hidden="true"><i /><i /><i /></div>
+            <div className="qf-check-routing" aria-hidden="true">QF 01&nbsp;&nbsp;•&nbsp;&nbsp;DEEP TECH&nbsp;&nbsp;•&nbsp;&nbsp;81 216 208</div>
           </div>
         </div>
       </section>
@@ -559,12 +576,12 @@ export default function QFundExperience() {
         </div>
         <div className="qf-news-grid">
           {newsItems.slice(0, 3).map((item, index) => (
-            <article className="qf-news-card qf-reveal" key={`${item.date}-${item.title}`}>
+            <Link className="qf-news-card qf-reveal" href={`/news/${item.slug}/`} key={`${item.date}-${item.title}`}>
               <NewsArtwork item={item} index={index} />
               <div><span>{item.tag}</span><time dateTime={item.date}>{formatNewsDate(item.date)}</time></div>
               <h3>{item.title}</h3>
               <p>{item.blurb}</p>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

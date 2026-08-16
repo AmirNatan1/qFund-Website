@@ -10,7 +10,7 @@ import {
 } from "./industryConfig";
 
 const LAST_CHAPTER_INDEX = industryChapters.length - 1;
-const CAROUSEL_INTERVAL_MS = 3000;
+const CAROUSEL_INTERVAL_MS = 4500;
 const GESTURE_IDLE_MS = 260;
 const RELEASE_ANIMATION_MS = 950;
 

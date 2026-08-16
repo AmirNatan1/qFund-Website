@@ -38,12 +38,15 @@ export default function NewsPage() {
       <section className="qf-news-archive" aria-label="All qFund news">
         {newsItems.map((item, index) => (
           <article className="qf-news-archive-card qf-reveal" key={`${item.date}-${item.title}`}>
-            <NewsArtwork item={item} index={index} />
-            <div className="qf-news-archive-copy">
-              <div><span>{item.tag}</span><time dateTime={item.date}>{formatNewsDate(item.date)}</time></div>
-              <h2>{item.title}</h2>
-              <p>{item.blurb}</p>
-            </div>
+            <Link className="qf-news-archive-link" href={`/news/${item.slug}/`}>
+              <NewsArtwork item={item} index={index} priority={index < 2} />
+              <div className="qf-news-archive-copy">
+                <div><span>{item.tag}</span><time dateTime={item.date}>{formatNewsDate(item.date)}</time></div>
+                <h2>{item.title}</h2>
+                <p>{item.blurb}</p>
+                <span className="qf-news-read">Read the story <i aria-hidden="true">→</i></span>
+              </div>
+            </Link>
           </article>
         ))}
       </section>

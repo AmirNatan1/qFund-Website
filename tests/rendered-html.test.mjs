@@ -46,7 +46,7 @@ test("server-renders the unified qFund experience", async () => {
 
 test("server-renders the only intended secondary pages", async () => {
   const expectations = [
-    ["/news", /News and activity/i, /qFund in New York/],
+    ["/news", /News and activity/i, /qFund Participates in Skapion/],
     ["/contact", /Tell us what you are/i, /info@qfund\.io/],
   ];
 
