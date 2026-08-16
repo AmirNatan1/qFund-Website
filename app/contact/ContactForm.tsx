@@ -28,8 +28,8 @@ function read(data: FormData): Submission {
 }
 
 /**
- * Last resort only. If the endpoint cannot be reached — not yet configured, the
- * network dropped, the provider is down — the enquiry is handed to the visitor's
+ * Last resort only. If the endpoint cannot be reached - not yet configured, the
+ * network dropped, the provider is down - the enquiry is handed to the visitor's
  * mail client rather than lost. On the ordinary path this never runs.
  */
 function prepareEmail(submission: Submission) {

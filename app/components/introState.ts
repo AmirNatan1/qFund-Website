@@ -2,8 +2,8 @@ export const INTRO_DONE_EVENT = "qf:intro-done";
 
 /**
  * Runs `task` once the opening reveal has resolved, so heavy start-up work never
- * competes with it for the main thread. If the reveal was never armed — reduced
- * motion, or any page that does not run it — the task starts immediately. While
+ * competes with it for the main thread. If the reveal was never armed - reduced
+ * motion, or any page that does not run it - the task starts immediately. While
  * the reveal is holding for interaction, deferred work remains deferred too.
  */
 export function whenIntroSettles(task: () => void): () => void {

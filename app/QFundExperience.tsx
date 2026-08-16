@@ -157,7 +157,6 @@ export default function QFundExperience() {
         <a className="qf-logo" href="#top" aria-label="qFund home"><BrandMark /></a>
         <SectionRuler active={activeSection} />
         <nav className="qf-header-actions" aria-label="Secondary navigation">
-          <Link href="/news/">News</Link>
           <Link className="qf-button qf-button-small" href="/contact/">Contact qFund <span>↗</span></Link>
         </nav>
         <button

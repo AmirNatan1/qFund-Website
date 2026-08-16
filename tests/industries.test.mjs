@@ -138,8 +138,12 @@ test("preloads every scene and advances the integrated thesis every three second
   assert.doesNotMatch(experience, /visualIndexRef|wrapsForward|qf-industry-chapter-clone|is-resetting/);
   assert.doesNotMatch(experience, /isImmersive|metricsRef|qf-industries-immersive/);
   assert.match(experience, /id="thesis"/);
-  assert.match(experience, /Builders of foundational technology/);
+  assert.match(experience, /Early conviction/);
+  assert.match(experience, /Foundational technology/);
   assert.match(experience, /Conviction beyond capital/);
+  assert.match(experience, /className="qf-thesis-system qf-reveal"/);
+  assert.match(experience, /className="qf-thesis-orbit"/);
+  assert.match(experience, /className="qf-thesis-signals"/);
   assert.match(stage, /useGLTF\.preload\("\/3d\/quantum-computer\.glb"\)/);
   assert.match(stage, /requestIdleCallback/);
   assert.match(stage, /announceRenderReady\(task\.id\)/);
@@ -184,7 +188,9 @@ test("preloads every scene and advances the integrated thesis every three second
   assert.doesNotMatch(styles, /\.qf-industry-track\.is-resetting|\.qf-industry-autoplay/);
   assert.match(styles, /width: var\(--qf-intro-core-size/);
   assert.match(styles, /width: var\(--qf-intro-logo-size/);
-  assert.match(styles, /\.qf-thesis-principles/);
+  assert.match(styles, /\.qf-thesis-system/);
+  assert.match(styles, /@keyframes qf-thesis-orbit/);
+  assert.match(styles, /@keyframes qf-thesis-ticker/);
   assert.match(styles, /@keyframes qf-thesis-cycle/);
   const homepage = await readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(homepage, /className="qf-about|qf-check|id="about"/);
