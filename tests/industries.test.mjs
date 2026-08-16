@@ -105,11 +105,12 @@ test("blends every supplied scene into the industry canvas while retaining space
   assert.match(scenes[2], /<Stars[\s\S]*?factor=\{3\.2\}/);
 });
 
-test("preloads every scene into one warmed WebGL renderer before industry scrolling", async () => {
-  const [experience, stage, frontierField, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
+test("preloads every scene and advances exactly once per scroll gesture", async () => {
+  const [experience, stage, frontierField, introReveal, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/FrontierField.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/IntroReveal.tsx", import.meta.url), "utf8"),
     readFile(new URL("NuclearPlantComplex.jsx", sourceUrl), "utf8"),
     readFile(new URL("Drone.jsx", sourceUrl), "utf8"),
     readFile(new URL("DatacenterScene.jsx", sourceUrl), "utf8"),
@@ -123,23 +124,21 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(experience, /<IndustrySharedCanvas/);
   assert.doesNotMatch(experience, /renderWindow|storyIsNearViewport/);
   assert.doesNotMatch(experience, /moving=\{isScrolling\}/);
-  assert.match(experience, /CAROUSEL_INTERVAL_MS = 4500/);
-  assert.match(experience, /setInterval/);
-  assert.match(experience, /isAutoplayPaused/);
-  assert.match(experience, /isModelInteracting/);
+  assert.match(experience, /WHEEL_GESTURE_IDLE_MS = 220/);
+  assert.match(experience, /wheelGestureActiveRef/);
+  assert.match(experience, /holdWheelGesture/);
+  assert.match(experience, /stepCarousel/);
+  assert.match(experience, /selectChapter\(currentIndex \+ 1\)/);
+  assert.match(experience, /selectChapter\(currentIndex - 1\)/);
+  assert.match(experience, /touchHandledRef/);
+  assert.match(experience, /event\.repeat/);
+  assert.doesNotMatch(experience, /setInterval|CAROUSEL_INTERVAL_MS|isAutoplayPaused/);
   assert.match(experience, /modelInteractingRef\.current/);
   assert.match(experience, /onInteractionStart=\{startModelInteraction\}/);
   assert.match(experience, /onInteractionEnd=\{endModelInteraction\}/);
-  assert.match(experience, /Pause automatic industry slides/);
-  assert.match(experience, /Resume automatic industry slides/);
-  assert.match(experience, /aria-pressed=\{isAutoplayPaused\}/);
+  assert.doesNotMatch(experience, /Pause automatic industry slides|Resume automatic industry slides|aria-pressed/);
   assert.match(experience, /event\.target\.closest\("button, a, input, textarea, select"\)/);
-  assert.match(experience, /visualIndexRef/);
-  assert.match(experience, /wrapsForward/);
-  assert.match(experience, /qf-industry-chapter-clone/);
-  assert.match(experience, /classList\.add\("is-resetting"\)/);
-  assert.match(experience, /exitArmedRef/);
-  assert.match(experience, /GESTURE_IDLE_MS/);
+  assert.doesNotMatch(experience, /visualIndexRef|wrapsForward|qf-industry-chapter-clone|is-resetting/);
   assert.match(experience, /event\.preventDefault\(\)/);
   assert.match(experience, /className=\{`qf-industry-story\$\{isImmersive/);
   assert.match(experience, /metricsRef/);
@@ -161,8 +160,15 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.doesNotMatch(stage, /frustumCulled = false/);
   assert.doesNotMatch(stage, /function RenderBudget/);
   assert.doesNotMatch(stage, /function AdaptiveResolution/);
-  // The hero field stops drawing whenever it leaves the viewport.
+  assert.match(stage, /requestAnimationFrame\(preparePalette\)/);
+  // The hero field is native-resolution and stops drawing outside the viewport.
+  assert.match(frontierField, /MAX_FRONTIER_BACKING_PIXELS = 9_000_000/);
+  assert.match(frontierField, /devicePixelRatio/);
+  assert.match(frontierField, /desynchronized: true/);
   assert.match(frontierField, /visibilityObserver/);
+  assert.doesNotMatch(frontierField, /if \(fluid\) measure\(\)/);
+  assert.match(introReveal, /--qf-intro-core-size/);
+  assert.match(introReveal, /--qf-intro-logo-size/);
   // Scene loading waits for the opening reveal instead of competing with it.
   assert.match(experience, /whenIntroSettles/);
   assert.match(experience, /sceneStageReady \? \(/);
@@ -176,9 +182,10 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /height: 100svh/);
   assert.match(styles, /left: calc\(var\(--qf-industry-active-index\) \* 100vw\)/);
   assert.match(styles, /\.qf-industry-story\.is-immersive/);
-  assert.match(styles, /transition: transform 1000ms/);
-  assert.match(styles, /\.qf-industry-track\.is-resetting \{ transition: none; \}/);
-  assert.match(styles, /\.qf-industry-autoplay/);
+  assert.match(styles, /transition: transform 720ms/);
+  assert.doesNotMatch(styles, /\.qf-industry-track\.is-resetting|\.qf-industry-autoplay/);
+  assert.match(styles, /width: var\(--qf-intro-core-size/);
+  assert.match(styles, /width: var\(--qf-intro-logo-size/);
   assert.match(styles, /\.qf-check-written/);
   assert.match(styles, /@keyframes qf-handwrite-reveal/);
   const homepage = await readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8");

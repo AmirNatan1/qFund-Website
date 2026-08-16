@@ -57,7 +57,7 @@ export const portfolio: readonly PortfolioCompany[] = [
     description: "Thermal management for high-density data-center racks and networking silicon",
     url: "https://www.actasysinc.com/",
     background: "#ffffff",
-    logoScale: 1.06,
+    logoScale: 1.7,
   },
   {
     name: "Particle",

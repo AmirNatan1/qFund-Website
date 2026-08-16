@@ -258,12 +258,22 @@ function ModelGroup({
   const active = activeModelId === id;
   const presentationScale = modelChapters.get(id)?.model?.presentation.scale ?? 1;
   const groupRef = useRef<Group>(null);
-  const paletteApplied = useRef(false);
 
-  useActiveFrame(() => {
-    if (paletteApplied.current || !groupRef.current) return;
-    paletteApplied.current = applyTiffanyPalette(groupRef.current) > 0;
-  });
+  useEffect(() => {
+    let frame = 0;
+    let attempts = 0;
+    const preparePalette = () => {
+      const group = groupRef.current;
+      attempts += 1;
+      if (!group || group.children.length === 0) {
+        if (attempts < 120) frame = window.requestAnimationFrame(preparePalette);
+        return;
+      }
+      applyTiffanyPalette(group);
+    };
+    frame = window.requestAnimationFrame(preparePalette);
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   return (
     <SceneActivity active={active} maxFps={60}>

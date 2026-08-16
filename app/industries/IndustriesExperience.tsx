@@ -11,9 +11,8 @@ import {
 } from "./industryConfig";
 
 const LAST_CHAPTER_INDEX = industryChapters.length - 1;
-const CAROUSEL_INTERVAL_MS = 4500;
-const GESTURE_IDLE_MS = 260;
-const RELEASE_ANIMATION_MS = 950;
+const WHEEL_GESTURE_IDLE_MS = 220;
+const RELEASE_ANIMATION_MS = 800;
 
 type StoryMetrics = {
   storyTop: number;
@@ -30,21 +29,17 @@ export default function IndustriesExperience() {
   const modelInteractingRef = useRef(false);
   const metricsRef = useRef<StoryMetrics | null>(null);
   const activeIndexRef = useRef(0);
-  const visualIndexRef = useRef(0);
-  const exitArmedRef = useRef(false);
   const releasingRef = useRef(false);
-  const gestureIdleTimerRef = useRef(0);
+  const wheelGestureActiveRef = useRef(false);
+  const wheelGestureTimerRef = useRef(0);
   const releaseTimerRef = useRef(0);
-  const transitionTimerRef = useRef(0);
   const touchStartYRef = useRef(0);
-  const touchCanExitRef = useRef(false);
+  const touchHandledRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [mountedModelIds, setMountedModelIds] = useState<ReadonlySet<IndustryModelId>>(
     () => new Set(["quantum-computer"]),
   );
   const [isImmersive, setIsImmersive] = useState(false);
-  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
-  const [isModelInteracting, setIsModelInteracting] = useState(false);
   // The WebGL context is not created while the opening reveal is on screen.
   const [sceneStageReady, setSceneStageReady] = useState(false);
 
@@ -59,12 +54,10 @@ export default function IndustriesExperience() {
 
   const startModelInteraction = useCallback(() => {
     modelInteractingRef.current = true;
-    setIsModelInteracting(true);
   }, []);
 
   const endModelInteraction = useCallback(() => {
     modelInteractingRef.current = false;
-    setIsModelInteracting(false);
   }, []);
 
   const measureStory = useCallback(() => {
@@ -90,31 +83,17 @@ export default function IndustriesExperience() {
 
     const metrics = metricsRef.current ?? measureStory();
     if (!metrics) return;
-    const x = Math.round(-visualIndexRef.current * metrics.viewportWidth * 2) / 2;
+    const x = Math.round(-activeIndexRef.current * metrics.viewportWidth * 2) / 2;
     track.style.transform = `translate3d(${x}px, 0, 0)`;
-    story.style.setProperty("--qf-industry-active-index", String(visualIndexRef.current));
+    story.style.setProperty("--qf-industry-active-index", String(activeIndexRef.current));
   }, [measureStory]);
 
-  const selectChapter = useCallback((index: number, forward = false) => {
+  const selectChapter = useCallback((index: number) => {
     const nextIndex = Math.min(LAST_CHAPTER_INDEX, Math.max(0, index));
-    const wrapsForward = forward && activeIndexRef.current === LAST_CHAPTER_INDEX && nextIndex === 0;
-    const track = trackRef.current;
-    window.clearTimeout(transitionTimerRef.current);
-    track?.classList.remove("is-resetting");
-    visualIndexRef.current = wrapsForward ? industryChapters.length : nextIndex;
+    if (nextIndex === activeIndexRef.current) return;
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
-    transitionTimerRef.current = window.setTimeout(() => {
-      if (wrapsForward && trackRef.current) {
-        trackRef.current.classList.add("is-resetting");
-        visualIndexRef.current = 0;
-        updateTrackPosition();
-        window.requestAnimationFrame(() => {
-          window.requestAnimationFrame(() => trackRef.current?.classList.remove("is-resetting"));
-        });
-      }
-    }, 1050);
-  }, [updateTrackPosition]);
+  }, []);
 
   useEffect(() => {
     const refreshMetrics = () => {
@@ -152,16 +131,6 @@ export default function IndustriesExperience() {
   }, [activeIndex, updateTrackPosition]);
 
   useEffect(() => {
-    if (!isImmersive || isAutoplayPaused || isModelInteracting) return;
-    const timer = window.setInterval(() => {
-      if (modelInteractingRef.current) return;
-      selectChapter((activeIndexRef.current + 1) % industryChapters.length, true);
-    }, CAROUSEL_INTERVAL_MS);
-    return () => window.clearInterval(timer);
-  }, [isAutoplayPaused, isImmersive, isModelInteracting, selectChapter]);
-
-  useEffect(() => {
-    if (!isModelInteracting) return;
     const releaseInteraction = () => endModelInteraction();
     window.addEventListener("pointerup", releaseInteraction);
     window.addEventListener("pointercancel", releaseInteraction);
@@ -171,35 +140,35 @@ export default function IndustriesExperience() {
       window.removeEventListener("pointercancel", releaseInteraction);
       window.removeEventListener("blur", releaseInteraction);
     };
-  }, [endModelInteraction, isModelInteracting]);
+  }, [endModelInteraction]);
 
   useEffect(() => {
     const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const armAfterGesture = () => {
-      window.clearTimeout(gestureIdleTimerRef.current);
-      gestureIdleTimerRef.current = window.setTimeout(() => {
-        exitArmedRef.current = true;
-      }, GESTURE_IDLE_MS);
-    };
     const setImmersiveMode = (active: boolean) => {
       immersiveRef.current = active;
       setIsImmersive(active);
       document.documentElement.classList.toggle("qf-industries-immersive", active);
     };
+    const holdWheelGesture = () => {
+      const firstEvent = !wheelGestureActiveRef.current;
+      wheelGestureActiveRef.current = true;
+      window.clearTimeout(wheelGestureTimerRef.current);
+      wheelGestureTimerRef.current = window.setTimeout(() => {
+        wheelGestureActiveRef.current = false;
+      }, WHEEL_GESTURE_IDLE_MS);
+      return firstEvent;
+    };
     const enterCarousel = () => {
       if (immersiveRef.current || releasingRef.current) return;
       const metrics = measureStory();
       if (!metrics) return;
-      exitArmedRef.current = false;
       setImmersiveMode(true);
       window.scrollTo({ top: metrics.storyTop, behavior: reducedMotion() ? "auto" : "smooth" });
-      armAfterGesture();
     };
     const releaseCarousel = (direction: 1 | -1) => {
       const metrics = metricsRef.current ?? measureStory();
       if (!metrics || releasingRef.current) return;
       releasingRef.current = true;
-      exitArmedRef.current = false;
       setImmersiveMode(false);
       const destination = direction > 0
         ? metrics.storyTop + metrics.storyHeight + 2
@@ -218,8 +187,20 @@ export default function IndustriesExperience() {
         ? bounds.top > 0 && bounds.top <= window.innerHeight * 0.72
         : bounds.top < 0 && bounds.bottom >= window.innerHeight * 0.28;
     };
+    const stepCarousel = (direction: 1 | -1) => {
+      if (modelInteractingRef.current) return;
+      const currentIndex = activeIndexRef.current;
+      if (direction > 0) {
+        if (currentIndex < LAST_CHAPTER_INDEX) selectChapter(currentIndex + 1);
+        else releaseCarousel(1);
+      } else if (currentIndex > 0) {
+        selectChapter(currentIndex - 1);
+      } else {
+        releaseCarousel(-1);
+      }
+    };
     const onWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaY) < 2) return;
+      if (Math.abs(event.deltaY) < 1) return;
       if (releasingRef.current) {
         event.preventDefault();
         return;
@@ -227,25 +208,23 @@ export default function IndustriesExperience() {
       const direction: 1 | -1 = event.deltaY > 0 ? 1 : -1;
       if (immersiveRef.current) {
         event.preventDefault();
-        window.clearTimeout(gestureIdleTimerRef.current);
-        if (exitArmedRef.current) releaseCarousel(direction);
-        else armAfterGesture();
+        if (holdWheelGesture()) stepCarousel(direction);
         return;
       }
       if (shouldEnter(direction)) {
         event.preventDefault();
         enterCarousel();
+        holdWheelGesture();
       }
     };
     const onTouchStart = (event: TouchEvent) => {
       touchStartYRef.current = event.touches[0]?.clientY ?? 0;
-      touchCanExitRef.current = immersiveRef.current && exitArmedRef.current;
-      if (immersiveRef.current) window.clearTimeout(gestureIdleTimerRef.current);
+      touchHandledRef.current = false;
     };
     const onTouchMove = (event: TouchEvent) => {
       const currentY = event.touches[0]?.clientY ?? touchStartYRef.current;
       const delta = touchStartYRef.current - currentY;
-      if (Math.abs(delta) < 10) return;
+      if (Math.abs(delta) < 24) return;
       if (releasingRef.current) {
         event.preventDefault();
         return;
@@ -253,16 +232,20 @@ export default function IndustriesExperience() {
       const direction: 1 | -1 = delta > 0 ? 1 : -1;
       if (immersiveRef.current) {
         event.preventDefault();
-        if (touchCanExitRef.current) releaseCarousel(direction);
+        if (!touchHandledRef.current) {
+          touchHandledRef.current = true;
+          stepCarousel(direction);
+        }
         return;
       }
       if (shouldEnter(direction)) {
         event.preventDefault();
+        touchHandledRef.current = true;
         enterCarousel();
       }
     };
     const onTouchEnd = () => {
-      if (immersiveRef.current) armAfterGesture();
+      touchHandledRef.current = false;
     };
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLElement && event.target.closest("button, a, input, textarea, select")) return;
@@ -272,13 +255,17 @@ export default function IndustriesExperience() {
         ? 1
         : upKeys.includes(event.key) ? -1 : null;
       if (!direction) return;
+      if (event.repeat) {
+        if (immersiveRef.current) event.preventDefault();
+        return;
+      }
       if (releasingRef.current) {
         event.preventDefault();
         return;
       }
       if (immersiveRef.current) {
         event.preventDefault();
-        releaseCarousel(direction);
+        stepCarousel(direction);
       } else if (shouldEnter(direction)) {
         event.preventDefault();
         enterCarousel();
@@ -291,19 +278,18 @@ export default function IndustriesExperience() {
     window.addEventListener("touchend", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      window.clearTimeout(gestureIdleTimerRef.current);
+      window.clearTimeout(wheelGestureTimerRef.current);
       window.clearTimeout(releaseTimerRef.current);
-      window.clearTimeout(transitionTimerRef.current);
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [measureStory]);
+  }, [measureStory, selectChapter]);
 
   const goToChapter = (index: number) => {
-    selectChapter(index, activeIndexRef.current === LAST_CHAPTER_INDEX && index === 0);
+    selectChapter(index);
   };
 
   return (
@@ -351,21 +337,6 @@ export default function IndustriesExperience() {
                 </div>
               </article>
             ))}
-            <article
-              className="qf-industry-chapter qf-industry-chapter-clone"
-              style={{ "--qf-industry-accent": industryChapters[0].accent } as CSSProperties}
-              aria-hidden="true"
-            >
-              <div className="qf-industry-stage" />
-              <div className="qf-industry-copy">
-                <div className="qf-industry-copy-meta">
-                  <span>{industryChapters[0].code}</span>
-                  <span>{industryChapters[0].short}</span>
-                </div>
-                <h3>{industryChapters[0].title}</h3>
-                <p>{industryChapters[0].text}</p>
-              </div>
-            </article>
             {sceneStageReady ? (
               <IndustrySharedCanvas
                 chapter={industryChapters[activeIndex]}
@@ -395,16 +366,6 @@ export default function IndustriesExperience() {
               ))}
             </nav>
             <div className="qf-industry-status">
-              <button
-                type="button"
-                className={`qf-industry-autoplay${isAutoplayPaused ? " is-paused" : ""}`}
-                aria-label={isAutoplayPaused ? "Resume automatic industry slides" : "Pause automatic industry slides"}
-                aria-pressed={isAutoplayPaused}
-                onClick={() => setIsAutoplayPaused((paused) => !paused)}
-              >
-                <span className="qf-industry-autoplay-icon" aria-hidden="true" />
-                <span>{isAutoplayPaused ? "RESUME" : "PAUSE"}</span>
-              </button>
               <p className="qf-industry-counter" aria-hidden="true">
                 <strong>{String(activeIndex + 1).padStart(2, "0")}</strong>
                 <span>/ {String(industryChapters.length).padStart(2, "0")}</span>

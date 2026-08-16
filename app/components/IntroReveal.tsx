@@ -17,6 +17,9 @@ const TIMING = {
 } as const;
 
 const MARK_EMPHASIS = 1.2;
+const RESTING_CORE_MIN_PX = 7.4 * 16;
+const RESTING_CORE_MAX_PX = 9.4 * 16;
+const RESTING_LOGO_PX = 3.75 * 16;
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 function easeInOutCubic(value: number) {
@@ -96,9 +99,18 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
 
     const applyDetail = (progress: number) => {
       const enlargement = Math.min(3, Math.max(1, viewportHeight / Math.max(1, targetBox.height)));
+      const openingScale = Math.min(3, enlargement * MARK_EMPHASIS);
+      const restingCoreSize = Math.min(
+        RESTING_CORE_MAX_PX,
+        Math.max(RESTING_CORE_MIN_PX, targetBox.width * 0.2),
+      );
       introStage.style.setProperty(
-        "--qf-intro-mark",
-        lerp(Math.min(3, enlargement * MARK_EMPHASIS), 1, progress).toFixed(4),
+        "--qf-intro-core-size",
+        `${lerp(restingCoreSize * openingScale, restingCoreSize, progress).toFixed(2)}px`,
+      );
+      introStage.style.setProperty(
+        "--qf-intro-logo-size",
+        `${lerp(RESTING_LOGO_PX * openingScale, RESTING_LOGO_PX, progress).toFixed(2)}px`,
       );
       introStage.style.setProperty("--qf-intro-grid", lerp(enlargement, 1, progress).toFixed(4));
     };
