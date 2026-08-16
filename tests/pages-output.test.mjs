@@ -184,7 +184,14 @@ test("ships the interactive frontier field without the discarded logo assembly",
 
   assert.match(html, /class="qf-frontier-field"/);
   assert.match(html, /class="qf-frontier-canvas"/);
-  assert.equal((html.match(/class="qf-frontier-depth/g) ?? []).length, 2);
+  // Two fields ship: the hero's, and the clone the opening reveal flies into it.
+  assert.equal((html.match(/class="qf-frontier-field"/g) ?? []).length, 2);
+  assert.equal((html.match(/class="qf-frontier-depth/g) ?? []).length, 4);
+  assert.match(html, /class="qf-intro" aria-hidden="true"/);
+  assert.match(html, /class="qf-intro-backdrop"/);
+  assert.match(html, /class="qf-intro-stage"/);
+  assert.match(css, /html\.qf-intro-active \.qf-intro/);
+  assert.match(css, /@keyframes qf-intro-rise/);
   assert.match(css, /@keyframes qf-frontier-core/);
   assert.match(css, /@keyframes qf-frontier-orbit/);
   assert.match(css, /qfund-q-base-vector\.svg/);

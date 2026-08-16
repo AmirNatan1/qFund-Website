@@ -658,6 +658,88 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   box-shadow: 0 2.5rem 7rem rgba(6, 43, 41, 0.15);
 }
 
+/* ---------------------------------------------------------------------------
+   Opening reveal
+
+   The frontier field arrives at full bleed, holds, then shrinks onto the hero
+   square it lives in. A clone of the field is pinned over the page at covering
+   scale and animated onto the real field's measured rectangle, so the landing
+   is exact. Everything here is inert until the bootstrap script arms it, and
+   the layer leaves the DOM once the sequence resolves.
+   --------------------------------------------------------------------------- */
+
+.qf-intro {
+  display: none;
+}
+
+html.qf-intro-active .qf-intro {
+  display: block;
+}
+
+.qf-intro-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background:
+    radial-gradient(circle at 50% 46%, rgb(from var(--color-brand) r g b / 15%), transparent 58%),
+    var(--qf-paper);
+  will-change: opacity;
+}
+
+.qf-intro-stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 401;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.qf-intro-stage .qf-frontier-field {
+  width: 100%;
+  height: 100%;
+  transform: none;
+  transition: none;
+}
+
+html.qf-intro-active {
+  scroll-behavior: auto;
+}
+
+/* The real field holds its place in the layout, unseen, until the clone lands. */
+html.qf-intro-active .qf-hero-visual > .qf-frontier-field {
+  visibility: hidden;
+}
+
+html.qf-intro-landed .qf-hero-visual > .qf-frontier-field {
+  visibility: visible;
+}
+
+html.qf-intro-active .qf-header {
+  pointer-events: none;
+}
+
+html.qf-intro-active .qf-header,
+html.qf-intro-active .qf-hero-foot,
+html.qf-intro-active .qf-hero-grid,
+html.qf-intro-active .qf-hero-copy > * {
+  opacity: 0;
+}
+
+html.qf-intro-outro .qf-hero-copy > * {
+  animation: qf-intro-rise 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html.qf-intro-outro .qf-hero-copy > *:nth-child(2) { animation-delay: 90ms; }
+html.qf-intro-outro .qf-hero-copy > *:nth-child(3) { animation-delay: 180ms; }
+html.qf-intro-outro .qf-hero-copy > *:nth-child(4) { animation-delay: 260ms; }
+
+html.qf-intro-outro .qf-hero-grid { animation: qf-intro-fade 760ms ease both; }
+html.qf-intro-outro .qf-header { animation: qf-intro-fade 640ms ease both 200ms; }
+html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340ms; }
+
 .qf-hero-foot {
   position: absolute;
   right: 3.5vw;
@@ -1965,6 +2047,16 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   to { transform: rotate(360deg); }
 }
 
+@keyframes qf-intro-rise {
+  from { opacity: 0; transform: translate3d(0, 1.5rem, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes qf-intro-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 @keyframes qf-frontier-arrow {
   0%, 100% { opacity: 0.82; transform: translate(0, 0); }
   50% { opacity: 1; transform: translate(0.08rem, -0.08rem); }
@@ -2211,6 +2303,15 @@ html.qf-industries-immersive .qf-progress { opacity: 0; }
   .qf-archive-orbit i,
   .qf-hero-copy > .qf-kicker > span,
   .qf-industry-fallback.is-waiting .qf-industry-fallback-signal { animation: none; }
+
+  /* The opening reveal never arms under reduced motion; this is belt and braces. */
+  .qf-intro { display: none !important; }
+  html.qf-intro-active .qf-header,
+  html.qf-intro-active .qf-hero-foot,
+  html.qf-intro-active .qf-hero-grid,
+  html.qf-intro-active .qf-hero-copy > * { opacity: 1; animation: none; }
+  html.qf-intro-active .qf-header { pointer-events: auto; }
+  html.qf-intro-active .qf-hero-visual > .qf-frontier-field { visibility: visible; }
 }
 
 /* Carry the Industries section's portal language across the wider site. */

@@ -38,6 +38,21 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Arms the opening reveal before the hero paints, so the page never flashes its
+ * resting state on the way in. This runs while the document is still parsing.
+ * Visitors who ask for reduced motion never arm it, and the failsafe clears the
+ * class if the bundle never takes over.
+ */
+const introBootstrap =
+  '(function(){try{var d=document.documentElement;' +
+  'if(!d||!window.matchMedia)return;' +
+  'if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;' +
+  'd.classList.add("qf-intro-active");' +
+  'window.setTimeout(function(){if(!window.__qfIntro){' +
+  'd.classList.remove("qf-intro-active","qf-intro-outro","qf-intro-landed");}},6000);' +
+  '}catch(e){}})();';
+
 export default function Home() {
   const organization = {
     "@context": "https://schema.org",
@@ -60,6 +75,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
       />
+      <script dangerouslySetInnerHTML={{ __html: introBootstrap }} />
       <QFundExperience />
     </>
   );

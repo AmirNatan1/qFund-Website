@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { whenIntroSettles } from "../components/introState";
 import IndustryModelStage, { IndustrySharedCanvas, scheduleIndustryAssetPreload } from "./IndustryModelStage";
 import {
   industryChapters,
@@ -44,6 +45,8 @@ export default function IndustriesExperience() {
   const [isImmersive, setIsImmersive] = useState(false);
   const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
   const [isModelInteracting, setIsModelInteracting] = useState(false);
+  // The WebGL context is not created while the opening reveal is on screen.
+  const [sceneStageReady, setSceneStageReady] = useState(false);
 
   const markModelRenderReady = useCallback((modelId: IndustryModelId) => {
     setMountedModelIds((current) => {
@@ -125,9 +128,17 @@ export default function IndustriesExperience() {
     window.addEventListener("load", refreshMetrics, { once: true });
     measureStory();
     updateTrackPosition();
-    const cancelPreload = scheduleIndustryAssetPreload(markModelRenderReady);
+    // Scene loading is deferred until the opening reveal has resolved: parsing
+    // several megabytes of geometry mid-animation is what a first impression
+    // cannot afford. The section is far below the fold either way.
+    let cancelPreload = () => undefined as void;
+    const cancelIntroWait = whenIntroSettles(() => {
+      setSceneStageReady(true);
+      cancelPreload = scheduleIndustryAssetPreload(markModelRenderReady);
+    });
 
     return () => {
+      cancelIntroWait();
       cancelPreload();
       observer.disconnect();
       window.removeEventListener("resize", refreshMetrics);
@@ -355,13 +366,15 @@ export default function IndustriesExperience() {
                 <p>{industryChapters[0].text}</p>
               </div>
             </article>
-            <IndustrySharedCanvas
-              chapter={industryChapters[activeIndex]}
-              readyModelIds={mountedModelIds}
-              paused={!isImmersive}
-              onInteractionStart={startModelInteraction}
-              onInteractionEnd={endModelInteraction}
-            />
+            {sceneStageReady ? (
+              <IndustrySharedCanvas
+                chapter={industryChapters[activeIndex]}
+                readyModelIds={mountedModelIds}
+                paused={!isImmersive}
+                onInteractionStart={startModelInteraction}
+                onInteractionEnd={endModelInteraction}
+              />
+            ) : null}
           </div>
 
           <div className="qf-industry-chrome">

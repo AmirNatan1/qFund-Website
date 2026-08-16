@@ -106,10 +106,10 @@ test("blends every supplied scene into the industry canvas while retaining space
 });
 
 test("preloads every scene into one warmed WebGL renderer before industry scrolling", async () => {
-  const [experience, stage, homepage, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
+  const [experience, stage, frontierField, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/components/FrontierField.tsx", import.meta.url), "utf8"),
     readFile(new URL("NuclearPlantComplex.jsx", sourceUrl), "utf8"),
     readFile(new URL("Drone.jsx", sourceUrl), "utf8"),
     readFile(new URL("DatacenterScene.jsx", sourceUrl), "utf8"),
@@ -161,7 +161,11 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.doesNotMatch(stage, /frustumCulled = false/);
   assert.doesNotMatch(stage, /function RenderBudget/);
   assert.doesNotMatch(stage, /function AdaptiveResolution/);
-  assert.match(homepage, /visibilityObserver/);
+  // The hero field stops drawing whenever it leaves the viewport.
+  assert.match(frontierField, /visibilityObserver/);
+  // Scene loading waits for the opening reveal instead of competing with it.
+  assert.match(experience, /whenIntroSettles/);
+  assert.match(experience, /sceneStageReady \? \(/);
   assert.match(nuclear, /frames=\{1\}/);
   assert.match(nuclear, /backgroundTop = '#071522'/);
   assert.match(nuclear, /fog attach="fog" args=\{\[fogColor, 220, 600\]\}/);
@@ -177,6 +181,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /\.qf-industry-autoplay/);
   assert.match(styles, /\.qf-check-written/);
   assert.match(styles, /@keyframes qf-handwrite-reveal/);
+  const homepage = await readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8");
   assert.match(homepage, /Builders of the deep future/);
   assert.doesNotMatch(homepage, /SCROLL TO WRITE|PAY TO THE|AUTHORIZED SIGNATURE/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
