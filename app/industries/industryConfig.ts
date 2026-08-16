@@ -49,7 +49,7 @@ export const industryChapters = [
     title: "Quantum Computing",
     short: "Quantum",
     text: "Israel has emerged as a global leader in quantum technology, building strength across both hardware and software. Each domain carries immense potential for groundbreaking innovation - hardware is redefining the limits of what quantum systems can achieve, while software is unlocking their true computational power.",
-    accent: "#81d8d0",
+    accent: "#00c8e8",
     model: {
       id: "quantum-computer",
       source: "3D Objects/quantum-computer.glb",
@@ -71,7 +71,7 @@ export const industryChapters = [
     title: "Robotics and Drones",
     short: "Robotics",
     text: "Autonomous systems are transforming logistics, inspection, defense, and labor. We invest in robotics companies where software and hardware meet precision execution.",
-    accent: "#a6e8e2",
+    accent: "#6fe3f5",
     model: {
       id: "drone",
       source: "3D Objects/Drone.jsx",
@@ -87,7 +87,7 @@ export const industryChapters = [
     title: "Data Centers",
     short: "Data Centers",
     text: "The physical layer of the internet is under reinvention - energy, cooling, latency, control. We invest in the core technologies and operational systems powering that shift.",
-    accent: "#62c9c0",
+    accent: "#00b4d1",
     model: {
       id: "datacenter",
       source: "3D Objects/DatacenterScene.jsx",
@@ -103,7 +103,7 @@ export const industryChapters = [
     title: "Space",
     short: "Space",
     text: "Low-Earth orbit is no longer experimental - it’s operational. We back companies building communication infrastructure with clear commercial and national-security use cases.",
-    accent: "#9fe3dc",
+    accent: "#4ed9ef",
     model: {
       id: "satellite",
       source: "3D Objects/SatelliteScene.jsx",
@@ -119,7 +119,7 @@ export const industryChapters = [
     title: "Particle Accelerators",
     short: "Accelerators",
     text: "A once-niche technology now powering material innovation, medicine, and clean energy. We invest where complex physics meets commercial possibility.",
-    accent: "#70d0c7",
+    accent: "#1fc9df",
     model: {
       id: "particle-accelerator",
       source: "3D Objects/ParticleAccelerator.jsx",
@@ -135,7 +135,7 @@ export const industryChapters = [
     title: "Cyber & Attack Surfaces",
     short: "Cyber",
     text: "As the digital threat surface expands, we invest in platforms securing infrastructure, devices, and networks across civilian and defense domains.",
-    accent: "#c1f2ed",
+    accent: "#a6eff9",
     model: {
       id: "cyber-security",
       source: "3D Objects/CyberSecurityHologram.jsx",
@@ -151,7 +151,7 @@ export const industryChapters = [
     title: "Sensing, RF, Optics & Quantum Intelligence",
     short: "Sensing & RF",
     text: "From RF to quantum, sensors are foundational to autonomy, defense, and scientific discovery. We invest in sensing platforms enabling high-resolution, real-time intelligence across domains.",
-    accent: "#57bdb4",
+    accent: "#009bb5",
     model: {
       id: "sensor-array",
       source: "3D Objects/SensorArray.jsx",
@@ -170,7 +170,7 @@ export const industryChapters = [
     title: "Geothermal & Nuclear Energy",
     short: "Energy",
     text: "Decarbonization needs scalable, always-on energy. We invest in geothermal and nuclear innovations redefining what’s possible in clean, resilient power infrastructure.",
-    accent: "#89ddd5",
+    accent: "#31cee5",
     model: {
       id: "nuclear-plant",
       source: "3D Objects/NuclearPlantComplex.jsx",
@@ -181,9 +181,9 @@ export const industryChapters = [
         steam: true,
         bloomIntensity: 0.72,
         environmentPreset: null,
-        backgroundTop: "#042925",
-        backgroundBottom: "#042925",
-        fogColor: "#042925",
+        backgroundTop: "#1a1a1a",
+        backgroundBottom: "#1a1a1a",
+        fogColor: "#1a1a1a",
       },
     },
     fallback: { mode: "field" },

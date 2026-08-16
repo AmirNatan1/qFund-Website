@@ -1,2 +1,2 @@
-:HL["/_next/static/chunks/0-r2sq0c.cbz5.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"news","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"qfund-invests-litevision-8m-seed","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"BmnBn3gBP29IBdzeiNZZv"}
+:HL["/_next/static/chunks/0.2ced-ko3ppy.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"news","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"qfund-invests-litevision-8m-seed","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"QqGr4UU8MDmBG_jsoGC1k"}

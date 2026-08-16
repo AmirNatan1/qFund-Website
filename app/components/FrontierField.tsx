@@ -14,22 +14,19 @@ function rgba([red, green, blue]: [number, number, number], alpha: number) {
 
 /** Per-frame paint budget, in milliseconds, used to size the canvas backing store. */
 const BUDGET_MS = 9;
-/** Hard ceiling on the backing store, so a large display cannot demand a huge buffer. */
-const MAX_BACKING_PIXELS = 8_000_000;
+/** Hard ceiling on the HD backing store, so even a large display stays bounded. */
+const MAX_FRONTIER_BACKING_PIXELS = 16_000_000;
 
 function chooseDensity(width: number, height: number, unitCost: number) {
-  // Never below the 1.4x supersampling the field has always used on a 1x
-  // display, never above 2x, whatever the panel claims.
-  let density = Math.min(Math.max(window.devicePixelRatio || 1, 1.4), 2);
   const area = Math.max(1, width * height);
-  if (area * density * density > MAX_BACKING_PIXELS) {
-    density = Math.max(1, Math.sqrt(MAX_BACKING_PIXELS / area));
-  }
+  const areaCeiling = Math.max(1, Math.sqrt(MAX_FRONTIER_BACKING_PIXELS / area));
+  const hdFloor = Math.min(1.5, areaCeiling);
+  let density = Math.min(Math.max(window.devicePixelRatio || 1, 1.5), 2.5, areaCeiling);
   // Trim further if a measured frame says this device cannot paint that many
-  // pixels in time. Paint cost grows with the square of the density.
+  // pixels in time, without dropping below the HD supersampling floor.
   if (unitCost > 0) {
     const affordable = Math.sqrt(BUDGET_MS / unitCost);
-    if (affordable < density) density = Math.max(1, affordable);
+    if (affordable < density) density = Math.max(hdFloor, affordable);
   }
   return density;
 }

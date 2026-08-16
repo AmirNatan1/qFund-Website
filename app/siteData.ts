@@ -107,21 +107,18 @@ export const team = [
     role: "Managing Partner",
     image: "/team/liav-ben-rubi-hd.webp",
     linkedin: "https://www.linkedin.com/in/liav-ben-rubi/",
-    bio: "Liav has over 14 years of experience across automotive, robotics, and logistics. He began his career leading R&D programs in the Intelligence Technological Operational Command, and later served as a CEO in the automotive sector, running multinational programs from inception through implementation.",
   },
   {
     name: "Dana Taigman Koren",
     role: "Managing Partner",
-    image: "/team/dana-taigman-koren-hd.webp",
+    image: "/team/dana-taigman-koren-portrait-2026.png",
     linkedin: "https://www.linkedin.com/in/danataigmankoren/",
-    bio: "Dana has more than 18 years of experience in investments, strategic initiatives, and global partnerships. She began as a strategic consultant and held corporate roles across IT, system integration, market research, and business intelligence, and led a multi-CVC collaboration with Lufthansa, Boeing, and gategroup.",
   },
   {
     name: "Liron Ben Zaken",
     role: "Principal",
     image: "/team/liron-ben-zaken-hd.webp",
     linkedin: "https://www.linkedin.com/in/liron-ben-zaken/",
-    bio: "Liron is a Principal on qFund’s investment team, bringing more than a decade of professional experience to the role. She is an alumna of Ben-Gurion University of the Negev.",
   },
 ] as const;
 

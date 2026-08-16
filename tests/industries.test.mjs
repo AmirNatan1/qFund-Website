@@ -98,7 +98,7 @@ test("blends every supplied scene into the industry canvas while retaining space
     ...sceneFiles.map((file) => readFile(new URL(file, sourceUrl), "utf8")),
   ]);
 
-  assert.match(stage, /<color attach="background" args=\{\["#042925"\]\}/);
+  assert.match(stage, /<color attach="background" args=\{\["#1a1a1a"\]\}/);
   for (const [index, scene] of scenes.entries()) {
     assert.match(scene, /#071522/i, `${sceneFiles[index]} should use the shared deep brand-blue canvas`);
   }

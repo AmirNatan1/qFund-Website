@@ -208,6 +208,8 @@ test("links every team portrait and renders the accessible portfolio grid", asyn
   ]) {
     assert.match(home, new RegExp(`href="${linkedin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`));
   }
+  assert.match(home, /dana-taigman-koren-portrait-2026\.png/);
+  assert.doesNotMatch(home, /Liav has over 14 years|Dana has more than 18 years|Liron is a Principal/);
 
   assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
   assert.equal((home.match(/class="qf-portfolio-card"[^>]*href=/g) ?? []).length, 11);

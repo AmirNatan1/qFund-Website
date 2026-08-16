@@ -356,7 +356,7 @@ function PreloadedIndustryModels({
       ) : null}
       {readyModelIds.has("drone") ? (
         <ModelGroup id="drone" activeModelId={activeModelId}>
-          <group position={[0, 0.35, 0]}><DroneModel accent="#62bdb4" spin={!reducedMotion} /></group>
+            <group position={[0, 0.35, 0]}><DroneModel accent="#00c8e8" spin={!reducedMotion} /></group>
         </ModelGroup>
       ) : null}
       {readyModelIds.has("datacenter") ? (
@@ -372,7 +372,7 @@ function PreloadedIndustryModels({
       ) : null}
       {readyModelIds.has("particle-accelerator") ? (
         <ModelGroup id="particle-accelerator" activeModelId={activeModelId}>
-          <ParticleAcceleratorModel autoRotate={!reducedMotion} beamColor="#73c8c0" accentColor="#4f9f98" />
+          <ParticleAcceleratorModel autoRotate={!reducedMotion} beamColor="#00c8e8" accentColor="#009bb5" />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("cyber-security") ? (
@@ -433,14 +433,14 @@ export function IndustrySharedCanvas({
           gl.toneMappingExposure = 1.02;
         }}
       >
-        <color attach="background" args={["#042925"]} />
-        <ambientLight intensity={0.42} color="#a7c2bf" />
-        <hemisphereLight args={["#d7ece9", "#020b0a", 0.66]} />
-        <directionalLight position={[8, 12, 7]} intensity={2.8} color="#e6fffc" />
-        <directionalLight position={[-7, 3, -6]} intensity={0.68} color="#6f9e99" />
+        <color attach="background" args={["#1a1a1a"]} />
+        <ambientLight intensity={0.42} color="#dadee1" />
+        <hemisphereLight args={["#ffffff", "#1a1a1a", 0.66]} />
+        <directionalLight position={[8, 12, 7]} intensity={2.8} color="#ffffff" />
+        <directionalLight position={[-7, 3, -6]} intensity={0.68} color="#00c8e8" />
         <Environment resolution={128} frames={1}>
-          <Lightformer intensity={4} color="#e6fffc" position={[5, 7, 4]} scale={[10, 6, 1]} />
-          <Lightformer intensity={1.35} color="#79b7b1" position={[-6, 2, -4]} scale={[8, 5, 1]} />
+          <Lightformer intensity={4} color="#ffffff" position={[5, 7, 4]} scale={[10, 6, 1]} />
+          <Lightformer intensity={1.35} color="#00c8e8" position={[-6, 2, -4]} scale={[8, 5, 1]} />
         </Environment>
         <SharedCamera activeModelId={ready ? activeModelId : null} />
         <SceneWarmup readyModelIds={readyModelIds} />

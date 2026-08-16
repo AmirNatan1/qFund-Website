@@ -3,8 +3,8 @@ export const INTRO_DONE_EVENT = "qf:intro-done";
 /**
  * Runs `task` once the opening reveal has resolved, so heavy start-up work never
  * competes with it for the main thread. If the reveal was never armed — reduced
- * motion, or any page that does not run it — the task starts immediately. A
- * failsafe releases the task even if the reveal never reports back.
+ * motion, or any page that does not run it — the task starts immediately. While
+ * the reveal is holding for interaction, deferred work remains deferred too.
  */
 export function whenIntroSettles(task: () => void): () => void {
   if (typeof window === "undefined") {
@@ -18,10 +18,7 @@ export function whenIntroSettles(task: () => void): () => void {
   }
 
   let released = false;
-  let timer = 0;
-
   const cleanup = () => {
-    window.clearTimeout(timer);
     window.removeEventListener(INTRO_DONE_EVENT, release);
   };
 
@@ -32,7 +29,6 @@ export function whenIntroSettles(task: () => void): () => void {
     task();
   }
 
-  timer = window.setTimeout(release, 3200);
   window.addEventListener(INTRO_DONE_EVENT, release, { once: true });
 
   return cleanup;

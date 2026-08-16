@@ -273,7 +273,7 @@ export default function QFundExperience() {
             </div>
 
             <div className="qf-check-security" aria-hidden="true"><i /><i /><i /></div>
-            <div className="qf-check-routing" aria-hidden="true">QF 01&nbsp;&nbsp;•&nbsp;&nbsp;DEEP TECH&nbsp;&nbsp;•&nbsp;&nbsp;81 216 208</div>
+            <div className="qf-check-routing" aria-hidden="true">QF 01&nbsp;&nbsp;•&nbsp;&nbsp;DEEP TECH&nbsp;&nbsp;•&nbsp;&nbsp;0 200 232</div>
           </div>
         </div>
       </section>
@@ -317,7 +317,7 @@ export default function QFundExperience() {
         <div className="qf-section-label qf-reveal"><span>04</span><p>Investment team</p></div>
         <div className="qf-section-heading qf-reveal">
           <p className="qf-kicker">QFUND · HERZLIYA</p>
-          <h2 id="team-title">Experience across R&amp;D, industry, investment, and <em>global partnerships.</em></h2>
+          <h2 id="team-title">Investment <em>team.</em></h2>
         </div>
         <div className="qf-team-grid">
           {team.map((member, index) => (
@@ -326,7 +326,7 @@ export default function QFundExperience() {
                 <Image src={member.image} alt={member.name} fill sizes="(max-width: 720px) 100vw, 33vw" unoptimized />
                 <span aria-hidden="true">LinkedIn ↗</span>
               </a>
-              <div><span>{member.role}</span><h3>{member.name}</h3><p>{member.bio}</p></div>
+              <div><span>{member.role}</span><h3>{member.name}</h3></div>
             </article>
           ))}
         </div>
