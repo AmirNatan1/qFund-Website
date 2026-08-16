@@ -39,8 +39,8 @@ export const metadata: Metadata = {
 };
 
 /**
- * Arms the opening reveal before the hero paints, so the page never flashes its
- * resting state on the way in. This runs while the document is still parsing.
+ * Arms the opening reveal before the hero paints on a visitor's first load only.
+ * The persistent marker prevents reloads and later visits from replaying it.
  * Visitors who ask for reduced motion never arm it, and the failsafe clears the
  * class if the bundle never takes over.
  */
@@ -48,6 +48,13 @@ const introBootstrap =
   '(function(){try{var d=document.documentElement;' +
   'if(!d||!window.matchMedia)return;' +
   'if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;' +
+  'var k="qfund:intro-seen:v1",seen=false;' +
+  'try{seen=window.localStorage.getItem(k)==="1";}catch(e){}' +
+  'if(!seen&&document.cookie.indexOf("qf_intro_seen=1")!==-1)seen=true;' +
+  'if(seen)return;' +
+  'try{window.localStorage.setItem(k,"1");}catch(e){}' +
+  'document.cookie="qf_intro_seen=1; Max-Age=31536000; Path=/; SameSite=Lax";' +
+  'window.__qfIntroFirstVisit=true;' +
   'd.classList.add("qf-intro-active");' +
   'window.setTimeout(function(){if(!window.__qfIntro){' +
   'd.classList.remove("qf-intro-active","qf-intro-outro","qf-intro-landed");}},6000);' +

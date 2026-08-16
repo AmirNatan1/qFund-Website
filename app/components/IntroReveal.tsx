@@ -5,7 +5,7 @@ import FrontierField from "./FrontierField";
 import { announceIntroSettled } from "./introState";
 
 /**
- * Full-bleed opening field. It holds indefinitely after fading in and only
+ * First-visit full-bleed field. It holds indefinitely after fading in and only
  * travels to the hero when the visitor scrolls, taps, clicks, or uses a key.
  */
 const TIMING = {
@@ -47,13 +47,16 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
     const target =
       targetRef.current ?? document.querySelector<HTMLDivElement>(".qf-hero-visual > .qf-frontier-field");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const firstVisit = Boolean(
+      (window as typeof window & { __qfIntroFirstVisit?: boolean }).__qfIntroFirstVisit,
+    );
 
     const clearIntroState = () => {
       root.classList.remove("qf-intro-active", "qf-intro-outro", "qf-intro-landed");
       announceIntroSettled();
     };
 
-    if (reduced || !stage || !backdrop || !target) {
+    if (!firstVisit || reduced || !stage || !backdrop || !target) {
       clearIntroState();
       setMounted(false);
       return;

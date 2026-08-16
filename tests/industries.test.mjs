@@ -105,12 +105,13 @@ test("blends every supplied scene into the industry canvas while retaining space
   assert.match(scenes[2], /<Stars[\s\S]*?factor=\{3\.2\}/);
 });
 
-test("preloads every scene and advances exactly once per scroll gesture", async () => {
-  const [experience, stage, frontierField, introReveal, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
+test("preloads every scene and advances the integrated thesis every three seconds", async () => {
+  const [experience, stage, frontierField, introReveal, page, nuclear, drone, datacenter, satellite, particle, styles] = await Promise.all([
     readFile(new URL("../app/industries/IndustriesExperience.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/industries/IndustryModelStage.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/FrontierField.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components/IntroReveal.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("NuclearPlantComplex.jsx", sourceUrl), "utf8"),
     readFile(new URL("Drone.jsx", sourceUrl), "utf8"),
     readFile(new URL("DatacenterScene.jsx", sourceUrl), "utf8"),
@@ -124,25 +125,21 @@ test("preloads every scene and advances exactly once per scroll gesture", async 
   assert.match(experience, /<IndustrySharedCanvas/);
   assert.doesNotMatch(experience, /renderWindow|storyIsNearViewport/);
   assert.doesNotMatch(experience, /moving=\{isScrolling\}/);
-  assert.match(experience, /WHEEL_GESTURE_IDLE_MS = 220/);
-  assert.match(experience, /wheelGestureActiveRef/);
-  assert.match(experience, /holdWheelGesture/);
-  assert.match(experience, /stepCarousel/);
-  assert.match(experience, /selectChapter\(currentIndex \+ 1\)/);
-  assert.match(experience, /selectChapter\(currentIndex - 1\)/);
-  assert.match(experience, /touchHandledRef/);
-  assert.match(experience, /event\.repeat/);
-  assert.doesNotMatch(experience, /setInterval|CAROUSEL_INTERVAL_MS|isAutoplayPaused/);
+  assert.match(experience, /CAROUSEL_INTERVAL_MS = 3000/);
+  assert.match(experience, /window\.setTimeout/);
+  assert.match(experience, /activeIndexRef\.current \+ 1\) % industryChapters\.length/);
+  assert.doesNotMatch(experience, /wheel|touchmove|event\.preventDefault/);
   assert.match(experience, /modelInteractingRef\.current/);
+  assert.match(experience, /isModelInteracting/);
+  assert.match(experience, /pageVisible/);
   assert.match(experience, /onInteractionStart=\{startModelInteraction\}/);
   assert.match(experience, /onInteractionEnd=\{endModelInteraction\}/);
   assert.doesNotMatch(experience, /Pause automatic industry slides|Resume automatic industry slides|aria-pressed/);
-  assert.match(experience, /event\.target\.closest\("button, a, input, textarea, select"\)/);
   assert.doesNotMatch(experience, /visualIndexRef|wrapsForward|qf-industry-chapter-clone|is-resetting/);
-  assert.match(experience, /event\.preventDefault\(\)/);
-  assert.match(experience, /className=\{`qf-industry-story\$\{isImmersive/);
-  assert.match(experience, /metricsRef/);
-  assert.match(experience, /classList\.toggle\("qf-industries-immersive", active\)/);
+  assert.doesNotMatch(experience, /isImmersive|metricsRef|qf-industries-immersive/);
+  assert.match(experience, /id="thesis"/);
+  assert.match(experience, /Builders of foundational technology/);
+  assert.match(experience, /Conviction beyond capital/);
   assert.match(stage, /useGLTF\.preload\("\/3d\/quantum-computer\.glb"\)/);
   assert.match(stage, /requestIdleCallback/);
   assert.match(stage, /announceRenderReady\(task\.id\)/);
@@ -169,6 +166,9 @@ test("preloads every scene and advances exactly once per scroll gesture", async 
   assert.doesNotMatch(frontierField, /if \(fluid\) measure\(\)/);
   assert.match(introReveal, /--qf-intro-core-size/);
   assert.match(introReveal, /--qf-intro-logo-size/);
+  assert.match(introReveal, /__qfIntroFirstVisit/);
+  assert.match(page, /qfund:intro-seen:v1/);
+  assert.match(page, /qf_intro_seen=1/);
   // Scene loading waits for the opening reveal instead of competing with it.
   assert.match(experience, /whenIntroSettles/);
   assert.match(experience, /sceneStageReady \? \(/);
@@ -176,23 +176,19 @@ test("preloads every scene and advances exactly once per scroll gesture", async 
   assert.match(nuclear, /backgroundTop = '#071522'/);
   assert.match(nuclear, /fog attach="fog" args=\{\[fogColor, 220, 600\]\}/);
   assert.match(drone, /cameraPosition = \[3\.8, 2\.55, 5\.9\]/);
-  assert.match(styles, /html\.qf-industries-immersive \.qf-header/);
-  assert.match(styles, /translate3d\(0, -105%, 0\)/);
+  assert.doesNotMatch(styles, /html\.qf-industries-immersive|\.qf-industry-story\.is-immersive/);
   assert.match(styles, /contain: layout paint style/);
   assert.match(styles, /height: 100svh/);
   assert.match(styles, /left: calc\(var\(--qf-industry-active-index\) \* 100vw\)/);
-  assert.match(styles, /\.qf-industry-story\.is-immersive/);
   assert.match(styles, /transition: transform 720ms/);
   assert.doesNotMatch(styles, /\.qf-industry-track\.is-resetting|\.qf-industry-autoplay/);
   assert.match(styles, /width: var\(--qf-intro-core-size/);
   assert.match(styles, /width: var\(--qf-intro-logo-size/);
-  assert.match(styles, /\.qf-check-written/);
-  assert.match(styles, /@keyframes qf-handwrite-reveal/);
+  assert.match(styles, /\.qf-thesis-principles/);
+  assert.match(styles, /@keyframes qf-thesis-cycle/);
   const homepage = await readFile(new URL("../app/QFundExperience.tsx", import.meta.url), "utf8");
-  assert.match(homepage, /Builders of the deep future/);
-  assert.doesNotMatch(homepage, /SCROLL TO WRITE|PAY TO THE|AUTHORIZED SIGNATURE/);
+  assert.doesNotMatch(homepage, /className="qf-about|qf-check|id="about"/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
-  assert.match(styles, /--qf-industry-portal-scale: 0\.975/);
-  assert.match(styles, /--qf-industry-portal-scale: 1\.012/);
+  assert.match(styles, /--qf-industry-portal-scale: 1;/);
   assert.match(styles, /translate3d\(0, 2\.15rem, 0\) scale\(0\.992\)/);
 });

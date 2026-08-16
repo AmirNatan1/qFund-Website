@@ -20,12 +20,16 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /Series A/);
   assert.match(html, /Deep Tech/);
   assert.match(html, /Pre-seed to Series A/);
-  assert.match(html, /id="about"/);
-  assert.match(html, /id="industries"/);
+  assert.match(html, /id="top"/);
+  assert.match(html, /id="thesis"/);
+  assert.doesNotMatch(html, /id="about"|id="industries"/);
   assert.doesNotMatch(html, /Our approach|id="approach"|href="#approach"/i);
   assert.match(html, /id="portfolio"/);
   assert.match(html, /id="team"/);
   assert.match(html, /id="news"/);
+  const orderedSections = ["top", "portfolio", "team", "thesis", "news"].map((id) => html.indexOf(`id="${id}"`));
+  assert.ok(orderedSections.every((position) => position >= 0));
+  assert.deepEqual(orderedSections, [...orderedSections].sort((a, b) => a - b));
   assert.match(html, /Quantum Computing/);
   assert.match(html, /Qedma/);
   assert.match(html, /Liav Ben Rubi/);
@@ -142,15 +146,19 @@ test("renders the header section ruler without the approach section and three la
   const home = await readHome();
   assert.match(home, /class="qf-section-ruler"/);
   assert.match(home, /aria-label="Go to About"/);
-  assert.match(home, /aria-label="Go to Industries"/);
+  assert.match(home, /aria-label="Go to Thesis"/);
+  assert.doesNotMatch(home, /aria-label="Go to Home"|aria-label="Go to Industries"/);
   assert.doesNotMatch(home, /Our approach|id="approach"|href="#approach"/i);
   assert.equal((home.match(/class="qf-news-card qf-reveal"/g) ?? []).length, 3);
   assert.match(home, />View all news/);
 });
 
-test("renders all eight industry chapters with all eight supplied models", async () => {
+test("renders all eight thesis chapters with all eight supplied models", async () => {
   const home = await readHome();
 
+  assert.match(home, /id="thesis"/);
+  assert.match(home, /data-carousel-interval="3000"/);
+  assert.match(home, /Conviction beyond capital/);
   assert.match(home, /data-industry-chapters="8"/);
   assert.match(home, /data-industry-models-supplied="8"/);
   assert.match(home, /data-industry-models-pending="0"/);

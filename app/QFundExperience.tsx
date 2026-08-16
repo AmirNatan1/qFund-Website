@@ -19,11 +19,10 @@ import { formatNewsDate, newsItems } from "./newsData";
 import { portfolio, team } from "./siteData";
 
 const sections = [
-  ["top", "Home"],
-  ["about", "About"],
-  ["industries", "Industries"],
+  ["top", "About"],
   ["portfolio", "Portfolio"],
   ["team", "Team"],
+  ["thesis", "Thesis"],
   ["news", "News"],
 ] as const;
 
@@ -74,7 +73,6 @@ export default function QFundExperience() {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           entry.target.classList.add("is-visible");
-          if (entry.target.classList.contains("qf-check")) entry.target.classList.add("is-writing");
         });
       },
       { threshold: 0.12, rootMargin: "0px 0px -5%" },
@@ -151,7 +149,7 @@ export default function QFundExperience() {
 
   return (
     <main className="qf-site">
-      <a className="qf-skip-link" href="#about">Skip to content</a>
+      <a className="qf-skip-link" href="#portfolio">Skip to content</a>
       <div className="qf-cursor" ref={cursorRef} aria-hidden="true"><span /></div>
       <div className="qf-progress" aria-hidden="true" />
 
@@ -175,13 +173,13 @@ export default function QFundExperience() {
 
       <div className={menuOpen ? "qf-mobile-menu is-open" : "qf-mobile-menu"}>
         <nav aria-label="Mobile navigation">
-          {sections.slice(1).map(([id, label], index) => (
+          {sections.map(([id, label], index) => (
             <a href={`#${id}`} onClick={() => setMenuOpen(false)} key={id}>
-              <span>{String(index + 1).padStart(2, "0")}</span>{label}
+              <span>{String(index).padStart(2, "0")}</span>{label}
             </a>
           ))}
-          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>06</span>All news</Link>
-          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>07</span>Contact</Link>
+          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>05</span>All news</Link>
+          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>06</span>Contact</Link>
         </nav>
       </div>
 
@@ -217,71 +215,12 @@ export default function QFundExperience() {
         </div>
         <div className="qf-hero-foot">
           <span>HERZLIYA</span>
-          <a href="#about">SCROLL TO EXPLORE <i>↓</i></a>
+          <a href="#portfolio">SCROLL TO EXPLORE <i>↓</i></a>
         </div>
       </section>
-
-      <section className="qf-about qf-scroll-section" id="about" data-qf-section aria-labelledby="about-title">
-        <div className="qf-section-label qf-reveal"><span>01</span><p>About us</p></div>
-        <div className="qf-about-heading qf-reveal">
-          <p className="qf-kicker">EARLY-STAGE VENTURE CAPITAL</p>
-          <h2 id="about-title">What we invest in, and what we bring <em>beyond capital.</em></h2>
-        </div>
-        <div className="qf-check-stage">
-          <span className="qf-check-stage-grid" aria-hidden="true" />
-          <div className="qf-check qf-reveal" aria-label="qFund backs the builders of the deep future, from pre-seed to Series A">
-            <div className="qf-check-top">
-              <div className="qf-check-bank">
-                <span className="qf-check-monogram" aria-hidden="true">q</span>
-                <div><strong>qFund</strong><small>DEEP TECH VENTURE CAPITAL</small></div>
-              </div>
-              <span className="qf-check-corner-mark">QF / 01</span>
-            </div>
-
-            <div className="qf-check-focus" aria-hidden="true">
-              <span className="qf-check-field-label">OUR FOCUS</span>
-              <span className="qf-check-script-line" style={{ "--write-order": 0 } as CSSProperties}>
-                <span className="qf-check-written">Deep Tech</span>
-              </span>
-            </div>
-
-            <div className="qf-check-main" aria-hidden="true">
-              <span className="qf-check-field-label">WE BACK</span>
-              <span className="qf-check-script-line qf-check-builder-line" style={{ "--write-order": 1 } as CSSProperties}>
-                <span className="qf-check-written">Builders of the deep future</span>
-              </span>
-              <div className="qf-check-stage-box">
-                <span className="qf-check-field-label">ENTRY STAGE</span>
-                <span className="qf-check-script-line" style={{ "--write-order": 2 } as CSSProperties}>
-                  <span className="qf-check-written">Pre-seed to Series A</span>
-                </span>
-              </div>
-            </div>
-
-            <div className="qf-check-words" aria-hidden="true">
-              <span className="qf-check-field-label">WITH</span>
-              <span className="qf-check-script-line" style={{ "--write-order": 3 } as CSSProperties}>
-                <span className="qf-check-written">Conviction beyond capital</span>
-              </span>
-            </div>
-
-            <div className="qf-check-bottom">
-              <span className="qf-check-origin">HERZLIYA / ISRAEL</span>
-              <span className="qf-check-script-line qf-check-signature-line" style={{ "--write-order": 4 } as CSSProperties}>
-                <span className="qf-check-written">qFund</span>
-              </span>
-            </div>
-
-            <div className="qf-check-security" aria-hidden="true"><i /><i /><i /></div>
-            <div className="qf-check-routing" aria-hidden="true">QF 01&nbsp;&nbsp;•&nbsp;&nbsp;DEEP TECH&nbsp;&nbsp;•&nbsp;&nbsp;0 200 232</div>
-          </div>
-        </div>
-      </section>
-
-      <IndustriesExperience />
 
       <section className="qf-portfolio qf-scroll-section" id="portfolio" data-qf-section aria-labelledby="portfolio-title">
-        <div className="qf-section-label qf-reveal"><span>03</span><p>Our portfolio</p></div>
+        <div className="qf-section-label qf-reveal"><span>01</span><p>Our portfolio</p></div>
         <div className="qf-portfolio-heading qf-reveal">
           <p className="qf-kicker">ELEVEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
           <h2 id="portfolio-title">Built around technologies with <em>consequence.</em></h2>
@@ -314,7 +253,7 @@ export default function QFundExperience() {
       </section>
 
       <section className="qf-team qf-scroll-section" id="team" data-qf-section aria-labelledby="team-title">
-        <div className="qf-section-label qf-reveal"><span>04</span><p>Investment team</p></div>
+        <div className="qf-section-label qf-reveal"><span>02</span><p>Investment team</p></div>
         <div className="qf-section-heading qf-reveal">
           <p className="qf-kicker">QFUND · HERZLIYA</p>
           <h2 id="team-title">Investment <em>team.</em></h2>
@@ -332,8 +271,10 @@ export default function QFundExperience() {
         </div>
       </section>
 
+      <IndustriesExperience />
+
       <section className="qf-news qf-scroll-section" id="news" data-qf-section aria-labelledby="news-title">
-        <div className="qf-section-label qf-reveal"><span>05</span><p>News</p></div>
+        <div className="qf-section-label qf-reveal"><span>04</span><p>News</p></div>
         <div className="qf-news-heading qf-reveal">
           <div><p className="qf-kicker">LATEST ACTIVITY</p><h2 id="news-title">qFund <em>in motion.</em></h2></div>
           <Link className="qf-text-link" href="/news/">View all news <span>↗</span></Link>
