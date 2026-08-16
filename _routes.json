@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "description": "Only the contact endpoint runs as a Pages Function; everything else is served as a static asset.",
+  "include": ["/api/*"],
+  "exclude": []
+}

@@ -30,7 +30,6 @@ export default function ContactPage() {
         <div className="qf-contact-intro qf-reveal is-visible">
           <p className="qf-kicker">CONTACT QFUND · HERZLIYA</p>
           <h1 id="contact-title">Tell us what you are <em>building.</em></h1>
-          <p>We invest from Pre-seed to Series A in Deep Tech startups.</p>
         </div>
         <div className="qf-contact-layout">
           <ContactForm />

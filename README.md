@@ -14,6 +14,35 @@ The redesigned website for qFund, a deep-technology venture capital firm based i
 
 News and Contact are the only standalone pages. Contact is intentionally concise; the complete news archive is available at `/news/`.
 
+## Contact form
+
+The form posts to `/api/contact`, a Cloudflare Pages Function in `functions/api/`
+that validates the submission and hands it to [Resend](https://resend.com). The
+API key stays a Cloudflare secret and never reaches the page source. Submissions
+arrive at `info@qfund.io` with the sender set as reply-to, so replying goes
+straight back to them.
+
+To take it live:
+
+1. Create a Resend account and verify `qfund.io` as a sending domain, adding the
+   DNS records Resend provides.
+2. Create an API key.
+3. In the Cloudflare Pages project, under **Settings → Environment variables**,
+   add `RESEND_API_KEY` to the production environment as an **encrypted** value.
+4. Redeploy the project so the binding is picked up.
+
+Optional bindings: `CONTACT_TO` changes the recipient (default `info@qfund.io`)
+and `CONTACT_FROM` changes the sender (default `qFund Website
+<website@qfund.io>`, which must be on a domain verified in Resend).
+
+Until `RESEND_API_KEY` is bound the endpoint answers `503 unconfigured`, and the
+form falls back to opening a prepared email rather than losing the enquiry. The
+same fallback covers a provider outage or a dropped connection, so a submission
+is never silently discarded.
+
+`_routes.json` keeps every path except `/api/*` on the static asset path, so the
+Function only runs for the endpoint.
+
 ## Development
 
 Requires Node.js 22 or newer.

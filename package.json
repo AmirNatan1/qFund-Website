@@ -17,11 +17,12 @@
     "start": "vinext start",
     "deploy": "npm run build:worker && wrangler deploy",
     "preview": "npm run build:worker && wrangler dev",
-    "test": "npm run test:pages && npm run test:worker",
+    "test": "npm run test:pages && npm run test:contact && npm run test:worker",
     "test:pages": "npm run release:pages-root && node --test tests/industries.test.mjs tests/pages-output.test.mjs tests/root-pages-output.test.mjs",
     "test:worker": "npm run build:worker && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "test:contact": "node --experimental-strip-types --test tests/contact.test.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.6",

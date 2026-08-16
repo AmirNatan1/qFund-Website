@@ -22,6 +22,7 @@ const protectedEntries = new Set([
   "dist",
   "drizzle",
   "examples",
+  "functions",
   "node_modules",
   "out",
   "public",

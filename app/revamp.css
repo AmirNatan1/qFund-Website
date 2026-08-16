@@ -2006,11 +2006,10 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 }
 
 .qf-contact-grid { position: absolute; inset: 5.6rem 0 0; background-image: linear-gradient(rgba(18, 53, 45, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(18, 53, 45, 0.05) 1px, transparent 1px); background-size: 6.25vw 6.25vw; mask-image: linear-gradient(to bottom, black, transparent 75%); pointer-events: none; }
-.qf-contact-intro { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(17rem, 0.5fr); gap: 3rem; align-items: end; padding-bottom: 4rem; border-bottom: 1px solid var(--qf-line); }
+.qf-contact-intro { position: relative; z-index: 2; display: grid; gap: 3rem; align-items: end; padding-bottom: 4rem; border-bottom: 1px solid var(--qf-line); }
 .qf-contact-intro .qf-kicker { grid-column: 1 / -1; }
 .qf-contact-intro h1 { max-width: 68rem; padding-bottom: 0.08em; font-size: clamp(4.3rem, 8vw, 9.5rem); line-height: 0.92; }
 .qf-contact-intro h1 em { display: block; color: var(--color-brand); }
-.qf-contact-intro > p:last-child { margin: 0 0 0.9rem; font-size: 1.12rem; line-height: 1.5; }
 .qf-contact-layout { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.6fr); gap: 4vw; padding-top: 4rem; }
 
 .qf-contact-form { display: grid; gap: 2rem; padding: clamp(2rem, 4vw, 4rem); border: 1px solid var(--qf-line); background: rgba(255, 255, 255, 0.78); }
@@ -2032,6 +2031,22 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 .qf-contact-form .contact-form-action button:hover,
 .qf-contact-form .contact-form-action button:focus-visible { border-color: var(--color-brand-hover); color: var(--qf-ink-strong); background: var(--color-brand-hover); }
 .qf-contact-form .contact-form-action button:active { border-color: var(--color-brand-deep); color: var(--qf-white); background: var(--color-brand-deep); }
+.qf-contact-form .contact-form-action button[disabled] { cursor: progress; opacity: 0.62; }
+.qf-contact-form .contact-form-action p[role="alert"] { color: var(--color-brand-deep); font-weight: 640; }
+
+/* Field-level messages returned by the contact endpoint. */
+.qf-field-error { display: block; margin-top: 0.4rem; color: #b4442f; font-size: 0.74rem; font-style: normal; line-height: 1.35; }
+.qf-contact-form :is(input, select, textarea)[aria-invalid="true"] { border-bottom-color: #b4442f; }
+
+/* Reached by nothing that reads the page the way a person does. */
+.qf-contact-trap { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; border: 0; clip-path: inset(50%); white-space: nowrap; }
+
+.qf-contact-sent { display: grid; align-content: center; gap: 1rem; min-height: 26rem; }
+.qf-contact-sent h2 { font-size: clamp(2.8rem, 4.4vw, 5.5rem); line-height: 0.98; }
+.qf-contact-sent > p:last-of-type { max-width: 34rem; margin: 0; font-size: 1.05rem; line-height: 1.55; }
+.qf-contact-sent button { display: flex; justify-content: space-between; width: fit-content; min-width: 13rem; margin-top: 1rem; padding: 1rem 1.2rem; border: 1px solid var(--qf-line); color: var(--qf-ink-strong); background: transparent; font-size: 0.72rem; font-weight: 740; letter-spacing: 0.08em; text-transform: uppercase; transition: color 220ms ease, background 220ms ease, border-color 220ms ease; }
+.qf-contact-sent button:hover,
+.qf-contact-sent button:focus-visible { border-color: var(--color-brand-deep); color: var(--qf-white); background: var(--color-brand-deep); }
 .qf-contact-direct { align-self: start; padding: 2rem; border: 1px solid var(--qf-line); background: var(--qf-sage); }
 .qf-contact-direct > span { color: var(--qf-green); font-size: 0.7rem; font-weight: 760; letter-spacing: 0.09em; text-transform: uppercase; }
 .qf-contact-direct > div { display: grid; gap: 0.35rem; padding: 1.5rem 0; border-bottom: 1px solid var(--qf-line); }
