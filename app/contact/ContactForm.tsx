@@ -12,7 +12,7 @@ export default function ContactForm() {
     const company = String(data.get("company") ?? "");
     const stage = String(data.get("stage") ?? "");
     const message = String(data.get("message") ?? "");
-    const subject = encodeURIComponent(`qFund startup introduction — ${company || name}`);
+    const subject = encodeURIComponent(`qFund startup introduction - ${company || name}`);
     const body = encodeURIComponent(
       [
         `Name: ${name}`,

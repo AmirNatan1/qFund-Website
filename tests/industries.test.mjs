@@ -98,7 +98,7 @@ test("blends every supplied scene into the industry canvas while retaining space
     ...sceneFiles.map((file) => readFile(new URL(file, sourceUrl), "utf8")),
   ]);
 
-  assert.match(stage, /<color attach="background" args=\{\["#071522"\]\}/);
+  assert.match(stage, /<color attach="background" args=\{\["#042925"\]\}/);
   for (const [index, scene] of scenes.entries()) {
     assert.match(scene, /#071522/i, `${sceneFiles[index]} should use the shared deep brand-blue canvas`);
   }
@@ -123,7 +123,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(experience, /<IndustrySharedCanvas/);
   assert.doesNotMatch(experience, /renderWindow|storyIsNearViewport/);
   assert.doesNotMatch(experience, /moving=\{isScrolling\}/);
-  assert.match(experience, /CAROUSEL_INTERVAL_MS = 4000/);
+  assert.match(experience, /CAROUSEL_INTERVAL_MS = 3000/);
   assert.match(experience, /setInterval/);
   assert.match(experience, /isAutoplayPaused/);
   assert.match(experience, /isModelInteracting/);
@@ -175,7 +175,7 @@ test("preloads every scene into one warmed WebGL renderer before industry scroll
   assert.match(styles, /transition: transform 1000ms/);
   assert.match(styles, /\.qf-industry-track\.is-resetting \{ transition: none; \}/);
   assert.match(styles, /\.qf-industry-autoplay/);
-  assert.match(styles, /\.qf-about-copy p > span:last-child/);
+  assert.match(styles, /\.qf-check-written/);
   assert.match(styles, /scale\(var\(--qf-industry-portal-scale\)\)/);
   assert.match(styles, /--qf-industry-portal-scale: 0\.975/);
   assert.match(styles, /--qf-industry-portal-scale: 1\.012/);

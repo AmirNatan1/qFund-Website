@@ -109,6 +109,31 @@ function useReducedMotion() {
   return reduced;
 }
 
+function shiftBlueToTiffany(color: THREE.Color) {
+  const hsl = { h: 0, s: 0, l: 0 };
+  color.getHSL(hsl);
+  if (hsl.h < 0.45 || hsl.h > 0.72 || hsl.s < 0.14) return false;
+  color.setHSL(0.489, Math.min(0.62, Math.max(0.28, hsl.s * 0.78)), hsl.l);
+  return true;
+}
+
+function applyTiffanyPalette(root: THREE.Object3D) {
+  let changed = 0;
+  root.traverse((object) => {
+    if (object instanceof THREE.Light && shiftBlueToTiffany(object.color)) changed += 1;
+
+    const materialValue = (object as THREE.Object3D & { material?: THREE.Material | THREE.Material[] }).material;
+    const materials = Array.isArray(materialValue) ? materialValue : materialValue ? [materialValue] : [];
+    materials.forEach((material) => {
+      const colored = material as THREE.Material & { color?: THREE.Color; emissive?: THREE.Color };
+      if (colored.color && shiftBlueToTiffany(colored.color)) changed += 1;
+      if (colored.emissive && shiftBlueToTiffany(colored.emissive)) changed += 1;
+      if (changed) material.needsUpdate = true;
+    });
+  });
+  return changed;
+}
+
 function QuantumComputerObject({
   model,
   reducedMotion,
@@ -232,10 +257,18 @@ function ModelGroup({
 }) {
   const active = activeModelId === id;
   const presentationScale = modelChapters.get(id)?.model?.presentation.scale ?? 1;
+  const groupRef = useRef<Group>(null);
+  const paletteApplied = useRef(false);
+
+  useActiveFrame(() => {
+    if (paletteApplied.current || !groupRef.current) return;
+    paletteApplied.current = applyTiffanyPalette(groupRef.current) > 0;
+  });
 
   return (
     <SceneActivity active={active} maxFps={60}>
       <group
+        ref={groupRef}
         name={`qf-industry-scene-${id}`}
         visible={active}
         scale={presentationScale}
@@ -323,7 +356,7 @@ function PreloadedIndustryModels({
       ) : null}
       {readyModelIds.has("drone") ? (
         <ModelGroup id="drone" activeModelId={activeModelId}>
-          <group position={[0, 0.35, 0]}><DroneModel accent="#22c7cb" spin={!reducedMotion} /></group>
+          <group position={[0, 0.35, 0]}><DroneModel accent="#81d8d0" spin={!reducedMotion} /></group>
         </ModelGroup>
       ) : null}
       {readyModelIds.has("datacenter") ? (
@@ -339,7 +372,7 @@ function PreloadedIndustryModels({
       ) : null}
       {readyModelIds.has("particle-accelerator") ? (
         <ModelGroup id="particle-accelerator" activeModelId={activeModelId}>
-          <ParticleAcceleratorModel autoRotate={!reducedMotion} beamColor="#00e5ff" accentColor="#ff2fa0" />
+          <ParticleAcceleratorModel autoRotate={!reducedMotion} beamColor="#81d8d0" accentColor="#57bdb4" />
         </ModelGroup>
       ) : null}
       {readyModelIds.has("cyber-security") ? (
@@ -400,14 +433,14 @@ export function IndustrySharedCanvas({
           gl.toneMappingExposure = 1.08;
         }}
       >
-        <color attach="background" args={["#071522"]} />
-        <ambientLight intensity={0.48} color="#8bbbc4" />
-        <hemisphereLight args={["#9fc6d8", "#030a12", 0.75]} />
-        <directionalLight position={[8, 12, 7]} intensity={2.8} color="#e1fbff" />
-        <directionalLight position={[-7, 3, -6]} intensity={1.2} color="#258bbd" />
+        <color attach="background" args={["#042925"]} />
+        <ambientLight intensity={0.48} color="#81bdb7" />
+        <hemisphereLight args={["#bcebe6", "#020b0a", 0.75]} />
+        <directionalLight position={[8, 12, 7]} intensity={2.8} color="#e6fffc" />
+        <directionalLight position={[-7, 3, -6]} intensity={1.2} color="#4fbab0" />
         <Environment resolution={128} frames={1}>
-          <Lightformer intensity={4} color="#dffcff" position={[5, 7, 4]} scale={[10, 6, 1]} />
-          <Lightformer intensity={3} color="#22c7cb" position={[-6, 2, -4]} scale={[8, 5, 1]} />
+          <Lightformer intensity={4} color="#e6fffc" position={[5, 7, 4]} scale={[10, 6, 1]} />
+          <Lightformer intensity={3} color="#81d8d0" position={[-6, 2, -4]} scale={[8, 5, 1]} />
         </Environment>
         <SharedCamera activeModelId={ready ? activeModelId : null} />
         <SceneWarmup readyModelIds={readyModelIds} />

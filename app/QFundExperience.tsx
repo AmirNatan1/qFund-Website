@@ -302,6 +302,7 @@ export default function QFundExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
   const cursorRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -310,6 +311,27 @@ export default function QFundExperience() {
     let pointerFrame = 0;
     let pointerX = 0;
     let pointerY = 0;
+    const checkWriters = Array.from(document.querySelectorAll<HTMLElement>("[data-check-write]"));
+
+    const updateCheckWriting = () => {
+      const about = aboutRef.current;
+      const check = about?.querySelector<HTMLElement>(".qf-check");
+      if (!about || !check) return;
+
+      const bounds = check.getBoundingClientRect();
+      const writingDistance = Math.max(window.innerHeight * 0.72, Math.min(bounds.height, window.innerHeight) * 0.82);
+      const rawProgress = reduced ? 1 : (window.innerHeight * 0.9 - bounds.top) / writingDistance;
+      const progress = Math.min(1, Math.max(0, rawProgress));
+      about.style.setProperty("--check-progress", String(progress));
+      about.style.setProperty("--check-progress-width", `${(progress * 100).toFixed(2)}%`);
+
+      checkWriters.forEach((writer, index) => {
+        const start = index * 0.075;
+        const localProgress = Math.min(1, Math.max(0, (progress - start) / 0.34));
+        writer.style.setProperty("--write-hidden", `${((1 - localProgress) * 100).toFixed(2)}%`);
+        writer.style.setProperty("--write-opacity", String(0.08 + localProgress * 0.92));
+      });
+    };
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
@@ -342,6 +364,7 @@ export default function QFundExperience() {
       scrollFrame = window.requestAnimationFrame(() => {
         const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         root.style.setProperty("--page-progress", String(window.scrollY / max));
+        updateCheckWriting();
         scrollFrame = 0;
       });
     };
@@ -361,6 +384,7 @@ export default function QFundExperience() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("pointermove", onPointer, { passive: true });
     onScroll();
+    updateCheckWriting();
 
     return () => {
       window.cancelAnimationFrame(scrollFrame);
@@ -455,22 +479,54 @@ export default function QFundExperience() {
         </div>
       </section>
 
-      <section className="qf-about qf-scroll-section" id="about" data-qf-section aria-labelledby="about-title">
+      <section className="qf-about qf-scroll-section" id="about" data-qf-section aria-labelledby="about-title" ref={aboutRef}>
         <div className="qf-section-label qf-reveal"><span>01</span><p>About us</p></div>
         <div className="qf-about-heading qf-reveal">
           <p className="qf-kicker">EARLY-STAGE VENTURE CAPITAL</p>
           <h2 id="about-title">What we invest in, and what we bring <em>beyond capital.</em></h2>
         </div>
-        <div className="qf-about-body">
-          <div className="qf-about-copy qf-reveal">
-            <div className="qf-about-copy-label"><span aria-hidden="true" />How we think</div>
-            <p><span aria-hidden="true">01</span><span>We invest in startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.</span></p>
+        <div className="qf-check-stage">
+          <span className="qf-check-stage-grid" aria-hidden="true" />
+          <div className="qf-check qf-reveal" aria-label="qFund investment check">
+            <div className="qf-check-top">
+              <div className="qf-check-bank">
+                <span className="qf-check-monogram" aria-hidden="true">q</span>
+                <div><strong>qFund</strong><small>DEEP TECH VENTURE CAPITAL / HERZLIYA</small></div>
+              </div>
+              <div className="qf-check-number"><span>CHECK</span><strong>0001</strong></div>
+            </div>
+
+            <div className="qf-check-date"><span>DATE</span><strong className="qf-check-written" data-check-write>THE DEEP FUTURE</strong></div>
+
+            <div className="qf-check-payee">
+              <span>PAY TO THE<br />ORDER OF</span>
+              <strong className="qf-check-written" data-check-write>Deep Tech builders</strong>
+              <div className="qf-check-amount"><span>INVESTMENT STAGE</span><strong className="qf-check-written" data-check-write>Pre-seed to Series A</strong></div>
+            </div>
+
+            <div className="qf-check-words">
+              <strong className="qf-check-written" data-check-write>Core infrastructure, hardware &amp; enabling technologies</strong>
+              <span>VENTURE CAPITAL</span>
+            </div>
+
+            <p className="qf-check-note qf-check-written" data-check-write>
+              Across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
+            </p>
+
+            <div className="qf-check-bottom">
+              <div className="qf-check-memo"><span>MEMO</span><strong className="qf-check-written" data-check-write>Conviction beyond capital</strong></div>
+              <div className="qf-check-signature"><strong className="qf-check-written" data-check-write>qFund</strong><span>AUTHORIZED SIGNATURE</span></div>
+            </div>
+
+            <div className="qf-check-facts" aria-label="qFund at a glance">
+              <article><span>FOCUS</span><strong>Deep Tech</strong></article>
+              <article><span>HORIZON</span><strong>Pre-seed to Series A</strong></article>
+              <article><span>GEOGRAPHY</span><strong>Israeli-related startups</strong></article>
+            </div>
+
+            <div className="qf-check-routing" aria-hidden="true">⑆ 081 0001 00001 ⑆ QF DEEP TECH 01</div>
           </div>
-          <div className="qf-about-facts qf-reveal" aria-label="qFund at a glance">
-            <article><strong>Deep Tech</strong><span>Investment focus</span></article>
-            <article><strong>Pre-seed to Series A</strong><span>Investment horizon</span></article>
-            <article><strong>Israeli-related startups</strong><span>Geography</span></article>
-          </div>
+          <div className="qf-check-scroll-progress" aria-hidden="true"><span>SCROLL TO WRITE</span><i /></div>
         </div>
       </section>
 
