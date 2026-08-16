@@ -14,6 +14,25 @@ function rgba([red, green, blue]: [number, number, number], alpha: number) {
 
 /** Per-frame paint budget, in milliseconds, used to size the canvas backing store. */
 const BUDGET_MS = 9;
+/** Hard ceiling on the backing store, so a large display cannot demand a huge buffer. */
+const MAX_BACKING_PIXELS = 8_000_000;
+
+function chooseDensity(width: number, height: number, unitCost: number) {
+  // Never below the 1.4x supersampling the field has always used on a 1x
+  // display, never above 2x, whatever the panel claims.
+  let density = Math.min(Math.max(window.devicePixelRatio || 1, 1.4), 2);
+  const area = Math.max(1, width * height);
+  if (area * density * density > MAX_BACKING_PIXELS) {
+    density = Math.max(1, Math.sqrt(MAX_BACKING_PIXELS / area));
+  }
+  // Trim further if a measured frame says this device cannot paint that many
+  // pixels in time. Paint cost grows with the square of the density.
+  if (unitCost > 0) {
+    const affordable = Math.sqrt(BUDGET_MS / unitCost);
+    if (affordable < density) density = Math.max(1, affordable);
+  }
+  return density;
+}
 
 export type FrontierFieldProps = {
   /** Extra class names applied to the field shell. */
@@ -23,11 +42,13 @@ export type FrontierFieldProps = {
   /** Follow the pointer. Disabled for the opening reveal clone. */
   interactive?: boolean;
   /**
-   * Multiplies the canvas backing-store resolution. The opening reveal scales the
-   * field far beyond its layout size, so it renders at a matching density to stay
-   * crisp while it fills the viewport.
+   * Fixed backing-store size in CSS pixels. Supplying it puts the field in fluid
+   * mode: the canvas is allocated once for this size and the composition is
+   * redrawn to the element's live box on every frame. The field can then change
+   * shape without ever being scaled, so it stays at full resolution throughout.
    */
-  densityBoost?: number;
+  fluidWidth?: number;
+  fluidHeight?: number;
   /** Receives the field shell so callers can measure it. */
   elementRef?: (node: HTMLDivElement | null) => void;
 };
@@ -36,31 +57,12 @@ export default function FrontierField({
   className,
   style,
   interactive = true,
-  densityBoost = 1,
+  fluidWidth = 0,
+  fluidHeight = 0,
   elementRef,
 }: FrontierFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fieldRef = useRef<HTMLDivElement | null>(null);
-  const boostRef = useRef(densityBoost);
-  const resizeRef = useRef<((boost: number) => void) | null>(null);
-  /** Measured paint cost of one frame at boost 1, in milliseconds. */
-  const unitCostRef = useRef(0);
-
-  /**
-   * Extra resolution is only worth having if the device can still paint a frame
-   * in time. Paint cost grows with the square of the density, so the cost of one
-   * cheap frame predicts the rest: where the budget cannot cover the request —
-   * software rendering, weak integrated graphics — the density is trimmed to fit
-   * rather than stuttering through the opening.
-   */
-  const affordableBoost = (requested: number) => {
-    if (requested <= 1.02 || unitCostRef.current <= 0) return requested;
-    return Math.max(1, Math.min(requested, Math.sqrt(BUDGET_MS / unitCostRef.current)));
-  };
-
-  useEffect(() => {
-    resizeRef.current?.(affordableBoost(densityBoost));
-  }, [densityBoost]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -197,27 +199,50 @@ export default function FrontierField({
       context.stroke();
     };
 
-    const resize = (boost = boostRef.current) => {
-      boostRef.current = boost;
-      // Layout size, not the visual rect: the opening reveal scales an ancestor,
-      // and getBoundingClientRect would fold that scale into the backing store.
+    // In fluid mode the backing store is allocated once, large enough for the
+    // opening's full-screen shape, and never reallocated. Every frame draws the
+    // composition into the top-left region matching the element's current box,
+    // which the field's own overflow clips — one device pixel per pixel drawn,
+    // at every size the box passes through.
+    const fluid = fluidWidth > 0 && fluidHeight > 0;
+    let unitCost = 0;
+    let density = 1;
+
+    const measure = () => {
+      // Layout size, not the visual rect, which would fold in any ancestor scale.
       width = Math.max(1, field.offsetWidth);
       height = Math.max(1, field.offsetHeight);
-      const base = Math.min(window.devicePixelRatio || 1, 1.4);
-      const density = Math.min(Math.max(base, base * boost), 3.2);
-      canvas.width = Math.round(width * density);
-      canvas.height = Math.round(height * density);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
+    };
+
+    const allocate = () => {
+      measure();
+      const bufferWidth = fluid ? fluidWidth : width;
+      const bufferHeight = fluid ? fluidHeight : height;
+      density = chooseDensity(bufferWidth, bufferHeight, unitCost);
+      canvas.width = Math.round(bufferWidth * density);
+      canvas.height = Math.round(bufferHeight * density);
+      canvas.style.width = `${bufferWidth}px`;
+      canvas.style.height = `${bufferHeight}px`;
       context.setTransform(density, 0, 0, density, 0, 0);
       const started = performance.now();
       render(started);
-      unitCostRef.current = (performance.now() - started) / (boost * boost);
+      unitCost = (performance.now() - started) / (density * density);
+    };
+
+    const resize = () => {
+      if (fluid) {
+        // The buffer already covers every shape the box will take.
+        measure();
+        render(performance.now());
+        return;
+      }
+      allocate();
     };
 
     const animate = (time: number) => {
       frame = 0;
       if (reduced || !fieldVisible || !pageVisible) return;
+      if (fluid) measure();
       render(time);
       frame = window.requestAnimationFrame(animate);
     };
@@ -273,15 +298,12 @@ export default function FrontierField({
       field.addEventListener("pointermove", onPointerMove, { passive: true });
       field.addEventListener("pointerleave", onPointerLeave, { passive: true });
     }
-    resizeRef.current = resize;
-    // Measure one cheap frame before committing to the requested density.
-    const requested = boostRef.current;
-    resize(1);
-    const chosen = affordableBoost(requested);
-    if (chosen > 1.02) resize(chosen);
+    // Allocate twice on the first pass: the opening frame measures what this
+    // device can actually paint, the second sizes the buffer to that answer.
+    allocate();
+    if (unitCost > BUDGET_MS) allocate();
 
     return () => {
-      resizeRef.current = null;
       stopAnimation();
       observer.disconnect();
       visibilityObserver.disconnect();
@@ -289,7 +311,7 @@ export default function FrontierField({
       field.removeEventListener("pointermove", onPointerMove);
       field.removeEventListener("pointerleave", onPointerLeave);
     };
-  }, [interactive]);
+  }, [interactive, fluidWidth, fluidHeight]);
 
   return (
     <div

@@ -7,43 +7,56 @@ import { announceIntroSettled } from "./introState";
 /**
  * Opening reveal.
  *
- * A pixel-identical clone of the hero's frontier field is pinned over the page at
- * viewport-covering scale, held long enough to read as the qFund mark, then flown
- * down onto the exact rectangle the real field occupies in the hero. The clone and
- * the real field share one deterministic renderer, so the hand-off at the end is a
- * straight swap rather than a visible transition.
+ * A second frontier field is pinned over the page at the viewport's own
+ * dimensions — composed for the screen it is on, drawn at device resolution,
+ * never a magnified crop of the small one. It holds long enough to read as the
+ * qFund mark, then its box is animated down onto the exact rectangle the real
+ * field occupies in the hero. The composition reflows as the box changes shape,
+ * so the square it lands in is a shape the field grew into rather than a frame
+ * cropped around it, and the last frame is drawn at precisely the hero's size.
  */
 
 const TIMING = {
   /** Field fades up from the paper backdrop. */
-  fadeIn: 400,
-  /** Opening overshoot settles into the covering scale. */
-  settle: 340,
-  /** Full-bleed hold ends and the shrink begins. */
-  shrinkAt: 1000,
-  /** Shrink lands on the hero square. */
-  landAt: 1880,
-  /** Page chrome starts entering. */
-  outroAt: 1460,
-  /** Backdrop clears to reveal the hero, just before the field settles. */
-  backdropAt: 1480,
-  backdropDuration: 360,
+  fadeIn: 420,
+  /** Full-bleed hold ends and the descent begins. */
+  departAt: 1000,
+  /** Descent duration. */
+  descent: 900,
+  /** Page chrome starts entering, measured from the start of the descent. */
+  outroOffset: 460,
+  /** Backdrop clears, measured from the start of the descent. */
+  backdropOffset: 480,
+  backdropDuration: 380,
   /** Clone hands over to the real field. */
   swapDuration: 150,
   /** Abort duration when the visitor scrolls, clicks or types. */
-  skipDuration: 240,
+  skipDuration: 260,
 } as const;
 
-const SHRINK_EASE = "cubic-bezier(0.7, 0, 0.16, 1)";
-const SETTLE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+/** Slight extra emphasis on the mark while the field is the size of the screen. */
+const MARK_EMPHASIS = 1.2;
 
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+/** Slow away, quick through the middle, soft into place. */
+function easeDescent(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function easeOut(t: number) {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+function lerp(from: number, to: number, t: number) {
+  return from + (to - from) * t;
+}
 
 export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDivElement | null> }) {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const backdropRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(true);
-  const [densityBoost, setDensityBoost] = useState(1);
+  const [buffer, setBuffer] = useState({ width: 0, height: 0 });
 
   useIsomorphicLayoutEffect(() => {
     const root = document.documentElement;
@@ -60,7 +73,7 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
       announceIntroSettled();
     };
 
-    if (reduced || !stage || !backdrop || !target || typeof stage.animate !== "function") {
+    if (reduced || !stage || !backdrop || !target) {
       clearClasses();
       setMounted(false);
       return;
@@ -96,33 +109,49 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
       return;
     }
 
-    // Pin the clone onto the exact rectangle the hero field occupies.
-    stage.style.left = `${rect.left}px`;
-    stage.style.top = `${rect.top}px`;
-    stage.style.width = `${rect.width}px`;
-    stage.style.height = `${rect.height}px`;
+    // Open at the viewport's own dimensions and end on the hero's rectangle.
+    const from = { left: 0, top: 0, width: viewportWidth, height: viewportHeight };
+    const to = { left: rect.left, top: rect.top, width: rect.width, height: rect.height };
 
-    // Uniform scale that covers the viewport, so the mark never distorts.
-    const cover = Math.max(viewportWidth / rect.width, viewportHeight / rect.height) * 1.02;
-    const offsetX = viewportWidth / 2 - (rect.left + rect.width / 2);
-    const offsetY = viewportHeight / 2 - (rect.top + rect.height / 2);
-    const at = (scale: number) =>
-      `translate(${offsetX.toFixed(2)}px, ${offsetY.toFixed(2)}px) scale(${scale.toFixed(4)})`;
+    const applyBox = (progress: number) => {
+      stage.style.left = `${lerp(from.left, to.left, progress)}px`;
+      stage.style.top = `${lerp(from.top, to.top, progress)}px`;
+      stage.style.width = `${lerp(from.width, to.width, progress)}px`;
+      stage.style.height = `${lerp(from.height, to.height, progress)}px`;
+      stage.style.setProperty("--qf-intro-p", progress.toFixed(4));
+    };
 
-    // On narrow layouts the hero square sits below the fold, so there is nothing to
-    // fly into. Those visitors get the same full-bleed opening, resolved as a shrink
-    // toward the centre while the hero copy rises in.
+    // The mark and the field's grid are sized for the small square, so at screen
+    // size they would read as specks. Both are opened up by how much taller the
+    // field has become — a proportional enlargement of the resting composition
+    // rather than an arbitrary one — and resolve to their resting values exactly
+    // as it lands. The mark carries a little extra emphasis while it is the
+    // largest thing on the page.
+    const enlargement = Math.min(3, Math.max(1, viewportHeight / rect.height));
+    const markScale = Math.min(3, enlargement * MARK_EMPHASIS);
+    const gridScale = enlargement;
+
+    const applyDetail = (progress: number) => {
+      stage.style.setProperty("--qf-intro-mark", lerp(markScale, 1, progress).toFixed(4));
+      stage.style.setProperty("--qf-intro-grid", lerp(gridScale, 1, progress).toFixed(4));
+    };
+
+    applyBox(0);
+    applyDetail(0);
+    setBuffer({ width: Math.ceil(viewportWidth), height: Math.ceil(viewportHeight) });
+
+    // Where the hero square sits below the fold, the descent would finish out of
+    // sight. Those visitors get the same opening, cleared while it is still on
+    // screen rather than trailing off the bottom edge.
     const visibleHeight = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0));
-    const landsOnScreen = visibleHeight / rect.height > 0.55;
-    const land = landsOnScreen ? "translate(0px, 0px) scale(1)" : at(cover * 0.32);
-
-    setDensityBoost(Math.min(cover, 2.6));
+    const landsInView = visibleHeight / rect.height > 0.55;
 
     const timers: number[] = [];
-    /** Opacity animations, cancelled on an early exit; the flight is left to finish. */
-    const fades: Animation[] = [];
-    const animations: Animation[] = [];
     let settled = false;
+    let handedOver = false;
+    let frame = 0;
+    let skipFrom = -1;
+    let startedAt = 0;
 
     function clearTimers() {
       timers.forEach((id) => window.clearTimeout(id));
@@ -130,6 +159,7 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
     }
 
     function teardown() {
+      window.cancelAnimationFrame(frame);
       window.removeEventListener("wheel", skip);
       window.removeEventListener("touchmove", skip);
       window.removeEventListener("keydown", skip);
@@ -146,23 +176,37 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
       setMounted(false);
     }
 
+    function handOver() {
+      if (settled || handedOver || !stage) return;
+      handedOver = true;
+      // Two frames of grace: the field's own loop redraws the composition at the
+      // final box before the real one is uncovered beneath it.
+      root.classList.add("qf-intro-landed");
+      stage.animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: TIMING.swapDuration,
+        easing: "linear",
+        fill: "forwards",
+      });
+      timers.push(
+        window.setTimeout(() => {
+          if (settled) return;
+          settled = true;
+          teardown();
+        }, TIMING.swapDuration + 90),
+      );
+    }
+
     function skip() {
-      if (settled || !stage || !backdrop) return;
-      settled = true;
-      const stageOpacity = Number(getComputedStyle(stage).opacity) || 0;
-      const backdropOpacity = Number(getComputedStyle(backdrop).opacity) || 0;
-      // Only the fades are replaced. Cancelling the flight would snap the clone
-      // to its landing rectangle in a single frame; letting it run means the
-      // visitor sees it continue on its way out.
-      fades.forEach((animation) => animation.cancel());
+      if (settled || handedOver || skipFrom >= 0) return;
+      // Fold the remaining descent into a quick exit rather than cutting it.
+      skipFrom = performance.now();
       clearTimers();
       root.classList.add("qf-intro-outro", "qf-intro-landed");
-      const options = { duration: TIMING.skipDuration, easing: "ease-out", fill: "forwards" as const };
-      animations.push(
-        stage.animate([{ opacity: stageOpacity }, { opacity: 0 }], options),
-        backdrop.animate([{ opacity: backdropOpacity }, { opacity: 0 }], options),
-      );
-      timers.push(window.setTimeout(teardown, TIMING.skipDuration + 20));
+      timers.push(window.setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        teardown();
+      }, TIMING.skipDuration + 40));
     }
 
     function onResize() {
@@ -172,91 +216,67 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
       if (Math.abs(width - viewportWidth) > 4) skip();
     }
 
-    const flight = stage.animate(
-      [
-        { offset: 0, transform: at(cover * 1.05), easing: SETTLE_EASE },
-        { offset: TIMING.settle / TIMING.landAt, transform: at(cover), easing: "cubic-bezier(0.4, 0, 0.6, 1)" },
-        { offset: TIMING.shrinkAt / TIMING.landAt, transform: at(cover * 0.985), easing: SHRINK_EASE },
-        { offset: 1, transform: land },
-      ],
-      { duration: TIMING.landAt, fill: "both" },
-    );
-    animations.push(flight);
+    const fadeOutStartsAt = landsInView
+      ? TIMING.departAt + TIMING.descent
+      : TIMING.departAt + TIMING.backdropOffset;
 
-    fades.push(
-      stage.animate([{ opacity: 0 }, { opacity: 1 }], {
-        duration: TIMING.fadeIn,
-        easing: "ease-out",
-        fill: "both",
-      }),
-      backdrop.animate([{ opacity: 1 }, { opacity: 0 }], {
-        delay: TIMING.backdropAt,
-        duration: TIMING.backdropDuration,
-        easing: "ease-in-out",
-        fill: "forwards",
-      }),
-    );
+    function tick(now: number) {
+      frame = 0;
+      if (settled || !stage || !backdrop) return;
+      if (!startedAt) startedAt = now;
+      const elapsed = now - startedAt;
 
-    if (!landsOnScreen) {
-      fades.push(
-        stage.animate([{ opacity: 1 }, { opacity: 0 }], {
-          delay: TIMING.backdropAt,
-          duration: TIMING.backdropDuration,
-          easing: "linear",
-          fill: "forwards",
-        }),
-      );
-    }
-
-    animations.push(...fades);
-
-    let handedOver = false;
-
-    function handOver() {
-      if (settled || handedOver) return;
-      handedOver = true;
-      // The hand-over is driven by the flight itself, never by a timer: a timer
-      // can fire while the animation still has a frame or two to run, which
-      // would show the clone and the real field a few pixels apart.
-      root.classList.add("qf-intro-landed");
-      if (landsOnScreen && stage) {
-        animations.push(
-          stage.animate([{ opacity: 1 }, { opacity: 0 }], {
-            duration: TIMING.swapDuration,
-            easing: "linear",
-            fill: "forwards",
-          }),
-        );
-      }
-      timers.push(
-        window.setTimeout(() => {
-          if (settled) return;
-          settled = true;
-          teardown();
-        }, TIMING.swapDuration + 80),
-      );
-    }
-
-    flight.finished.then(handOver, () => undefined);
-
-    timers.push(window.setTimeout(() => root.classList.add("qf-intro-outro"), TIMING.outroAt));
-
-    // Backstop, so the page is never left sitting behind the veil if the flight
-    // never reports finished — a tab backgrounded mid-animation will hold it.
-    // It waits for the flight to actually reach its landing rather than handing
-    // over on the clock, which on a slow first paint would arrive too early.
-    const deadline = TIMING.landAt + 12000;
-    let waited = TIMING.landAt + 700;
-    function backstop() {
-      if (settled || handedOver) return;
-      if (Number(flight.currentTime ?? 0) < TIMING.landAt - 20 && waited < deadline) {
-        waited += 400;
-        timers.push(window.setTimeout(backstop, 400));
+      if (skipFrom >= 0) {
+        const out = Math.min(1, (now - skipFrom) / TIMING.skipDuration);
+        stage.style.opacity = String(1 - easeOut(out));
+        backdrop.style.opacity = String(1 - easeOut(out));
+        if (out >= 1) return;
+        frame = window.requestAnimationFrame(tick);
         return;
       }
-      handOver();
+
+      if (elapsed < TIMING.fadeIn) {
+        stage.style.opacity = easeOut(elapsed / TIMING.fadeIn).toFixed(3);
+      } else {
+        stage.style.opacity = "1";
+      }
+
+      const descent = Math.min(1, Math.max(0, (elapsed - TIMING.departAt) / TIMING.descent));
+      const progress = easeDescent(descent);
+      applyBox(progress);
+      applyDetail(progress);
+
+      const backdropStart = TIMING.departAt + TIMING.backdropOffset;
+      if (elapsed >= backdropStart) {
+        const fade = Math.min(1, (elapsed - backdropStart) / TIMING.backdropDuration);
+        backdrop.style.opacity = String(1 - fade);
+      }
+
+      if (!landsInView && elapsed >= fadeOutStartsAt) {
+        const fade = Math.min(1, (elapsed - fadeOutStartsAt) / TIMING.backdropDuration);
+        stage.style.opacity = String(1 - fade);
+      }
+
+      if (descent >= 1) {
+        // Exactly on the hero's rectangle, then two frames for the field to draw
+        // the composition at that size before the hand-over.
+        applyBox(1);
+        applyDetail(1);
+        window.requestAnimationFrame(() => window.requestAnimationFrame(handOver));
+        return;
+      }
+
+      frame = window.requestAnimationFrame(tick);
     }
-    timers.push(window.setTimeout(backstop, waited));
+
+    frame = window.requestAnimationFrame(tick);
+
+    timers.push(
+      window.setTimeout(() => root.classList.add("qf-intro-outro"), TIMING.departAt + TIMING.outroOffset),
+    );
+    // Backstop, so the page is never left sitting behind the veil if frames stop
+    // arriving — a tab backgrounded mid-animation will hold the loop.
+    timers.push(window.setTimeout(handOver, TIMING.departAt + TIMING.descent + 3000));
 
     window.addEventListener("wheel", skip, { passive: true });
     window.addEventListener("touchmove", skip, { passive: true });
@@ -267,7 +287,6 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
 
     return () => {
       settled = true;
-      animations.forEach((animation) => animation.cancel());
       teardown();
     };
     // One opening per page view: this runs once per mount.
@@ -279,7 +298,7 @@ export default function IntroReveal({ targetRef }: { targetRef: RefObject<HTMLDi
     <div className="qf-intro" aria-hidden="true">
       <div className="qf-intro-backdrop" ref={backdropRef} />
       <div className="qf-intro-stage" ref={stageRef}>
-        <FrontierField interactive={false} densityBoost={densityBoost} />
+        <FrontierField interactive={false} fluidWidth={buffer.width} fluidHeight={buffer.height} />
       </div>
     </div>
   );
