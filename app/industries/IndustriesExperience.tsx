@@ -136,7 +136,7 @@ export default function IndustriesExperience() {
         <div className="qf-section-label qf-reveal"><span>03</span><p>Thesis</p></div>
         <div className="qf-thesis-check-heading qf-reveal">
           <p className="qf-kicker">OUR INVESTMENT THESIS</p>
-          <h2 id="thesis-title">We write the early checks for technologies built to <em>reshape essential industries.</em></h2>
+          <h2 id="thesis-title">First checks for the <em>next industry shift.</em></h2>
         </div>
 
         <div className="qf-check-stage qf-thesis-check-stage">
@@ -194,7 +194,7 @@ export default function IndustriesExperience() {
 
         <div className="qf-thesis-check-bridge qf-reveal">
           <div><span>CHECK WRITTEN</span><i /></div>
-          <p><strong>The check is the beginning.</strong> Below are the eight frontiers where we believe deep technology becomes industry-shaping infrastructure.</p>
+          <p><strong>One thesis.</strong> Eight frontiers.</p>
           <span aria-hidden="true">↓</span>
         </div>
       </div>
