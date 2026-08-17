@@ -136,7 +136,7 @@ export default function IndustriesExperience() {
         <div className="qf-section-label qf-reveal"><span>03</span><p>Thesis</p></div>
         <div className="qf-thesis-check-heading qf-reveal">
           <p className="qf-kicker">OUR INVESTMENT THESIS</p>
-          <h2 id="thesis-title">First checks for the <em>next industry shift.</em></h2>
+          <h2 id="thesis-title">We invest early in technologies that <em>reshape industries.</em></h2>
         </div>
 
         <div className="qf-check-stage qf-thesis-check-stage">

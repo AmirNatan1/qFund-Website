@@ -138,7 +138,7 @@ test("preloads every scene and advances the integrated thesis every three second
   assert.doesNotMatch(experience, /visualIndexRef|wrapsForward|qf-industry-chapter-clone|is-resetting/);
   assert.doesNotMatch(experience, /isImmersive|metricsRef|qf-industries-immersive/);
   assert.match(experience, /id="thesis"/);
-  assert.match(experience, /First checks for the/);
+  assert.match(experience, /We invest early in technologies/);
   assert.match(experience, /foundational technology/i);
   assert.match(experience, /Conviction beyond capital/);
   assert.match(experience, /className="qf-check-stage qf-thesis-check-stage"/);
