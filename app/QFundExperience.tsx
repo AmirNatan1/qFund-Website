@@ -69,12 +69,13 @@ export default function QFundExperience() {
     let pointerY = 0;
 
     const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-        });
-      },
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            if (entry.target.classList.contains("qf-check")) entry.target.classList.add("is-writing");
+          });
+        },
       { threshold: 0.12, rootMargin: "0px 0px -5%" },
     );
 

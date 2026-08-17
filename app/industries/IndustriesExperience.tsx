@@ -6,7 +6,6 @@ import {
   useRef,
   useState,
   type CSSProperties,
-  type PointerEvent as ReactPointerEvent,
 } from "react";
 import { whenIntroSettles } from "../components/introState";
 import IndustryModelStage, { IndustrySharedCanvas, scheduleIndustryAssetPreload } from "./IndustryModelStage";
@@ -69,23 +68,6 @@ export default function IndustriesExperience() {
     modelInteractingRef.current = false;
     setIsModelInteracting(false);
   }, []);
-
-  const moveThesisField = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-    event.currentTarget.style.setProperty("--qf-thesis-x", `${((x + 0.5) * 100).toFixed(2)}%`);
-    event.currentTarget.style.setProperty("--qf-thesis-y", `${((y + 0.5) * 100).toFixed(2)}%`);
-    event.currentTarget.style.setProperty("--qf-thesis-shift-x", `${(x * 18).toFixed(2)}px`);
-    event.currentTarget.style.setProperty("--qf-thesis-shift-y", `${(y * 14).toFixed(2)}px`);
-  };
-
-  const resetThesisField = (event: ReactPointerEvent<HTMLDivElement>) => {
-    event.currentTarget.style.setProperty("--qf-thesis-x", "68%");
-    event.currentTarget.style.setProperty("--qf-thesis-y", "42%");
-    event.currentTarget.style.setProperty("--qf-thesis-shift-x", "0px");
-    event.currentTarget.style.setProperty("--qf-thesis-shift-y", "0px");
-  };
 
   useEffect(() => {
     const story = storyRef.current;
@@ -152,57 +134,68 @@ export default function IndustriesExperience() {
     <section className="qf-industries qf-thesis qf-scroll-section" id="thesis" data-qf-section aria-labelledby="thesis-title">
       <div className="qf-industries-intro">
         <div className="qf-section-label qf-reveal"><span>03</span><p>Thesis</p></div>
-        <div
-          className="qf-thesis-system qf-reveal"
-          onPointerMove={moveThesisField}
-          onPointerLeave={resetThesisField}
-        >
-          <span className="qf-thesis-system-grid" aria-hidden="true" />
-          <div className="qf-thesis-statement">
-            <p className="qf-kicker">EARLY-STAGE DEEP TECH</p>
-            <h2 id="thesis-title"><span>Early conviction.</span><em>Foundational technology.</em></h2>
-            <small>QF / THESIS / 03</small>
-          </div>
+        <div className="qf-thesis-check-heading qf-reveal">
+          <p className="qf-kicker">OUR INVESTMENT THESIS</p>
+          <h2 id="thesis-title">We write the early checks for technologies built to <em>reshape essential industries.</em></h2>
+        </div>
 
-          <div className="qf-thesis-orbit" aria-hidden="true">
-            <span className="qf-thesis-ring qf-thesis-ring-one" />
-            <span className="qf-thesis-ring qf-thesis-ring-two" />
-            <span className="qf-thesis-ring qf-thesis-ring-three" />
-            <span className="qf-thesis-scan" />
-            <span className="qf-thesis-crosshair qf-thesis-crosshair-x" />
-            <span className="qf-thesis-crosshair qf-thesis-crosshair-y" />
-            <div className="qf-thesis-core">
-              <span>WE BACK</span>
-              <strong>DEEP<br />TECH</strong>
-              <small>BUILDERS</small>
+        <div className="qf-check-stage qf-thesis-check-stage">
+          <span className="qf-check-stage-grid" aria-hidden="true" />
+          <div
+            className="qf-check qf-reveal"
+            aria-label="qFund backs foundational deep technology from pre-seed to Series A, with conviction beyond capital"
+          >
+            <div className="qf-check-top">
+              <div className="qf-check-bank">
+                <span className="qf-check-monogram" aria-hidden="true">q</span>
+                <div><strong>qFund</strong><small>DEEP TECH VENTURE CAPITAL</small></div>
+              </div>
+              <span className="qf-check-corner-mark">QF / THESIS / 03</span>
             </div>
-          </div>
 
-          <ul className="qf-thesis-signals" aria-label="qFund investment thesis">
-            <li className="is-focus"><span>01 / FOCUS</span><strong>Deep Tech</strong></li>
-            <li className="is-builders"><span>02 / BUILDERS</span><strong>Foundational technology</strong></li>
-            <li className="is-entry"><span>03 / ENTRY</span><strong>Pre-seed to Series A</strong></li>
-            <li className="is-partnership"><span>04 / PARTNERSHIP</span><strong>Conviction beyond capital</strong></li>
-          </ul>
+            <div className="qf-check-focus" aria-hidden="true">
+              <span className="qf-check-field-label">OUR FOCUS</span>
+              <span className="qf-check-script-line" style={{ "--write-order": 0 } as CSSProperties}>
+                <span className="qf-check-written">Deep Tech</span>
+              </span>
+            </div>
 
-          <div className="qf-thesis-handoff" aria-hidden="true">
-            <span>EIGHT FRONTIERS</span>
-            <i />
-            <span>THESIS IN MOTION</span>
-            <b>↓</b>
+            <div className="qf-check-main" aria-hidden="true">
+              <span className="qf-check-field-label">WE BACK</span>
+              <span className="qf-check-script-line qf-check-builder-line" style={{ "--write-order": 1 } as CSSProperties}>
+                <span className="qf-check-written">Builders of foundational technology</span>
+              </span>
+              <div className="qf-check-stage-box">
+                <span className="qf-check-field-label">ENTRY STAGE</span>
+                <span className="qf-check-script-line" style={{ "--write-order": 2 } as CSSProperties}>
+                  <span className="qf-check-written">Pre-seed to Series A</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="qf-check-words" aria-hidden="true">
+              <span className="qf-check-field-label">WITH</span>
+              <span className="qf-check-script-line" style={{ "--write-order": 3 } as CSSProperties}>
+                <span className="qf-check-written">Conviction beyond capital</span>
+              </span>
+            </div>
+
+            <div className="qf-check-bottom">
+              <span className="qf-check-origin">HERZLIYA / ISRAEL</span>
+              <span className="qf-check-script-line qf-check-signature-line" style={{ "--write-order": 4 } as CSSProperties}>
+                <span className="qf-check-written">qFund</span>
+              </span>
+            </div>
+
+            <div className="qf-check-security" aria-hidden="true"><i /><i /><i /></div>
+            <div className="qf-check-routing" aria-hidden="true">QF 03&nbsp;&nbsp;•&nbsp;&nbsp;ONE THESIS&nbsp;&nbsp;•&nbsp;&nbsp;EIGHT FRONTIERS</div>
           </div>
         </div>
-        <div className="qf-thesis-ticker" aria-hidden="true">
-          <div>
-            <span>DEEP TECH</span><i />
-            <span>PRE-SEED TO SERIES A</span><i />
-            <span>FOUNDATIONAL SYSTEMS</span><i />
-            <span>CONVICTION BEYOND CAPITAL</span><i />
-            <span>DEEP TECH</span><i />
-            <span>PRE-SEED TO SERIES A</span><i />
-            <span>FOUNDATIONAL SYSTEMS</span><i />
-            <span>CONVICTION BEYOND CAPITAL</span><i />
-          </div>
+
+        <div className="qf-thesis-check-bridge qf-reveal">
+          <div><span>CHECK WRITTEN</span><i /></div>
+          <p><strong>The check is the beginning.</strong> Below are the eight frontiers where we believe deep technology becomes industry-shaping infrastructure.</p>
+          <span aria-hidden="true">↓</span>
         </div>
       </div>
 

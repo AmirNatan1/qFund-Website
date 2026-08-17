@@ -1243,6 +1243,86 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 .qf-thesis .qf-section-label span { color: var(--color-brand); }
 .qf-thesis .qf-section-label p::before { background: var(--color-brand); }
 
+.qf-thesis-check-heading {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.42fr) minmax(30rem, 1.58fr);
+  gap: 1.5rem 4vw;
+  align-items: start;
+  margin-bottom: clamp(3.5rem, 6vw, 6rem);
+}
+
+.qf-thesis-check-heading .qf-kicker {
+  padding-top: 0.65rem;
+  color: rgba(232, 243, 241, 0.56);
+}
+
+.qf-thesis-check-heading h2 {
+  max-width: 15ch;
+  margin: 0;
+  font-size: clamp(3.25rem, 5.3vw, 6.4rem);
+  letter-spacing: -0.058em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.qf-thesis-check-heading h2 em {
+  display: block;
+  margin-top: 0.08em;
+  color: var(--color-brand);
+  font-family: var(--font-serif);
+  font-weight: 420;
+}
+
+.qf-thesis-check-stage {
+  margin-inline: calc(var(--qf-thesis-gutter) * -1);
+  padding-inline: var(--qf-thesis-gutter);
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 20% 24%, rgb(from var(--color-brand) r g b / 17%), transparent 28rem),
+    radial-gradient(circle at 82% 76%, rgb(from var(--color-brand) r g b / 10%), transparent 25rem),
+    var(--qf-industry-night);
+  box-shadow: none;
+}
+
+.qf-thesis-check-stage::after { border-right: 0; border-left: 0; border-radius: 0; }
+.qf-thesis-check-stage .qf-check-builder-line { font-size: clamp(1.7rem, 2.9vw, 3.4rem); }
+.qf-thesis-check-stage .qf-check-words .qf-check-script-line { font-size: clamp(1rem, 1.6vw, 1.55rem); }
+
+.qf-thesis-check-bridge {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.42fr) minmax(30rem, 1.58fr) auto;
+  gap: 2rem 4vw;
+  align-items: center;
+  padding: clamp(3rem, 5vw, 5rem) 0 clamp(4rem, 7vw, 7rem);
+  border-bottom: 1px solid rgba(223, 242, 239, 0.16);
+}
+
+.qf-thesis-check-bridge > div {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: rgba(232, 243, 241, 0.46);
+  font-size: 0.59rem;
+  font-weight: 760;
+  letter-spacing: 0.17em;
+}
+
+.qf-thesis-check-bridge > div i { width: 2.5rem; height: 1px; background: var(--color-brand); }
+
+.qf-thesis-check-bridge p {
+  max-width: 34ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 2.7vw, 3.2rem);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+
+.qf-thesis-check-bridge p strong { color: var(--color-brand); font-weight: 420; }
+.qf-thesis-check-bridge > span { color: var(--color-brand); font-size: 1.5rem; }
+
 .qf-thesis-system {
   --qf-thesis-x: 68%;
   --qf-thesis-y: 42%;
@@ -2438,6 +2518,11 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   .qf-about-body { align-content: start; }
   .qf-section-heading,
   .qf-portfolio-heading { grid-template-columns: 1fr; gap: 0.5rem; }
+  .qf-thesis-check-heading { grid-template-columns: 1fr; gap: 0.75rem; }
+  .qf-thesis-check-heading .qf-kicker { padding-top: 0; }
+  .qf-thesis-check-heading h2 { max-width: 18ch; }
+  .qf-thesis-check-bridge { grid-template-columns: minmax(0, 1fr) auto; }
+  .qf-thesis-check-bridge > div { grid-column: 1 / -1; }
   .qf-thesis-system { min-height: 64rem; }
   .qf-thesis-statement { max-width: 70%; }
   .qf-thesis-orbit { top: 62%; left: 53%; width: clamp(28rem, 66vw, 38rem); }
@@ -2834,6 +2919,15 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 
   .qf-industries { padding-top: 0; }
   .qf-industries-intro { --qf-thesis-gutter: 1rem; padding: 5.5rem 1rem 0; }
+  .qf-thesis-check-heading { margin-bottom: 3rem; }
+  .qf-thesis-check-heading h2 { font-size: clamp(2.7rem, 12vw, 4.4rem); }
+  .qf-thesis-check-stage { margin-inline: -1rem; padding: 1.25rem 1rem; border-radius: 0; }
+  .qf-thesis-check-stage .qf-check-builder-line { font-size: clamp(1.25rem, 6vw, 1.75rem); }
+  .qf-thesis-check-stage .qf-check-words .qf-check-script-line { font-size: clamp(0.82rem, 4vw, 1.05rem); }
+  .qf-thesis-check-bridge { grid-template-columns: minmax(0, 1fr) auto; padding: 3rem 0 4.5rem; }
+  .qf-thesis-check-bridge > div { grid-column: 1; }
+  .qf-thesis-check-bridge > span { grid-column: 2; grid-row: 1; }
+  .qf-thesis-check-bridge p { grid-column: 1 / -1; font-size: clamp(1.55rem, 7vw, 2.2rem); }
   .qf-industry-story { --qf-industry-portal-radius: 0px; margin-top: 0; }
   .qf-industry-copy { min-height: 56%; padding: 1.6rem 1rem 5.65rem; }
   .qf-industry-copy-meta { margin-bottom: 0.8rem; }
