@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import InnerPageShell from "../../components/InnerPageShell";
-import { formatNewsDate, newsItems } from "../../newsData";
+import { newsItems } from "../../newsData";
 
 type NewsArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -22,71 +21,52 @@ export async function generateMetadata({ params }: NewsArticlePageProps): Promis
 
   return {
     title: `${item.title} | qFund`,
-    description: item.blurb,
+    description: `External coverage and source links for ${item.title}.`,
     alternates: { canonical: `/news/${item.slug}/` },
     openGraph: {
       title: item.title,
-      description: item.blurb,
+      description: `External coverage and source links for ${item.title}.`,
       url: `/news/${item.slug}/`,
-      type: "article",
-      publishedTime: item.date,
-      images: [{ url: item.image, alt: item.imageAlt }],
+      type: "website",
+      images: [],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: item.title,
-      description: item.blurb,
-      images: [item.image],
+      description: `External coverage and source links for ${item.title}.`,
+      images: [],
     },
   };
 }
 
 export default async function NewsArticlePage({ params }: NewsArticlePageProps) {
   const { slug } = await params;
-  const itemIndex = newsItems.findIndex((candidate) => candidate.slug === slug);
-  const item = newsItems[itemIndex];
+  const item = newsItems.find((candidate) => candidate.slug === slug);
   if (!item) notFound();
-  const nextItem = newsItems[(itemIndex + 1) % newsItems.length];
 
   return (
     <InnerPageShell active="news">
-      <article className="qf-news-article">
+      <section className="qf-news-article" aria-labelledby="coverage-title">
         <header className="qf-news-article-header qf-reveal is-visible">
           <Link className="qf-news-article-back" href="/news/">← All qFund news</Link>
-          <div className="qf-news-article-meta">
-            <span>{item.tag}</span>
-            <time dateTime={item.date}>{formatNewsDate(item.date)}</time>
-          </div>
-          <h1>{item.title}</h1>
-          <p>{item.blurb}</p>
+          <h1 id="coverage-title">{item.title}</h1>
         </header>
 
-        <figure className="qf-news-article-image qf-reveal is-visible">
-          <Image
-            src={item.image}
-            alt={item.imageAlt}
-            fill
-            priority
-            sizes="(max-width: 900px) 100vw, 82vw"
-          />
-          <figcaption>{item.company} in the qFund portfolio</figcaption>
-        </figure>
-
-        <div className="qf-news-article-body">
-          {item.body.map((paragraph, index) => (
-            <p className="qf-reveal" key={`${item.slug}-${index}`}>{paragraph}</p>
-          ))}
-        </div>
-
-        <nav className="qf-news-article-next" aria-label="Continue reading">
-          <span>CONTINUE READING</span>
-          <Link href={`/news/${nextItem.slug}/`}>
-            <small>{nextItem.company}</small>
-            <strong>{nextItem.title}</strong>
-            <i aria-hidden="true">→</i>
-          </Link>
-        </nav>
-      </article>
+        <section className="qf-news-sources qf-reveal is-visible" aria-labelledby="source-links-title">
+          <h2 id="source-links-title">Read the coverage</h2>
+          <ul>
+            {item.sources.map((source) => (
+              <li key={source.url}>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">
+                  <span>{source.outlet}</span>
+                  <strong>{source.title}</strong>
+                  <i aria-hidden="true">↗</i>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </section>
     </InnerPageShell>
   );
 }

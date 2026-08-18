@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import InnerPageShell from "../components/InnerPageShell";
-import NewsArtwork from "../components/NewsArtwork";
-import { formatNewsDate, newsItems } from "../newsData";
+import { newsItems } from "../newsData";
 
 export const metadata: Metadata = {
   title: "News and Activity | qFund",
@@ -36,16 +35,10 @@ export default function NewsPage() {
         </div>
       </section>
       <section className="qf-news-archive" aria-label="All qFund news">
-        {newsItems.map((item, index) => (
+        {newsItems.map((item) => (
           <article className="qf-news-archive-card qf-reveal" key={`${item.date}-${item.title}`}>
-            <Link className="qf-news-archive-link" href={`/news/${item.slug}/`}>
-              <NewsArtwork item={item} index={index} priority={index < 2} />
-              <div className="qf-news-archive-copy">
-                <div><span>{item.tag}</span><time dateTime={item.date}>{formatNewsDate(item.date)}</time></div>
-                <h2>{item.title}</h2>
-                <p>{item.blurb}</p>
-                <span className="qf-news-read">Read the story <i aria-hidden="true">→</i></span>
-              </div>
+            <Link className="qf-news-archive-link qf-news-archive-link--title-only" href={`/news/${item.slug}/`}>
+              <h2>{item.title}</h2>
             </Link>
           </article>
         ))}

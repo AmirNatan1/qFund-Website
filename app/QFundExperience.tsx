@@ -13,9 +13,8 @@ import BackToTop from "./components/BackToTop";
 import BrandMark from "./components/BrandMark";
 import FrontierField from "./components/FrontierField";
 import IntroReveal from "./components/IntroReveal";
-import NewsArtwork from "./components/NewsArtwork";
 import IndustriesExperience from "./industries/IndustriesExperience";
-import { formatNewsDate, newsItems } from "./newsData";
+import { newsItems } from "./newsData";
 import { portfolio, team } from "./siteData";
 
 const sections = [
@@ -280,12 +279,9 @@ export default function QFundExperience() {
           <Link className="qf-text-link" href="/news/">View all news <span>↗</span></Link>
         </div>
         <div className="qf-news-grid">
-          {newsItems.slice(0, 3).map((item, index) => (
-            <Link className="qf-news-card qf-reveal" href={`/news/${item.slug}/`} key={`${item.date}-${item.title}`}>
-              <NewsArtwork item={item} index={index} />
-              <div><span>{item.tag}</span><time dateTime={item.date}>{formatNewsDate(item.date)}</time></div>
+          {newsItems.slice(0, 3).map((item) => (
+            <Link className="qf-news-card qf-news-card--title-only qf-reveal" href={`/news/${item.slug}/`} key={`${item.date}-${item.title}`}>
               <h3>{item.title}</h3>
-              <p>{item.blurb}</p>
             </Link>
           ))}
         </div>
