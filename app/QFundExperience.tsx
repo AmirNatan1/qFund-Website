@@ -200,7 +200,7 @@ export default function QFundExperience() {
             <span>of technology.</span>
           </h1>
           <p className="qf-hero-deck qf-reveal is-visible">
-            qFund invests in early-stage DeepTech startups building core infrastructure, hardware, and enabling technologies - with a focus on high-barrier sectors: Defense Tech, Semiconductors, Quantum Computing, AI Infrastructure, and Industrial Systems.
+            qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.
           </p>
           <div className="qf-hero-actions qf-reveal is-visible">
             <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
@@ -222,16 +222,16 @@ export default function QFundExperience() {
       <section className="qf-portfolio qf-scroll-section" id="portfolio" data-qf-section aria-labelledby="portfolio-title">
         <div className="qf-section-label qf-reveal"><span>01</span><p>Our portfolio</p></div>
         <div className="qf-portfolio-heading qf-reveal">
-          <p className="qf-kicker">ELEVEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
+          <p className="qf-kicker">TWELVE STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
           <h2 id="portfolio-title">Building the <em>infrustructure</em> behind what's next</h2>
         </div>
         <div className="qf-portfolio-grid qf-reveal" aria-label="Portfolio companies">
           {portfolio.map((item) => (
             <a
-              className="qf-portfolio-card"
+              className={`qf-portfolio-card${item.url ? "" : " qf-portfolio-card--static"}`}
               href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={item.url ? "_blank" : undefined}
+              rel={item.url ? "noopener noreferrer" : undefined}
               aria-label={`${item.name}: ${item.description}`}
               style={{
                 "--qf-portfolio-logo-scale": item.logoScale ?? 1,
@@ -239,13 +239,13 @@ export default function QFundExperience() {
               key={item.name}
             >
               <span className={`qf-portfolio-logo qf-portfolio-logo--${item.logoMode ?? "source"}`}>
-                <img src={item.logo} alt={`${item.name} logo`} loading="lazy" />
+                {item.logo ? <img src={item.logo} alt={`${item.name} logo`} loading="lazy" /> : null}
                 {item.wordmark ? <span className="qf-portfolio-wordmark">{item.wordmark}</span> : null}
               </span>
               <span className="qf-portfolio-description">
                 <strong>{item.name}</strong>
                 <span>{item.description}</span>
-                <i aria-hidden="true">↗</i>
+                {item.url ? <i aria-hidden="true">↗</i> : null}
               </span>
             </a>
           ))}

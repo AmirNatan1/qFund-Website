@@ -63,7 +63,7 @@ export const newsItems: readonly NewsItem[] = [
   {
     date: "2026-02-17",
     company: "LiteVision",
-    title: "qFund Joins LiteVision’s $8M Seed Round",
+    title: "qFund Co-Led LiteVision’s $8M Seed Round with 8VC",
     slug: "qfund-invests-litevision-8m-seed",
     image: "/news/litevision-drone-imaging.webp",
     imageAlt: "Compact unmanned helicopter flying above desert terrain",

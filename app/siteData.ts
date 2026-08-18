@@ -2,10 +2,10 @@ export { industryChapters as focusAreas } from "./industries/industryConfig";
 
 export type PortfolioCompany = {
   name: string;
-  logo: string;
+  logo?: string;
   description: string;
-  url: string;
-  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop" | "lockup" | "duotone";
+  url?: string;
+  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop" | "lockup" | "duotone" | "stealth";
   logoScale?: number;
   wordmark?: string;
 };
@@ -48,10 +48,10 @@ export const portfolio: readonly PortfolioCompany[] = [
     logoScale: 1,
   },
   {
-    name: "Oraqon",
-    logo: "/portfolio/oraqon-hd.png",
-    description: "Develops Cosmic, a future-ready technology platform for advanced computing",
-    url: "https://www.oraqon.com/",
+    name: "QEDMA",
+    logo: "/portfolio/qedma-clean.png",
+    description: "Error-suppression software that extends what today's quantum computers can compute",
+    url: "https://www.qedma.com/",
     logoScale: 1,
   },
   {
@@ -70,6 +70,13 @@ export const portfolio: readonly PortfolioCompany[] = [
     logoScale: 1,
   },
   {
+    name: "Oraqon",
+    logo: "/portfolio/oraqon-hd.png",
+    description: "Develops Cosmic, a future-ready technology platform for advanced computing",
+    url: "https://www.oraqon.com/",
+    logoScale: 1,
+  },
+  {
     name: "Actasys",
     logo: "/portfolio/actasys-clean.svg",
     description: "Thermal management for high-density data-center racks and networking silicon",
@@ -85,11 +92,10 @@ export const portfolio: readonly PortfolioCompany[] = [
     logoScale: 1.08,
   },
   {
-    name: "QEDMA",
-    logo: "/portfolio/qedma-clean.png",
-    description: "Error-suppression software that extends what today's quantum computers can compute",
-    url: "https://www.qedma.com/",
-    logoScale: 1,
+    name: "Stealth",
+    description: "Building foundational deep technology in stealth mode",
+    logoMode: "stealth",
+    wordmark: "STEALTH",
   },
 ];
 

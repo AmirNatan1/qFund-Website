@@ -4,7 +4,7 @@ import QFundExperience from "./QFundExperience";
 export const metadata: Metadata = {
   title: "qFund | Early-Stage Deep Tech Venture Capital",
   description:
-    "qFund invests from Pre-seed to Series A in Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
+    "qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
   alternates: { canonical: "/" },
   keywords: [
     "Deep Tech venture capital",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund invests from Pre-seed to Series A in Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
+      "qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
     url: "/",
     type: "website",
     siteName: "qFund",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "qFund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund invests from Pre-seed to Series A in Deep Tech startups developing core infrastructure, hardware, and enabling technologies.",
+      "qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
     images: ["/og-motion.png"],
   },
 };
