@@ -69,11 +69,6 @@ export default function Home() {
     logo: "https://qfund.io/qfund-logo.png",
     email: "info@qfund.io",
     sameAs: ["https://www.linkedin.com/company/q-fund"],
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Arik Einstein 3",
-      addressLocality: "Herzliya",
-    },
   };
 
   return (

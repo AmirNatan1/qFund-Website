@@ -134,7 +134,7 @@ export default function IndustriesExperience() {
     <section className="qf-industries qf-thesis qf-scroll-section" id="thesis" data-qf-section aria-labelledby="thesis-title">
       <div className="qf-industries-intro">
         <div className="qf-thesis-check-heading qf-reveal">
-          <h2 id="thesis-title">We invest early in technologies that <em>redefined industries.</em></h2>
+          <h2 id="thesis-title">we invest early in technologies that are <em>redefining industries.</em></h2>
         </div>
 
         <div className="qf-check-stage qf-thesis-check-stage">
@@ -178,7 +178,6 @@ export default function IndustriesExperience() {
             </div>
 
             <div className="qf-check-bottom">
-              <span className="qf-check-origin">HERZLIYA / ISRAEL</span>
               <span className="qf-check-script-line qf-check-signature-line" style={{ "--write-order": 4 } as CSSProperties}>
                 <span className="qf-check-written">qFund</span>
               </span>
@@ -247,6 +246,7 @@ export default function IndustriesExperience() {
                   key={chapter.slug}
                 >
                   <i aria-hidden="true" />
+                  <span aria-hidden="true">{chapter.code}</span>
                 </button>
               ))}
             </nav>

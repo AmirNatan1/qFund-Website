@@ -213,7 +213,6 @@ export default function QFundExperience() {
           />
         </div>
         <div className="qf-hero-foot">
-          <span>HERZLIYA</span>
           <a href="#portfolio">SCROLL TO EXPLORE <i>↓</i></a>
         </div>
       </section>
@@ -291,7 +290,7 @@ export default function QFundExperience() {
         <div className="qf-footer-bar">
           <a href="#top" aria-label="qFund home"><BrandMark /></a>
           <BackToTop />
-          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>Arik Einstein 3 · Herzliya · © {new Date().getFullYear()} qFund</span></div>
+          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} qFund</span></div>
         </div>
       </footer>
 

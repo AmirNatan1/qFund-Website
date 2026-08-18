@@ -604,15 +604,15 @@ body:has(a:hover, button:hover) .qf-cursor span {
 
 .qf-frontier-q {
   background: var(--qf-ink-strong);
-  -webkit-mask: url("/qfund-q-base-vector.svg") left center / 528.58% 100% no-repeat;
-  mask: url("/qfund-q-base-vector.svg") left center / 528.58% 100% no-repeat;
+  -webkit-mask: url("/qfund-q-base-vector.svg") center / contain no-repeat;
+  mask: url("/qfund-q-base-vector.svg") center / contain no-repeat;
   filter: drop-shadow(0 0.2rem 0.35rem rgba(26, 26, 26, 0.22));
 }
 
 .qf-frontier-arrow {
   background: var(--color-brand-deep);
-  -webkit-mask: url("/qfund-q-arrow-vector.svg") left center / 528.58% 100% no-repeat;
-  mask: url("/qfund-q-arrow-vector.svg") left center / 528.58% 100% no-repeat;
+  -webkit-mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
+  mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
   animation: qf-frontier-arrow 3.6s ease-in-out infinite;
 }
 
@@ -759,7 +759,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   left: 3.5vw;
   z-index: 3;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   font-size: 0.66rem;
   font-weight: 740;
   letter-spacing: 0.11em;
@@ -1078,6 +1078,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 .qf-check-origin { align-self: end; padding-bottom: 0.55rem; color: rgba(26, 26, 26, 0.68); }
 .qf-check-signature-line {
   --write-duration: 0.82s;
+  grid-column: 2;
   width: 100%;
   padding: 0 0.5rem 0.28rem;
   border-bottom: 1px solid rgba(26, 26, 26, 0.5);
@@ -2007,6 +2008,10 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 .qf-industry-chapter-nav button:is(:hover, :focus-visible, .is-active) { color: #ffffff; }
 .qf-industry-chapter-nav button.is-active i::after {
   animation: qf-thesis-cycle 3s linear both;
+}
+
+.qf-industry-chapter-nav button > span {
+  display: block;
 }
 
 @keyframes qf-thesis-cycle {

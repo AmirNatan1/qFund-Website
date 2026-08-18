@@ -96,7 +96,7 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
       <footer className="qf-footer-bar qf-inner-footer">
         <Link href="/" aria-label="qFund home"><BrandMark /></Link>
         <BackToTop />
-        <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>Arik Einstein 3 · Herzliya · © {new Date().getFullYear()} qFund</span></div>
+        <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} qFund</span></div>
       </footer>
     </main>
   );
