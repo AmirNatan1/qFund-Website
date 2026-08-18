@@ -3256,6 +3256,30 @@ body {
     padding: 0;
   }
 
+  .qf-portfolio-logo--lockup,
+  .qf-portfolio-logo--stealth-official {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 0.35rem;
+    align-content: center;
+    justify-items: center;
+    padding: 0.75rem;
+  }
+
+  .qf-portfolio-logo--lockup img,
+  .qf-portfolio-logo--stealth-official img {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .qf-portfolio-wordmark {
+    max-width: 100%;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
   .qf-portfolio-description {
     display: none;
   }
@@ -3399,6 +3423,23 @@ body {
   .qf-portfolio-logo--canvas-crop,
   .qf-portfolio-logo--litevision-crop {
     padding: 0;
+  }
+
+  .qf-portfolio-logo--lockup,
+  .qf-portfolio-logo--stealth-official {
+    gap: 0.2rem;
+    padding: 0.45rem;
+  }
+
+  .qf-portfolio-logo--lockup img,
+  .qf-portfolio-logo--stealth-official img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .qf-portfolio-wordmark {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
   }
 
   .qf-team-grid {
