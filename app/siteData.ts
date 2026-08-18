@@ -5,7 +5,7 @@ export type PortfolioCompany = {
   logo: string;
   description: string;
   url: string;
-  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop" | "lockup";
+  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop" | "lockup" | "duotone";
   logoScale?: number;
   wordmark?: string;
 };
@@ -71,7 +71,7 @@ export const portfolio: readonly PortfolioCompany[] = [
   },
   {
     name: "Actasys",
-    logo: "/portfolio/actasys-clean.png",
+    logo: "/portfolio/actasys-clean.svg",
     description: "Thermal management for high-density data-center racks and networking silicon",
     url: "https://www.actasysinc.com/",
     logoScale: 0.95,
@@ -81,7 +81,8 @@ export const portfolio: readonly PortfolioCompany[] = [
     logo: "/portfolio/element-security-color.svg",
     description: "Maps internet-facing assets and proves which flaws are actually exploitable",
     url: "https://element.security/",
-    logoScale: 1.05,
+    logoMode: "duotone",
+    logoScale: 1.08,
   },
   {
     name: "QEDMA",

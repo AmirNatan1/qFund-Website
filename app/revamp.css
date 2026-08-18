@@ -2118,6 +2118,10 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   transform: scale(var(--qf-portfolio-logo-scale, 1));
 }
 
+.qf-portfolio-logo--duotone img {
+  filter: none;
+}
+
 .qf-portfolio-logo--multiply img {
   mix-blend-mode: multiply;
 }
