@@ -609,6 +609,12 @@ body:has(a:hover, button:hover) .qf-cursor span {
   filter: drop-shadow(0 0.2rem 0.35rem rgba(26, 26, 26, 0.22));
 }
 
+/* The site voice is intentionally set entirely in lowercase. */
+body,
+body * {
+  text-transform: lowercase !important;
+}
+
 .qf-frontier-arrow {
   background: var(--color-brand);
   -webkit-mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;

@@ -5,6 +5,7 @@
       <ellipse cx="23.375" cy="41.75" rx="23.375" ry="23.25" fill="#fff"/>
       <rect x="36.25" y="39.75" width="10.5" height="44.25" rx="1.25" fill="#fff"/>
       <circle cx="23.375" cy="41.75" r="13.125" fill="#000"/>
+      <path d="M28.25 17.25H49v13L36.4 40.65v-8.3H21.5Z" fill="#000"/>
     </mask>
   </defs>
   <rect width="49" height="84" fill="#fff" mask="url(#q-silhouette)"/>
