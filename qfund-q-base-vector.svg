@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 49 84" shape-rendering="geometricPrecision">
-  <path fill="#fff" fill-rule="evenodd" d="M23.375 18.5C10.466 18.5 0 28.966 0 41.875S10.466 65.25 23.375 65.25 46.75 54.784 46.75 41.875 36.284 18.5 23.375 18.5Zm0 10.625c7.042 0 12.75 5.708 12.75 12.75s-5.708 12.75-12.75 12.75-12.75-5.708-12.75-12.75 5.708-12.75 12.75-12.75Z"/>
-  <rect x="36.15" y="39.5" width="10.6" height="44.5" rx="1.5" fill="#fff"/>
+  <defs>
+    <mask id="q-silhouette" x="0" y="0" width="49" height="84" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+      <rect width="49" height="84" fill="#000"/>
+      <ellipse cx="23.375" cy="41.75" rx="23.375" ry="23.25" fill="#fff"/>
+      <rect x="36.25" y="39.75" width="10.5" height="44.25" rx="1.25" fill="#fff"/>
+      <circle cx="23.375" cy="41.75" r="13.125" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="49" height="84" fill="#fff" mask="url(#q-silhouette)"/>
 </svg>

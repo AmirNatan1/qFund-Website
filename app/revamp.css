@@ -610,10 +610,10 @@ body:has(a:hover, button:hover) .qf-cursor span {
 }
 
 .qf-frontier-arrow {
-  background: var(--color-brand-deep);
+  background: var(--color-brand);
   -webkit-mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
   mask: url("/qfund-q-arrow-vector.svg") center / contain no-repeat;
-  animation: qf-frontier-arrow 3.6s ease-in-out infinite;
+  opacity: 1;
 }
 
 .qf-frontier-depth {
