@@ -8,6 +8,8 @@ export type PortfolioCompany = {
   background: string;
   logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop";
   logoScale?: number;
+  logoOffsetX?: string;
+  logoOffsetY?: string;
 };
 
 export const portfolio: readonly PortfolioCompany[] = [
@@ -38,12 +40,11 @@ export const portfolio: readonly PortfolioCompany[] = [
   },
   {
     name: "LiteVision",
-    logo: "/portfolio/litevision.webp",
+    logo: "/portfolio/litevision-clean.png",
     description: "Miniaturized electro-optical imaging systems for defense and civilian platforms",
     url: "https://litevision-eo.com/",
-    background: "#f8f8f6",
-    logoMode: "canvas-crop",
-    logoScale: 1.24,
+    background: "#ffffff",
+    logoScale: 1.08,
   },
   {
     name: "SignalEdge",
@@ -68,6 +69,7 @@ export const portfolio: readonly PortfolioCompany[] = [
     url: "https://particle-lab.com/",
     background: "#ffffff",
     logoScale: 1.22,
+    logoOffsetX: "4%",
   },
   {
     name: "Esh-Tech",
@@ -79,12 +81,11 @@ export const portfolio: readonly PortfolioCompany[] = [
   },
   {
     name: "Actasys",
-    logo: "/portfolio/actasys.webp",
+    logo: "/portfolio/actasys-clean.png",
     description: "Thermal management for high-density data-center racks and networking silicon",
     url: "https://www.actasysinc.com/",
-    background: "#f8f8f6",
-    logoMode: "canvas-crop",
-    logoScale: 1.24,
+    background: "#ffffff",
+    logoScale: 1.08,
   },
   {
     name: "Element Security",
@@ -92,7 +93,7 @@ export const portfolio: readonly PortfolioCompany[] = [
     description: "Maps internet-facing assets and proves which flaws are actually exploitable",
     url: "https://element.security/",
     background: "#f1f3e8",
-    logoScale: 1.06,
+    logoScale: 1.22,
   },
   {
     name: "QEDMA",

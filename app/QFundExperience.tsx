@@ -223,7 +223,7 @@ export default function QFundExperience() {
         <div className="qf-section-label qf-reveal"><span>01</span><p>Our portfolio</p></div>
         <div className="qf-portfolio-heading qf-reveal">
           <p className="qf-kicker">ELEVEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
-          <h2 id="portfolio-title">Building the infrustructure behind what's next</h2>
+          <h2 id="portfolio-title">Building the <em>infrustructure</em> behind what's next</h2>
         </div>
         <div className="qf-portfolio-grid qf-reveal" aria-label="Portfolio companies">
           {portfolio.map((item) => (
@@ -236,6 +236,8 @@ export default function QFundExperience() {
               style={{
                 "--qf-portfolio-bg": item.background,
                 "--qf-portfolio-logo-scale": item.logoScale ?? 1,
+                "--qf-portfolio-logo-x": item.logoOffsetX ?? "0%",
+                "--qf-portfolio-logo-y": item.logoOffsetY ?? "0%",
               } as CSSProperties}
               key={item.name}
             >
