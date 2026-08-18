@@ -30,7 +30,6 @@ export default function NewsPage() {
       <section className="qf-news-archive-hero" aria-labelledby="news-archive-title">
         <span className="qf-archive-orbit" aria-hidden="true"><i /><i /><i /></span>
         <div className="qf-reveal is-visible">
-          <p className="qf-kicker">NEWS AND ACTIVITY</p>
           <h1 id="news-archive-title">qFund <em>in motion.</em></h1>
           <Link className="qf-text-link" href="/#news">← Latest on the homepage</Link>
         </div>
@@ -39,7 +38,7 @@ export default function NewsPage() {
         {newsItems.map((item, index) => (
           <article className="qf-news-archive-card qf-reveal" key={`${item.date}-${item.title}`}>
             <Link className="qf-news-archive-link qf-news-archive-link--title-only" href={`/news/${item.slug}/`}>
-              <NewsArtwork item={item} index={index} priority={index < 2} />
+              <NewsArtwork item={item} priority={index < 2} />
               <div className="qf-news-archive-copy">
                 <h2>{item.title}</h2>
               </div>

@@ -85,9 +85,9 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
 
       <div className={menuOpen ? "qf-mobile-menu is-open" : "qf-mobile-menu"}>
         <nav aria-label="Mobile navigation">
-          <Link href="/" onClick={() => setMenuOpen(false)}><span>01</span>Home</Link>
-          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>02</span>News</Link>
-          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>03</span>Contact</Link>
+          <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link href="/news/" onClick={() => setMenuOpen(false)}>News</Link>
+          <Link href="/contact/" onClick={() => setMenuOpen(false)}>Contact</Link>
         </nav>
       </div>
 

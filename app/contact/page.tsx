@@ -28,7 +28,6 @@ export default function ContactPage() {
       <section className="qf-contact-page" aria-labelledby="contact-title">
         <span className="qf-contact-grid" aria-hidden="true" />
         <div className="qf-contact-intro qf-reveal is-visible">
-          <p className="qf-kicker">CONTACT QFUND · HERZLIYA</p>
           <h1 id="contact-title">Tell us what you are <em>building.</em></h1>
         </div>
         <div className="qf-contact-layout">

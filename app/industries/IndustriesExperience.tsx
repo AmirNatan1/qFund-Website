@@ -133,9 +133,7 @@ export default function IndustriesExperience() {
   return (
     <section className="qf-industries qf-thesis qf-scroll-section" id="thesis" data-qf-section aria-labelledby="thesis-title">
       <div className="qf-industries-intro">
-        <div className="qf-section-label qf-reveal"><span>03</span><p>Thesis</p></div>
         <div className="qf-thesis-check-heading qf-reveal">
-          <p className="qf-kicker">OUR INVESTMENT THESIS</p>
           <h2 id="thesis-title">We invest early in technologies that <em>redefined industries.</em></h2>
         </div>
 
@@ -150,7 +148,6 @@ export default function IndustriesExperience() {
                 <span className="qf-check-monogram" aria-hidden="true">q</span>
                 <div><strong>qFund</strong><small>DEEP TECH VENTURE CAPITAL</small></div>
               </div>
-              <span className="qf-check-corner-mark">QF / THESIS / 03</span>
             </div>
 
             <div className="qf-check-focus" aria-hidden="true">
@@ -188,12 +185,10 @@ export default function IndustriesExperience() {
             </div>
 
             <div className="qf-check-security" aria-hidden="true"><i /><i /><i /></div>
-            <div className="qf-check-routing" aria-hidden="true">QF 03&nbsp;&nbsp;•&nbsp;&nbsp;ONE THESIS&nbsp;&nbsp;•&nbsp;&nbsp;EIGHT FRONTIERS</div>
           </div>
         </div>
 
         <div className="qf-thesis-check-bridge qf-reveal">
-          <div><span>CHECK WRITTEN</span><i /></div>
           <p><strong>One thesis.</strong> Eight frontiers.</p>
           <span aria-hidden="true">↓</span>
         </div>
@@ -224,10 +219,6 @@ export default function IndustriesExperience() {
               >
                 <IndustryModelStage chapter={chapter} readyModelIds={mountedModelIds} />
                 <div className="qf-industry-copy">
-                  <div className="qf-industry-copy-meta">
-                    <span>{chapter.code}</span>
-                    <span>{chapter.short}</span>
-                  </div>
                   <h3 id={`industry-title-${chapter.slug}`}>{chapter.title}</h3>
                   <p>{chapter.text}</p>
                 </div>
@@ -245,7 +236,6 @@ export default function IndustriesExperience() {
           </div>
 
           <div className="qf-industry-chrome">
-            <span className="qf-industry-chrome-label">THESIS / 03 SECOND CYCLE</span>
             <nav className="qf-industry-chapter-nav" aria-label="Thesis chapters">
               {industryChapters.map((chapter, index) => (
                 <button
@@ -257,16 +247,9 @@ export default function IndustriesExperience() {
                   key={chapter.slug}
                 >
                   <i aria-hidden="true" />
-                  <span>{chapter.code}</span>
                 </button>
               ))}
             </nav>
-            <div className="qf-industry-status">
-              <p className="qf-industry-counter" aria-hidden="true">
-                <strong>{String(activeIndex + 1).padStart(2, "0")}</strong>
-                <span>/ {String(industryChapters.length).padStart(2, "0")}</span>
-              </p>
-            </div>
           </div>
         </div>
       </div>

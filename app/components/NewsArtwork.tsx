@@ -3,11 +3,17 @@ import type { NewsItem } from "../newsData";
 
 type NewsArtworkProps = {
   item: NewsItem;
-  index: number;
   priority?: boolean;
 };
 
-export default function NewsArtwork({ item, index, priority = false }: NewsArtworkProps) {
+const newsDate = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+export default function NewsArtwork({ item, priority = false }: NewsArtworkProps) {
   return (
     <div className="qf-news-art">
       <Image
@@ -18,7 +24,7 @@ export default function NewsArtwork({ item, index, priority = false }: NewsArtwo
         sizes="(max-width: 640px) 86vw, (max-width: 1100px) 48vw, 31vw"
       />
       <i aria-hidden="true" />
-      <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+      <time dateTime={item.date}>{newsDate.format(new Date(`${item.date}T00:00:00Z`))}</time>
     </div>
   );
 }

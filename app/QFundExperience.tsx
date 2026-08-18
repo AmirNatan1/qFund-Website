@@ -173,13 +173,13 @@ export default function QFundExperience() {
 
       <div className={menuOpen ? "qf-mobile-menu is-open" : "qf-mobile-menu"}>
         <nav aria-label="Mobile navigation">
-          {sections.map(([id, label], index) => (
+          {sections.map(([id, label]) => (
             <a href={`#${id}`} onClick={() => setMenuOpen(false)} key={id}>
-              <span>{String(index).padStart(2, "0")}</span>{label}
+              {label}
             </a>
           ))}
-          <Link href="/news/" onClick={() => setMenuOpen(false)}><span>05</span>All news</Link>
-          <Link href="/contact/" onClick={() => setMenuOpen(false)}><span>06</span>Contact</Link>
+          <Link href="/news/" onClick={() => setMenuOpen(false)}>All news</Link>
+          <Link href="/contact/" onClick={() => setMenuOpen(false)}>Contact</Link>
         </nav>
       </div>
 
@@ -193,7 +193,6 @@ export default function QFundExperience() {
       >
         <span className="qf-hero-grid" aria-hidden="true" />
         <div className="qf-hero-copy">
-          <p className="qf-kicker qf-reveal is-visible"><span /> DEEP TECH VENTURE CAPITAL</p>
           <h1 id="qf-hero-title" className="qf-reveal is-visible">
             <span>Funding the</span>
             <span className="qf-serif">deep future</span>
@@ -220,10 +219,8 @@ export default function QFundExperience() {
       </section>
 
       <section className="qf-portfolio qf-scroll-section" id="portfolio" data-qf-section aria-labelledby="portfolio-title">
-        <div className="qf-section-label qf-reveal"><span>01</span><p>Our portfolio</p></div>
         <div className="qf-portfolio-heading qf-reveal">
-          <p className="qf-kicker">TWELVE STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
-          <h2 id="portfolio-title">Building the <em>infrustructure</em> behind what's next</h2>
+          <h2 id="portfolio-title">Building the <em>infrastructure</em> behind what&apos;s next</h2>
         </div>
         <div className="qf-portfolio-grid qf-reveal" aria-label="Portfolio companies">
           {portfolio.map((item) => (
@@ -253,9 +250,7 @@ export default function QFundExperience() {
       </section>
 
       <section className="qf-team qf-scroll-section" id="team" data-qf-section aria-labelledby="team-title">
-        <div className="qf-section-label qf-reveal"><span>02</span><p>Investment team</p></div>
         <div className="qf-section-heading qf-reveal">
-          <p className="qf-kicker">QFUND · HERZLIYA</p>
           <h2 id="team-title">Investment <em>team.</em></h2>
         </div>
         <div className="qf-team-grid">
@@ -274,15 +269,14 @@ export default function QFundExperience() {
       <IndustriesExperience />
 
       <section className="qf-news qf-scroll-section" id="news" data-qf-section aria-labelledby="news-title">
-        <div className="qf-section-label qf-reveal"><span>04</span><p>News</p></div>
         <div className="qf-news-heading qf-reveal">
-          <div><p className="qf-kicker">LATEST ACTIVITY</p><h2 id="news-title">qFund <em>in motion.</em></h2></div>
+          <div><h2 id="news-title">qFund <em>in motion.</em></h2></div>
           <Link className="qf-text-link" href="/news/">View all news <span>↗</span></Link>
         </div>
         <div className="qf-news-grid">
-          {newsItems.slice(0, 3).map((item, index) => (
+          {newsItems.slice(0, 3).map((item) => (
             <Link className="qf-news-card qf-news-card--title-only qf-reveal" href={`/news/${item.slug}/`} key={`${item.date}-${item.title}`}>
-              <NewsArtwork item={item} index={index} />
+              <NewsArtwork item={item} />
               <h3>{item.title}</h3>
             </Link>
           ))}
@@ -291,7 +285,6 @@ export default function QFundExperience() {
 
       <footer className="qf-footer">
         <div className="qf-footer-lead">
-          <p className="qf-kicker">START A CONVERSATION</p>
           <h2>Tell us what you are <em>building.</em></h2>
           <Link className="qf-button" href="/contact/">Contact qFund <span>↗</span></Link>
         </div>

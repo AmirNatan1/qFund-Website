@@ -113,7 +113,6 @@ export default function ContactForm() {
   if (status === "sent") {
     return (
       <div className="qf-contact-form qf-contact-sent qf-reveal is-visible" role="status">
-        <p className="qf-kicker">MESSAGE SENT</p>
         <h2>Thank you.</h2>
         <p>
           Your introduction is with the qFund team at <strong>info@qfund.io</strong>. We read every
@@ -136,7 +135,6 @@ export default function ContactForm() {
       noValidate={false}
     >
       <div className="contact-form-heading">
-        <p className="qf-kicker">STARTUP INTRODUCTION</p>
         <h2>Your company,<br />in your words.</h2>
       </div>
 
