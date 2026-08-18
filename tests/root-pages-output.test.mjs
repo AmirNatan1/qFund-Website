@@ -25,6 +25,7 @@ test("repository-root snapshot includes every required public asset", async () =
     access(new URL("qfund-logo-light.png", rootUrl)),
     access(new URL("qfund-logo-official-hd.png", rootUrl)),
     access(new URL("qfund-intro-logo-hd.png", rootUrl)),
+    access(new URL("qfund-intro-logo-4k.png", rootUrl)),
     access(new URL("qfund-q-base-hd.png", rootUrl)),
     access(new URL("qfund-q-arrow-hd.png", rootUrl)),
     access(new URL("qfund-fund-hd.png", rootUrl)),

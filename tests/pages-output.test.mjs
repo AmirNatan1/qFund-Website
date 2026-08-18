@@ -37,7 +37,7 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /class="qf-frontier-canvas"/);
   assert.match(html, /class="qf-frontier-core"/);
   assert.match(html, /class="qf-frontier-mark-image"/);
-  assert.match(html, /src="\/qfund-intro-logo-hd\.png"/);
+  assert.match(html, /src="\/qfund-intro-logo-4k\.png"/);
   assert.doesNotMatch(html, /qf-logo-field|qf-assembly-core|qf-lockup-track|qf-q-arrow-flight|qf-fund-reveal|qf-final-arrow-mask/);
   assert.doesNotMatch(html, /qfund-(?:q-base|q-arrow|fund)-hd\.png/);
   assert.doesNotMatch(html, /class="qf-handshake"/);
@@ -57,6 +57,7 @@ test("publishes the required static assets", async () => {
     access(new URL("qfund-logo-light.png", outputUrl)),
     access(new URL("qfund-logo-official-hd.png", outputUrl)),
     access(new URL("qfund-intro-logo-hd.png", outputUrl)),
+    access(new URL("qfund-intro-logo-4k.png", outputUrl)),
     access(new URL("qfund-q-base-hd.png", outputUrl)),
     access(new URL("qfund-q-arrow-hd.png", outputUrl)),
     access(new URL("qfund-fund-hd.png", outputUrl)),
@@ -204,7 +205,7 @@ test("ships the interactive frontier field without the discarded logo assembly",
   assert.match(css, /@keyframes qf-intro-rise/);
   assert.match(css, /@keyframes qf-frontier-core/);
   assert.match(css, /@keyframes qf-frontier-orbit/);
-  assert.match(html, /src="\/qfund-intro-logo-hd\.png"/);
+  assert.match(html, /src="\/qfund-intro-logo-4k\.png"/);
   assert.doesNotMatch(css, /qfund-q-base-vector\.svg|qfund-q-arrow-vector\.svg/);
   assert.doesNotMatch(css, /@keyframes qf-(?:lockup-cycle|q-settle|arrow-flight|fund-uncover|final-arrow|logo-orbit)/);
   assert.doesNotMatch(css, /\.qf-(?:logo-field|assembly-core|lockup-track|q-arrow-flight|fund-reveal|final-arrow-mask)/);

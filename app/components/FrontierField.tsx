@@ -305,9 +305,11 @@ export default function FrontierField({
         <span className="qf-frontier-mark">
           <img
             className="qf-frontier-mark-image"
-            src="/qfund-intro-logo-hd.png"
+            src="/qfund-intro-logo-4k.png"
             alt=""
             draggable={false}
+            decoding="sync"
+            fetchPriority="high"
           />
         </span>
       </span>
