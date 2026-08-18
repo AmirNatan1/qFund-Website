@@ -303,8 +303,12 @@ export default function FrontierField({
       <canvas className="qf-frontier-canvas" ref={canvasRef} />
       <span className="qf-frontier-core">
         <span className="qf-frontier-mark">
-          <i className="qf-frontier-q" />
-          <i className="qf-frontier-arrow" />
+          <img
+            className="qf-frontier-mark-image"
+            src="/qfund-intro-logo-hd.png"
+            alt=""
+            draggable={false}
+          />
         </span>
       </span>
       <span className="qf-frontier-depth depth-one" />
