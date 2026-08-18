@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import InnerPageShell from "../../components/InnerPageShell";
@@ -28,13 +29,13 @@ export async function generateMetadata({ params }: NewsArticlePageProps): Promis
       description: `External coverage and source links for ${item.title}.`,
       url: `/news/${item.slug}/`,
       type: "website",
-      images: [],
+      images: [{ url: item.image, alt: item.imageAlt }],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: item.title,
       description: `External coverage and source links for ${item.title}.`,
-      images: [],
+      images: [item.image],
     },
   };
 }
@@ -51,6 +52,17 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
           <Link className="qf-news-article-back" href="/news/">← All qFund news</Link>
           <h1 id="coverage-title">{item.title}</h1>
         </header>
+
+        <figure className="qf-news-article-image qf-reveal is-visible">
+          <Image
+            src={item.image}
+            alt={item.imageAlt}
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 82vw"
+          />
+          <figcaption>{item.company} in the qFund portfolio</figcaption>
+        </figure>
 
         <section className="qf-news-sources qf-reveal is-visible" aria-labelledby="source-links-title">
           <h2 id="source-links-title">Read the coverage</h2>

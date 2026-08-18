@@ -9,6 +9,8 @@ export type NewsItem = {
   company: string;
   title: string;
   slug: string;
+  image: string;
+  imageAlt: string;
   sources: readonly NewsSource[];
 };
 
@@ -18,6 +20,8 @@ export const newsItems: readonly NewsItem[] = [
     company: "Skapion",
     title: "qFund Participates in Skapion’s $36M Seed Round",
     slug: "qfund-participates-skapion-36m-seed",
+    image: "/news/skapion-drone-swarm.webp",
+    imageAlt: "Four counter-drone quadcopters flying in formation",
     sources: [
       {
         outlet: "CTech",
@@ -41,6 +45,8 @@ export const newsItems: readonly NewsItem[] = [
     company: "Esh-Tech",
     title: "qFund Participates in Esh-Tech’s $18M Funding Round",
     slug: "qfund-participates-esh-tech-18m-round",
+    image: "/news/esh-tech-dronelight.webp",
+    imageAlt: "Esh-Tech DroneLight counter-drone laser system mounted on a tracked vehicle",
     sources: [
       {
         outlet: "Techtime",
@@ -59,6 +65,8 @@ export const newsItems: readonly NewsItem[] = [
     company: "LiteVision",
     title: "qFund Joins LiteVision’s $8M Seed Round",
     slug: "qfund-invests-litevision-8m-seed",
+    image: "/news/litevision-drone-imaging.webp",
+    imageAlt: "Compact unmanned helicopter flying above desert terrain",
     sources: [
       {
         outlet: "Globes",
@@ -77,6 +85,8 @@ export const newsItems: readonly NewsItem[] = [
     company: "Commcrete",
     title: "qFund-Backed Commcrete Reaches $29M in Total Funding",
     slug: "qfund-backed-commcrete-29m-funding",
+    image: "/news/commcrete-stardust-flipper.webp",
+    imageAlt: "Commcrete Stardust and Flipper tactical communications units on a soldier's gear",
     sources: [
       {
         outlet: "PR Newswire",
@@ -100,6 +110,8 @@ export const newsItems: readonly NewsItem[] = [
     company: "QEDMA",
     title: "qFund Participates in QEDMA’s $26M Series A",
     slug: "qfund-qedma-26m-series-a",
+    image: "/news/qedma-quantum-computing.webp",
+    imageAlt: "Gold-toned quantum computing cryostat against a black background",
     sources: [
       {
         outlet: "TechCrunch",

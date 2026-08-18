@@ -84,20 +84,20 @@ export const portfolio: readonly PortfolioCompany[] = [
     logoScale: 1.7,
   },
   {
-    name: "QEDMA",
-    logo: "/portfolio/qedma-hd.jpg",
-    description: "Error-suppression software that extends what today's quantum computers can compute",
-    url: "https://www.qedma.com/",
-    background: "#ffffff",
-    logoMode: "flush-contain",
-  },
-  {
     name: "Element Security",
     logo: "/portfolio/element-security-color.svg",
     description: "Maps internet-facing assets and proves which flaws are actually exploitable",
     url: "https://element.security/",
     background: "#111111",
     logoScale: 1.06,
+  },
+  {
+    name: "QEDMA",
+    logo: "/portfolio/qedma-hd.jpg",
+    description: "Error-suppression software that extends what today's quantum computers can compute",
+    url: "https://www.qedma.com/",
+    background: "#ffffff",
+    logoMode: "flush-contain",
   },
 ];
 
