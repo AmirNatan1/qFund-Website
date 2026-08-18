@@ -5,7 +5,7 @@ export type PortfolioCompany = {
   logo?: string;
   description: string;
   url?: string;
-  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop" | "lockup" | "duotone" | "stealth";
+  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop" | "lockup" | "duotone" | "stealth-official";
   logoScale?: number;
   wordmark?: string;
 };
@@ -94,7 +94,8 @@ export const portfolio: readonly PortfolioCompany[] = [
   {
     name: "Stealth",
     description: "Building foundational deep technology in stealth mode",
-    logoMode: "stealth",
+    logo: "/portfolio/stealth-startup.png",
+    logoMode: "stealth-official",
     wordmark: "STEALTH",
   },
 ];

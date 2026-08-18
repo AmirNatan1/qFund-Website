@@ -2166,7 +2166,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   padding: clamp(1.6rem, 2.6vw, 2.8rem);
 }
 
-.qf-portfolio-logo--stealth {
+.qf-portfolio-logo--stealth-official {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2174,23 +2174,20 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   padding: clamp(1.6rem, 2.6vw, 2.8rem);
 }
 
-.qf-portfolio-logo--stealth::before {
-  width: clamp(3.6rem, 5.2vw, 5.25rem);
-  aspect-ratio: 1;
-  border: 1px solid rgba(245, 249, 248, 0.74);
-  border-radius: 50%;
-  content: "";
-  background:
-    linear-gradient(135deg, transparent 43%, rgba(245, 249, 248, 0.94) 44% 56%, transparent 57%),
-    repeating-radial-gradient(circle, transparent 0 0.65rem, rgba(245, 249, 248, 0.2) 0.7rem 0.74rem);
-  box-shadow: 0 0 1.8rem rgba(245, 249, 248, 0.08);
-}
-
 .qf-portfolio-logo--lockup img {
   flex: 0 0 auto;
   width: clamp(3.6rem, 5.2vw, 5.25rem);
   height: clamp(3.6rem, 5.2vw, 5.25rem);
   opacity: 0.96;
+  transform: none;
+}
+
+.qf-portfolio-logo--stealth-official img {
+  flex: 0 0 auto;
+  width: clamp(4.2rem, 6vw, 6rem);
+  height: clamp(4.2rem, 6vw, 6rem);
+  opacity: 0.96;
+  filter: none;
   transform: none;
 }
 
@@ -2285,9 +2282,9 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 .qf-team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--qf-line); border-left: 1px solid var(--qf-line); }
 .qf-team-card { min-width: 0; border-right: 1px solid var(--qf-line); border-bottom: 1px solid var(--qf-line); background: var(--qf-white); }
 .qf-team-image { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-bottom: 1px solid var(--qf-line); background: #e4f2f0; }
-.qf-team-image img { object-fit: cover; object-position: center top; filter: saturate(0.96) contrast(1.03); transform: scale(var(--qf-team-image-scale, 1)); transform-origin: center top; transition: filter 350ms ease; }
+.qf-team-image img { object-fit: cover; object-position: center top; filter: saturate(0.96) contrast(1.03); transform: scale(var(--qf-team-image-scale, 1)); transform-origin: var(--qf-team-image-origin, center top); transition: filter 350ms ease; }
 .qf-team-card:nth-child(1) { --qf-team-image-scale: 1.39; }
-.qf-team-card:nth-child(2) { --qf-team-image-scale: 0.9; }
+.qf-team-card:nth-child(2) { --qf-team-image-scale: 0.9; --qf-team-image-origin: center bottom; }
 .qf-team-card:nth-child(3) { --qf-team-image-scale: 1.36; }
 .qf-team-image:hover img,
 .qf-team-image:focus-visible img { filter: saturate(1.04) contrast(1.02); }
