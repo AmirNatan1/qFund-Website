@@ -591,24 +591,35 @@ body:has(a:hover, button:hover) .qf-cursor span {
 .qf-frontier-mark {
   position: relative;
   display: block;
-  width: var(--qf-intro-logo-size, 3.75rem);
-  aspect-ratio: 49 / 84;
-  filter: drop-shadow(0 0.2rem 0.35rem rgba(26, 26, 26, 0.22));
+  width: calc(var(--qf-intro-logo-size, 3.75rem) * 1.040816);
+  aspect-ratio: 51 / 84;
 }
 
-.qf-frontier-mark-image {
+.qf-frontier-q,
+.qf-frontier-arrow {
+  position: absolute;
+  inset: 0;
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  user-select: none;
+}
+
+.qf-frontier-q {
+  background: var(--qf-ink-strong);
+  -webkit-mask: url("/qfund-q-base-a7e10fa-padded.svg") center / contain no-repeat;
+  mask: url("/qfund-q-base-a7e10fa-padded.svg") center / contain no-repeat;
+  filter: drop-shadow(0 0.2rem 0.35rem rgba(26, 26, 26, 0.22));
 }
 
 /* The site voice is intentionally set entirely in lowercase. */
 body,
 body * {
   text-transform: lowercase !important;
+}
+
+.qf-frontier-arrow {
+  background: var(--color-brand-deep);
+  -webkit-mask: url("/qfund-q-arrow-a7e10fa-padded.svg") center / contain no-repeat;
+  mask: url("/qfund-q-arrow-a7e10fa-padded.svg") center / contain no-repeat;
+  animation: qf-frontier-arrow 3.6s ease-in-out infinite;
 }
 
 .qf-frontier-depth {

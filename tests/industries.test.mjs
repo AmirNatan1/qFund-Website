@@ -189,7 +189,7 @@ test("preloads every scene and advances the integrated thesis every three second
   assert.match(styles, /transition: transform 720ms/);
   assert.doesNotMatch(styles, /\.qf-industry-track\.is-resetting|\.qf-industry-autoplay/);
   assert.match(styles, /width: var\(--qf-intro-core-size/);
-  assert.match(styles, /width: var\(--qf-intro-logo-size/);
+  assert.match(styles, /width: (?:calc\()?var\(--qf-intro-logo-size/);
   assert.match(styles, /\.qf-thesis-check-heading/);
   assert.match(styles, /\.qf-thesis-check-stage/);
   assert.match(styles, /\.qf-thesis-check-bridge/);

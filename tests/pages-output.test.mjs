@@ -36,8 +36,8 @@ test("exports the unified qFund homepage", async () => {
   assert.match(html, /class="qf-frontier-field"/);
   assert.match(html, /class="qf-frontier-canvas"/);
   assert.match(html, /class="qf-frontier-core"/);
-  assert.match(html, /class="qf-frontier-mark-image"/);
-  assert.match(html, /src="\/qfund-intro-logo-4k\.png"/);
+  assert.match(html, /class="qf-frontier-q"/);
+  assert.match(html, /class="qf-frontier-arrow"/);
   assert.doesNotMatch(html, /qf-logo-field|qf-assembly-core|qf-lockup-track|qf-q-arrow-flight|qf-fund-reveal|qf-final-arrow-mask/);
   assert.doesNotMatch(html, /qfund-(?:q-base|q-arrow|fund)-hd\.png/);
   assert.doesNotMatch(html, /class="qf-handshake"/);
@@ -63,6 +63,8 @@ test("publishes the required static assets", async () => {
     access(new URL("qfund-fund-hd.png", outputUrl)),
     access(new URL("qfund-q-base-vector.svg", outputUrl)),
     access(new URL("qfund-q-arrow-vector.svg", outputUrl)),
+    access(new URL("qfund-q-base-a7e10fa-padded.svg", outputUrl)),
+    access(new URL("qfund-q-arrow-a7e10fa-padded.svg", outputUrl)),
     access(new URL("qfund-fund-vector.svg", outputUrl)),
     access(new URL("team/liav-ben-rubi-hd.webp", outputUrl)),
     access(new URL("team/dana-taigman-koren-hd.webp", outputUrl)),
@@ -205,8 +207,9 @@ test("ships the interactive frontier field without the discarded logo assembly",
   assert.match(css, /@keyframes qf-intro-rise/);
   assert.match(css, /@keyframes qf-frontier-core/);
   assert.match(css, /@keyframes qf-frontier-orbit/);
-  assert.match(html, /src="\/qfund-intro-logo-4k\.png"/);
-  assert.doesNotMatch(css, /qfund-q-base-vector\.svg|qfund-q-arrow-vector\.svg/);
+  assert.match(css, /qfund-q-base-a7e10fa-padded\.svg/);
+  assert.match(css, /qfund-q-arrow-a7e10fa-padded\.svg/);
+  assert.doesNotMatch(html, /qfund-intro-logo-(?:hd|4k)\.png/);
   assert.doesNotMatch(css, /@keyframes qf-(?:lockup-cycle|q-settle|arrow-flight|fund-uncover|final-arrow|logo-orbit)/);
   assert.doesNotMatch(css, /\.qf-(?:logo-field|assembly-core|lockup-track|q-arrow-flight|fund-reveal|final-arrow-mask)/);
 });

@@ -31,6 +31,8 @@ test("repository-root snapshot includes every required public asset", async () =
     access(new URL("qfund-fund-hd.png", rootUrl)),
     access(new URL("qfund-q-base-vector.svg", rootUrl)),
     access(new URL("qfund-q-arrow-vector.svg", rootUrl)),
+    access(new URL("qfund-q-base-a7e10fa-padded.svg", rootUrl)),
+    access(new URL("qfund-q-arrow-a7e10fa-padded.svg", rootUrl)),
     access(new URL("qfund-fund-vector.svg", rootUrl)),
     access(new URL("team/liron-ben-zaken-hd.webp", rootUrl)),
     access(new URL("portfolio/skapion-hd.svg", rootUrl)),
