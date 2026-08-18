@@ -2070,11 +2070,11 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   aspect-ratio: 1.22;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid var(--qf-line);
+  border: 1px solid rgba(235, 244, 242, 0.14);
   outline: 0;
-  color: var(--qf-ink-strong);
-  background: var(--qf-portfolio-bg, var(--qf-sage));
-  box-shadow: 0 0.75rem 2rem rgba(26, 26, 26, 0.055);
+  color: #f2f6f5;
+  background: #0a1014;
+  box-shadow: 0 0.9rem 2.4rem rgba(0, 0, 0, 0.13);
   transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
 
@@ -2084,8 +2084,8 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 
 .qf-portfolio-card:hover,
 .qf-portfolio-card:focus-visible {
-  border-color: var(--color-brand-deep);
-  box-shadow: 0 1.1rem 2.8rem rgba(26, 26, 26, 0.11);
+  border-color: rgba(240, 247, 246, 0.36);
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.24);
   transform: translateY(-0.2rem);
 }
 
@@ -2096,21 +2096,26 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   display: grid;
   place-items: center;
   overflow: hidden;
-  padding: clamp(1.5rem, 3.2vw, 3.4rem);
-  background: var(--qf-portfolio-bg, var(--qf-sage));
+  padding: clamp(1.35rem, 2.4vw, 2.6rem);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.09), transparent 42%),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(145deg, #121a1d 0%, #080d0f 100%);
+  background-size: auto, 2.8rem 2.8rem, 2.8rem 2.8rem, auto;
   transition: filter 200ms ease, opacity 200ms ease, transform 200ms ease;
 }
 
 .qf-portfolio-logo img {
   display: block;
-  width: 88%;
-  height: 72%;
+  width: 84%;
+  height: 60%;
   max-width: none;
+  opacity: 0.94;
   object-fit: contain;
   pointer-events: none;
-  transform:
-    translate(var(--qf-portfolio-logo-x, 0%), var(--qf-portfolio-logo-y, 0%))
-    scale(var(--qf-portfolio-logo-scale, 1));
+  filter: grayscale(1) brightness(0) invert(0.96);
+  transform: scale(var(--qf-portfolio-logo-scale, 1));
 }
 
 .qf-portfolio-logo--multiply img {
@@ -2151,6 +2156,32 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
     scale(var(--qf-portfolio-logo-scale, 1));
 }
 
+.qf-portfolio-logo--lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 1.4vw, 1.4rem);
+  padding: clamp(1.6rem, 2.6vw, 2.8rem);
+}
+
+.qf-portfolio-logo--lockup img {
+  flex: 0 0 auto;
+  width: clamp(3.6rem, 5.2vw, 5.25rem);
+  height: clamp(3.6rem, 5.2vw, 5.25rem);
+  opacity: 0.96;
+  transform: none;
+}
+
+.qf-portfolio-wordmark {
+  color: rgba(245, 249, 248, 0.96);
+  font-family: var(--qf-display);
+  font-size: clamp(1.25rem, 1.85vw, 1.95rem);
+  font-weight: 720;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-shadow: 0 0 1.8rem rgba(255, 255, 255, 0.08);
+}
+
 .qf-portfolio-logo--litevision-crop img {
   position: absolute;
   top: -2%;
@@ -2181,7 +2212,9 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   gap: 0.8rem;
   padding: clamp(1.4rem, 3vw, 2.5rem);
   opacity: 0;
-  background: rgba(255, 255, 255, 0.78);
+  color: #f3f7f6;
+  background: rgba(5, 9, 10, 0.88);
+  backdrop-filter: blur(12px);
   text-align: center;
   transform: translateY(0.35rem);
   transition: opacity 200ms ease, transform 200ms ease;
@@ -2197,6 +2230,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
 
 .qf-portfolio-description > span {
   max-width: 28rem;
+  color: rgba(235, 242, 240, 0.78);
   font-size: clamp(0.9rem, 1.05vw, 1.02rem);
   line-height: 1.5;
 }
@@ -2205,7 +2239,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   position: absolute;
   top: 1rem;
   right: 1rem;
-  color: var(--color-brand-deep);
+  color: rgba(239, 246, 244, 0.78);
   font-size: 1rem;
   font-style: normal;
 }
@@ -2780,7 +2814,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
     min-height: 8.5rem;
     padding: 1.25rem;
     opacity: 1;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(8, 13, 14, 0.96);
     text-align: left;
     transform: none;
   }
@@ -3045,7 +3079,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
     scroll-snap-align: start;
   }
   .qf-portfolio-logo { position: relative; inset: auto; min-height: 0; aspect-ratio: 1.06; }
-  .qf-portfolio-description { position: relative; inset: auto; align-items: flex-start; min-height: 9.4rem; padding: 1.2rem; opacity: 1; background: rgba(255, 255, 255, 0.92); text-align: left; transform: none; }
+  .qf-portfolio-description { position: relative; inset: auto; align-items: flex-start; min-height: 9.4rem; padding: 1.2rem; opacity: 1; background: rgba(8, 13, 14, 0.96); text-align: left; transform: none; }
   .qf-portfolio-description strong { font-size: 1.55rem; }
 
   .qf-team-card { display: block; flex: 0 0 min(86vw, 23rem); overflow: hidden; border: 1px solid var(--qf-line); border-radius: 1.35rem; scroll-snap-align: start; }

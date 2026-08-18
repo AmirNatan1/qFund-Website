@@ -234,15 +234,13 @@ export default function QFundExperience() {
               rel="noopener noreferrer"
               aria-label={`${item.name}: ${item.description}`}
               style={{
-                "--qf-portfolio-bg": item.background,
                 "--qf-portfolio-logo-scale": item.logoScale ?? 1,
-                "--qf-portfolio-logo-x": item.logoOffsetX ?? "0%",
-                "--qf-portfolio-logo-y": item.logoOffsetY ?? "0%",
               } as CSSProperties}
               key={item.name}
             >
               <span className={`qf-portfolio-logo qf-portfolio-logo--${item.logoMode ?? "source"}`}>
                 <img src={item.logo} alt={`${item.name} logo`} loading="lazy" />
+                {item.wordmark ? <span className="qf-portfolio-wordmark">{item.wordmark}</span> : null}
               </span>
               <span className="qf-portfolio-description">
                 <strong>{item.name}</strong>

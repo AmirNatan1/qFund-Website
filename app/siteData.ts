@@ -5,53 +5,46 @@ export type PortfolioCompany = {
   logo: string;
   description: string;
   url: string;
-  background: string;
-  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop";
+  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop" | "lockup";
   logoScale?: number;
-  logoOffsetX?: string;
-  logoOffsetY?: string;
+  wordmark?: string;
 };
 
 export const portfolio: readonly PortfolioCompany[] = [
   {
     name: "Skapion",
-    logo: "/portfolio/skapion-hd.svg",
+    logo: "/portfolio/skapion-mark.svg",
     description: "Native counter-swarm defense system against attacking drone swarms",
     url: "https://www.skapion.com/",
-    background: "#0a1014",
-    logoMode: "canvas-crop",
-    logoScale: 0.78,
+    logoMode: "lockup",
+    wordmark: "SKAPION",
   },
   {
     name: "QuamCore",
     logo: "/portfolio/quamcore-color.svg",
     description: "Superconducting quantum processors architected to scale beyond one million qubits",
     url: "https://www.quamcore.com/",
-    background: "linear-gradient(135deg, #203678 0%, #5477b6 100%)",
-    logoScale: 1.04,
+    logoScale: 1,
   },
   {
     name: "Commcrete",
     logo: "/portfolio/commcrete-color.svg",
     description: "Compact satellite radios and converters for tactical voice and data comms",
     url: "https://www.commcrete.com/",
-    background: "#f2eee9",
-    logoScale: 1.05,
+    logoScale: 1,
   },
   {
     name: "LiteVision",
     logo: "/portfolio/litevision-clean.png",
     description: "Miniaturized electro-optical imaging systems for defense and civilian platforms",
     url: "https://litevision-eo.com/",
-    background: "#ffffff",
-    logoScale: 1.08,
+    logoScale: 0.95,
   },
   {
     name: "SignalEdge",
     logo: "/portfolio/signal-edge-color.png",
     description: "Low-SWaP RF sensors and radar for electromagnetic ISR and targeting",
     url: "https://signal-edge.com/",
-    background: "#100f0f",
     logoScale: 1,
   },
   {
@@ -59,50 +52,43 @@ export const portfolio: readonly PortfolioCompany[] = [
     logo: "/portfolio/oraqon-hd.png",
     description: "Develops Cosmic, a future-ready technology platform for advanced computing",
     url: "https://www.oraqon.com/",
-    background: "linear-gradient(135deg, #123b67 0%, #117fa1 55%, #25bcb5 100%)",
-    logoScale: 1.12,
+    logoScale: 1,
   },
   {
     name: "Particle",
     logo: "/portfolio/particle-hd.svg",
     description: "Particle-physics and advanced-propulsion systems for aerospace and defense",
     url: "https://particle-lab.com/",
-    background: "#ffffff",
-    logoScale: 1.22,
-    logoOffsetX: "4%",
+    logoMode: "lockup",
+    wordmark: "PARTICLE",
   },
   {
     name: "Esh-Tech",
     logo: "/portfolio/eshtech-color.svg",
     description: "Pulsed-laser hard-kill effector for short-range counter-drone defense",
     url: "https://www.esh-tech.com/",
-    background: "#22235f",
-    logoScale: 1.08,
+    logoScale: 1,
   },
   {
     name: "Actasys",
     logo: "/portfolio/actasys-clean.png",
     description: "Thermal management for high-density data-center racks and networking silicon",
     url: "https://www.actasysinc.com/",
-    background: "#ffffff",
-    logoScale: 1.08,
+    logoScale: 0.95,
   },
   {
     name: "Element Security",
     logo: "/portfolio/element-security-color.svg",
     description: "Maps internet-facing assets and proves which flaws are actually exploitable",
     url: "https://element.security/",
-    background: "#f1f3e8",
-    logoScale: 1.22,
+    logoScale: 1.05,
   },
   {
     name: "QEDMA",
-    logo: "/portfolio/qedma-hd.jpg",
+    logo: "/portfolio/qedma-clean.png",
     description: "Error-suppression software that extends what today's quantum computers can compute",
     url: "https://www.qedma.com/",
-    background: "#fffefa",
-    logoMode: "canvas-crop",
-    logoScale: 1.34,
+    logoScale: 1,
   },
 ];
 
