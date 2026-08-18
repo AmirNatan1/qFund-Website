@@ -200,7 +200,7 @@ export default function QFundExperience() {
             <span>of technology.</span>
           </h1>
           <p className="qf-hero-deck qf-reveal is-visible">
-            qFund invests in startups developing core infrastructure, hardware, and enabling technologies across defense, energy, semiconductors, quantum computing, industrial systems, AI, and robotics.
+            qFund invests in early-stage DeepTech startups building core infrastructure, hardware, and enabling technologies - with a focus on high-barrier sectors: Defense Tech, Semiconductors, Quantum Computing, AI Infrastructure, and Industrial Systems.
           </p>
           <div className="qf-hero-actions qf-reveal is-visible">
             <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
