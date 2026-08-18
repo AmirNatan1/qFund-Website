@@ -223,7 +223,7 @@ export default function QFundExperience() {
         <div className="qf-section-label qf-reveal"><span>01</span><p>Our portfolio</p></div>
         <div className="qf-portfolio-heading qf-reveal">
           <p className="qf-kicker">ELEVEN STARTUPS · ONE DEEP-TECH PORTFOLIO</p>
-          <h2 id="portfolio-title">Built around technologies with <em>consequence.</em></h2>
+          <h2 id="portfolio-title">Building the infrustructure behind what's next</h2>
         </div>
         <div className="qf-portfolio-grid qf-reveal" aria-label="Portfolio companies">
           {portfolio.map((item) => (

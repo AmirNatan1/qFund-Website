@@ -6,7 +6,7 @@ export type PortfolioCompany = {
   description: string;
   url: string;
   background: string;
-  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "litevision-crop";
+  logoMode?: "multiply" | "full-bleed" | "flush-contain" | "canvas-crop" | "litevision-crop";
   logoScale?: number;
 };
 
@@ -16,8 +16,9 @@ export const portfolio: readonly PortfolioCompany[] = [
     logo: "/portfolio/skapion-hd.svg",
     description: "Native counter-swarm defense system against attacking drone swarms",
     url: "https://www.skapion.com/",
-    background: "#293137",
-    logoMode: "full-bleed",
+    background: "#0a1014",
+    logoMode: "canvas-crop",
+    logoScale: 0.78,
   },
   {
     name: "QuamCore",
@@ -40,8 +41,9 @@ export const portfolio: readonly PortfolioCompany[] = [
     logo: "/portfolio/litevision.webp",
     description: "Miniaturized electro-optical imaging systems for defense and civilian platforms",
     url: "https://litevision-eo.com/",
-    background: "#ffffff",
-    logoMode: "flush-contain",
+    background: "#f8f8f6",
+    logoMode: "canvas-crop",
+    logoScale: 1.24,
   },
   {
     name: "SignalEdge",
@@ -80,15 +82,16 @@ export const portfolio: readonly PortfolioCompany[] = [
     logo: "/portfolio/actasys.webp",
     description: "Thermal management for high-density data-center racks and networking silicon",
     url: "https://www.actasysinc.com/",
-    background: "#ffffff",
-    logoScale: 1.7,
+    background: "#f8f8f6",
+    logoMode: "canvas-crop",
+    logoScale: 1.24,
   },
   {
     name: "Element Security",
     logo: "/portfolio/element-security-color.svg",
     description: "Maps internet-facing assets and proves which flaws are actually exploitable",
     url: "https://element.security/",
-    background: "#111111",
+    background: "#f1f3e8",
     logoScale: 1.06,
   },
   {
@@ -96,8 +99,9 @@ export const portfolio: readonly PortfolioCompany[] = [
     logo: "/portfolio/qedma-hd.jpg",
     description: "Error-suppression software that extends what today's quantum computers can compute",
     url: "https://www.qedma.com/",
-    background: "#ffffff",
-    logoMode: "flush-contain",
+    background: "#fffefa",
+    logoMode: "canvas-crop",
+    logoScale: 1.34,
   },
 ];
 

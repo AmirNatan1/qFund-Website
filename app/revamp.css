@@ -2121,6 +2121,17 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   transform: none;
 }
 
+.qf-portfolio-logo--canvas-crop {
+  padding: 0;
+}
+
+.qf-portfolio-logo--canvas-crop img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(var(--qf-portfolio-logo-scale, 1));
+}
+
 .qf-portfolio-logo--litevision-crop img {
   position: absolute;
   top: -2%;
@@ -2741,6 +2752,7 @@ html.qf-intro-outro .qf-hero-foot { animation: qf-intro-fade 640ms ease both 340
   }
   .qf-portfolio-logo--full-bleed,
   .qf-portfolio-logo--flush-contain,
+  .qf-portfolio-logo--canvas-crop,
   .qf-portfolio-logo--litevision-crop { padding: 0; }
   .qf-portfolio-description {
     position: relative;
