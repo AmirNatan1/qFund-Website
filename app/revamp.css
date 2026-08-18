@@ -3465,6 +3465,10 @@ body {
     border-radius: 0.7rem;
   }
 
+  .qf-team-card:nth-child(1) {
+    --qf-team-image-scale: 1.62;
+  }
+
   .qf-team-card > div {
     min-height: 5.8rem;
     padding: 0.7rem 0.55rem;
