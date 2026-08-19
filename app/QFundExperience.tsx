@@ -262,9 +262,7 @@ export default function QFundExperience() {
               <div>
                 <span>{member.role}</span>
                 <h3>{member.name}</h3>
-                <a className="qf-team-email" href={`mailto:${member.email}`}>
-                  {member.email}<span aria-hidden="true">↗</span>
-                </a>
+                <p className="qf-team-email">{member.email}</p>
               </div>
             </article>
           ))}
