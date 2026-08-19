@@ -259,7 +259,13 @@ export default function QFundExperience() {
                 <Image src={member.image} alt={member.name} fill sizes="(max-width: 720px) 100vw, 33vw" unoptimized />
                 <span aria-hidden="true">LinkedIn ↗</span>
               </a>
-              <div><span>{member.role}</span><h3>{member.name}</h3></div>
+              <div>
+                <span>{member.role}</span>
+                <h3>{member.name}</h3>
+                <a className="qf-team-email" href={`mailto:${member.email}`}>
+                  {member.email}<span aria-hidden="true">↗</span>
+                </a>
+              </div>
             </article>
           ))}
         </div>

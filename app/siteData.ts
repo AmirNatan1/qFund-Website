@@ -104,18 +104,21 @@ export const team = [
   {
     name: "Liav Ben Rubi",
     role: "Managing Partner",
+    email: "liav@qfund.io",
     image: "/team/liav-ben-rubi-enhanced.png",
     linkedin: "https://www.linkedin.com/in/liav-ben-rubi/",
   },
   {
     name: "Dana Taigman Koren",
     role: "Managing Partner",
+    email: "dana@qfund.io",
     image: "/team/dana-taigman-koren-portrait-2026.png",
     linkedin: "https://www.linkedin.com/in/danataigmankoren/",
   },
   {
     name: "Liron Ben Zaken",
     role: "Principal",
+    email: "liron@qfund.io",
     image: "/team/liron-ben-zaken-hd.webp",
     linkedin: "https://www.linkedin.com/in/liron-ben-zaken/",
   },
