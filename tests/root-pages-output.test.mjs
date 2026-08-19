@@ -48,8 +48,8 @@ test("repository-root snapshot includes every required public asset", async () =
   ]);
 });
 
-test("repository-root snapshot includes only News and Contact routes", async () => {
-  for (const route of ["news", "contact"]) {
+test("repository-root snapshot includes every intended secondary route", async () => {
+  for (const route of ["news", "contact", "privacy", "accessibility", "terms"]) {
     const [rootHtml, canonicalHtml] = await Promise.all([
       readFile(new URL(`${route}/index.html`, rootUrl), "utf8"),
       readFile(new URL(`${route}/index.html`, canonicalOutputUrl), "utf8"),
@@ -67,12 +67,12 @@ test("repository-root snapshot uses the new one-page experience", async () => {
   assert.match(home, /Funding the/);
   assert.match(home, /class="qf-section-ruler"/);
   assert.match(home, /src="\/portfolio\/element-security-color\.svg"/);
-  assert.match(home, /src="\/portfolio\/skapion-hd\.svg"/);
+  assert.match(home, /src="\/portfolio\/skapion-mark\.svg"/);
   assert.match(home, /src="\/portfolio\/oraqon-hd\.png"/);
-  assert.match(home, /src="\/portfolio\/qedma-hd\.jpg"/);
-  assert.match(home, /src="\/portfolio\/actasys\.webp"/);
+  assert.match(home, /src="\/portfolio\/qedma-clean\.png"/);
+  assert.match(home, /src="\/portfolio\/actasys-clean\.svg"/);
   assert.match(home, /src="\/portfolio\/particle-hd\.svg"/);
   assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
-  assert.match(home, /src="\/team\/liav-ben-rubi-hd\.webp"/);
+  assert.match(home, /src="\/team\/liav-ben-rubi-enhanced\.png"/);
   assert.doesNotMatch(home, /href="\/(?:thesis|companies|founders)\/"/);
 });

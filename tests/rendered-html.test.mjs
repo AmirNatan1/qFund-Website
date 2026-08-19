@@ -23,7 +23,7 @@ test("server-renders the unified qFund experience", async () => {
   assert.match(html, /Pre-seed to Series A/);
   assert.match(html, /Deep Tech/);
   assert.match(html, /Quantum Computing/);
-  assert.match(html, /Qedma/);
+  assert.match(html, /QEDMA/i);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-section-ruler"/);
   assert.match(html, /class="qf-portfolio-grid qf-reveal/);
@@ -44,10 +44,13 @@ test("server-renders the unified qFund experience", async () => {
   assert.doesNotMatch(html, /href=["']\/(?:thesis|companies|founders)\/["']/i);
 });
 
-test("server-renders the only intended secondary pages", async () => {
+test("server-renders the intended secondary and policy pages", async () => {
   const expectations = [
     ["/news", /News and activity/i, /q fund Participates in Skapion/],
     ["/contact", /Tell us what you are/i, /info@qfund\.io/],
+    ["/privacy", /Privacy Notice/i, /Information we collect/],
+    ["/accessibility", /Accessibility Statement/i, /Israeli Standard 5568/],
+    ["/terms", /Terms of Use/i, /no offer or advice/i],
   ];
 
   for (const [pathname, heading, proof] of expectations) {

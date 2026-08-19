@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import BackToTop from "./BackToTop";
 import BrandMark from "./BrandMark";
+import FooterLinks from "./FooterLinks";
 
 type InnerPageShellProps = {
-  active: "news" | "contact";
+  active: "news" | "contact" | null;
   children: ReactNode;
 };
 
@@ -96,7 +97,7 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
       <footer className="qf-footer-bar qf-inner-footer">
         <Link href="/" aria-label="q fund home"><BrandMark /></Link>
         <BackToTop />
-        <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} q fund</span></div>
+        <FooterLinks />
       </footer>
     </main>
   );

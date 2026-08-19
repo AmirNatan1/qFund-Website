@@ -31,7 +31,7 @@ test("exports the unified qFund homepage", async () => {
   assert.ok(orderedSections.every((position) => position >= 0));
   assert.deepEqual(orderedSections, [...orderedSections].sort((a, b) => a - b));
   assert.match(html, /Quantum Computing/);
-  assert.match(html, /Qedma/);
+  assert.match(html, /QEDMA/i);
   assert.match(html, /Liav Ben Rubi/);
   assert.match(html, /class="qf-frontier-field"/);
   assert.match(html, /class="qf-frontier-canvas"/);
@@ -104,16 +104,19 @@ test("supports the common Cloudflare Pages output-directory presets", async () =
   ]);
 });
 
-test("publishes only the intended secondary pages", async () => {
-  const [news, contact] = await Promise.all([
+test("publishes the intended secondary and policy pages", async () => {
+  const [news, contact, privacy, accessibility, terms] = await Promise.all([
     readFile(new URL("news/index.html", outputUrl), "utf8"),
     readFile(new URL("contact/index.html", outputUrl), "utf8"),
+    readFile(new URL("privacy/index.html", outputUrl), "utf8"),
+    readFile(new URL("accessibility/index.html", outputUrl), "utf8"),
+    readFile(new URL("terms/index.html", outputUrl), "utf8"),
   ]);
 
   assert.match(news, /<title>News and Activity \| q fund<\/title>/i);
   assert.match(news, /Skapion/);
   assert.match(news, /Esh-Tech/);
-  assert.match(news, /LiteVision-EO/);
+  assert.match(news, /LiteVision/);
   assert.match(news, /Commcrete/);
   assert.match(news, /QEDMA/);
   assert.equal((news.match(/class="qf-news-archive-card qf-reveal"/g) ?? []).length, 5);
@@ -122,6 +125,18 @@ test("publishes only the intended secondary pages", async () => {
   assert.match(contact, /Tell us what you are/);
   assert.match(contact, /Pre-seed to Series A/);
   assert.match(contact, /info@qfund\.io/);
+  assert.match(contact, /Providing these details is voluntary/);
+  assert.match(contact, /href="\/privacy\/"/);
+  assert.match(privacy, /<title>Privacy Notice \| q fund<\/title>/i);
+  assert.match(privacy, /Information we collect/);
+  assert.match(privacy, /Cloudflare/);
+  assert.match(privacy, /Resend/);
+  assert.match(accessibility, /<title>Accessibility Statement \| q fund<\/title>/i);
+  assert.match(accessibility, /Israeli Standard 5568/);
+  assert.match(accessibility, /reduced-motion setting/);
+  assert.match(terms, /<title>Terms of Use \| q fund<\/title>/i);
+  assert.match(terms, /no offer or advice/i);
+  assert.match(terms, /Startup introductions/);
   assert.doesNotMatch(contact, /Begin the|contact-dialogue/i);
 
   for (const route of ["thesis", "companies", "founders"]) {
@@ -133,7 +148,7 @@ test("exports all five verified qFund news articles with their approved images",
   const records = [
     ["qfund-participates-skapion-36m-seed", "Skapion", "skapion-drone-swarm.webp"],
     ["qfund-participates-esh-tech-18m-round", "Esh-Tech", "esh-tech-dronelight.webp"],
-    ["qfund-invests-litevision-8m-seed", "LiteVision-EO", "litevision-drone-imaging.webp"],
+    ["qfund-invests-litevision-8m-seed", "LiteVision", "litevision-drone-imaging.webp"],
     ["qfund-backed-commcrete-29m-funding", "Commcrete", "commcrete-stardust-flipper.webp"],
     ["qfund-qedma-26m-series-a", "QEDMA", "qedma-quantum-computing.webp"],
   ];
@@ -142,7 +157,7 @@ test("exports all five verified qFund news articles with their approved images",
     const article = await readFile(new URL(`news/${slug}/index.html`, outputUrl), "utf8");
     assert.match(article, new RegExp(company));
     assert.match(article, new RegExp(`/news/${image}`));
-    assert.match(article, /class="qf-news-article-body"/);
+    assert.match(article, /class="qf-news-sources/);
     assert.doesNotMatch(article, /Quantum Hub/i);
   }
 });
@@ -154,7 +169,7 @@ test("renders the header section ruler without the approach section and three la
   assert.match(home, /aria-label="Go to Thesis"/);
   assert.doesNotMatch(home, /aria-label="Go to Home"|aria-label="Go to Industries"/);
   assert.doesNotMatch(home, /Our approach|id="approach"|href="#approach"/i);
-  assert.equal((home.match(/class="qf-news-card qf-reveal"/g) ?? []).length, 3);
+  assert.equal((home.match(/class="qf-news-card qf-news-card--title-only qf-reveal"/g) ?? []).length, 3);
   assert.match(home, />View all news/);
 });
 
@@ -209,6 +224,7 @@ test("ships the interactive frontier field without the discarded logo assembly",
   assert.match(css, /@keyframes qf-frontier-orbit/);
   assert.match(css, /qfund-q-base-a7e10fa-padded\.svg/);
   assert.match(css, /qfund-q-arrow-a7e10fa-padded\.svg/);
+  assert.doesNotMatch(html, /qf_intro_seen|qfund:intro-seen|localStorage/);
   assert.doesNotMatch(html, /qfund-intro-logo-(?:hd|4k)\.png/);
   assert.doesNotMatch(css, /@keyframes qf-(?:lockup-cycle|q-settle|arrow-flight|fund-uncover|final-arrow|logo-orbit)/);
   assert.doesNotMatch(css, /\.qf-(?:logo-field|assembly-core|lockup-track|q-arrow-flight|fund-reveal|final-arrow-mask)/);
@@ -229,10 +245,10 @@ test("links every team portrait and renders the accessible portfolio grid", asyn
   assert.equal((home.match(/class="qf-portfolio-card"/g) ?? []).length, 11);
   assert.equal((home.match(/class="qf-portfolio-card"[^>]*href=/g) ?? []).length, 11);
   assert.doesNotMatch(home, /role="tab"|portfolio-company-panel/);
-  assert.match(home, /src="\/portfolio\/skapion-hd\.svg"/);
+  assert.match(home, /src="\/portfolio\/skapion-mark\.svg"/);
   assert.match(home, /src="\/portfolio\/oraqon-hd\.png"/);
-  assert.match(home, /src="\/portfolio\/qedma-hd\.jpg"/);
-  assert.match(home, /src="\/portfolio\/actasys\.webp"/);
+  assert.match(home, /src="\/portfolio\/qedma-clean\.png"/);
+  assert.match(home, /src="\/portfolio\/actasys-clean\.svg"/);
   assert.match(home, /src="\/portfolio\/particle-hd\.svg"/);
   assert.match(home, /src="\/portfolio\/eshtech-color\.svg"/);
   assert.match(home, /Pulsed-laser hard-kill effector/);
@@ -255,12 +271,12 @@ test("links every team portrait and renders the accessible portfolio grid", asyn
 
 test("uses direct image URLs and one back-to-top control per page", async () => {
   const pages = await Promise.all(
-    ["index.html", "news/index.html", "contact/index.html"].map((path) => readFile(new URL(path, outputUrl), "utf8")),
+    ["index.html", "news/index.html", "contact/index.html", "privacy/index.html", "accessibility/index.html", "terms/index.html"].map((path) => readFile(new URL(path, outputUrl), "utf8")),
   );
   const rendered = pages.join("\n");
 
   assert.doesNotMatch(rendered, /\/_next\/image\//);
-  assert.match(pages[0], /src="\/team\/liav-ben-rubi-hd\.webp"/);
+  assert.match(pages[0], /src="\/team\/liav-ben-rubi-enhanced\.png"/);
   assert.match(pages[0], /src="\/portfolio\/element-security-color\.svg"/);
   assert.match(pages[0], /src="\/focus\/advanced-electronics\.jpg"/);
   assert.match(pages[0], /src="\/news\/skapion-drone-swarm\.webp"/);
@@ -268,5 +284,8 @@ test("uses direct image URLs and one back-to-top control per page", async () => 
 
   for (const html of pages) {
     assert.equal((html.match(/aria-label="Back to the top"/g) ?? []).length, 1);
+    assert.match(html, /href="\/privacy\/"/);
+    assert.match(html, /href="\/accessibility\/"/);
+    assert.match(html, /href="\/terms\/"/);
   }
 });

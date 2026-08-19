@@ -216,6 +216,12 @@ export default function ContactForm() {
         </label>
       </div>
 
+      <p className="qf-form-privacy">
+        Providing these details is voluntary. We use them to review and respond to your enquiry.
+        Please do not include sensitive personal data, trade secrets, or third-party confidential information.
+        See our <a href="/privacy/">Privacy Notice</a> and <a href="/terms/">Terms of Use</a>.
+      </p>
+
       <div className="contact-form-action">
         <p role={notice ? "alert" : undefined}>
           {notice || "Sent straight to the q fund team at info@qfund.io."}

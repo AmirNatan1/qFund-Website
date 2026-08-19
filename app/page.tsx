@@ -39,21 +39,17 @@ export const metadata: Metadata = {
 };
 
 /**
- * Arms the opening reveal before the hero paints on a visitor's first load only.
- * The persistent marker prevents reloads and later visits from replaying it.
- * Visitors who ask for reduced motion never arm it, and the failsafe clears the
- * class if the bundle never takes over.
+ * Arms the opening reveal before the hero paints. An in-memory marker prevents
+ * it from replaying during client-side navigation without placing a persistent
+ * identifier on the visitor's device. Visitors who ask for reduced motion never
+ * arm it, and the failsafe clears the class if the bundle never takes over.
  */
 const introBootstrap =
   '(function(){try{var d=document.documentElement;' +
   'if(!d||!window.matchMedia)return;' +
   'if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;' +
-  'var k="qfund:intro-seen:v1",seen=false;' +
-  'try{seen=window.localStorage.getItem(k)==="1";}catch(e){}' +
-  'if(!seen&&document.cookie.indexOf("qf_intro_seen=1")!==-1)seen=true;' +
-  'if(seen)return;' +
-  'try{window.localStorage.setItem(k,"1");}catch(e){}' +
-  'document.cookie="qf_intro_seen=1; Max-Age=31536000; Path=/; SameSite=Lax";' +
+  'if(window.__qfIntroSeen)return;' +
+  'window.__qfIntroSeen=true;' +
   'window.__qfIntroFirstVisit=true;' +
   'd.classList.add("qf-intro-active");' +
   'window.setTimeout(function(){if(!window.__qfIntro){' +

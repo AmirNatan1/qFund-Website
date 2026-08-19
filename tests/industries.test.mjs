@@ -138,7 +138,7 @@ test("preloads every scene and advances the integrated thesis every three second
   assert.doesNotMatch(experience, /visualIndexRef|wrapsForward|qf-industry-chapter-clone|is-resetting/);
   assert.doesNotMatch(experience, /isImmersive|metricsRef|qf-industries-immersive/);
   assert.match(experience, /id="thesis"/);
-  assert.match(experience, /We invest early in technologies/);
+  assert.match(experience, /we invest early in technologies/i);
   assert.match(experience, /foundational technology/i);
   assert.match(experience, /Conviction beyond capital/);
   assert.match(experience, /className="qf-check-stage qf-thesis-check-stage"/);
@@ -173,8 +173,8 @@ test("preloads every scene and advances the integrated thesis every three second
   assert.match(introReveal, /--qf-intro-core-size/);
   assert.match(introReveal, /--qf-intro-logo-size/);
   assert.match(introReveal, /__qfIntroFirstVisit/);
-  assert.match(page, /qfund:intro-seen:v1/);
-  assert.match(page, /qf_intro_seen=1/);
+  assert.match(page, /window\.__qfIntroSeen/);
+  assert.doesNotMatch(page, /qfund:intro-seen:v1|qf_intro_seen|localStorage|document\.cookie/);
   // Scene loading waits for the opening reveal instead of competing with it.
   assert.match(experience, /whenIntroSettles/);
   assert.match(experience, /sceneStageReady \? \(/);

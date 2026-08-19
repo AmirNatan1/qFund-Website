@@ -11,6 +11,7 @@ import {
 } from "react";
 import BackToTop from "./components/BackToTop";
 import BrandMark from "./components/BrandMark";
+import FooterLinks from "./components/FooterLinks";
 import FrontierField from "./components/FrontierField";
 import IntroReveal from "./components/IntroReveal";
 import NewsArtwork from "./components/NewsArtwork";
@@ -294,7 +295,7 @@ export default function QFundExperience() {
         <div className="qf-footer-bar">
           <a href="#top" aria-label="q fund home"><BrandMark /></a>
           <BackToTop />
-          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} q fund</span></div>
+          <FooterLinks />
         </div>
       </footer>
 
