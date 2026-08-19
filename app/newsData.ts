@@ -18,7 +18,7 @@ export const newsItems: readonly NewsItem[] = [
   {
     date: "2026-07-09",
     company: "Skapion",
-    title: "qFund Participates in Skapion’s $36M Seed Round",
+    title: "q fund Participates in Skapion’s $36M Seed Round",
     slug: "qfund-participates-skapion-36m-seed",
     image: "/news/skapion-drone-swarm.webp",
     imageAlt: "Four counter-drone quadcopters flying in formation",
@@ -43,7 +43,7 @@ export const newsItems: readonly NewsItem[] = [
   {
     date: "2026-06-30",
     company: "Esh-Tech",
-    title: "qFund Participates in Esh-Tech’s $18M Funding Round",
+    title: "q fund Participates in Esh-Tech’s $18M Funding Round",
     slug: "qfund-participates-esh-tech-18m-round",
     image: "/news/esh-tech-dronelight.webp",
     imageAlt: "Esh-Tech DroneLight counter-drone laser system mounted on a tracked vehicle",
@@ -63,7 +63,7 @@ export const newsItems: readonly NewsItem[] = [
   {
     date: "2026-02-17",
     company: "LiteVision",
-    title: "qFund Co-Led LiteVision’s $8M Seed Round with 8VC",
+    title: "q fund Co-Led LiteVision’s $8M Seed Round with 8VC",
     slug: "qfund-invests-litevision-8m-seed",
     image: "/news/litevision-drone-imaging.webp",
     imageAlt: "Compact unmanned helicopter flying above desert terrain",
@@ -83,7 +83,7 @@ export const newsItems: readonly NewsItem[] = [
   {
     date: "2025-09-30",
     company: "Commcrete",
-    title: "qFund-Backed Commcrete Reaches $29M in Total Funding",
+    title: "q fund-Backed Commcrete Reaches $29M in Total Funding",
     slug: "qfund-backed-commcrete-29m-funding",
     image: "/news/commcrete-stardust-flipper.webp",
     imageAlt: "Commcrete Stardust and Flipper tactical communications units on a soldier's gear",
@@ -108,7 +108,7 @@ export const newsItems: readonly NewsItem[] = [
   {
     date: "2025-07-03",
     company: "QEDMA",
-    title: "qFund Participates in QEDMA’s $26M Series A",
+    title: "q fund Participates in QEDMA’s $26M Series A",
     slug: "qfund-qedma-26m-series-a",
     image: "/news/qedma-quantum-computing.webp",
     imageAlt: "Gold-toned quantum computing cryostat against a black background",

@@ -12,7 +12,7 @@
  *
  * Optional bindings
  *   CONTACT_TO       Recipient. Defaults to info@qfund.io.
- *   CONTACT_FROM     Verified sender. Defaults to qFund <website@qfund.io>.
+ *   CONTACT_FROM     Verified sender. Defaults to q fund <website@qfund.io>.
  *
  * Until RESEND_API_KEY is set the endpoint answers 503 `unconfigured`, which is
  * the signal the form uses to fall back to a prepared email rather than losing
@@ -31,7 +31,7 @@ interface RequestContext {
 }
 
 const DEFAULT_TO = "info@qfund.io";
-const DEFAULT_FROM = "qFund Website <website@qfund.io>";
+const DEFAULT_FROM = "q fund Website <website@qfund.io>";
 const STAGES = ["Pre-seed", "Seed", "Series A", "Other"];
 
 const LIMITS = {
@@ -125,7 +125,7 @@ function compose(submission: Submission) {
 
   const html = [
     '<div style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.5;color:#062b29">',
-    '<p style="margin:0 0 1rem"><strong>New startup introduction from the qFund website.</strong></p>',
+    '<p style="margin:0 0 1rem"><strong>New startup introduction from the q fund website.</strong></p>',
     "<table cellpadding=\"0\" cellspacing=\"0\" style=\"margin:0 0 1rem\">",
     `<tr><td style="padding:2px 16px 2px 0;color:#0d6f69">Name</td><td>${escapeHtml(submission.name)}</td></tr>`,
     `<tr><td style="padding:2px 16px 2px 0;color:#0d6f69">Email</td><td><a href="mailto:${escapeHtml(submission.email)}">${escapeHtml(submission.email)}</a></td></tr>`,
@@ -161,7 +161,7 @@ async function handlePost({ request, env }: RequestContext): Promise<Response> {
   }
 
   const { text, html } = compose(submission);
-  const subject = headerSafe(`qFund introduction — ${submission.company || submission.name}`);
+  const subject = headerSafe(`q fund introduction — ${submission.company || submission.name}`);
 
   let response: Response;
   try {

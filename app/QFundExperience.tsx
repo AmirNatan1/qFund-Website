@@ -155,10 +155,10 @@ export default function QFundExperience() {
       <div className="qf-progress" aria-hidden="true" />
 
       <header className="qf-header">
-        <a className="qf-logo" href="#top" aria-label="qFund home"><BrandMark /></a>
+        <a className="qf-logo" href="#top" aria-label="q fund home"><BrandMark /></a>
         <SectionRuler active={activeSection} />
         <nav className="qf-header-actions" aria-label="Secondary navigation">
-          <Link className="qf-button qf-button-small" href="/contact/">Contact qFund <span>↗</span></Link>
+          <Link className="qf-button qf-button-small" href="/contact/">Contact q fund <span>↗</span></Link>
         </nav>
         <button
           className="qf-menu-toggle"
@@ -199,7 +199,7 @@ export default function QFundExperience() {
             <span>of technology.</span>
           </h1>
           <p className="qf-hero-deck qf-reveal is-visible">
-            qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.
+            q fund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.
           </p>
           <div className="qf-hero-actions qf-reveal is-visible">
             <Link className="qf-text-link" href="/contact/">Tell us what you are building <span>↗</span></Link>
@@ -269,7 +269,7 @@ export default function QFundExperience() {
 
       <section className="qf-news qf-scroll-section" id="news" data-qf-section aria-labelledby="news-title">
         <div className="qf-news-heading qf-reveal">
-          <div><h2 id="news-title">qFund <em>in motion.</em></h2></div>
+          <div><h2 id="news-title">q fund <em>in motion.</em></h2></div>
           <Link className="qf-text-link" href="/news/">View all news <span>↗</span></Link>
         </div>
         <div className="qf-news-grid">
@@ -285,12 +285,12 @@ export default function QFundExperience() {
       <footer className="qf-footer">
         <div className="qf-footer-lead">
           <h2>Tell us what you are <em>building.</em></h2>
-          <Link className="qf-button" href="/contact/">Contact qFund <span>↗</span></Link>
+          <Link className="qf-button" href="/contact/">Contact q fund <span>↗</span></Link>
         </div>
         <div className="qf-footer-bar">
-          <a href="#top" aria-label="qFund home"><BrandMark /></a>
+          <a href="#top" aria-label="q fund home"><BrandMark /></a>
           <BackToTop />
-          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} qFund</span></div>
+          <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} q fund</span></div>
         </div>
       </footer>
 

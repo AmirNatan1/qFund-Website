@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: NewsArticlePageProps): Promis
   if (!item) return {};
 
   return {
-    title: `${item.title} | qFund`,
+    title: `${item.title} | q fund`,
     description: `External coverage and source links for ${item.title}.`,
     alternates: { canonical: `/news/${item.slug}/` },
     openGraph: {
@@ -49,7 +49,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
     <InnerPageShell active="news">
       <section className="qf-news-article" aria-labelledby="coverage-title">
         <header className="qf-news-article-header qf-reveal is-visible">
-          <Link className="qf-news-article-back" href="/news/">← All qFund news</Link>
+          <Link className="qf-news-article-back" href="/news/">← All q fund news</Link>
           <h1 id="coverage-title">{item.title}</h1>
         </header>
 
@@ -61,7 +61,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             priority
             sizes="(max-width: 900px) 100vw, 82vw"
           />
-          <figcaption>{item.company} in the qFund portfolio</figcaption>
+          <figcaption>{item.company} in the q fund portfolio</figcaption>
         </figure>
 
         <section className="qf-news-sources qf-reveal is-visible" aria-labelledby="source-links-title">

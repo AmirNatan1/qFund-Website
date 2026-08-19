@@ -34,7 +34,7 @@ function read(data: FormData): Submission {
  */
 function prepareEmail(submission: Submission) {
   const subject = encodeURIComponent(
-    `qFund startup introduction - ${submission.company || submission.name}`,
+    `q fund startup introduction - ${submission.company || submission.name}`,
   );
   const body = encodeURIComponent(
     [
@@ -115,7 +115,7 @@ export default function ContactForm() {
       <div className="qf-contact-form qf-contact-sent qf-reveal is-visible" role="status">
         <h2>Thank you.</h2>
         <p>
-          Your introduction is with the qFund team at <strong>info@qfund.io</strong>. We read every
+          Your introduction is with the q fund team at <strong>info@qfund.io</strong>. We read every
           submission and will come back to you directly.
         </p>
         <button type="button" onClick={() => setStatus("idle")}>
@@ -218,7 +218,7 @@ export default function ContactForm() {
 
       <div className="contact-form-action">
         <p role={notice ? "alert" : undefined}>
-          {notice || "Sent straight to the qFund team at info@qfund.io."}
+          {notice || "Sent straight to the q fund team at info@qfund.io."}
         </p>
         <button type="submit" disabled={sending} aria-busy={sending}>
           <span>{sending ? "Sending…" : "Send message"}</span>

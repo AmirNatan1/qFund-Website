@@ -141,12 +141,12 @@ export default function IndustriesExperience() {
           <span className="qf-check-stage-grid" aria-hidden="true" />
           <div
             className="qf-check qf-reveal"
-            aria-label="qFund backs foundational deep technology from pre-seed to Series A, with conviction beyond capital"
+            aria-label="q fund backs foundational deep technology from pre-seed to Series A, with conviction beyond capital"
           >
             <div className="qf-check-top">
               <div className="qf-check-bank">
                 <span className="qf-check-monogram" aria-hidden="true">q</span>
-                <div><strong>qFund</strong><small>DEEP TECH VENTURE CAPITAL</small></div>
+                <div><strong>q fund</strong><small>DEEP TECH VENTURE CAPITAL</small></div>
               </div>
             </div>
 
@@ -179,7 +179,7 @@ export default function IndustriesExperience() {
 
             <div className="qf-check-bottom">
               <span className="qf-check-script-line qf-check-signature-line" style={{ "--write-order": 4 } as CSSProperties}>
-                <span className="qf-check-written">qFund</span>
+                <span className="qf-check-written">q fund</span>
               </span>
             </div>
 

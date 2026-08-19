@@ -615,6 +615,21 @@ body * {
   text-transform: lowercase !important;
 }
 
+/* Preserve proper nouns and initialisms that must retain their source casing. */
+.qf-team-card h3,
+.qf-team-image > span,
+.qf-portfolio-description > strong,
+.qf-portfolio-description > span,
+.qf-industry-copy > p,
+.qf-news-card h3,
+.qf-news-archive-copy h2,
+.qf-news-article-header h1,
+.qf-news-article-body *,
+.qf-news-sources *,
+a[href*="linkedin.com"] {
+  text-transform: none !important;
+}
+
 .qf-frontier-arrow {
   background: var(--color-brand-deep);
   -webkit-mask: url("/qfund-q-arrow-a7e10fa-padded.svg") center / contain no-repeat;

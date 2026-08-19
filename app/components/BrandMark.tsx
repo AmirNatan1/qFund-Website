@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function BrandMark() {
   return (
-    <span className="brand" aria-label="qFund">
+    <span className="brand" aria-label="q fund">
       <Image
         className="brand-image"
         src="/qfund-logo-light.png"

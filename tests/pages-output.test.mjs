@@ -13,7 +13,7 @@ async function readHome() {
 test("exports the unified qFund homepage", async () => {
   const html = await readHome();
 
-  assert.match(html, /<title>qFund \| Early-Stage Deep Tech Venture Capital<\/title>/i);
+  assert.match(html, /<title>q fund \| Early-Stage Deep Tech Venture Capital<\/title>/i);
   assert.match(html, /Funding the/);
   assert.match(html, /deep future/);
   assert.match(html, /Pre-seed/);
@@ -110,7 +110,7 @@ test("publishes only the intended secondary pages", async () => {
     readFile(new URL("contact/index.html", outputUrl), "utf8"),
   ]);
 
-  assert.match(news, /<title>News and Activity \| qFund<\/title>/i);
+  assert.match(news, /<title>News and Activity \| q fund<\/title>/i);
   assert.match(news, /Skapion/);
   assert.match(news, /Esh-Tech/);
   assert.match(news, /LiteVision-EO/);
@@ -118,7 +118,7 @@ test("publishes only the intended secondary pages", async () => {
   assert.match(news, /QEDMA/);
   assert.equal((news.match(/class="qf-news-archive-card qf-reveal"/g) ?? []).length, 5);
   assert.match(news, /class="qf-news-art/);
-  assert.match(contact, /<title>Contact qFund \| Deep Tech Venture Capital<\/title>/i);
+  assert.match(contact, /<title>Contact q fund \| Deep Tech Venture Capital<\/title>/i);
   assert.match(contact, /Tell us what you are/);
   assert.match(contact, /Pre-seed to Series A/);
   assert.match(contact, /info@qfund\.io/);

@@ -2,38 +2,38 @@ import type { Metadata } from "next";
 import QFundExperience from "./QFundExperience";
 
 export const metadata: Metadata = {
-  title: "qFund | Early-Stage Deep Tech Venture Capital",
+  title: "q fund | Early-Stage Deep Tech Venture Capital",
   description:
-    "qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
+    "q fund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
   alternates: { canonical: "/" },
   keywords: [
     "Deep Tech venture capital",
     "quantum computing",
     "defense technology",
     "semiconductors",
-    "qFund",
+    "q fund",
   ],
   openGraph: {
-    title: "qFund | Early-Stage Deep Tech Venture Capital",
+    title: "q fund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
+      "q fund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
     url: "/",
     type: "website",
-    siteName: "qFund",
+    siteName: "q fund",
     images: [
       {
         url: "/og-motion.png",
         width: 1659,
         height: 948,
-        alt: "qFund",
+        alt: "q fund",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "qFund | Early-Stage Deep Tech Venture Capital",
+    title: "q fund | Early-Stage Deep Tech Venture Capital",
     description:
-      "qFund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
+      "q fund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
     images: ["/og-motion.png"],
   },
 };
@@ -64,7 +64,7 @@ export default function Home() {
   const organization = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "qFund",
+    name: "q fund",
     url: "https://qfund.io/",
     logo: "https://qfund.io/qfund-logo.png",
     email: "info@qfund.io",

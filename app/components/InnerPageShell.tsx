@@ -68,11 +68,11 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
       <div className="qf-progress" aria-hidden="true" />
 
       <header className="qf-header qf-inner-header">
-        <Link className="qf-logo" href="/" aria-label="qFund home"><BrandMark /></Link>
-        <Link className="qf-back-home" href="/">← Back to qFund</Link>
+        <Link className="qf-logo" href="/" aria-label="q fund home"><BrandMark /></Link>
+        <Link className="qf-back-home" href="/">← Back to q fund</Link>
         <nav className="qf-header-actions" aria-label="Secondary navigation">
           <Link className={active === "news" ? "is-active" : ""} href="/news/">News</Link>
-          <Link className={active === "contact" ? "qf-button qf-button-small is-active" : "qf-button qf-button-small"} href="/contact/">Contact qFund <span>↗</span></Link>
+          <Link className={active === "contact" ? "qf-button qf-button-small is-active" : "qf-button qf-button-small"} href="/contact/">Contact q fund <span>↗</span></Link>
         </nav>
         <button
           className="qf-menu-toggle"
@@ -94,9 +94,9 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
       <div id="page-content">{children}</div>
 
       <footer className="qf-footer-bar qf-inner-footer">
-        <Link href="/" aria-label="qFund home"><BrandMark /></Link>
+        <Link href="/" aria-label="q fund home"><BrandMark /></Link>
         <BackToTop />
-        <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} qFund</span></div>
+        <div><a href="mailto:info@qfund.io">info@qfund.io</a><a href="https://www.linkedin.com/company/q-fund" target="_blank" rel="noreferrer">LinkedIn ↗</a><span>© {new Date().getFullYear()} q fund</span></div>
       </footer>
     </main>
   );
