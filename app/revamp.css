@@ -616,6 +616,7 @@ body * {
 }
 
 /* Preserve proper nouns and initialisms that must retain their source casing. */
+.qf-hero-deck,
 .qf-team-card h3,
 .qf-team-image > span,
 .qf-portfolio-description > strong,
