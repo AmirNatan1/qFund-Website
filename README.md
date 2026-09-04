@@ -4,7 +4,7 @@ The redesigned website for qFund, a deep-technology venture capital firm based i
 
 ## Experience
 
-- A unified long-scroll homepage with About, Industries, Approach, Portfolio, Team, and News sections
+- A unified long-scroll homepage with About, Industries, Approach, Portfolio, Team, and a three-story News section
 - A light eggshell, sage, and green institutional visual system
 - A right-edge section rail with active-section tracking and smooth scrolling
 - Interactive evaluation, portfolio, and industry modules
@@ -12,7 +12,7 @@ The redesigned website for qFund, a deep-technology venture capital firm based i
 - Original motion design and coherent technical artwork
 - Production metadata and a dedicated social sharing card
 
-News and Contact are the only standalone pages. Contact is intentionally concise; the complete news archive is available at `/news/`.
+Contact is the only standalone content page. The three most recent news stories live at the bottom of the homepage and link to their original coverage.
 
 ## Contact form
 

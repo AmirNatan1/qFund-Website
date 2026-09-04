@@ -7,7 +7,7 @@ import BrandMark from "./BrandMark";
 import FooterLinks from "./FooterLinks";
 
 type InnerPageShellProps = {
-  active: "news" | "contact" | null;
+  active: "contact" | null;
   children: ReactNode;
 };
 
@@ -72,7 +72,6 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
         <Link className="qf-logo" href="/" aria-label="q fund home"><BrandMark /></Link>
         <Link className="qf-back-home" href="/">← Back to q fund</Link>
         <nav className="qf-header-actions" aria-label="Secondary navigation">
-          <Link className={active === "news" ? "is-active" : ""} href="/news/">News</Link>
           <Link className={active === "contact" ? "qf-button qf-button-small is-active" : "qf-button qf-button-small"} href="/contact/">Contact q fund <span>↗</span></Link>
         </nav>
         <button
@@ -87,7 +86,6 @@ export default function InnerPageShell({ active, children }: InnerPageShellProps
       <div className={menuOpen ? "qf-mobile-menu is-open" : "qf-mobile-menu"}>
         <nav aria-label="Mobile navigation">
           <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link href="/news/" onClick={() => setMenuOpen(false)}>News</Link>
           <Link href="/contact/" onClick={() => setMenuOpen(false)}>Contact</Link>
         </nav>
       </div>

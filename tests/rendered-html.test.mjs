@@ -46,7 +46,6 @@ test("server-renders the unified qFund experience", async () => {
 
 test("server-renders the intended secondary and policy pages", async () => {
   const expectations = [
-    ["/news", /News and activity/i, /q fund Participates in Skapion/],
     ["/contact", /Tell us what you are/i, /info@qfund\.io/],
     ["/privacy", /Privacy Notice/i, /Information we collect/],
     ["/accessibility", /Accessibility Statement/i, /Israeli Standard 5568/],
@@ -59,5 +58,12 @@ test("server-renders the intended secondary and policy pages", async () => {
     const html = await response.text();
     assert.match(html, heading);
     assert.match(html, proof);
+  }
+});
+
+test("does not serve the retired news archive or article pages", async () => {
+  for (const pathname of ["/news", "/news/qfund-participates-skapion-36m-seed"]) {
+    const response = await render(pathname);
+    assert.equal(response.status, 404, `${pathname} should not render`);
   }
 });

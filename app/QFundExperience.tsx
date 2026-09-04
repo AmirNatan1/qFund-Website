@@ -179,7 +179,6 @@ export default function QFundExperience() {
               {label}
             </a>
           ))}
-          <Link href="/news/" onClick={() => setMenuOpen(false)}>All news</Link>
           <Link href="/contact/" onClick={() => setMenuOpen(false)}>Contact</Link>
         </nav>
       </div>
@@ -275,14 +274,20 @@ export default function QFundExperience() {
       <section className="qf-news qf-scroll-section" id="news" data-qf-section aria-labelledby="news-title">
         <div className="qf-news-heading qf-reveal">
           <div><h2 id="news-title">q fund <em>in motion.</em></h2></div>
-          <Link className="qf-text-link" href="/news/">View all news <span>↗</span></Link>
         </div>
         <div className="qf-news-grid">
-          {newsItems.slice(0, 3).map((item) => (
-            <Link className="qf-news-card qf-news-card--title-only qf-reveal" href={`/news/${item.slug}/`} key={`${item.date}-${item.title}`}>
+          {newsItems.map((item) => (
+            <a
+              className="qf-news-card qf-news-card--title-only qf-reveal"
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${item.title} (opens external coverage)`}
+              key={`${item.date}-${item.title}`}
+            >
               <NewsArtwork item={item} />
               <h3>{item.title}</h3>
-            </Link>
+            </a>
           ))}
         </div>
       </section>

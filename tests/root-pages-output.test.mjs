@@ -49,7 +49,7 @@ test("repository-root snapshot includes every required public asset", async () =
 });
 
 test("repository-root snapshot includes every intended secondary route", async () => {
-  for (const route of ["news", "contact", "privacy", "accessibility", "terms"]) {
+  for (const route of ["contact", "privacy", "accessibility", "terms"]) {
     const [rootHtml, canonicalHtml] = await Promise.all([
       readFile(new URL(`${route}/index.html`, rootUrl), "utf8"),
       readFile(new URL(`${route}/index.html`, canonicalOutputUrl), "utf8"),
@@ -57,7 +57,7 @@ test("repository-root snapshot includes every intended secondary route", async (
     assert.equal(rootHtml, canonicalHtml, `${route} root snapshot should be current`);
   }
 
-  for (const route of ["thesis", "companies", "founders"]) {
+  for (const route of ["news", "thesis", "companies", "founders"]) {
     await assert.rejects(access(new URL(`${route}/index.html`, rootUrl)));
   }
 });
