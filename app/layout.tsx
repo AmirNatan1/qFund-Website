@@ -4,6 +4,9 @@ import "./revamp.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qfund.io"),
+  icons: {
+    icon: { url: "/qfund-favicon.png", type: "image/png", sizes: "128x128" },
+  },
   title: "q fund | Early-Stage Deep Tech Venture Capital",
   description:
     "q fund invests in early-stage deeptech startups building core infrastructure, hardware, and enabling technologies across quantum computing, AI infrastructure, industrial systems, semiconductors, defense and national security.",
